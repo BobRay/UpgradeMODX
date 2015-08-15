@@ -43,7 +43,8 @@
 
 /* config file must be retrieved in a class */
 if (!class_exists('BuildHelper')) {
-    class BuildHelper {
+    class BuildHelper
+    {
         /** @var $modx modX */
         protected $modx;
 
@@ -53,18 +54,21 @@ if (!class_exists('BuildHelper')) {
         /** @var $props array - properties array */
         protected $props = array();
 
-        public function __construct(&$modx) {
+        public function __construct(&$modx)
+        {
             /* @var $modx modX */
             $this->modx =& $modx;
         }
 
-        public function getProps($configPath) {
+        public function getProps($configPath)
+        {
             $properties = @include $configPath;
             $this->props = $properties;
             return $properties;
         }
 
-        public function sendLog($level, $message) {
+        public function sendLog($level, $message)
+        {
             $msg = '';
             if ($level == modX::LOG_LEVEL_ERROR) {
                 $msg .= $this->modx->lexicon('mc_error')
@@ -87,7 +91,8 @@ if (!class_exists('BuildHelper')) {
          * @param bool $recursive - if false, only searches $dir, not it's descendants
          * @param string $baseDir - used internally -- do not send
          */
-        public function dirWalk($dir, $types = null, $recursive = false, $baseDir = '') {
+        public function dirWalk($dir, $types = null, $recursive = false, $baseDir = '')
+        {
 
             if ($dh = opendir($dir)) {
                 while (($file = readdir($dh)) !== false) {
@@ -122,14 +127,16 @@ if (!class_exists('BuildHelper')) {
          * @param $dir string - directory of file (no trailing slash)
          * @param $file string - filename of file
          */
-        public function addFile($dir, $file) {
+        public function addFile($dir, $file)
+        {
             $this->files[$file] = $dir;
         }
 
         /**
          * Empties $this->files prior to dirWalk
          */
-        public function resetFiles() {
+        public function resetFiles()
+        {
             $this->files = array();
         }
 
@@ -138,7 +145,8 @@ if (!class_exists('BuildHelper')) {
          *
          * @return array
          */
-        public function getFiles() {
+        public function getFiles()
+        {
             return $this->files;
         }
 
@@ -147,13 +155,14 @@ if (!class_exists('BuildHelper')) {
          * @param $dir string - dir to search (no trailing slash)
          * @param bool $createJsAll - If true, create packageNameLower . '-all-min.js'
          */
-        public function mc_minify($minimizerFile, $dir, $createJsAll = false) {
+        public function mc_minify($minimizerFile, $dir, $createJsAll = false)
+        {
             $dir = rtrim($dir, '/');
             $this->resetFiles();
             $all = '';
-            $this->dirWalk($dir , '.js', true);
+            $this->dirWalk($dir, '.js', true);
             $usePlus = stripos($minimizerFile, 'plus') !== false;
-            $minClass = $usePlus? 'JSMinPlus' : 'JSMin';
+            $minClass = $usePlus ? 'JSMinPlus' : 'JSMin';
             $files = $this->getFiles();
             require dirname(__FILE__) . '/utilities/' . $minimizerFile;
 
@@ -173,7 +182,7 @@ if (!class_exists('BuildHelper')) {
                     : $minClass::minify($code);
                 if ($createJsAll) {
                     /* JSMin writes its own "\n" */
-                    $jend = $usePlus? "\n" : '';
+                    $jend = $usePlus ? "\n" : '';
                     /* Add filename in comment for debugging */
                     $all .= "\n/* " . $fileName . '*/' . $jend . $code;
                 }
@@ -226,7 +235,7 @@ set_time_limit(0);
  */
 require_once dirname(dirname(__FILE__)) . '/_build/build.config.php';
 
-if ( (! isset($modx)) || (! $modx instanceof modX) ) {
+if ((!isset($modx)) || (!$modx instanceof modX)) {
     require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
     $modx = new modX();
     $modx->initialize('mgr');
@@ -331,6 +340,7 @@ $hasValidators = is_dir($sources['build'] . 'validators'); /* Run a validators b
 $hasResolvers = is_dir($sources['build'] . 'resolvers');
 $hasSetupOptions = is_dir($sources['install_options']); /* HTML/PHP script to interact with user */
 $hasMenu = file_exists($sources['data'] . 'transport.menus.php'); /* Add items to the MODx Top Menu */
+$hasWidgets = file_exists($sources['data'] . 'transport.widgets.php'); /* Add items to the MODx Top Menu */
 $hasSettings = file_exists($sources['data'] . 'transport.settings.php'); /* Add new MODx System Settings */
 $hasContextSettings = file_exists($sources['data'] . 'transport.contextsettings.php');
 $hasSubPackages = is_dir($sources['subpackages']);
@@ -462,13 +472,38 @@ if ($hasContextSettings) {
     }
 }
 
+/* load widgets */
+if ($hasWidgets) {
+    $widgets = include $sources['data'] . 'transport.widgets.php';
+    if (!is_array($widgets)) {
+        $helper->sendLog(modX::LOG_LEVEL_ERROR, $modx->lexicon('mc_context_widgets_not_an_array')
+            . '.');
+    } else {
+        $attributes = array(
+            xPDOTransport::UNIQUE_KEY => 'id',
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+        );
+        foreach ($widgets as $widget) {
+            $vehicle = $builder->createVehicle($widget, $attributes);
+            $builder->putVehicle($vehicle);
+        }
+        $helper->sendLog(modX::LOG_LEVEL_INFO, $modx->lexicon('mc_packaged')
+            . ' ' . count($widgets) .
+            ' ' . $modx->lexicon('mc_widgets')
+            . '.');
+        unset($widgets, $widget, $attributes);
+    }
+}
+
+
 /* minify JS */
 
 if ($minifyJS) {
     $helper->sendLog(modX::LOG_LEVEL_INFO, 'Creating js-min file(s)');
 
     $usePlus = $modx->getOption('useJSMinPlus', $props, false);
-    $minimizer = $usePlus? 'jsminplus.class.php' : 'jsmin.class.php';
+    $minimizer = $usePlus ? 'jsminplus.class.php' : 'jsmin.class.php';
     $dir = $sources['source_assets'] . '/js';
     $jsAll = $modx->getOption('createJSMinAll', $props, false);
     $helper->mc_minify($minimizer, $dir, $jsAll);
@@ -498,14 +533,14 @@ foreach ($categories as $k => $categoryName) {
     $category->set('category', $categoryName);
     $helper->sendLog(modX::LOG_LEVEL_INFO,
         $modx->lexicon('mc_creating_category')
-            . ': ' . $categoryName);
+        . ': ' . $categoryName);
     $helper->sendLog(modX::LOG_LEVEL_INFO, $modx->lexicon('mc_processing_elements_in_category')
         . ': ' . $categoryName);
 
     /* add snippets */
     if ($hasSnippets) {
 
-        $snippets = include $sources['data'] . $categoryNameLower  . '/transport.snippets.php';
+        $snippets = include $sources['data'] . $categoryNameLower . '/transport.snippets.php';
 
         /* note: Snippets' default properties are set in transport.snippets.php */
         if (is_array($snippets)) {
@@ -527,7 +562,7 @@ foreach ($categories as $k => $categoryName) {
     }
 
     if ($hasPropertySets) {
-        $propertySets = include $sources['data'] . $categoryNameLower .'/transport.propertysets.php';
+        $propertySets = include $sources['data'] . $categoryNameLower . '/transport.propertysets.php';
         //  note: property set' properties are set in transport.propertysets.php
         if (is_array($propertySets)) {
             if ($category->addMany($propertySets, 'PropertySets')) {
@@ -549,7 +584,7 @@ foreach ($categories as $k => $categoryName) {
     if ($hasChunks) { /* add chunks  */
         $helper->sendLog(modX::LOG_LEVEL_INFO, 'Adding Chunks.');
         /* note: Chunks' default properties are set in transport.chunks.php */
-        $chunks = include $sources['data'] . $categoryNameLower .'/transport.chunks.php';
+        $chunks = include $sources['data'] . $categoryNameLower . '/transport.chunks.php';
         if (is_array($chunks)) {
             if ($category->addMany($chunks, 'Chunks')) {
                 $helper->sendLog(modX::LOG_LEVEL_INFO, '    ' .
@@ -573,9 +608,9 @@ foreach ($categories as $k => $categoryName) {
     if ($hasTemplates) { /* add templates  */
         $helper->sendLog(modX::LOG_LEVEL_INFO,
             $modx->lexicon('mc_adding_templates')
-                . '.');
+            . '.');
         /* note: Templates' default properties are set in transport.templates.php */
-        $templates = include $sources['data'] . $categoryNameLower .'/transport.templates.php';
+        $templates = include $sources['data'] . $categoryNameLower . '/transport.templates.php';
         if (is_array($templates)) {
             if ($category->addMany($templates, 'Templates')) {
                 $helper->sendLog(modX::LOG_LEVEL_INFO, '    ' .
@@ -598,9 +633,9 @@ foreach ($categories as $k => $categoryName) {
     if ($hasTemplateVariables) { /* add template variables  */
         $helper->sendLog(modX::LOG_LEVEL_INFO,
             $modx->lexicon('mc_adding_template_variables')
-                . '.');
+            . '.');
         /* note: Template Variables' default properties are set in transport.tvs.php */
-        $tvs = include $sources['data'] . $categoryNameLower .'/transport.tvs.php';
+        $tvs = include $sources['data'] . $categoryNameLower . '/transport.tvs.php';
         if (is_array($tvs)) {
             if ($category->addMany($tvs, 'TemplateVars')) {
                 $helper->sendLog(modX::LOG_LEVEL_INFO, '    ' .
@@ -735,7 +770,7 @@ foreach ($categories as $k => $categoryName) {
                 } else {
                     $helper->sendLog(modX::LOG_LEVEL_ERROR,
                         $modx->lexicon('mc_could_not_find_validator_file')
-                            . ': ' . $file);
+                        . ': ' . $file);
                 }
             }
         }
@@ -745,9 +780,9 @@ foreach ($categories as $k => $categoryName) {
         $helper->sendLog(modX::LOG_LEVEL_INFO,
             $modx->lexicon('mc_packaged_core_files'));
         $vehicle->resolve('file', array(
-                                       'source' => $sources['source_core'],
-                                       'target' => "return MODX_CORE_PATH . 'components/';",
-                                  ));
+            'source' => $sources['source_core'],
+            'target' => "return MODX_CORE_PATH . 'components/';",
+        ));
     }
 
     /* This section transfers every file in the local
@@ -759,9 +794,9 @@ foreach ($categories as $k => $categoryName) {
         $helper->sendLog(modX::LOG_LEVEL_INFO,
             $modx->lexicon('mc_packaged_assets_files'));
         $vehicle->resolve('file', array(
-                                       'source' => $sources['source_assets'],
-                                       'target' => "return MODX_ASSETS_PATH . 'components/';",
-                                  ));
+            'source' => $sources['source_assets'],
+            'target' => "return MODX_ASSETS_PATH . 'components/';",
+        ));
     }
 
 
@@ -771,12 +806,13 @@ foreach ($categories as $k => $categoryName) {
             ? array()
             : $props['resolvers'];
         $resolvers = array_merge(array(
-                  'category',
-                  'plugin',
-                  'tv',
-                  'resource',
-                  'propertyset'
-             ), $resolvers);
+            'category',
+            'plugin',
+            'tv',
+            'resource',
+            'propertyset',
+            'widget',
+        ), $resolvers);
         $helper->sendLog(modX::LOG_LEVEL_INFO,
             $modx->lexicon('mc_processing_resolvers'));
 
@@ -793,8 +829,8 @@ foreach ($categories as $k => $categoryName) {
                     $modx->lexicon('mc_resolver')
                     . '.');
                 $vehicle->resolve('php', array(
-                                              'source' => $sources['resolvers'] . $resolver . '.resolver.php',
-                                         ));
+                    'source' => $sources['resolvers'] . $resolver . '.resolver.php',
+                ));
             } else {
                 $helper->sendLog(modX::LOG_LEVEL_INFO, '    ' .
                     $modx->lexicon('mc_no')
@@ -815,44 +851,44 @@ if ($hasMenu) {
     /* load menu */
     $helper->sendLog(modX::LOG_LEVEL_INFO,
         $modx->lexicon('mc_packaging_menu')
-            . '.');
+        . '.');
     $menus = include $sources['data'] . 'transport.menus.php';
     foreach ($menus as $menu) {
         if (empty($menu)) {
             $helper->sendLog(modX::LOG_LEVEL_ERROR,
                 $modx->lexicon('mc_could_not_package_menu')
-                    . '.');
+                . '.');
         } else {
             $vehicle = $builder->createVehicle($menu, array(
-               xPDOTransport::PRESERVE_KEYS => true,
-               xPDOTransport::UPDATE_OBJECT => true,
-               xPDOTransport::UNIQUE_KEY => 'text',
-               xPDOTransport::RELATED_OBJECTS => true,
-               xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-                   'Action' => array(
-                       xPDOTransport::PRESERVE_KEYS => false,
-                       xPDOTransport::UPDATE_OBJECT => true,
-                       xPDOTransport::UNIQUE_KEY => array(
-                           'namespace',
-                           'controller'
+                xPDOTransport::PRESERVE_KEYS => true,
+                xPDOTransport::UPDATE_OBJECT => true,
+                xPDOTransport::UNIQUE_KEY => 'text',
+                xPDOTransport::RELATED_OBJECTS => true,
+                xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
+                    'Action' => array(
+                        xPDOTransport::PRESERVE_KEYS => false,
+                        xPDOTransport::UPDATE_OBJECT => true,
+                        xPDOTransport::UNIQUE_KEY => array(
+                            'namespace',
+                            'controller'
                         ),
-                   ),
-               ),
+                    ),
+                ),
             ));
             $builder->putVehicle($vehicle);
             unset($vehicle, $menu);
         }
         $helper->sendLog(modX::LOG_LEVEL_INFO,
             $modx->lexicon('mc_packaged')
-                . ' ' . count($menus) . ' ' .
-                $modx->lexicon('mc_menu_items')
-                . '.');
-    }
-    $helper->sendLog(modX::LOG_LEVEL_INFO, '    ' .
-        $modx->lexicon('mc_packaged')
             . ' ' . count($menus) . ' ' .
             $modx->lexicon('mc_menu_items')
             . '.');
+    }
+    $helper->sendLog(modX::LOG_LEVEL_INFO, '    ' .
+        $modx->lexicon('mc_packaged')
+        . ' ' . count($menus) . ' ' .
+        $modx->lexicon('mc_menu_items')
+        . '.');
 }
 
 /* Next-to-last step - pack in the license file, readme.txt, changelog,

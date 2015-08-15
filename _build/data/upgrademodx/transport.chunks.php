@@ -2,7 +2,7 @@
 /**
  * chunks transport file for UpgradeModx extra
  *
- * Copyright 2014 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015 by Bob Ray <http://bobsguides.com>
  * Created on 08-13-2015
  *
  * @package upgrademodx
@@ -28,7 +28,10 @@ $chunks = array();
 $chunks[1] = $modx->newObject('modChunk');
 $chunks[1]->fromArray(array (
   'id' => 1,
+  'property_preprocess' => false,
   'name' => 'UpgradeModx',
+  'description' => 'Chunk',
+  'properties' => NULL,
 ), '', true, true);
 $chunks[1]->setContent(file_get_contents($sources['source_core'] . '/elements/chunks/upgrademodx.chunk.html'));
 

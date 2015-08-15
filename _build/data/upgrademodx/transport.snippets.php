@@ -2,7 +2,7 @@
 /**
  * snippets transport file for UpgradeModx extra
  *
- * Copyright 2014 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015 by Bob Ray <http://bobsguides.com>
  * Created on 08-13-2015
  *
  * @package upgrademodx
@@ -28,8 +28,12 @@ $snippets = array();
 $snippets[1] = $modx->newObject('modSnippet');
 $snippets[1]->fromArray(array (
   'id' => 1,
-  'description' => 'UpgadeModx Dashboard widget',
+  'property_preprocess' => false,
   'name' => 'UpgradeModx',
+  'description' => 'UpgadeModx Dashboard widget',
+  'properties' => 
+  array (
+  ),
 ), '', true, true);
 $snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/upgrademodx.snippet.php'));
 
