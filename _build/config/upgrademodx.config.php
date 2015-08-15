@@ -23,7 +23,7 @@ $components = array(
     'authorUrl' => 'http://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
     'packageDocumentationUrl' => 'http://bobsguides.com/upgrademodx-tutorial.html',
-    'copyright' => '2014',
+    'copyright' => '2015',
 
     /* no need to edit this except to change format */
     'createdon' => strftime('%m-%d-%Y'),
@@ -136,8 +136,11 @@ $components = array(
             'content' => 'UpgradeModx',
             'size' => 'half',
             'lexicon' => 'upgrademodx:default',
-            'rank' => 0,
-            'dashboard' => 1,
+
+            'dashboards' => array(
+                /* dashboard ID => rank (default dashboard is 1)*/
+                1 => 0,
+            ),
         ),
 
     ),
@@ -418,7 +421,6 @@ $components = array(
      * of desired resources
     */
     'process' => array(
-        'widgets',
         'contexts',
         'snippets',
         'plugins',
@@ -430,7 +432,8 @@ $components = array(
         'systemSettings',
         'contextSettings',
         'systemEvents',
-        'menus'
+        'menus',
+        'widgets',
 
     ),
     /*  Array  of resources to process. You can specify specific resources
