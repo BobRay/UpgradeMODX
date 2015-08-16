@@ -33,4 +33,3 @@
  *
  * @package upgrademodx
  **/
-

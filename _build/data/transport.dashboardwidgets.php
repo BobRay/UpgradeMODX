@@ -31,7 +31,7 @@ $dashboardWidgets[1]->fromArray(array (
   'name' => 'UpgradeModx',
   'description' => 'Upgrade Modx Widget',
   'type' => 'snippet',
-  'content' => 'UpgradeModx',
+  'content' => 'UpgradeModxWidget',
   'namespace' => 'upgrademodx',
   'lexicon' => 'upgrademodx:default',
   'size' => 'half',

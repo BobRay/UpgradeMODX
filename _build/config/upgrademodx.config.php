@@ -133,7 +133,7 @@ $components = array(
             'description' => 'Upgrade Modx Widget',
             'namespace' => 'upgrademodx',
             'type' => 'snippet',
-            'content' => 'UpgradeModx',
+            'content' => 'UpgradeModxWidget',
             'size' => 'half',
             'lexicon' => 'upgrademodx:default',
 
@@ -179,19 +179,24 @@ $components = array(
  */       ),
 
         'snippets' => array(
-            'UpgradeModx' => array(
+            'UpgradeModxWidget' => array(
                 'category' => 'UpgradeModx',
-                'description' => 'UpgadeModx Dashboard widget',
+                'description' => 'UpgradeModx Dashboard widget',
                 'static' => false,
             ),
-
 
         ),
         'plugins' => array(
         ),
         'chunks' => array(
-            'UpgradeModx' => array(
+            'UpgradeModxTpl' => array(
                 'category' => 'UpgradeModx',
+                'description' => 'Tpl chunk for alert widget',
+            ),
+            'UpgradeModxSnippetScriptSource' => array(
+                'category' => 'UpgradeModx',
+                'description' => 'Source for MODX Upgrade script. Used internally',
+                'static' => false,
             ),
         ),
         'templates' => array(
