@@ -340,7 +340,7 @@ $hasValidators = is_dir($sources['build'] . 'validators'); /* Run a validators b
 $hasResolvers = is_dir($sources['build'] . 'resolvers');
 $hasSetupOptions = is_dir($sources['install_options']); /* HTML/PHP script to interact with user */
 $hasMenu = file_exists($sources['data'] . 'transport.menus.php'); /* Add items to the MODx Top Menu */
-$hasWidgets = file_exists($sources['data'] . 'transport.widgets.php'); /* Add items to the MODx Top Menu */
+$hasWidgets = file_exists($sources['data'] . 'transport.dashboardwidgets.php'); /* Add items to the MODx Top Menu */
 $hasSettings = file_exists($sources['data'] . 'transport.settings.php'); /* Add new MODx System Settings */
 $hasContextSettings = file_exists($sources['data'] . 'transport.contextsettings.php');
 $hasSubPackages = is_dir($sources['subpackages']);
@@ -474,7 +474,7 @@ if ($hasContextSettings) {
 
 /* load widgets */
 if ($hasWidgets) {
-    $widgets = include $sources['data'] . 'transport.widgets.php';
+    $widgets = include $sources['data'] . 'transport.dashboardwidgets.php';
     if (!is_array($widgets)) {
         $helper->sendLog(modX::LOG_LEVEL_ERROR, $modx->lexicon('mc_context_widgets_not_an_array')
             . '.');

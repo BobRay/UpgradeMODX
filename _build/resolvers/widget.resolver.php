@@ -22,13 +22,12 @@
 */
 /* @var $object xPDOObject */
 /* @var $widgetObj modDashboardWidget */
-/* @var $mpe modDashboardWidget */
 /* @var xPDOObject $object */
 /* @var array $options */
 /* @var $modx modX */
 /* @var $widgetObj modDashboardWidget */
 /* @var $widgetPlacement modDashboardWidgetPlacement */
-/* @var $newEvents array */
+/* @var $dashboard modDashboard */
 
 if (!function_exists('checkFields')) {
     function checkFields($required, $objectFields) {

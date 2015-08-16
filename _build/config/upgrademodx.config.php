@@ -182,7 +182,7 @@ $components = array(
             'UpgradeModx' => array(
                 'category' => 'UpgradeModx',
                 'description' => 'UpgadeModx Dashboard widget',
-                'static' => true,
+                'static' => false,
             ),
 
 

@@ -1,9 +1,9 @@
 <?php
 /**
- * widgets transport file for UpgradeModx extra
+ * dashboardWidgets transport file for UpgradeModx extra
  *
  * Copyright 2015 by Bob Ray <http://bobsguides.com>
- * Created on 08-14-2015
+ * Created on 08-15-2015
  *
  * @package upgrademodx
  * @subpackage build
@@ -20,11 +20,13 @@ if (! function_exists('stripPhpTags')) {
 }
 /* @var $modx modX */
 /* @var $sources array */
-/* @var xPDOObject[] $widgets */
+/* @var xPDOObject[] $dashboardWidgets */
 
 
-$widgets[1] = $modx->newObject('modDashboardWidget');
-$widgets[1]->fromArray( array (
+$dashboardWidgets = array();
+
+$dashboardWidgets[1] = $modx->newObject('modDashboardWidget');
+$dashboardWidgets[1]->fromArray(array (
   'id' => 1,
   'name' => 'UpgradeModx',
   'description' => 'Upgrade Modx Widget',
@@ -35,6 +37,5 @@ $widgets[1]->fromArray( array (
   'size' => 'half',
   'name_trans' => 'UpgradeModx',
   'description_trans' => 'Upgrade Modx Widget',
-), '', false, true);
-
-return $widgets;
+), '', true, true);
+return $dashboardWidgets;

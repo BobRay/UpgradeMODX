@@ -1,9 +1,9 @@
 <?php
 /**
- * UpgradeModx snippet for UpgradeModx extra
+ * UpgradeModxWidget snippet for UpgradeModx extra
  *
- * Copyright 2014 by Bob Ray <http://bobsguides.com>
- * Created on 08-13-2015
+ * Copyright 2015 by Bob Ray <http://bobsguides.com>
+ * Created on 08-16-2015
  *
  * UpgradeModx is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -24,7 +24,7 @@
 /**
  * Description
  * -----------
- * UpgadeModx Dashboard widget
+ * UpgradeModx Dashboard widget
  *
  * Variables
  * ---------
@@ -34,4 +34,3 @@
  * @package upgrademodx
  **/
 
-return "<h3>HELLO World</h3>";
