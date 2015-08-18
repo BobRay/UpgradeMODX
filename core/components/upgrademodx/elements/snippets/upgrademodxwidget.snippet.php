@@ -85,7 +85,7 @@ class UpgradeModx
     }
 
 
-    public function upgradeAvailable($currentVersion, $plOnly = false)
+    public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5)
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -128,8 +128,8 @@ class UpgradeModx
         strftime('%Y-%m-%d %H:%M:%S');
 
         /* ToDo: Do this only if upgrade is available */
-        $versions = array();
-        $i = 1;
+        // $versions = array();
+        // $i = 1;
         /*foreach ($contents as $content) {
             $name = substr($content->name, 1);
             if ($plOnly && strpos($name, 'pl') === false) {
@@ -149,7 +149,7 @@ class UpgradeModx
         }*/
 
 
-        $this->versionList = '$InstallData = ' . var_export($this->versionList, true) . ';';
+       // $this->versionList = '$InstallData = ' . var_export($this->versionList, true) . ';';
 
 
         // echo "\nLatest: " . $latestVersion;
@@ -177,6 +177,29 @@ class UpgradeModx
                 $downloadable = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
             }
             curl_close($ch);
+
+            if ($downloadable) {
+                $InstallData = array();
+                $versionsToShow = 5;
+                $i = 1;
+                foreach ($contents as $content) {
+                    $name = substr($content->name, 1);
+
+                    $url = 'http://modx.com/download/direct/modx-' . $name . '.zip';
+                    $InstallData[$name] = array(
+                       'tree'     => 'Revolution',
+                        'name'     => 'MODX Revolution ' . $name,
+                        'link'     => $url,
+                        'location' => 'setup/index.php',
+                    );
+                    $i++;
+                    if ($i > $versionsToShow) {
+                        break;
+                    }
+                }
+                $versionList = var_export($InstallData, true);
+                $_SESSION['versionList'] = '$InstallData = ' . $versionList . ';';
+            }
         }
 
         return ($newVersion && $downloadable);
@@ -196,29 +219,53 @@ if (php_sapi_name() === 'cli') {
         'hideWhenNoUpdate' => false,
         'lastCheck' => '',
         'interval' => '+1 seconds',
-        'plOnly' => true,
+        'plOnly' => false,
     );
 }
 
 /* Begin actual code */
+
+if (isset($_POST['UpgradeModx'])) {
+    $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
+    if ($fp) {
+        if (! isset($_SESSION['versionList'])) {
+            return 'Version list session variable not set';
+        } else {
+            $fields = array(
+                'InstallData' => $_SESSION['versionList'],
+            );
+            $fileContent = $modx->getChunk('UpgradeModxSnippetScriptSource', $fields);
+            fwrite($fp, $fileContent);
+            $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
+        }
+    } else {
+        return 'Could not open upgrade.php for writing';
+    }
+}
+
+
 $upgrade = new UpgradeModx($modx);
 $currentVersion = $modx->getOption('settings_version');
+
 $props = $scriptProperties;
 $lastCheck = $modx->getOption('lastCheck', $props);
 $interval = $modx->getOption('interval', $props);
 if (empty($lastCheck)) {
     $lastCheck = '2015-08-17 00:00:004';
 }
-$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props);
-$plOnly = $modx->getOption('plOnly', $props);
 
 if (!($lastCheck && $interval)) {
     return '<p style="color:red">lastCheck or interval properties not set</p>';
 }
 
+$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props);
+$plOnly = $modx->getOption('plOnly', $props);
+$versionsToShow = $modx->getOption('versionsToShow', $props, 5);
+
+
 $currentVersion = $modx->getOption('settings_version');
 if ($upgrade::timeToCheck($lastCheck, $interval)) {
-    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly);
+    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow);
     $latestVersion = $upgrade->getLatestVersion();
 } else {
     $latestVersion = $modx->getOption('latestVersion', $props);
@@ -229,6 +276,14 @@ if ($upgrade::timeToCheck($lastCheck, $interval)) {
 if ($upgradeAvailable) {
     $output = '<h3 style="color:green">Upgrade Available</h3><br/> Current Version: ' . $currentVersion .
         '<br />Latest Version: ' . $latestVersion;
+
+    $output .= '<br/><br/>
+        <form method="post" action="">
+            <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
+                type="submit" name="UpgradeModx" value="Upgrade MODX">
+        </form>
+        <p>&nbsp;</p></p>';
+
 } else {
     if ($hideWhenNoUpgrade) {
         $output = '';
@@ -239,7 +294,9 @@ if ($upgradeAvailable) {
 
     }
 }
+
 if (php_sapi_name() === 'cli') {
     echo $output;
 }
+
 return $output;
