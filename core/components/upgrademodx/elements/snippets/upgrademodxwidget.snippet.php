@@ -127,38 +127,9 @@ class UpgradeModx
         }
         strftime('%Y-%m-%d %H:%M:%S');
 
-        /* ToDo: Do this only if upgrade is available */
-        // $versions = array();
-        // $i = 1;
-        /*foreach ($contents as $content) {
-            $name = substr($content->name, 1);
-            if ($plOnly && strpos($name, 'pl') === false) {
-               //  continue;
-            }
-            $url = 'http://modx.com/download/direct/modx-' . $name . '.zip';
-            $InstallData[$name] = array(
-               'tree'     => 'Revolution',
-                'name'     => 'MODX Revolution ' . $name,
-                'link'     => $url,
-                'location' => 'setup/index.php',
-            );
-            $i++;
-            if ($i > $versionsToShow) {
-                break;
-            }
-        }*/
-
-
-       // $this->versionList = '$InstallData = ' . var_export($this->versionList, true) . ';';
-
-
-        // echo "\nLatest: " . $latestVersion;
-        // echo "\nCurrent: " . $currentVersion;
-
-
         $downloadable = false;
 
-// $ch = curl_init();
+        // $ch = curl_init();
         if ($newVersion) { /* See if it's available at modx.com/download */
             $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
 
