@@ -182,8 +182,9 @@ class UpgradeModx
     }
 }
 
-/* This section for debugging during development*/
+
 if (php_sapi_name() === 'cli') {
+    /* This section for debugging during development*/
     include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
     $scriptProperties = array(
         'versionsToShow' => 5,
@@ -192,9 +193,15 @@ if (php_sapi_name() === 'cli') {
         'interval' => '+1 seconds',
         'plOnly' => false,
     );
+} else {
+    $groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
+    if (strpos($groups, ',') !== false) {
+        $groups = explode(',', $groups);
+    }
+    if (! $modx->user->isMember($groups)) {
+        return '';
+    }
 }
-
-/* Begin actual code */
 
 if (isset($_POST['UpgradeModx'])) {
     $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');

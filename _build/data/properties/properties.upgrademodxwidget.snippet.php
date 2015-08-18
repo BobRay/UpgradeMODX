@@ -13,7 +13,7 @@
 
 
 $properties = array (
-  'VersionsToShow' => 
+  'versionsToShow' => 
   array (
     'name' => 'versionsToShow',
     'desc' => 'Number of versions to show in upgrade form (not widget); default: 5',
@@ -49,7 +49,6 @@ $properties = array (
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),
-
   'plOnly' => 
   array (
     'name' => 'plOnly',
@@ -62,28 +61,42 @@ $properties = array (
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),
-  'lastCheck' =>
-  array(
-  'name' => 'lastCheck',
-          'desc' => 'Date and time of last check -- set automatically',
-          'type' => 'textfield',
-          'options' =>
-              array(),
-          'value' => '2015-08-17 00:13:44',
-          'lexicon' => 'upgrademodx:default',
-          'area' => '',
-      ),
-    'latestVersion' =>
-        array(
-            'name' => 'latestVersion',
-            'desc' => 'Latest version (at last check) -- set automatically',
-            'type' => 'textfield',
-            'options' =>
-                array(),
-            'value' => '',
-            'lexicon' => 'upgrademodx:default',
-            'area' => '',
-        ),
+  'lastCheck' => 
+  array (
+    'name' => 'lastCheck',
+    'desc' => 'Date and time of last check -- set automatically',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '2015-08-17 00:13:44',
+    'lexicon' => 'upgrademodx:default',
+    'area' => '',
+  ),
+  'latestVersion' => 
+  array (
+    'name' => 'latestVersion',
+    'desc' => 'Latest version (at last check) -- set automatically',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '',
+    'lexicon' => 'upgrademodx:default',
+    'area' => '',
+  ),
+  'group' => 
+  array (
+    'name' => 'group',
+    'desc' => 'group, or commma-separated list of groups, who will see the widget',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => 'Administrator',
+    'lexicon' => 'upgrademodx:default',
+    'area' => '',
+  ),
 );
 
 return $properties;
