@@ -113,7 +113,19 @@ class UpgradeModx
 
         $latestVersionObj = reset($contents);
         $latestVersion = substr($latestVersionObj->name, 1);
+        $this->latestVersion = $latestVersion;
         $newVersion = version_compare($currentVersion, $latestVersion) < 0;
+
+        /* Update Properties */
+        $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeModxWidget'));
+        if ($snippet) {
+            $properties = $snippet->get('properties');
+            $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S');
+            $properties['latestVersion']['value'] = $latestVersion;
+            $snippet->set('properties', $properties);
+            $snippet->save();
+        }
+        strftime('%Y-%m-%d %H:%M:%S');
 
         /* ToDo: Do this only if upgrade is available */
         $versions = array();
@@ -148,8 +160,7 @@ class UpgradeModx
 
 // $ch = curl_init();
         if ($newVersion) { /* See if it's available at modx.com/download */
-            $this->lastestVersion = $latestVersion;
-            $downloadUrl = 'http://modx.com/download/direct/modx-' . $latestVersion . '.zip';
+            $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
 
             curl_setopt($ch, CURLOPT_TIMEOUT, 3);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
@@ -177,39 +188,58 @@ class UpgradeModx
     }
 }
 
+/* This section for debugging during development*/
+if (php_sapi_name() === 'cli') {
+    include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
+    $scriptProperties = array(
+        'versionsToShow' => 5,
+        'hideWhenNoUpdate' => false,
+        'lastCheck' => '',
+        'interval' => '+1 seconds',
+        'plOnly' => true,
+    );
+}
+
+/* Begin actual code */
 $upgrade = new UpgradeModx($modx);
 $currentVersion = $modx->getOption('settings_version');
-$snippet = $modx->getObject('modSnippet', array('name' => 'UpgradeModxWidget'));
-if (!$snippet) {
-    return '<p style="color:red">Could not find UpgradeModxWidget snippet</p>';
-} else {
-    $props = $snippet->getProperties();
-    if ($props) {
-        $lastCheck = $modx->getOption('lastCheck', $props);
-        $interval = $modx->getOption('interval', $props);
-        $hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props);
-        $plOnly = $interval = $modx->getOption('plOnly', $props);
-    } else {
-        return '<p style="color:red">Could not find UpgradeModxWidget properties</p>';
-    }
+$props = $scriptProperties;
+$lastCheck = $modx->getOption('lastCheck', $props);
+$interval = $modx->getOption('interval', $props);
+if (empty($lastCheck)) {
+    $lastCheck = '2015-08-17 00:00:004';
 }
-if (!$lastCheck && $interval) {
+$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props);
+$plOnly = $modx->getOption('plOnly', $props);
+
+if (!($lastCheck && $interval)) {
     return '<p style="color:red">lastCheck or interval properties not set</p>';
 }
 
-if (!$upgrade::timeToCheck($lastCheck, $interval)) {
-    $currentVersion = $modx->getOption('settings_version');
-    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, true);
+$currentVersion = $modx->getOption('settings_version');
+if ($upgrade::timeToCheck($lastCheck, $interval)) {
+    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly);
+    $latestVersion = $upgrade->getLatestVersion();
+} else {
+    $latestVersion = $modx->getOption('latestVersion', $props);
+    $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;;
+
 }
 
-if (!$upgradeAvailable) {
-    $output = 'UPGRADE AVAILABLE';
+if ($upgradeAvailable) {
+    $output = '<h3 style="color:green">Upgrade Available</h3><br/> Current Version: ' . $currentVersion .
+        '<br />Latest Version: ' . $latestVersion;
 } else {
     if ($hideWhenNoUpgrade) {
-        return '';
+        $output = '';
     } else {
-        return 'Upgrade Available<br/> Current Version: ' . $currentVersion .
-        '<br />Latest Version: ' . $upgrade->getLatestVersion();
+        $output = '<h3>MODX is up to date</h3><br/> Current Version: ' . $currentVersion .
+            '<br />Latest Version: ' . $latestVersion;
+
 
     }
 }
+if (php_sapi_name() === 'cli') {
+    echo $output;
+}
+return $output;
