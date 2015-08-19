@@ -129,7 +129,7 @@ $components = array(
 
     'widgets' => array(
         'UpgradeMODX' => array(
-            'name' => 'UpgradeMODX',
+            'name' => 'Upgrade MODX',
             'description' => 'Upgrade MODX Widget',
             'namespace' => 'upgrademodx',
             'type' => 'snippet',
@@ -181,7 +181,7 @@ $components = array(
         'snippets' => array(
             'UpgradeMODXWidget' => array(
                 'category' => 'UpgradeMODX',
-                'description' => 'UpgradeMODX Dashboard widget',
+                'description' => 'Upgrade MODX Dashboard widget',
                 'static' => false,
             ),
 

@@ -30,7 +30,7 @@ $snippets[1]->fromArray(array (
   'id' => 1,
   'property_preprocess' => false,
   'name' => 'UpgradeMODXWidget',
-  'description' => 'UpgradeMODX Dashboard widget',
+  'description' => 'Upgrade MODX Dashboard widget',
 ), '', true, true);
 $snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/upgrademodxwidget.snippet.php'));
 

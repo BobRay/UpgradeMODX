@@ -13,15 +13,15 @@
 
 
 $properties = array (
-  'versionsToShow' => 
+  'group' => 
   array (
-    'name' => 'versionsToShow',
-    'desc' => 'Number of versions to show in upgrade form (not widget); default: 5',
+    'name' => 'group',
+    'desc' => 'group, or commma-separated list of groups, who will see the widget',
     'type' => 'textfield',
     'options' => 
     array (
     ),
-    'value' => '5',
+    'value' => 'Administrator',
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),
@@ -49,18 +49,6 @@ $properties = array (
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),
-  'plOnly' => 
-  array (
-    'name' => 'plOnly',
-    'desc' => 'Show only pl (stable) versions; default: yes',
-    'type' => 'combo-boolean',
-    'options' => 
-    array (
-    ),
-    'value' => false,
-    'lexicon' => 'upgrademodx:default',
-    'area' => '',
-  ),
   'lastCheck' => 
   array (
     'name' => 'lastCheck',
@@ -85,15 +73,27 @@ $properties = array (
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),
-  'group' => 
+  'plOnly' => 
   array (
-    'name' => 'group',
-    'desc' => 'group, or commma-separated list of groups, who will see the widget',
+    'name' => 'plOnly',
+    'desc' => 'Show only pl (stable) versions; default: yes',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => false,
+    'lexicon' => 'upgrademodx:default',
+    'area' => '',
+  ),
+  'versionsToShow' => 
+  array (
+    'name' => 'versionsToShow',
+    'desc' => 'Number of versions to show in upgrade form (not widget); default: 5',
     'type' => 'textfield',
     'options' => 
     array (
     ),
-    'value' => 'Administrator',
+    'value' => '5',
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),

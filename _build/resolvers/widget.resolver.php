@@ -55,7 +55,7 @@ if ($object->xpdo) {
 
             $intersects = array (
                 0 =>  array (
-                  'widget' => 'UpgradeMODX',
+                  'widget' => 'Upgrade MODX',
                   'dashboard' => 1,
                   'rank' => 0,
                 ),
