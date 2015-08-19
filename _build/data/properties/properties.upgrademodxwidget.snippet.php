@@ -13,7 +13,7 @@
 
 
 $properties = array (
-  'groups' =>
+  'groups' => 
   array (
     'name' => 'groups',
     'desc' => 'group, or commma-separated list of groups, who will see the widget',
@@ -25,7 +25,7 @@ $properties = array (
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),
-  'hideWhenNoUgrade' =>
+  'hideWhenNoUpgrade' => 
   array (
     'name' => 'hideWhenNoUpgrade',
     'desc' => 'Hide widget when no upgrade is available: default: No',
