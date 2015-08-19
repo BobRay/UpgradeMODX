@@ -13,9 +13,9 @@
 
 
 $properties = array (
-  'group' => 
+  'groups' =>
   array (
-    'name' => 'group',
+    'name' => 'groups',
     'desc' => 'group, or commma-separated list of groups, who will see the widget',
     'type' => 'textfield',
     'options' => 
@@ -25,10 +25,10 @@ $properties = array (
     'lexicon' => 'upgrademodx:default',
     'area' => '',
   ),
-  'hideWhenNoUpdate' => 
+  'hideWhenNoUgrade' =>
   array (
-    'name' => 'hideWhenNoUpdate',
-    'desc' => 'Hide widget when no update is available: default: No',
+    'name' => 'hideWhenNoUpgrade',
+    'desc' => 'Hide widget when no upgrade is available: default: No',
     'type' => 'combo-boolean',
     'options' => 
     array (

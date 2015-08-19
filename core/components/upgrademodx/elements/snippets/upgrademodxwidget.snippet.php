@@ -36,7 +36,7 @@
 class UpgradeMODX
 {
 
-    /** @var $versionlist string - array of versions to display if update is available as a string
+    /** @var $versionlist string - array of versions to display if upgrade is available as a string
      *  to inject into upgrade script */
     public $versionList = '';
 
@@ -188,7 +188,7 @@ if (php_sapi_name() === 'cli') {
     include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
     $scriptProperties = array(
         'versionsToShow' => 5,
-        'hideWhenNoUpdate' => false,
+        'hideWhenNoUpgrade' => false,
         'lastCheck' => '',
         'interval' => '+1 seconds',
         'plOnly' => false,
@@ -236,7 +236,7 @@ if (!($lastCheck && $interval)) {
     return '<p style="color:red">lastCheck or interval properties not set</p>';
 }
 
-$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props);
+$hideWhenNoUpGrade = $modx->getOption('hideWhenNoUpgrade', $props);
 $plOnly = $modx->getOption('plOnly', $props);
 $versionsToShow = $modx->getOption('versionsToShow', $props, 5);
 
