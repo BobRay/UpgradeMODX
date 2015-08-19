@@ -1,5 +1,5 @@
 <?php
 $cats = array (
-  0 => 'UpgradeModx',
+  0 => 'UpgradeMODX',
 );
 return $cats;

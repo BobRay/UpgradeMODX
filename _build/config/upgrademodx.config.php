@@ -13,9 +13,9 @@ $packageNameLower = 'upgrademodx'; /* No spaces, no dashes */
 
 $components = array(
     /* These are used to define the package and set values for placeholders */
-    'packageName' => 'UpgradeModx',  /* No spaces, no dashes */
+    'packageName' => 'UpgradeMODX',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
-    'packageDescription' => 'UpgradeModx project for MyComponent extra',
+    'packageDescription' => 'UpgradeMODX project extra',
     'version' => '1.0.0',
     'release' => 'beta1',
     'author' => 'Bob Ray',
@@ -29,7 +29,7 @@ $components = array(
     'createdon' => strftime('%m-%d-%Y'),
 
     'gitHubUsername' => 'BobRay',
-    'gitHubRepository' => 'UpgradeModx',
+    'gitHubRepository' => 'UpgradeMODX',
 
     /* two-letter code of your primary language */
     'primaryLanguage' => 'en',
@@ -109,8 +109,8 @@ $components = array(
     */
 
     'categories' => array(
-        'UpgradeModx' => array(
-            'category' => 'UpgradeModx',
+        'UpgradeMODX' => array(
+            'category' => 'UpgradeMODX',
             'parent' => '',  /* top level category */
         ),
     ),
@@ -128,12 +128,12 @@ $components = array(
     ),
 
     'widgets' => array(
-        'UpgradeModx' => array(
-            'name' => 'UpgradeModx',
-            'description' => 'Upgrade Modx Widget',
+        'UpgradeMODX' => array(
+            'name' => 'UpgradeMODX',
+            'description' => 'Upgrade MODX Widget',
             'namespace' => 'upgrademodx',
             'type' => 'snippet',
-            'content' => 'UpgradeModxWidget',
+            'content' => 'UpgradeMODXWidget',
             'size' => 'half',
             'lexicon' => 'upgrademodx:default',
 
@@ -169,19 +169,19 @@ $components = array(
  /*           'PropertySet1' => array(
                 'name' => 'PropertySet1',
                 'description' => 'Description for PropertySet1',
-                'category' => 'UpgradeModx',
+                'category' => 'UpgradeMODX',
             ),
             'PropertySet2' => array(
                 'name' => 'PropertySet2',
                 'description' => 'Description for PropertySet2',
-                'category' => 'UpgradeModx',
+                'category' => 'UpgradeMODX',
             ),
  */       ),
 
         'snippets' => array(
-            'UpgradeModxWidget' => array(
-                'category' => 'UpgradeModx',
-                'description' => 'UpgradeModx Dashboard widget',
+            'UpgradeMODXWidget' => array(
+                'category' => 'UpgradeMODX',
+                'description' => 'UpgradeMODX Dashboard widget',
                 'static' => false,
             ),
 
@@ -189,12 +189,12 @@ $components = array(
         'plugins' => array(
         ),
         'chunks' => array(
-            'UpgradeModxTpl' => array(
-                'category' => 'UpgradeModx',
+            'UpgradeMODXTpl' => array(
+                'category' => 'UpgradeMODX',
                 'description' => 'Tpl chunk for alert widget',
             ),
-            'UpgradeModxSnippetScriptSource' => array(
-                'category' => 'UpgradeModx',
+            'UpgradeMODXSnippetScriptSource' => array(
+                'category' => 'UpgradeMODX',
                 'description' => 'Source for MODX Upgrade script. Used internally',
                 'static' => false,
             ),
@@ -338,10 +338,10 @@ $components = array(
      *
      * Set to array() if there are no classes. */
     'classes' => array(
-/*        'UpgradeModx' => 'upgrademodx:UpgradeModx',
+/*        'UpgradeMODX' => 'upgrademodx:UpgradeMODX',
 
         'methods' => array(
-            'UpgradeModx' => array(
+            'UpgradeMODX' => array(
                 'public function method1()',
                 'method2($arg1, $arg2 = false)',
             ),

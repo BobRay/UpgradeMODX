@@ -1,4 +1,4 @@
-UpgradeModx Extra for MODx Revolution
+UpgradeMODX Extra for MODx Revolution
 =======================================
 
 
@@ -12,11 +12,11 @@ Important! This package is a beta version. It has not been tested on a wide vari
 
 Please leave feedback on the issues page if you find any problems with the package.
 
-This Package (UpgradeModx) is designed to upgrade MODX from the dashboard of the MODX Manager.
+This Package (UpgradeMODX) is designed to upgrade MODX from the dashboard of the MODX Manager.
 
-The package installs a dashboard widget that reports whether an upgrade is available. When an upgrade is available, an install button will appear that will launch the install form. The form gives you the option to select a version of MODX to upgrade to. Once you've selected a version, UpgradeModx will download the files, put them in the proper locations, and launch setup (be patient, this part takes some time).
+The package installs a dashboard widget that reports whether an upgrade is available. When an upgrade is available, an install button will appear that will launch the install form. The form gives you the option to select a version of MODX to upgrade to. Once you've selected a version, UpgradeMODX will download the files, put them in the proper locations, and launch setup (be patient, this part takes some time).
  
- See the properties tab of the UpgradeModxWidget snippet for the options and their descriptions.
+ See the properties tab of the UpgradeMODXWidget snippet for the options and their descriptions.
  
  It's always a good idea to back up your site before clicking on the Install button. If downloading the files succeeds and setup fails, your site may be broken.
  

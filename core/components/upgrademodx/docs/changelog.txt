@@ -1,5 +1,5 @@
-Changelog for UpgradeModx
+Changelog for UpgradeMODX
 
-UpgradeModx 1.0.0
+UpgradeMODX 1.0.0
 ---------------------------------
 Initial Version

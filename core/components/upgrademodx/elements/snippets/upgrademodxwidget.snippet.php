@@ -1,21 +1,21 @@
 <?php
 /**
- * UpgradeModxWidget snippet for UpgradeModx extra
+ * UpgradeMODXWidget snippet for UpgradeMODX extra
  *
  * Copyright 2015 by Bob Ray <http://bobsguides.com>
  * Created on 08-16-2015
  *
- * UpgradeModx is free software; you can redistribute it and/or modify it under the
+ * UpgradeMODX is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
  *
- * UpgradeModx is distributed in the hope that it will be useful, but WITHOUT ANY
+ * UpgradeMODX is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
  * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * UpgradeModx; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * UpgradeMODX; if not, write to the Free Software Foundation, Inc., 59 Temple
  * Place, Suite 330, Boston, MA 02111-1307 USA
  *
  * @package upgrademodx
@@ -24,7 +24,7 @@
 /**
  * Description
  * -----------
- * UpgradeModx Dashboard widget
+ * UpgradeMODX Dashboard widget
  *
  * Variables
  * ---------
@@ -33,7 +33,7 @@
  *
  * @package upgrademodx
  **/
-class UpgradeModx
+class UpgradeMODX
 {
 
     /** @var $versionlist string - array of versions to display if update is available as a string
@@ -117,7 +117,7 @@ class UpgradeModx
         $newVersion = version_compare($currentVersion, $latestVersion) < 0;
 
         /* Update Properties */
-        $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeModxWidget'));
+        $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
         if ($snippet) {
             $properties = $snippet->get('properties');
             $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S');
@@ -203,7 +203,7 @@ if (php_sapi_name() === 'cli') {
     }
 }
 
-if (isset($_POST['UpgradeModx'])) {
+if (isset($_POST['UpgradeMODX'])) {
     $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
     if ($fp) {
         if (! isset($_SESSION['versionList'])) {
@@ -212,7 +212,7 @@ if (isset($_POST['UpgradeModx'])) {
             $fields = array(
                 'InstallData' => $_SESSION['versionList'],
             );
-            $fileContent = $modx->getChunk('UpgradeModxSnippetScriptSource', $fields);
+            $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource', $fields);
             fwrite($fp, $fileContent);
             $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
         }
@@ -222,7 +222,7 @@ if (isset($_POST['UpgradeModx'])) {
 }
 
 
-$upgrade = new UpgradeModx($modx);
+$upgrade = new UpgradeMODX($modx);
 $currentVersion = $modx->getOption('settings_version');
 
 $props = $scriptProperties;
@@ -258,7 +258,7 @@ if ($upgradeAvailable) {
     $output .= '<br/><br/>
         <form method="post" action="">
             <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
-                type="submit" name="UpgradeModx" value="Upgrade MODX">
+                type="submit" name="UpgradeMODX" value="Upgrade MODX">
         </form>
         <p>&nbsp;</p></p>';
 

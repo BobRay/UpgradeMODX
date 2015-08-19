@@ -40,7 +40,7 @@ if (ini_get(extension_loaded('curl'))) {
     ),
 );*/
 
-class ModxInstaller {
+class MODXInstaller {
     static public function downloadFile($url, $path, $method) {
         $newfname = $path;
         $newf = null;
@@ -172,7 +172,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     }
 
     //run unzip and install
-    $success = ModxInstaller::downloadFile($rowInstall['link'], "modx.zip", $method);
+    $success = MODXInstaller::downloadFile($rowInstall['link'], "modx.zip", $method);
     if ($success !== true) {
         die($success);
     }
@@ -213,17 +213,17 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     }
 
     foreach ($directories as $source => $target) {
-        ModxInstaller::copyFolder(dirname(__FILE__) . '/temp/' . $dir . '/' .$source, $target);
+        MODXInstaller::copyFolder(dirname(__FILE__) . '/temp/' . $dir . '/' .$source, $target);
     }
-    ModxInstaller::removeFolder(dirname(__FILE__) . '/temp');
+    MODXInstaller::removeFolder(dirname(__FILE__) . '/temp');
 
     /* Clear cache files */
 
     $path = MODX_CORE_PATH . 'cache';
     if (is_dir($path)) {
-        ModxInstaller::removeFolder($path);
+        MODXInstaller::removeFolder($path);
         /* recreate cache dir */
-        ModxInstaller::mmkDir($path);
+        MODXInstaller::mmkDir($path);
     }
 
     unlink(basename(__FILE__));
