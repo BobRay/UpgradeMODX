@@ -49,6 +49,9 @@ class UpgradeMODX
     /** @var $latestVersion string - latest version available; set only if an upgrade */
     protected $latestVersion = '';
 
+    /** @var $errors array - array of error message */
+    protected $errors = array();
+
     /**
      *
      */
@@ -84,6 +87,14 @@ class UpgradeMODX
         return $this->latestVersion;
     }
 
+    public function setError($msg) {
+        $this->errors[] = $msg;
+    }
+
+    public function getErrors() {
+        return $this->errors;
+    }
+
 
     public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5)
     {
@@ -99,6 +110,14 @@ class UpgradeMODX
 
         $contents = curl_exec($ch);
 
+        if (empty($contents) || ($contents === false)) {
+            if ($contents === false) {
+                $this->setError('(GitHub) ' . curl_error($ch));
+            } else {
+                $this->setError('(GitHub) Empty return');
+            }
+        }
+
         $contents = json_decode($contents);
 
 
@@ -111,21 +130,26 @@ class UpgradeMODX
             }
         }
 
+        /* GitHub won't necessarily have them in the correct order */
+        usort($contents, array("UpgradeMODX", "compare"));
+
         $latestVersionObj = reset($contents);
         $latestVersion = substr($latestVersionObj->name, 1);
         $this->latestVersion = $latestVersion;
         $newVersion = version_compare($currentVersion, $latestVersion) < 0;
 
         /* Update Properties */
-        $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
-        if ($snippet) {
-            $properties = $snippet->get('properties');
-            $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S');
-            $properties['latestVersion']['value'] = $latestVersion;
-            $snippet->set('properties', $properties);
-            $snippet->save();
+        if (empty($this->getErrors())) {
+            $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
+            if ($snippet) {
+                $properties = $snippet->get('properties');
+                $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S');
+                $properties['latestVersion']['value'] = $latestVersion;
+                $snippet->set('properties', $properties);
+                $snippet->save();
+            }
         }
-        strftime('%Y-%m-%d %H:%M:%S');
+        // strftime('%Y-%m-%d %H:%M:%S');
 
         $downloadable = false;
 
@@ -133,7 +157,7 @@ class UpgradeMODX
         if ($newVersion) { /* See if it's available at modx.com/download */
             $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
 
-            curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 4);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
             curl_setopt($ch, CURLOPT_URL, $downloadUrl);
@@ -143,10 +167,18 @@ class UpgradeMODX
 
             $retCode = curl_exec($ch);
 
+            if (empty($retCode) || ($retCode === false)) {
+                if ($retCode === false) {
+                    $this->setError('(modx.com/download) ' . curl_error($ch));
+                } else {
+                    $this->setError('(modx.com/download) Empty return');
+                }
+            }
             if ($retCode !== false) {
                 $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 $downloadable = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
             }
+
             curl_close($ch);
 
             if ($downloadable) {
@@ -176,8 +208,13 @@ class UpgradeMODX
         return ($newVersion && $downloadable);
     }
 
-    public function getVersionList()
-    {
+    static function compare($a, $b) {
+        $left = $a->name;
+        $right = $b->name;
+        return (version_compare($right, $left));
+    }
+
+    public function getVersionList() {
         return $this->versionList;
     }
 }
@@ -273,6 +310,12 @@ if ($upgradeAvailable) {
     }
 }
 
+$errors = $upgrade->getErrors();
+if (! empty($errors)) {
+    foreach ($errors as $error) {
+        $output .= '<br/>' . $error;
+    }
+}
 if (php_sapi_name() === 'cli') {
     echo $output;
 }
