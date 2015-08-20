@@ -3,9 +3,10 @@ UpgradeMODX Extra for MODx Revolution
 
 
 **Author:** Bob Ray <http://bobsguides.com> [Bob's Guides](http://bobsguides.com)
-**Contributions from:** Susan Sottwell, dmi3yy, inreti, Zaigham Rana, frischnetz, and AgelxNash
+**Contributions from:** Dmytro Lukianenko (dmi3y), Susan Sottwell, Bumkaka, Sharapov, Inreti, Zaigham Rana, frischnetz, and AgelxNash.
 Documentation is available at [Bob's Guides](http://bobsguides.com/upgrade-modx-package.html)
 
+This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.
 Package created with MyComponent
 
 Important! This package is a beta version. It has not been tested on a wide variety of platforms and is missing important sanity checks and error handling. It is definitely not recommended for use on production sites at this time. 
@@ -20,6 +21,6 @@ The package installs a dashboard widget that reports whether an upgrade is avail
  
  It's always a good idea to back up your site before clicking on the Install button. If downloading the files succeeds and setup fails, your site may be broken.
  
-This package was inspired by the work of a number of people and I have borrowed some of their code. I still haven't been able to get the names of all of them (there are no authors listed in the code), but Susan Sottwell, dmi3yy, inreti, Zaigham Rana, frischnetz, and AgelxNash, all contributed and I'd like to thank them for laying the groundwork.
+This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.
  
  

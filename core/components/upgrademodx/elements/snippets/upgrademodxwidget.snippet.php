@@ -25,6 +25,10 @@
  * Description
  * -----------
  * UpgradeMODX Dashboard widget
+ * This package was inspired by the work of a number of people and I have borrowed some of their code.
+ * Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Sharapov,
+ * Bumkaka, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all
+ * of them for laying the groundwork.
  *
  * Variables
  * ---------
