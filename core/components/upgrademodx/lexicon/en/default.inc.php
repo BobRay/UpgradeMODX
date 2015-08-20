@@ -34,3 +34,4 @@
  * @package upgrademodx
  **/
 
+$_lang['package'] = 'UpgradeModx';
