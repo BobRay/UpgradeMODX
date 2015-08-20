@@ -263,6 +263,7 @@ if (isset($_POST['UpgradeMODX'])) {
             $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource', $fields);
             fwrite($fp, $fileContent);
             fclose($fp);
+            $modx->runProcessor('security/flush');
             $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
         }
     } else {
@@ -304,7 +305,9 @@ if ($upgradeAvailable) {
     $output = '<h3 style="color:green">Upgrade Available</h3><br/> Current Version: ' . $currentVersion .
         '<br />Latest Version: ' . $latestVersion;
 
-    $output .= '<br/><br/>
+    $output .= '
+        <br /><br />(Note, all users will be logged out.)
+        <br/><br/>
         <form method="post" action="">
             <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
                 type="submit" name="UpgradeMODX" value="Upgrade MODX">
