@@ -130,15 +130,27 @@ class UpgradeMODX
             }
         }
 
-        /* GitHub won't necessarily have them in the correct order */
-        usort($contents, array("UpgradeMODX", "compare"));
+    /* GitHub won't necessarily have them in the correct order.
+       Sort them with a Custom insertion sort since they will
+       be almost sorted already */
+
+    for ($i = 1; $i < $versionsToShow; $i++) {
+        $element = $contents[$i];
+        $j = $i;
+        while ($j > 0 && version_compare($contents[$j - 1]->name, $element->name) < 0) {
+            $contents[$j] = $contents[$j - 1];
+            $j = $j - 1;
+        }
+        $contents[$j] = $element;
+    }
 
         $latestVersionObj = reset($contents);
         $latestVersion = substr($latestVersionObj->name, 1);
         $this->latestVersion = $latestVersion;
+        /* See if the latest version is newer than the current version */
         $newVersion = version_compare($currentVersion, $latestVersion) < 0;
 
-        /* Update Properties */
+        /* Update Properties if there are no cURL errors */
         if (empty($this->getErrors())) {
             $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
             if ($snippet) {
@@ -149,12 +161,11 @@ class UpgradeMODX
                 $snippet->save();
             }
         }
-        // strftime('%Y-%m-%d %H:%M:%S');
 
         $downloadable = false;
 
-        // $ch = curl_init();
-        if ($newVersion) { /* See if it's available at modx.com/download */
+        $ch = curl_init();
+        if ($newVersion) { /* New version exists, see if it's available at modx.com/download */
             $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
 
             curl_setopt($ch, CURLOPT_TIMEOUT, 4);
@@ -181,9 +192,13 @@ class UpgradeMODX
 
             curl_close($ch);
 
+
             if ($downloadable) {
+                /* Create the array of versions and save it in a $_SESSION variable for the installer
+                   This snippet will insert the versions into the form when creating the
+                   script file from the Tpl chunk when the user submits the Upgrade form in the widget */
                 $InstallData = array();
-                $versionsToShow = 5;
+
                 $i = 1;
                 foreach ($contents as $content) {
                     $name = substr($content->name, 1);
@@ -208,11 +223,6 @@ class UpgradeMODX
         return ($newVersion && $downloadable);
     }
 
-    static function compare($a, $b) {
-        $left = $a->name;
-        $right = $b->name;
-        return (version_compare($right, $left));
-    }
 
     public function getVersionList() {
         return $this->versionList;
@@ -221,7 +231,7 @@ class UpgradeMODX
 
 
 if (php_sapi_name() === 'cli') {
-    /* This section for debugging during development*/
+    /* This section for debugging during development. It won't execute in MODX */
     include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
     $scriptProperties = array(
         'versionsToShow' => 5,
@@ -231,6 +241,7 @@ if (php_sapi_name() === 'cli') {
         'plOnly' => false,
     );
 } else {
+    /* This will execute when in MODX */
     $groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
     if (strpos($groups, ',') !== false) {
         $groups = explode(',', $groups);
@@ -239,7 +250,7 @@ if (php_sapi_name() === 'cli') {
         return '';
     }
 }
-
+/* See if user has submitted the form. If so, create the upgrade script and launch it */
 if (isset($_POST['UpgradeMODX'])) {
     $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
     if ($fp) {
@@ -251,10 +262,11 @@ if (isset($_POST['UpgradeMODX'])) {
             );
             $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource', $fields);
             fwrite($fp, $fileContent);
+            fclose($fp);
             $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
         }
     } else {
-        return 'Could not open upgrade.php for writing';
+        return 'Could not open ' . MODX_BASE_PATH . ' upgrade.php for writing';
     }
 }
 
