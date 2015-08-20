@@ -14,7 +14,7 @@ $components = array(
     'authorUrl' => 'http://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
     'packageDocumentationUrl' => 'http://bobsguides.com/example-tutorial.html',
-    'copyright' => '2014',
+    'copyright' => '2015',
 
     /* no need to edit this except to change format */
     'createdon' => strftime('%m-%d-%Y'),
