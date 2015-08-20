@@ -1,20 +1,104 @@
-<p>UpgradeMODX project for MyComponent extra</p>
 
-<p>(Jump to <a href="[[~[[*id]]]]#propertiesTable">Properties Table</a>.)</p>
+<p>UpgradeMODX provides a dashboard widget that checks for available upgrades and (optionally) installs them. The upgrade process is automatic and very simple. It shows you a form with available versions to install (you can set how many it shows). Once you've selected one, UpgradeMODX downloads all the files, puts them in place, and launches Setup. It should upgrade *any* version of MODX except the SDK development version. It should correctly upgrade versions with a moved and/or renamed manager, core, connectors, assets, or processors directory. I think it will upgrade the SDK version to the non-SDK version, but I haven't tested that.</p>
 
+<p>Upgrade MODX is only for upgrades. It will not install a fresh MODX site.</p>
+
+<br />
+<p>(Jump to <a href="[[~[[*id]]]]#propertiesTable">Properties Table</a>)</p>
+<br />
+
+<p><b>The Beta version of UpgradeMODX should *not* be used on a production site unless you have made a full backup of the database and all files and are prepared to restore the site if things go wrong.</b></p>
+
+<p>For testing purposes, clicking on the &quot;Upgrade MODX&quot; button in the widget will not alter your site in any way (though all users will be logged out). Nothing happens until you click on the &quot;Install&quot; button in the upgrade form the widget button launches. The danger is that the upgrade script will download and place all the files, but Setup will fail for some reason. I've never had this happen, but if it does, you'll be left with a mixed site that may be broken. You can try to fix the problem and re-run Setup. If Setup completes with no problems, you should be fine.</p>
+
+<br />
 <h3>Installing UpgradeMODX</h3>
 
-<p>
-Go to System | Package Management on the main menu in the MODX Manager and click on the &quot;Download Extras&quot; button. That will take you to the
-Revolution Repository (AKA Web Transport Facility). Put UpgradeMODX in the search box and press Enter. Click on the &quot;Download&quot; button, and once the package is downloaded,
- click on the &quot;Back to Package Manager&quot; button. That should bring you back to your Package Management grid. Click on the
-&quot;Install&quot; button next to UpgradeMODX in the grid. The UpgradeMODX package should now be installed.</p>
+<p>Go to Extras -> Installer (or System -> Package Management in older versions of MODX) on the main menu in the MODX Manager and click on the &quot;Download Extras&quot; button. That will take you to the Revolution Repository (AKA Web Transport Facility). Put UpgradeMODX in the search box and press Enter. Click on the &quot;Download&quot; button, and once the package is downloaded, click on the &quot;Back to Package Manager&quot; button. That should bring you back to your Package Management grid. Click on the &quot;Install&quot; button next to UpgradeMODX in the grid. The UpgradeMODX package should now be installed.</p>
 
+<br/>
+<h3>Credits</h3>
+<p>This package was inspired by the work of a number of people and I have borrowed some of their code. I still haven't been able to get the names of all of them (there are no authors listed in the code), but Susan Sottwell, dmi3yy, inreti, Zaigham Rana, frischnetz, and AgelxNash, all contributed and I'd like to thank them for laying the groundwork.</p>
+
+<br/>
 <h3>Usage</h3>
 
+<p>To upgrade your site, just click on the &quot;Upgrade MODX&quot; button in the widget. That will launch the form where you can select a version to upgrade to. Downloading and extracting the files may take some time, so be patient.</p>
 
+<p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) -> Dashboards.</p>
 
+<p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change the <code>&groups</code> property of the UpgradeMODXWidget snippet. You can also change the <code>&interval</code> property if you'd like it to check for upgrades more or less often.</p>
 
+<p>By default, UpgradeMODX considers only pl (stable) versions for upgrade, you can change the <code>&plOnly</code> property to see all versions. You can change the <code>&versionsToShow</code> property to show more versions (the default is 5). Initially, the interval for checking is set to <code>1 week</code> but you can change that by setting the <code>&interval</code> property. That property should always be an integer followed by the name of the unit (e.g., hours, days, weeks, months.</p>
+
+<p>If you would like to hide the widget when no upgrade is available, change the <code>&hideWhenNoUpgrade</code> property. The widget will still check for upgrades at the selected interval, but won't appear in the dashboard(s) unless an upgrade exists and is available for download.</p>
+
+<br/>
+
+<div class="box">
+    <p>The Beta version has the <code>&plOnly</code> property set to false to show all versions and the <code>&interval</code> property set to 60 seconds. Feel free to change these. The short interval is so you can see how much the widget slows down the dashboard page-load times. If your site is not up to date and you go to the dashboard after 60 seconds have elapsed, the widget will check for upgrades. If you immediately reload the dashboard page, the widget won't check and you can see the difference.</p>
+
+    <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
+
+    <p>If either site is slow to respond, cURL will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, I'll create properties for the timeout intervals.</p>
+</div>
+
+<br/>
+
+<p>You are *strongly* advised not to change anything in the package except the snippet properties. Be aware that the snippet properties will revert to their defaults if you upgrade or re-install UpgradeMODX. This is because snippet-type widgets can't use property sets and have no tag to edit.</p>
+
+<br/>
+<h3>Security</h3>
+
+<p>The upgrade script is stored in a chunk. The widget copies it to the MODX root when you click on the &quot;Upgrade MODX&quot; button in the widget. It can't be run in any other way and it's deleted when the upgrade script finishes. Even if it were available to anyone, it wouldn't run because it contains a placeholder that will cause a PHP error unless it is replaced by the widget.</p>
+
+<p>The upgrade script downloads everything to a <code>/temp</code> directory in the MODX root directory. It deletes that directory and itself when it finishes successfully so nothing should be left behind after the upgrade.</p>
+
+<p>After upgrading the site, It's a good idea to make sure that the <code>upgrade.php</code> file in the MODX root directory, and the <code>/temp</code> directory, also in the MODX root directory, have been removed, especially if the script times out.</p>
+
+<br/>
 <a name="propertiesTable"></a>
 
 <h3>UpgradeMODX Properties</h3>
+
+<table class="properties">
+    <tr><th>Property</th><th>Description</th><th>Default</th></tr>
+
+    <tr>
+        <td>groups</td>
+        <td>group, or commma-separated list of groups, who will see the widget</td>
+        <td>Administrator</td>
+    </tr>
+    <tr>
+        <td>hideWhenNoUpgrade</td>
+        <td>Hide widget when no upgrade is available</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>interval</td>
+        <td>Interval between checks -- Examples: 1 week, 3 days, 6 hours</td>
+        <td>60 seconds</td>
+    </tr>
+    <tr>
+        <td>lastCheck</td>
+        <td>Date and time of last check -- set automatically</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>latestVersion</td>
+        <td>Latest version (at last check) -- set automatically</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>plOnly</td>
+        <td>Show only pl (stable) versions</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>versionsToShow</td>
+        <td>Number of versions to show in upgrade form (not widget)</td>
+        <td>5</td>
+    </tr>
+</table>
+
+<p>&nbsp;</p>

@@ -1,5 +1,5 @@
 Changelog for UpgradeMODX
 
-UpgradeMODX 1.0.0
+UpgradeMODX 1.0.0-beta1
 ---------------------------------
 Initial Version
