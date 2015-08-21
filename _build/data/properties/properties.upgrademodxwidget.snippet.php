@@ -16,85 +16,85 @@ $properties = array (
   'groups' => 
   array (
     'name' => 'groups',
-    'desc' => 'group, or commma-separated list of groups, who will see the widget',
+    'desc' => 'ugm_groups_desc',
     'type' => 'textfield',
     'options' => 
     array (
     ),
     'value' => 'Administrator',
-    'lexicon' => 'upgrademodx:default',
+    'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
   'hideWhenNoUpgrade' => 
   array (
     'name' => 'hideWhenNoUpgrade',
-    'desc' => 'Hide widget when no upgrade is available: default: No',
+    'desc' => 'ugm_hideWhenNoUpgrade_desc',
     'type' => 'combo-boolean',
     'options' => 
     array (
     ),
     'value' => false,
-    'lexicon' => 'upgrademodx:default',
+    'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
   'interval' => 
   array (
     'name' => 'interval',
-    'desc' => 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 week',
+    'desc' => 'ugm_interval_desc',
     'type' => 'textfield',
     'options' => 
     array (
     ),
     'value' => '60 seconds',
-    'lexicon' => 'upgrademodx:default',
+    'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
   'lastCheck' => 
   array (
     'name' => 'lastCheck',
-    'desc' => 'Date and time of last check -- set automatically',
+    'desc' => 'ugm_lastCheck_desc',
     'type' => 'textfield',
     'options' => 
     array (
     ),
-    'value' => '2015-08-17 00:13:44',
-    'lexicon' => 'upgrademodx:default',
+    'value' => '2015-08-21 03:44:37',
+    'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
   'latestVersion' => 
   array (
     'name' => 'latestVersion',
-    'desc' => 'Latest version (at last check) -- set automatically',
+    'desc' => 'ugm_latestVersion_desc',
     'type' => 'textfield',
     'options' => 
     array (
     ),
-    'value' => '',
-    'lexicon' => 'upgrademodx:default',
+    'value' => '2.4.0-pl',
+    'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
   'plOnly' => 
   array (
     'name' => 'plOnly',
-    'desc' => 'Show only pl (stable) versions; default: yes',
+    'desc' => 'ugm_plOnly_desc',
     'type' => 'combo-boolean',
     'options' => 
     array (
     ),
     'value' => false,
-    'lexicon' => 'upgrademodx:default',
+    'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
   'versionsToShow' => 
   array (
     'name' => 'versionsToShow',
-    'desc' => 'Number of versions to show in upgrade form (not widget); default: 5',
+    'desc' => 'ugm_versionsToShow_desc',
     'type' => 'textfield',
     'options' => 
     array (
     ),
     'value' => '5',
-    'lexicon' => 'upgrademodx:default',
+    'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
 );

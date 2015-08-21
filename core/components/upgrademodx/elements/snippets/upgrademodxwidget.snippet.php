@@ -65,7 +65,7 @@ class UpgradeMODX
     /** @var $latestVersion string - latest version available; set only if an upgrade */
     protected $latestVersion = '';
 
-    /** @var $errors array - array of error message */
+    /** @var $errors array - array of error message (non-fatal errors only) */
     protected $errors = array();
 
     /**
@@ -126,7 +126,8 @@ class UpgradeMODX
             if ($contents === false) {
                 $this->setError('(GitHub) ' . curl_error($ch));
             } else {
-                $this->setError('(GitHub) Empty return');
+                $this->setError('(GitHub) ' .
+                    $this->modx->lexicon('ugm_empty_return'));
             }
         }
 
@@ -180,7 +181,7 @@ class UpgradeMODX
         if ($newVersion) { /* New version exists, see if it's available at modx.com/download */
             $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
 
-            curl_setopt($ch, CURLOPT_TIMEOUT, 4);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
             curl_setopt($ch, CURLOPT_URL, $downloadUrl);
@@ -194,7 +195,8 @@ class UpgradeMODX
                 if ($retCode === false) {
                     $this->setError('(modx.com/download) ' . curl_error($ch));
                 } else {
-                    $this->setError('(modx.com/download) Empty return');
+                    $this->setError('(modx.com/download) ' .
+                        $this->modx->lexicon('ugm_empty_return'));
                 }
             }
             if ($retCode !== false) {
@@ -241,6 +243,8 @@ class UpgradeMODX
     }
 }
 
+/*********** Processing starts here ***********/
+
 
 if (php_sapi_name() === 'cli') {
     /* This section for debugging during development. It won't execute in MODX */
@@ -251,9 +255,14 @@ if (php_sapi_name() === 'cli') {
         'lastCheck' => '',
         'interval' => '+1 seconds',
         'plOnly' => false,
+        'language' => 'en',
     );
 } else {
     /* This will execute when in MODX */
+    $modx->lexicon->load($language . ':upgrademodx:default');
+    $language = $modx->getOption('language', $scriptProperties, 'en');
+    /* Return empty string if user shouldn't see widget */
+
     $groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
     if (strpos($groups, ',') !== false) {
         $groups = explode(',', $groups);
@@ -267,7 +276,7 @@ if (isset($_POST['UpgradeMODX'])) {
     $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
     if ($fp) {
         if (! isset($_SESSION['versionList'])) {
-            return 'Version list session variable not set';
+            return $modx->lexicon('ugm_no_version_list');
         } else {
             $fields = array(
                 'InstallData' => $_SESSION['versionList'],
@@ -279,13 +288,14 @@ if (isset($_POST['UpgradeMODX'])) {
             $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
         }
     } else {
-        return 'Could not open ' . MODX_BASE_PATH . ' upgrade.php for writing';
+        return $modx->lexicon('ugm_could_not_open') . ' ' . MODX_BASE_PATH . 'upgrade.php' .
+            ' ' .
+            $modx->lexicon('ugm_for_writing');
     }
 }
 
 
 $upgrade = new UpgradeMODX($modx);
-$currentVersion = $modx->getOption('settings_version');
 
 $props = $scriptProperties;
 $lastCheck = $modx->getOption('lastCheck', $props);
@@ -295,7 +305,9 @@ if (empty($lastCheck)) {
 }
 
 if (!($lastCheck && $interval)) {
-    return '<p style="color:red">lastCheck or interval properties not set</p>';
+    return '<p style="color:red">' .
+        $modx->lexicon('ugm_missing_properties')
+        . '</p>';
 }
 
 $hideWhenNoUpGrade = $modx->getOption('hideWhenNoUpgrade', $props);
@@ -304,6 +316,7 @@ $versionsToShow = $modx->getOption('versionsToShow', $props, 5);
 
 
 $currentVersion = $modx->getOption('settings_version');
+
 if ($upgrade::timeToCheck($lastCheck, $interval)) {
     $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow);
     $latestVersion = $upgrade->getLatestVersion();
@@ -312,39 +325,43 @@ if ($upgrade::timeToCheck($lastCheck, $interval)) {
     $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;;
 
 }
+$placeholders = array();
+$placeholders['ugm_current_version'] = $currentVersion;
+$placeholders['ugm_latest_version'] = $latestVersion;
+
+$errors = $upgrade->getErrors();
+
+if (!empty($errors)) {
+    $msg = '';
+    foreach ($errors as $error) {
+        $msg .= '<br/><span style="color:red">' . $modx->lexicon('ugm_error') .
+            ': ' . $error . '</span>';
+    }
+    return $msg;
+}
 
 if ($upgradeAvailable) {
-    $output = '<h3 style="color:green">Upgrade Available</h3><br/> Current Version: ' . $currentVersion .
-        '<br />Latest Version: ' . $latestVersion;
-
-    $output .= '
-        <br /><br />(Note, all users will be logged out.)
-        <br/><br/>
-        <form method="post" action="">
-            <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
-                type="submit" name="UpgradeMODX" value="Upgrade MODX">
-        </form>
-        <p>&nbsp;</p></p>';
+    $placeholders['ugm_notice'] = $modx->lexicon('ugm_upgrade_available');
+    $placeholders['ugm_notice_color'] = 'green';
+    $placeholders['ugm_upgrade_modx'] = $modx->lexicon('ugm_upgrade_modx');
+    $placeholders['ugm_logout_note'] = '<br/><br/>(' . $modx->lexicon('ugm_logout_note') . ')';
+    $placeholders['ugm_form'] = '<br/><br/>
+<form method="post" action="">
+    <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
+           type="submit" name="UpgradeMODX" value="[[+ugm_upgrade_modx]]">
+</form>';
 
 } else {
     if ($hideWhenNoUpgrade) {
-        $output = '';
+        return '';
     } else {
-        $output = '<h3>MODX is up to date</h3><br/> Current Version: ' . $currentVersion .
-            '<br />Latest Version: ' . $latestVersion;
-
-
+        $placeholders['ugm_notice'] = $modx->lexicon('ugm_modx_up_to_date');
+        $placeholders['ugm_notice_color'] = 'gray';
     }
 }
 
-$errors = $upgrade->getErrors();
-if (! empty($errors)) {
-    foreach ($errors as $error) {
-        $output .= '<br/>' . $error;
-    }
-}
 if (php_sapi_name() === 'cli') {
-    echo $output;
+    echo $modx->getChunk('UpgradeMODXTpl', $placeholders);
 }
 
-return $output;
+return $modx->getChunk('UpgradeMODXTpl', $placeholders);

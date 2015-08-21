@@ -1,9 +1,9 @@
 <?php
 /**
- * en default topic lexicon file for UpgradeMODX extra
+ * en:properties.inc.php topic lexicon file for UpgradeMODX extra
  *
  * Copyright 2015 by Bob Ray <http://bobsguides.com>
- * Created on 08-13-2015
+ * Created on 08-21-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -24,7 +24,7 @@
 /**
  * Description
  * -----------
- * en default topic lexicon strings
+ * en:properties.inc.php topic lexicon strings
  *
  * Variables
  * ---------
@@ -34,21 +34,13 @@
  * @package upgrademodx
  **/
 
-$_lang['package'] = 'UpgradeModx';
 
-/* Used in upgrademodxtpl.chunk.html */
-$_lang['ugm_logout_note'] = '';
-$_lang['ugm_upgrade_modx'] = '';
 
-/* Used in upgrademodxwidget.snippet.php */
-
-$_lang['ugm_empty_return'] = 'Empty return';
-$_lang['ugm_no_version_list'] = 'Version list session variable not set';
-$_lang['ugm_could_not_open'] = 'Could not open';
-$_lang['ugm_for_writing'] = 'for writing';
-$_lang['ugm_missing_properties'] = 'lastCheck or interval properties not set';
-$_lang['ugm_upgrade_available'] = 'Upgrade Available';
-$_lang['ugm_modx_up_to_date'] = 'MODX is up to date';
-$_lang['ugm_error'] = 'Error';
-$_lang['ugm_logout_note'] = 'Note: All users will be logged out';
-$_lang['ugm_upgrade_modx'] = 'Upgrade MODX';
+/* Used in properties.upgrademodxwidget.snippet.php */
+$_lang['ugm_groups_desc'] = 'group, or commma-separated list of groups, who will see the widget';
+$_lang['ugm_hideWhenNoUpgrade_desc'] = 'Hide widget when no upgrade is available: default: No';
+$_lang['ugm_interval_desc'] = 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 week';
+$_lang['ugm_lastCheck_desc'] = 'Date and time of last check -- set automatically';
+$_lang['ugm_latestVersion_desc'] = 'Latest version (at last check) -- set automatically';
+$_lang['ugm_plOnly_desc'] = 'Show only pl (stable) versions; default: yes';
+$_lang['ugm_versionsToShow_desc'] = 'Number of versions to show in upgrade form (not widget); default: 5';
