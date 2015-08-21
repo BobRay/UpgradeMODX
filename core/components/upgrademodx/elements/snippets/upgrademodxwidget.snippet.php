@@ -71,10 +71,6 @@ class UpgradeMODX
     /**
      *
      */
-    const CHECK_SUCCESS = 0;
-    const CHECK_TIMEOUT = 1;
-    const CHECK_EMPTY = 2;
-
 
     public function __construct($modx)
     {
