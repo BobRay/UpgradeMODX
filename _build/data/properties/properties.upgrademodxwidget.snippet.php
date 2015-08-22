@@ -97,6 +97,18 @@ $properties = array (
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
+  'language' =>
+  array (
+    'name' => 'language',
+    'desc' => 'ugm_language_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '5',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
 );
 
 return $properties;

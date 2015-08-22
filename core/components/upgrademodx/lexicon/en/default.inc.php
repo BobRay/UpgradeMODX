@@ -36,12 +36,9 @@
 
 $_lang['package'] = 'UpgradeModx';
 
-/* Used in upgrademodxtpl.chunk.html */
-$_lang['ugm_logout_note'] = '';
-$_lang['ugm_upgrade_modx'] = '';
-
 /* Used in upgrademodxwidget.snippet.php */
-
+$_lang['ugm_current_version_caption'] = 'Current Version';
+$_lang['ugm_latest_version_caption'] = 'Latest Version';
 $_lang['ugm_empty_return'] = 'Empty return';
 $_lang['ugm_no_version_list'] = 'Version list session variable not set';
 $_lang['ugm_could_not_open'] = 'Could not open';

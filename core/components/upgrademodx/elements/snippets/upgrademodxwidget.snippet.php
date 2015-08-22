@@ -259,8 +259,8 @@ if (php_sapi_name() === 'cli') {
     );
 } else {
     /* This will execute when in MODX */
-    $modx->lexicon->load($language . ':upgrademodx:default');
     $language = $modx->getOption('language', $scriptProperties, 'en');
+    $modx->lexicon->load($language . ':upgrademodx:default');
     /* Return empty string if user shouldn't see widget */
 
     $groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
@@ -326,8 +326,8 @@ if ($upgrade::timeToCheck($lastCheck, $interval)) {
 
 }
 $placeholders = array();
-$placeholders['ugm_current_version'] = $currentVersion;
-$placeholders['ugm_latest_version'] = $latestVersion;
+$placeholders['[[+ugm_current_version]]'] = $currentVersion;
+$placeholders['[[+ugm_latest_version]]'] = $latestVersion;
 
 $errors = $upgrade->getErrors();
 
@@ -340,28 +340,43 @@ if (!empty($errors)) {
     return $msg;
 }
 
+$placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
+$placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
+
+/* See if there's a new version and if it's downloadable */
 if ($upgradeAvailable) {
-    $placeholders['ugm_notice'] = $modx->lexicon('ugm_upgrade_available');
-    $placeholders['ugm_notice_color'] = 'green';
-    $placeholders['ugm_upgrade_modx'] = $modx->lexicon('ugm_upgrade_modx');
-    $placeholders['ugm_logout_note'] = '<br/><br/>(' . $modx->lexicon('ugm_logout_note') . ')';
-    $placeholders['ugm_form'] = '<br/><br/>
-<form method="post" action="">
-    <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
-           type="submit" name="UpgradeMODX" value="[[+ugm_upgrade_modx]]">
-</form>';
+    $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_upgrade_available');
+    $placeholders['[[+ugm_notice_color]]'] = 'green';
+    $placeholders['[[+ugm_logout_note]]'] = '<br/><br/>(' .
+        $modx->lexicon('ugm_logout_note')
+        . ')';
+    $placeholders['[[+ugm_form]]'] = '<br/><br/>
+        <form method="post" action="">
+            <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
+                   type="submit" name="UpgradeMODX" value="' . $modx->lexicon('ugm_upgrade_modx') .  '">
+        </form>';
 
 } else {
     if ($hideWhenNoUpgrade) {
         return '';
     } else {
-        $placeholders['ugm_notice'] = $modx->lexicon('ugm_modx_up_to_date');
-        $placeholders['ugm_notice_color'] = 'gray';
+        $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_modx_up_to_date');
+        $placeholders['[[+ugm_notice_color]]'] = 'gray';
     }
 }
 
+/* Get Tpl */
+$query = $modx->newQuery('modChunk', array(
+    'name' => 'UpgradeMODXTpl',
+));
+$query->select('snippet');
+$tpl = $modx->getValue($query->prepare());
+
+/* Do the replacements */
+$tpl = str_replace(array_keys($placeholders), array_values($placeholders), $tpl);
+
 if (php_sapi_name() === 'cli') {
-    echo $modx->getChunk('UpgradeMODXTpl', $placeholders);
+    echo $tpl;
 }
 
-return $modx->getChunk('UpgradeMODXTpl', $placeholders);
+return $tpl;

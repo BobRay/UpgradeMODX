@@ -44,3 +44,4 @@ $_lang['ugm_lastCheck_desc'] = 'Date and time of last check -- set automatically
 $_lang['ugm_latestVersion_desc'] = 'Latest version (at last check) -- set automatically';
 $_lang['ugm_plOnly_desc'] = 'Show only pl (stable) versions; default: yes';
 $_lang['ugm_versionsToShow_desc'] = 'Number of versions to show in upgrade form (not widget); default: 5';
+$_lang['ugm_language_desc'] = 'Two-letter language code for language to use; default: en';
