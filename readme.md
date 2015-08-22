@@ -7,10 +7,14 @@ UpgradeMODX Extra for MODx Revolution
 **Contributions from:** Dmytro Lukianenko (dmi3y), Susan Sottwell, Bumkaka, Sharapov, Inreti, Zaigham Rana, frischnetz, and AgelxNash.
 Documentation is available at [Bob's Guides](http://bobsguides.com/upgrade-modx-package.html)
 
+Package created with MyComponent
+
 **Important! This package is a beta version. It has not been tested on a wide variety of platforms and is missing important sanity checks and error handling. It is definitely not recommended for use on production sites at this time.**
 
+
+
 This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.
-Package created with MyComponent
+
 
 Please leave feedback on the issues page if you find any problems with the package.
 
