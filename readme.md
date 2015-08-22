@@ -21,6 +21,4 @@ The package installs a dashboard widget that reports whether an upgrade is avail
  
  It's always a good idea to back up your site before clicking on the Install button. If downloading the files succeeds and setup fails, your site may be broken.
  
-This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.
- 
  
