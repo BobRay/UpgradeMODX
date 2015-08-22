@@ -57,7 +57,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2015-08-21 03:44:37',
+    'value' => '2015-08-22 00:34:46',
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
@@ -97,7 +97,7 @@ $properties = array (
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
-  'language' =>
+  'language' => 
   array (
     'name' => 'language',
     'desc' => 'ugm_language_desc',
