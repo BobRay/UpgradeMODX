@@ -33,6 +33,8 @@
 
 <p>If you would like to hide the widget when no upgrade is available, change the <code>&hideWhenNoUpgrade</code> property. The widget will still check for upgrades at the selected interval, but won't appear in the dashboard(s) unless an upgrade exists and is available for download.</p>
 
+<p>You can set the language used by the widget with the <code>&language</code> property</p>
+
 <br/>
 
 <div class="box">
@@ -40,7 +42,7 @@
 
     <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
 
-    <p>If either site is slow to respond, cURL will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, I'll create properties for the timeout intervals.</p>
+    <p>If either site is slow to respond, cURL will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, I'll create properties for the timeout intervals.</p>
 </div>
 
 <br/>
@@ -98,6 +100,11 @@
         <td>versionsToShow</td>
         <td>Number of versions to show in upgrade form (not widget)</td>
         <td>5</td>
+    </tr>
+    <tr>
+        <td>language</td>
+        <td>Two-letter code of language to use</td>
+        <td>en</td>
     </tr>
 </table>
 
