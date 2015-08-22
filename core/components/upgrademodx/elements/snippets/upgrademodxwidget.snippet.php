@@ -43,6 +43,7 @@
  * @property &groups textfield -- group, or commma-separated list of groups, who will see the widget; Default: (empty)..
  * @property &hideWhenNoUpgrade combo-boolean -- Hide widget when no upgrade is available; Default: No.
  * @property &interval textfield -- Interval between checks -- Examples: 1 week, 3 days, 6 hours; Default: 1 week.
+ * @property &language textfield -- Two-letter code of language to user; Default: en.
  * @property &lastCheck textfield -- Date and time of last check -- set automatically; Default: (empty)..
  * @property &latestVersion textfield -- Latest version (at last check) -- set automatically; Default: (empty)..
  * @property &plOnly combo-boolean -- Show only pl (stable) versions; Default: yes.
