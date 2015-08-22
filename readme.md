@@ -2,7 +2,7 @@ UpgradeMODX Extra for MODx Revolution
 =======================================
 
 
-**Author:** Bob Ray <http://bobsguides.com> [Bob's Guides](http://bobsguides.com)
+**Author:** Bob Ray [Bob's Guides](http://bobsguides.com)
 
 **Contributions from:** Dmytro Lukianenko (dmi3y), Susan Sottwell, Bumkaka, Sharapov, Inreti, Zaigham Rana, frischnetz, and AgelxNash.
 Documentation is available at [Bob's Guides](http://bobsguides.com/upgrade-modx-package.html)
