@@ -180,6 +180,7 @@ $components = array(
 
         'snippets' => array(
             'UpgradeMODXWidget' => array(
+                'name' => 'UpgradeMODXWidget',
                 'category' => 'UpgradeMODX',
                 'description' => 'Upgrade MODX Dashboard widget',
                 'static' => false,
