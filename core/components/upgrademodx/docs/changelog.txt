@@ -1,5 +1,10 @@
 Changelog for UpgradeMODX
 
+
+UpgradeMODX 1.0.2-beta1
+---------------------------------
+Fixed bug with earlier versions of PHP
+
 UpgradeMODX 1.0.0-beta1
 ---------------------------------
 Initial Version

@@ -165,7 +165,8 @@ class UpgradeMODX
         $newVersion = version_compare($currentVersion, $latestVersion) < 0;
 
         /* Update Properties if there are no cURL errors */
-        if (empty($this->getErrors())) {
+        $e = $this->getErrors();
+        if (empty($e)) {
             $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
             if ($snippet) {
                 $properties = $snippet->get('properties');
