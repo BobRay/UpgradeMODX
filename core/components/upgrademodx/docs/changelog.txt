@@ -1,9 +1,16 @@
 Changelog for UpgradeMODX
 
 
+UpgradeMODX 1.1.0-rc
+---------------------------------
+Use PclZip if ZipArchive is not available
+Add set_time_limit(0) in loop
+
+
 UpgradeMODX 1.0.2-beta1
 ---------------------------------
 Fixed bug with earlier versions of PHP
+
 
 UpgradeMODX 1.0.0-beta1
 ---------------------------------
