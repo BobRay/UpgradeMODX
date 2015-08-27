@@ -148,6 +148,9 @@ class UpgradeMODX
        Sort them with a Custom insertion sort since they will
        be almost sorted already */
 
+        /* Make sure we don't access an invalid index */
+       $versionsToShow = min($versionsToShow, count($contents));
+
     for ($i = 1; $i < $versionsToShow; $i++) {
         $element = $contents[$i];
         $j = $i;
