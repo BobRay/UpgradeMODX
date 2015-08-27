@@ -4,24 +4,31 @@
  * UpgradeMODXWidget snippet for UpgradeMODX extra
  *
  * Copyright 2015 by Bob Ray <http://bobsguides.com>
-* Created on 08-16-2015
-*
-* UpgradeMODX is free software; you can redistribute it and/or modify it under the
-* terms of the GNU General Public License as published by the Free Software
-* Foundation; either version 2 of the License, or (at your option) any later
-* version.
-*
-* UpgradeMODX is distributed in the hope that it will be useful, but WITHOUT ANY
-* WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-* A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License along with
-* UpgradeMODX; if not, write to the Free Software Foundation, Inc., 59 Temple
-* Place, Suite 330, Boston, MA 02111-1307 USA
-*
-* @package upgrademodx
-*/
+ * Created on 08-16-2015
+ *
+ * UpgradeMODX is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * UpgradeMODX is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * UpgradeMODX; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ * @package upgrademodx
+ */
 
+
+/*
+ * This package was inspired by the work of a number of people and I have borrowed some of their code.
+ * Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell,
+ * Sharapov, Bumkaka, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd
+ * like to thank all of them for laying the groundwork.
+  */
 
 error_reporting(0);
 ini_set('display_errors', 0);
@@ -45,10 +52,12 @@ if (ini_get(extension_loaded('curl'))) {
 }
 
 
-[[+InstallData]]
+  [[+InstallData]]
 
-class MODXInstaller {
-    static public function downloadFile($url, $path, $method) {
+class MODXInstaller
+{
+    static public function downloadFile($url, $path, $method)
+    {
         $newfname = $path;
         $newf = null;
         $file = null;
@@ -86,20 +95,20 @@ class MODXInstaller {
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
                     $rch = curl_copy_handle($ch);
                     $newurl = $url;
-            curl_setopt($rch, CURLOPT_URL, $newurl);
-                $header = curl_exec($rch);
-                if (curl_errno($rch)) {
-                    $code = 0;
-                } else {
-                    $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
-                    if ($code == 301 || $code == 302) {
+                    curl_setopt($rch, CURLOPT_URL, $newurl);
+                    $header = curl_exec($rch);
+                    if (curl_errno($rch)) {
+                        $code = 0;
+                    } else {
+                        $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
+                        if ($code == 301 || $code == 302) {
                             preg_match('/Location:(.*?)\n/i', $header, $matches);
                             $newurl = trim(array_pop($matches));
                         }
                         curl_close($rch);
-                    curl_setopt($ch, CURLOPT_URL, $newurl);
+                        curl_setopt($ch, CURLOPT_URL, $newurl);
+                    }
                 }
-            }
                 $data = curl_exec($ch);
                 curl_close($ch);
             } else {
@@ -111,7 +120,8 @@ class MODXInstaller {
         return true;
     }
 
-    static public function removeFolder($path) {
+    static public function removeFolder($path)
+    {
         $dir = realpath($path);
         if (!is_dir($dir)) {
             return;
@@ -131,7 +141,8 @@ class MODXInstaller {
         rmdir($dir);
     }
 
-    static public function copyFolder($src, $dest) {
+    static public function copyFolder($src, $dest)
+    {
         $path = realpath($src);
         $dest = realpath($dest);
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
@@ -143,18 +154,50 @@ class MODXInstaller {
             }
 
             if (is_writable($dest . $startsAt) and $object->isFile()) {
-                copy((string) $name, $dest . $startsAt . DIRECTORY_SEPARATOR . basename($name));
+                copy((string)$name, $dest . $startsAt . DIRECTORY_SEPARATOR . basename($name));
             }
         }
     }
 
-    static public function mmkDir($folder, $perm = 0755) {
+    static public function mmkDir($folder, $perm = 0755)
+    {
         if (!is_dir($folder)) {
             mkdir($folder, $perm);
         }
     }
+    
+    static public function unZip($corePath, $source, $destination) {
+        $status = true;
+        if (class_exists('ZipArchive', false)) {
+            $zip = new ZipArchive;
+            if ($zip instanceof ZipArchive) {
+                if ($zip->open($source)) {
+                    if (!$zip->extractTo($destination)) {
+                        $status = 'Could not extract ZipArchive to ' . $destination;
+                    }
+                    $zip->close();
+                } else {
+                    $status = 'Could not open ZipArchive ' . $source;
+                }
 
-
+            } else {
+                $status = 'Could not instantiate ZipArchive';
+            }
+        } else {
+            $zipClass = $corePath . 'xpdo/compression/pclzip.lib.php';
+            if (file_exists($zipClass)) {
+                include MODX_CORE_PATH . 'xpdo/compression/pclzip.lib.php';
+                $archive = new PclZip($source);
+                if ($archive->extract(PCLZIP_OPT_PATH, $destination) == 0) {
+                    $status = 'Extraction with PclZip failed - Error : ' . $archive->errorInfo(true);
+                }
+            } else {
+                $status = 'Neither ZipArchive, nor PclZip were available to unzip the archive';
+            }
+        }
+        return $status;
+        
+    }
 }
 
 /* Next two lines for running in debugger (comment out two lines below) */
@@ -163,7 +206,6 @@ class MODXInstaller {
 
 if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
     $rowInstall = $InstallData[$_GET['modx']];
-
 
     if (file_exists('config.core.php')) {
         @include 'config.core.php';
@@ -183,22 +225,23 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     if ($success !== true) {
         die($success);
     }
-    $zip = new ZipArchive;
-    $success = $zip->open(dirname(__FILE__) . "/modx.zip");
-    if ($success !== true) {
-        die('Failed to open zip file');
-    }
+
     if (!is_dir(dirname(__FILE__) . '/temp')) {
         mkdir(dirname(__FILE__) . '/temp');
     }
-    $success = $zip->extractTo(dirname(__FILE__) . '/temp/');
+
+    $source = dirname(__FILE__) . "/modx.zip";
+    $destination = dirname(__FILE__) . '/temp/';
+
+    $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination);
     if ($success !== true) {
-        $zip->close();
-        die('Failed to extract from zip file');
-    }
-    $zip->close();
+        die($success);
+    }  
+    
     unlink(dirname(__FILE__) . '/modx.zip');
 
+    /* Get name of downloaded file */
+    $dir = '';
     if ($handle = opendir(dirname(__FILE__) . '/temp')) {
         while (false !== ($name = readdir($handle))) {
             if ($name != "." && $name != "..") {
@@ -207,12 +250,16 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         }
         closedir($handle);
     }
+    
+    if (empty($dir)) {
+        die('Could not get downloaded filename');
+    }
 
     $directories = array(
-        'setup'                     => 'setup',
-        'core'                      => rtrim(MODX_CORE_PATH,'/\\'),
-        'manager'                   => rtrim(MODX_MANAGER_PATH, '/\\'),
-        'connectors'                => rtrim(MODX_CONNECTORS_PATH, '/\\'),
+        'setup' => 'setup',
+        'core' => rtrim(MODX_CORE_PATH, '/\\'),
+        'manager' => rtrim(MODX_MANAGER_PATH, '/\\'),
+        'connectors' => rtrim(MODX_CONNECTORS_PATH, '/\\'),
     );
     $modxProcessorsPath = rtrim(MODX_PROCESSORS_PATH, '/\\');
     if (strpos(MODX_PROCESSORS_PATH, 'core/model/modx/processors') === false) {
@@ -220,7 +267,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     }
 
     foreach ($directories as $source => $target) {
-        MODXInstaller::copyFolder(dirname(__FILE__) . '/temp/' . $dir . '/' .$source, $target);
+        MODXInstaller::copyFolder(dirname(__FILE__) . '/temp/' . $dir . '/' . $source, $target);
     }
     MODXInstaller::removeFolder(dirname(__FILE__) . '/temp');
 
