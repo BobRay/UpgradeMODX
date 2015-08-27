@@ -51,11 +51,11 @@ if (ini_get(extension_loaded('curl'))) {
 
 }
 
-
+/* The next line intentially throws a PHP error so the script can't be run
+   except from the widget. This is the array of versions to show in the form  */
   [[+InstallData]]
 
-class MODXInstaller
-{
+class MODXInstaller {
     static public function downloadFile($url, $path, $method)
     {
         $newfname = $path;
@@ -120,8 +120,7 @@ class MODXInstaller
         return true;
     }
 
-    static public function removeFolder($path)
-    {
+    static public function removeFolder($path) {
         $dir = realpath($path);
         if (!is_dir($dir)) {
             return;
@@ -141,8 +140,7 @@ class MODXInstaller
         rmdir($dir);
     }
 
-    static public function copyFolder($src, $dest)
-    {
+    static public function copyFolder($src, $dest) {
         $path = realpath($src);
         $dest = realpath($dest);
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
@@ -159,8 +157,7 @@ class MODXInstaller
         }
     }
 
-    static public function mmkDir($folder, $perm = 0755)
-    {
+    static public function mmkDir($folder, $perm = 0755) {
         if (!is_dir($folder)) {
             mkdir($folder, $perm);
         }
@@ -196,13 +193,13 @@ class MODXInstaller
             }
         }
         return $status;
-        
     }
 }
 
-/* Next two lines for running in debugger (comment out two lines below) */
+/* Next two lines for running in debugger  */
 // if (true || !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
-//$rowInstall = $InstallData['revo2.3.5-pl'];
+//      $rowInstall = $InstallData['revo2.3.5-pl'];
+// Comment our the two lines below to run in debugger.
 
 if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
     $rowInstall = $InstallData[$_GET['modx']];
@@ -220,7 +217,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         die ('Could not read main config file');
     }
 
-    //run unzip and install
+    /* run unzip and install */
     $success = MODXInstaller::downloadFile($rowInstall['link'], "modx.zip", $method);
     if ($success !== true) {
         die($success);
@@ -240,7 +237,9 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     
     unlink(dirname(__FILE__) . '/modx.zip');
 
-    /* Get name of downloaded file */
+    /* Get name of downloaded MODX directory (e.g., modx-3.4.0-pl).
+     *  the MODX files will be below that */
+
     $dir = '';
     if ($handle = opendir(dirname(__FILE__) . '/temp')) {
         while (false !== ($name = readdir($handle))) {
@@ -289,7 +288,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         $ItemGrid[$item['tree']][$ver] = $item;
     }
 
-//@TODO : add check installer version
+/* Display the Form */
     echo '
 <!DOCTYPE html>
 <html>
