@@ -151,16 +151,15 @@ class UpgradeMODX
         /* Make sure we don't access an invalid index */
        $versionsToShow = min($versionsToShow, count($contents));
 
-    for ($i = 1; $i < $versionsToShow; $i++) {
-        $element = $contents[$i];
-        $j = $i;
-        while ($j > 0 && version_compare($contents[$j - 1]->name, $element->name) < 0) {
-            $contents[$j] = $contents[$j - 1];
-            $j = $j - 1;
+        for ($i = 1; $i < $versionsToShow; $i++) {
+            $element = $contents[$i];
+            $j = $i;
+            while ($j > 1 && version_compare($contents[$j - 1]->name, $element->name) < 0) {
+                $contents[$j] = $contents[$j - 1];
+                $j = $j - 1;
+            }
+            $contents[$j] = $element;
         }
-        $contents[$j] = $element;
-    }
-
         $latestVersionObj = reset($contents);
         $latestVersion = substr($latestVersionObj->name, 1);
         $this->latestVersion = $latestVersion;
@@ -289,7 +288,13 @@ if (isset($_POST['UpgradeMODX'])) {
             $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource', $fields);
             fwrite($fp, $fileContent);
             fclose($fp);
-            $modx->runProcessor('security/flush');
+            // $modx->runProcessor('security/flush');
+            $sessionTable = $modx->getTableName('modSession');
+            if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
+                $flushed = false;
+            } else {
+                $modx->user->endSession();
+            }
             $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
         }
     } else {
@@ -371,11 +376,8 @@ if ($upgradeAvailable) {
 }
 
 /* Get Tpl */
-$query = $modx->newQuery('modChunk', array(
-    'name' => 'UpgradeMODXTpl',
-));
-$query->select('snippet');
-$tpl = $modx->getValue($query->prepare());
+
+$tpl = $modx->getChunk('UpgradeMODXTpl');
 
 /* Do the replacements */
 $tpl = str_replace(array_keys($placeholders), array_values($placeholders), $tpl);
