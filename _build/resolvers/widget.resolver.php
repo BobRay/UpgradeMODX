@@ -108,12 +108,7 @@ if ($object->xpdo) {
             break;
 
         case xPDOTransport::ACTION_UNINSTALL:
-            foreach($newEvents as $k => $fields) {
-                $event = $modx->getObject('modEvent', array('name' => $fields['name']));
-                if ($event) {
-                    $event->remove();
-                }
-            }
+
             break;
     }
 }
