@@ -254,17 +254,34 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         die('Could not get downloaded filename');
     }
 
+    /* Directories to process */
     $directories = array(
-        'setup' => 'setup',
-        'core' => rtrim(MODX_CORE_PATH, '/\\'),
-        'manager' => rtrim(MODX_MANAGER_PATH, '/\\'),
-        'connectors' => rtrim(MODX_CONNECTORS_PATH, '/\\'),
+        'setup' => MODX_BASE_PATH . 'setup',
+        'core' => MODX_CORE_PATH,
+        'manager' => MODX_MANAGER_PATH,
+        'connectors' => MODX_CONNECTORS_PATH,
     );
-    $modxProcessorsPath = rtrim(MODX_PROCESSORS_PATH, '/\\');
-    if (strpos(MODX_PROCESSORS_PATH, 'core/model/modx/processors') === false) {
-        $directories['core/model/modx//processors'] = $modxProcessorsPath;
+
+    /* Normalize directory path */
+    foreach ($directoris as $k => $v) {
+       $v = rtrim($v, '/\\');
+       $v = str_replace('\\', '/', $v);
+       $directories[$k] = $v;
     }
 
+    /* Create Setup directory if necessary */
+    if (! is_dir($directories['setup'])) {
+        MODXInstaller::mmkDir($directories['setup']);
+    }
+
+    /* See if we need to do processors path */
+    $modxProcessorsPath = rtrim(MODX_PROCESSORS_PATH, '/\\');
+    $modxProcessorsPath = str_replace('\\', '/', $modxProcessorsPath);
+    if (strpos(MODX_PROCESSORS_PATH, 'core/model/modx/processors') === false) {
+        $directories['core/model/modx/processors'] = $modxProcessorsPath;
+    }
+
+    /* Copy directories */
     foreach ($directories as $source => $target) {
         set_time_limit(0);
         MODXInstaller::copyFolder(dirname(__FILE__) . '/temp/' . $dir . '/' . $source, $target);
