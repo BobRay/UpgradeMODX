@@ -119,7 +119,7 @@ class UpgradeMODX
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, "revolution");
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 3500);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
         $contents = curl_exec($ch);
 
@@ -142,6 +142,7 @@ class UpgradeMODX
                     unset($contents[$key]);
                 }
             }
+            $contents = array_values($contents); // 'reindex' array
         }
 
     /* GitHub won't necessarily have them in the correct order.
@@ -149,17 +150,18 @@ class UpgradeMODX
        be almost sorted already */
 
         /* Make sure we don't access an invalid index */
-       $versionsToShow = min($versionsToShow, count($contents));
+        $versionsToShow = min($versionsToShow, count($contents));
 
         for ($i = 1; $i < $versionsToShow; $i++) {
             $element = $contents[$i];
             $j = $i;
-            while ($j > 1 && version_compare($contents[$j - 1]->name, $element->name) < 0) {
+            while ($j > 0 && (version_compare($contents[$j - 1]->name, $element->name) < 0)) {
                 $contents[$j] = $contents[$j - 1];
                 $j = $j - 1;
             }
             $contents[$j] = $element;
         }
+
         $latestVersionObj = reset($contents);
         $latestVersion = substr($latestVersionObj->name, 1);
         $this->latestVersion = $latestVersion;
