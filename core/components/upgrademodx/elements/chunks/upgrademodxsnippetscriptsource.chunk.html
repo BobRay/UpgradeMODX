@@ -169,8 +169,14 @@ class MODXInstaller {
             $zip = new ZipArchive;
             if ($zip instanceof ZipArchive) {
                 if ($zip->open($source)) {
-                    if (!$zip->extractTo($destination)) {
-                        $status = 'Could not extract ZipArchive to ' . $destination;
+                    $result = $zip->extractTo($destination);
+                    if ($result === false) {
+                         /* Yes, this is fucking nuts, but it's necessary on some platforms */
+                         $result = $zip->extractTo($destination);
+                         if ($result === false) {
+                             $msg = $zip->getStatusString();
+                             die($msg);
+                         }
                     }
                     $zip->close();
                 } else {
@@ -223,11 +229,13 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         die($success);
     }
 
-    MODXInstaller::mmkdir(dirname(__FILE__) . '/temp');
+    $tempDir = realPath(dirname(__FILE__)) . '/temp';
+    MODXInstaller::mmkdir($tempDir);
+    clearstatcache();
 
 
     $source = dirname(__FILE__) . "/modx.zip";
-    $destination = dirname(__FILE__) . '/temp/';
+    $destination = $tempDir;
 
     $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination);
     if ($success !== true) {
@@ -253,7 +261,8 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         die('Could not get downloaded filename');
     }
 
-    /* Directories to process */
+
+/* Directories to process */
     $directories = array(
         'setup' => MODX_BASE_PATH . 'setup',
         'core' => MODX_CORE_PATH,
@@ -285,9 +294,6 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         MODXInstaller::copyFolder(dirname(__FILE__) . '/temp/' . $dir . '/' . $source, $target);
     }
     MODXInstaller::removeFolder(dirname(__FILE__) . '/temp');
-
-    /* Try to copy config.core.php to setup */
-    copy (MODX_BASE_PATH . 'config.core.php', MODX_BASE_PATH . 'setup/config.core.php');
 
     /* Clear cache files */
 
