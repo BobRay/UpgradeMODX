@@ -31,10 +31,36 @@ if ($object->xpdo) {
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
-            /* [[+code]] */
+            /* Create resource if we're pre-widget */
+            if (!file_exists(MODX_CORE_PATH . 'model\modx\moddashboardwidget.class.php')) {
+                $doc = $modx->getObject('modResource', array('alias' => 'upgrade-modx'));
+                if (! $doc) {
+                    /** @var $doc modResource */
+                    $doc = $modx->newObject('modResource');
+                    $doc->fromArray(array(
+                        'pagetitle' => 'UpgradeMODX',
+                        'alias' => 'upgrade-modx',
+                        'description' => 'View this resource to check for upgrades if your MODX version shows no widget',
+                        'content' => '[[!UpgradeMODX]]',
+                    ), '', false, true );
+                    $doc->save();
+
+                }
+
+            }
             break;
 
         case xPDOTransport::ACTION_UNINSTALL:
+            $doc = $modx->getObject('modResource', array('alias' => 'upgrade-modx'));
+            if ($doc) {
+                $doc->remove();
+            }
+
+            $widget = $modx->getObject('modDashboardWidget', array('name' => 'Upgrade MODX', 'type' => 'snippet'));
+            if ($widget) {
+                $widget->remove();
+            }
+
             break;
     }
 }
