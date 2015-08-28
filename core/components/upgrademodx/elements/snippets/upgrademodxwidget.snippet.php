@@ -285,12 +285,13 @@ if (isset($_POST['UpgradeMODX'])) {
             return $modx->lexicon('ugm_no_version_list');
         } else {
             $fields = array(
-                'InstallData' => $_SESSION['versionList'],
+                '/* [[+InstallData]] */' => $_SESSION['versionList'],
             );
-            $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource', $fields);
+            $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource');
+            $fileContent = str_replace(array_keys($fields), array_values($fields), $fileContent);
             fwrite($fp, $fileContent);
             fclose($fp);
-            // $modx->runProcessor('security/flush');
+
             $sessionTable = $modx->getTableName('modSession');
             if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
                 $flushed = false;

@@ -51,9 +51,8 @@ if (ini_get(extension_loaded('curl'))) {
 
 }
 
-/* The next line intentially throws a PHP error so the script can't be run
-   except from the widget. This is the array of versions to show in the form  */
-  [[+InstallData]]
+/* Do not touch the following comments! You have been warned!  */
+  /* [[+InstallData]] */
 
 class MODXInstaller {
     static public function downloadFile($url, $path, $method)
@@ -270,8 +269,8 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         'connectors' => MODX_CONNECTORS_PATH,
     );
 
-    /* Normalize directory path */
-    foreach ($directoris as $k => $v) {
+    /* Normalize directory paths */
+    foreach ($directories as $k => $v) {
        $v = rtrim($v, '/\\');
        $v = str_replace('\\', '/', $v);
        $directories[$k] = $v;

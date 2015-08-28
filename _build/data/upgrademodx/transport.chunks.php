@@ -43,6 +43,6 @@ $chunks[2]->fromArray(array (
   'description' => 'Source for MODX Upgrade script. Used internally',
   'properties' => NULL,
 ), '', true, true);
-$chunks[2]->setContent(file_get_contents($sources['source_core'] . '/elements/chunks/upgrademodxsnippetscriptsource.chunk.html'));
+$chunks[2]->setContent(file_get_contents($sources['source_core'] . '/elements/chunks/upgrademodxsnippetscriptsource.chunk.php'));
 
 return $chunks;
