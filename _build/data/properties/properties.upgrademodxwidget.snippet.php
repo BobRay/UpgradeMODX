@@ -49,6 +49,18 @@ $properties = array (
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
+  'language' => 
+  array (
+    'name' => 'language',
+    'desc' => 'ugm_language_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => 'en',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
   'lastCheck' => 
   array (
     'name' => 'lastCheck',
@@ -57,7 +69,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2015-08-22 00:34:46',
+    'value' => '2015-08-28 01:09:12',
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
@@ -89,18 +101,6 @@ $properties = array (
   array (
     'name' => 'versionsToShow',
     'desc' => 'ugm_versionsToShow_desc',
-    'type' => 'textfield',
-    'options' => 
-    array (
-    ),
-    'value' => '5',
-    'lexicon' => 'upgrademodx:properties',
-    'area' => '',
-  ),
-  'language' => 
-  array (
-    'name' => 'language',
-    'desc' => 'ugm_language_desc',
     'type' => 'textfield',
     'options' => 
     array (
