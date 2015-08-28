@@ -4,7 +4,12 @@ Changelog for UpgradeMODX
 UpgradeMODX 1.1.0-rc
 ---------------------------------
 Use PclZip if ZipArchive is not available
+Improve reliability of ZipArchive extraction
+Fix bug with sorting when plOnly is false
+Fix bug with missing setup directory
 Add set_time_limit(0) in loop
+Fix spurious error in resolver
+Form and doc updates
 
 
 UpgradeMODX 1.0.2-beta1
