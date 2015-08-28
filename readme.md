@@ -9,7 +9,8 @@ Documentation is available at [Bob's Guides](http://bobsguides.com/upgrade-modx-
 
 Package created with MyComponent
 
-**Important! This package is a beta version. It has not been tested on a wide variety of platforms and is missing important sanity checks and error handling. It is definitely not recommended for use on production sites at this time.**
+
+Always back up your files and database tables before performing an upgrade.
 
 
 

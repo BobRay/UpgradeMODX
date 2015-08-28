@@ -7,9 +7,11 @@
 <p>(Jump to <a href="[[~[[*id]]]]#propertiesTable">Properties Table</a>)</p>
 <br />
 
-<p><b>The Beta version of UpgradeMODX should *not* be used on a production site unless you have made a full backup of the database and all files and are prepared to restore the site if things go wrong.</b></p>
+<p><b>The RC version of UpgradeMODX has been tested more extensively than the Beta version, but you are still strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
 
 <p>For testing purposes, clicking on the &quot;Upgrade MODX&quot; button in the widget will not alter your site in any way (though all users will be logged out). Nothing happens until you click on the green &quot;Upgrade&quot; button in the upgrade form the widget button launches. The danger is that the upgrade script will download and place all the files, but Setup will fail for some reason. I've never had this happen, but if it does, you'll be left with a mixed site that may be broken. You can try to fix the problem and re-run Setup. If Setup completes with no problems, you should be fine.</p>
+
+<p>Also for testing purposes (and for fixing any corrupted MODX files), when an upgrade is available, you can &quot;upgrade&quot; MODX to the version you currently have.  UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup.</p>
 
 <br />
 <h3>Installing UpgradeMODX</h3>
@@ -20,6 +22,19 @@
 <h3>Credits</h3>
 <p>This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Sharapov, Bumkaka, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.</p>
 
+
+<p>Here is a list of some of the new features I've added to UpgradeMODX as compared to the original Installer script:</p>
+
+<ul>
+    <li>Launches the upgrade and setup from inside the Manager</li>
+    <li>Notifies you of available updates</li>
+    <li>No need to change the code &mdash; the list of versions is dynamic and obtained from GitHub</li>
+    <li>Upgrades very old versions of MODX Revolution (tested on 2.0.3)</li>
+    <li>Upgrades versions of MODX with moved/renamed directories</li>
+    <li>Uses PclZip if ZipArchive is not available</li>
+    <li></li>
+</ul>
+
 <br/>
 <h3>Usage</h3>
 
@@ -27,18 +42,35 @@
 
 <p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) -> Dashboards.</p>
 
+
+<br />
+
+<div class="box">
+    <p>In very old versions of MODX, creation of the dashboard widget  will fail and you'll see a bunch of error messages during the install. Ignore them. The UpgradeMODX installer will attempt to create a resource  called <code>UpgradeMODX</code> that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an upgrade is available, it will let you launch the installer.</p>
+
+<p>Once you've upgraded MODX to a recent-enough version, you can uninstall and re-install UpgradeMODX to get the widget.</p>
+</div>
+
+
+<br/>
+
+
 <p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change the <code>&groups</code> property of the UpgradeMODXWidget snippet. You can also change the <code>&interval</code> property if you'd like it to check for upgrades more or less often.</p>
 
-<p>By default, UpgradeMODX considers only pl (stable) versions for upgrade, you can change the <code>&plOnly</code> property to see all versions. You can change the <code>&versionsToShow</code> property to show more versions (the default is 5). Initially, the interval for checking is set to <code>1 week</code> but you can change that by setting the <code>&interval</code> property. That property should always be an integer followed by the name of the unit (e.g., hours, days, weeks, months.</p>
+<p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60 seconds. It will only execute when you visit the dashboard at least 60 second after the last check. The minimum recommendation for the <code>&interval</code> property on a production site is <code>1 day</code>.</p>
+
+<p>By default, UpgradeMODX considers only pl (stable) versions for upgrade (except in the beta and rc versions). You can change the <code>&plOnly</code> property to see all versions. You can change the <code>&versionsToShow</code> property to show more versions (the default is 5). Initially, the interval for checking is set to <code>1 week</code> (except in the beta and rc versions where it's 60 seconds). You can change that by setting the <code>&interval</code> property. That property should always be an integer followed by the name of the unit (e.g., 6 hours, 3 days, 1 week, 1 month.</p>
 
 <p>If you would like to hide the widget when no upgrade is available, change the <code>&hideWhenNoUpgrade</code> property. The widget will still check for upgrades at the selected interval, but won't appear in the dashboard(s) unless an upgrade exists and is available for download.</p>
+
+<p>If you would like to fool the widget into thinking there is an upgrade, you can change the <code>settings_version</code> System Setting. Make it any earlier version and the widget will show an update. If you install the update (even though it's not an update) and finish Setup, it will restore the System Setting to its correct value. If you don't run an upgrade, be sure to change the System Setting back to its original value.</p>
 
 <p>You can set the language used by the widget with the <code>&language</code> property</p>
 
 <br/>
 
 <div class="box">
-    <p>The Beta version has the <code>&plOnly</code> property set to false to show all versions and the <code>&interval</code> property set to 60 seconds. Feel free to change these. The short interval is so you can see how much the widget slows down the dashboard page-load times. If your site is not up to date and you go to the dashboard after 60 seconds have elapsed, the widget will check for upgrades. If you immediately reload the dashboard page, the widget won't check and you can see the difference.</p>
+    <p>The Beta versions and the RC versions have the <code>&plOnly</code> property set to false to show all versions and the <code>&interval</code> property set to 60 seconds. Feel free to change these. The short interval is so you can see how much the widget slows down the dashboard page-load times. If your site is not up to date and you go to the dashboard after 60 seconds have elapsed, the widget will check for upgrades. If you immediately reload the dashboard page, the widget won't check and you can see the difference.</p>
 
     <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
 
@@ -52,7 +84,7 @@
 <br/>
 <h3>Security</h3>
 
-<p>The upgrade script is stored in a chunk. The widget copies it to the MODX root when you click on the &quot;Upgrade MODX&quot; button in the widget. It can't be run in any other way and it's deleted when the upgrade script finishes. Even if it were available to anyone, it wouldn't run because it contains a placeholder that will cause a PHP error unless it is replaced by the widget.</p>
+<p>The upgrade script is stored in a chunk. The widget copies it to the MODX root when you click on the &quot;Upgrade MODX&quot; button in the widget. It can't be run in any other way and it's deleted when the upgrade script finishes. Even if it were available to anyone, it wouldn't run because it contains a placeholder that contains the versions of MODX to show. It the placeholder is not set, no version will appear in the form.</p>
 
 <p>The upgrade script downloads everything to a <code>/temp</code> directory in the MODX root directory. It deletes that directory and itself when it finishes successfully so nothing should be left behind after the upgrade.</p>
 
