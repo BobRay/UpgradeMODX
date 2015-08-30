@@ -358,7 +358,7 @@ if ($upgradeAvailable) {
         . ')';
     $placeholders['[[+ugm_form]]'] = '<br/><br/>
         <form method="post" action="">
-            <input style="padding:3px 10px;margin-left:50px;background-color:whitesmoke;"
+            <input class="x-btn x-btn-small x-btn-icon-small-left primary-button x-btn-noicon"
                    type="submit" name="UpgradeMODX" value="' . $modx->lexicon('ugm_upgrade_modx') .  '">
         </form>';
 
