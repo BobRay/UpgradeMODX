@@ -84,7 +84,7 @@ class UpgradeMODX
      * @param $interval - interval between checks
      * @return bool true if time to check, false if not
      */
-    public static function timeToCheck($lastCheck, $interval = '+1 week')
+    public function timeToCheck($lastCheck, $interval = '+1 week')
     {
         if (empty($lastCheck)) {
             $retVal = true;
@@ -330,7 +330,7 @@ $versionsToShow = $modx->getOption('versionsToShow', $props, 5);
 
 $currentVersion = $modx->getOption('settings_version');
 
-if ($upgrade::timeToCheck($lastCheck, $interval)) {
+if ($upgrade->timeToCheck($lastCheck, $interval)) {
     $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow);
     $latestVersion = $upgrade->getLatestVersion();
 } else {
