@@ -57,9 +57,6 @@ class UpgradeMODX
      *  to inject into upgrade script */
     public $versionList = '';
 
-    /** @var $snippetObject modSnippet - widget snippet (we need its properties) */
-    protected $snippetObject = null;
-
     /** @var $modx modX - modx object */
     protected $modx = null;
 
@@ -73,8 +70,7 @@ class UpgradeMODX
      *
      */
 
-    public function __construct($modx)
-    {
+    public function __construct($modx) {
         $this->modx = $modx;
     }
 
@@ -84,8 +80,7 @@ class UpgradeMODX
      * @param $interval - interval between checks
      * @return bool true if time to check, false if not
      */
-    public function timeToCheck($lastCheck, $interval = '+1 week')
-    {
+    public function timeToCheck($lastCheck, $interval = '+1 week') {
         if (empty($lastCheck)) {
             $retVal = true;
         } else {
@@ -95,8 +90,7 @@ class UpgradeMODX
         return $retVal;
     }
 
-    public function getLatestVersion()
-    {
+    public function getLatestVersion() {
         return $this->latestVersion;
     }
 
@@ -109,8 +103,7 @@ class UpgradeMODX
     }
 
 
-    public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5)
-    {
+    public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/modxcms/revolution/tags');
