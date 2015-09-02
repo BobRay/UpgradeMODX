@@ -1,5 +1,9 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.2.0-rc2
+---------------------------------
+Fix issue with version list
+
 
 UpgradeMODX 1.2.0-rc
 ---------------------------------
