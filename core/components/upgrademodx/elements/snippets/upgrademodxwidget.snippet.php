@@ -207,7 +207,7 @@ class UpgradeMODX
 
 
             if ($downloadable) {
-                /* Create the array of versions and save it in a $_SESSION variable for the installer
+                /* Create the array of versions and save it in a cache file for the installer
                    This snippet will insert the versions into the form when creating the
                    script file from the Tpl chunk when the user submits the Upgrade form in the widget */
                 $InstallData = array();
@@ -229,16 +229,26 @@ class UpgradeMODX
                     }
                 }
                 $versionList = var_export($InstallData, true);
-                $_SESSION['versionList'] = '$InstallData = ' . $versionList . ';';
+                $this->mmkDir(MODX_CORE_PATH . 'cache/upgrademodx');
+                $fp = fopen(MODX_CORE_PATH . 'cache/upgrademodx/versionlist', 'w');
+                if ($fp) {
+                    fwrite($fp, '$InstallData = ' . $versionList . ';' );
+                    fclose($fp);
+                } else {
+                    $this->setError($this->modx->lexicon('ugm_could_not_open') .
+                        ' ' . MODX_CORE_PATH . 'cache/upgrademodx/versionlist ' . ' ' .
+                        $this->modx->lexicon('ugm_for_writing'));
+                }
             }
         }
 
         return ($newVersion && $downloadable);
     }
 
-
-    public function getVersionList() {
-        return $this->versionList;
+    public function mmkDir($folder, $perm = 0755) {
+        if (!is_dir($folder)) {
+            mkdir($folder, $perm);
+        }
     }
 }
 
@@ -274,17 +284,23 @@ if (php_sapi_name() === 'cli') {
 if (isset($_POST['UpgradeMODX'])) {
     $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
     if ($fp) {
-        if (! isset($_SESSION['versionList'])) {
-            return $modx->lexicon('ugm_no_version_list');
+        $versionList = '';
+        $file = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        if (file_exists($file)) {
+            $versionList = file_get_contents($file);
+        }
+        if (empty($versionList)) {
+            return $modx->lexicon('ugm_no_version_list') . '@ ' . $file;
         } else {
             $fields = array(
-                '/* [[+InstallData]] */' => $_SESSION['versionList'],
+                '/* [[+InstallData]] */' => $versionList,
             );
             $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource');
             $fileContent = str_replace(array_keys($fields), array_values($fields), $fileContent);
             fwrite($fp, $fileContent);
             fclose($fp);
 
+            /* Log out all users before launching the form */
             $sessionTable = $modx->getTableName('modSession');
             if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
                 $flushed = false;
