@@ -1,8 +1,9 @@
 Changelog for UpgradeMODX
 
-UpgradeMODX 1.2.0-rc2
+UpgradeMODX 1.2.1-rc
 ---------------------------------
 Fix issue with version list
+Wrap class in if (class_exists)
 
 
 UpgradeMODX 1.2.0-rc

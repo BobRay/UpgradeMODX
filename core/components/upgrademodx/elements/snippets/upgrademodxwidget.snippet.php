@@ -50,208 +50,208 @@
  * @property &versionsToShow textfield -- Number of versions to show in upgrade form (not widget); Default: 5.
 
  */
-class UpgradeMODX
-{
+if (! class_exists('UpgradeMODX')) {
+    class UpgradeMODX {
 
-    /** @var $versionlist string - array of versions to display if upgrade is available as a string
-     *  to inject into upgrade script */
-    public $versionList = '';
+        /** @var $versionlist string - array of versions to display if upgrade is available as a string
+         *  to inject into upgrade script */
+        public $versionList = '';
 
-    /** @var $modx modX - modx object */
-    protected $modx = null;
+        /** @var $modx modX - modx object */
+        protected $modx = null;
 
-    /** @var $latestVersion string - latest version available; set only if an upgrade */
-    protected $latestVersion = '';
+        /** @var $latestVersion string - latest version available; set only if an upgrade */
+        protected $latestVersion = '';
 
-    /** @var $errors array - array of error message (non-fatal errors only) */
-    protected $errors = array();
+        /** @var $errors array - array of error message (non-fatal errors only) */
+        protected $errors = array();
 
-    /**
-     *
-     */
+        /**
+         *
+         */
 
-    public function __construct($modx) {
-        $this->modx = $modx;
-    }
-
-
-    /**
-     * @param $lastCheck string = time of previous check
-     * @param $interval - interval between checks
-     * @return bool true if time to check, false if not
-     */
-    public function timeToCheck($lastCheck, $interval = '+1 week') {
-        if (empty($lastCheck)) {
-            $retVal = true;
-        } else {
-            $interval = strpos($interval, '+') === false ? '+' . $interval : $interval;
-            $retVal = time() > strtotime($lastCheck . ' ' . $interval);
+        public function __construct($modx) {
+            $this->modx = $modx;
         }
-        return $retVal;
-    }
-
-    public function getLatestVersion() {
-        return $this->latestVersion;
-    }
-
-    public function setError($msg) {
-        $this->errors[] = $msg;
-    }
-
-    public function getErrors() {
-        return $this->errors;
-    }
 
 
-    public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/modxcms/revolution/tags');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, "revolution");
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 3500);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-
-        $contents = curl_exec($ch);
-
-        if (empty($contents) || ($contents === false)) {
-            if ($contents === false) {
-                $this->setError('(GitHub) ' . curl_error($ch));
+        /**
+         * @param $lastCheck string = time of previous check
+         * @param $interval - interval between checks
+         * @return bool true if time to check, false if not
+         */
+        public function timeToCheck($lastCheck, $interval = '+1 week') {
+            if (empty($lastCheck)) {
+                $retVal = true;
             } else {
-                $this->setError('(GitHub) ' .
-                    $this->modx->lexicon('ugm_empty_return'));
+                $interval = strpos($interval, '+') === false ? '+' . $interval : $interval;
+                $retVal = time() > strtotime($lastCheck . ' ' . $interval);
             }
+            return $retVal;
         }
 
-        $contents = json_decode($contents);
-
-
-        if ($plOnly) { /* remove non-pl version objects */
-            foreach ($contents as $key => $content) {
-                $name = substr($content->name, 1);
-                if (strpos($name, 'pl') === false) {
-                    unset($contents[$key]);
-                }
-            }
-            $contents = array_values($contents); // 'reindex' array
+        public function getLatestVersion() {
+            return $this->latestVersion;
         }
 
-    /* GitHub won't necessarily have them in the correct order.
-       Sort them with a Custom insertion sort since they will
-       be almost sorted already */
-
-        /* Make sure we don't access an invalid index */
-        $versionsToShow = min($versionsToShow, count($contents));
-
-        for ($i = 1; $i < $versionsToShow; $i++) {
-            $element = $contents[$i];
-            $j = $i;
-            while ($j > 0 && (version_compare($contents[$j - 1]->name, $element->name) < 0)) {
-                $contents[$j] = $contents[$j - 1];
-                $j = $j - 1;
-            }
-            $contents[$j] = $element;
+        public function setError($msg) {
+            $this->errors[] = $msg;
         }
 
-        $latestVersionObj = reset($contents);
-        $latestVersion = substr($latestVersionObj->name, 1);
-        $this->latestVersion = $latestVersion;
-        /* See if the latest version is newer than the current version */
-        $newVersion = version_compare($currentVersion, $latestVersion) < 0;
-
-        /* Update Properties if there are no cURL errors */
-        $e = $this->getErrors();
-        if (empty($e)) {
-            $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
-            if ($snippet) {
-                $properties = $snippet->get('properties');
-                $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S');
-                $properties['latestVersion']['value'] = $latestVersion;
-                $snippet->set('properties', $properties);
-                $snippet->save();
-            }
+        public function getErrors() {
+            return $this->errors;
         }
 
-        $downloadable = false;
 
-        $ch = curl_init();
-        if ($newVersion) { /* New version exists, see if it's available at modx.com/download */
-            $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
-
-            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
-            curl_setopt($ch, CURLOPT_URL, $downloadUrl);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+        public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/modxcms/revolution/tags');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_NOBODY, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, "revolution");
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 3500);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 
-            $retCode = curl_exec($ch);
+            $contents = curl_exec($ch);
 
-            if (empty($retCode) || ($retCode === false)) {
-                if ($retCode === false) {
-                    $this->setError('(modx.com/download) ' . curl_error($ch));
+            if (empty($contents) || ($contents === false)) {
+                if ($contents === false) {
+                    $this->setError('(GitHub) ' . curl_error($ch));
                 } else {
-                    $this->setError('(modx.com/download) ' .
+                    $this->setError('(GitHub) ' .
                         $this->modx->lexicon('ugm_empty_return'));
                 }
             }
-            if ($retCode !== false) {
-                $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $downloadable = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
-            }
 
-            curl_close($ch);
+            $contents = json_decode($contents);
 
 
-            if ($downloadable) {
-                /* Create the array of versions and save it in a cache file for the installer
-                   This snippet will insert the versions into the form when creating the
-                   script file from the Tpl chunk when the user submits the Upgrade form in the widget */
-                $InstallData = array();
-
-                $i = 1;
-                foreach ($contents as $content) {
+            if ($plOnly) { /* remove non-pl version objects */
+                foreach ($contents as $key => $content) {
                     $name = substr($content->name, 1);
-
-                    $url = 'http://modx.com/download/direct/modx-' . $name . '.zip';
-                    $InstallData[$name] = array(
-                       'tree'     => 'Revolution',
-                        'name'     => 'MODX Revolution ' . $name,
-                        'link'     => $url,
-                        'location' => 'setup/index.php',
-                    );
-                    $i++;
-                    if ($i > $versionsToShow) {
-                        break;
+                    if (strpos($name, 'pl') === false) {
+                        unset($contents[$key]);
                     }
                 }
-                $versionList = var_export($InstallData, true);
-                $this->mmkDir(MODX_CORE_PATH . 'cache/upgrademodx');
-                $fp = fopen(MODX_CORE_PATH . 'cache/upgrademodx/versionlist', 'w');
-                if ($fp) {
-                    fwrite($fp, '$InstallData = ' . $versionList . ';' );
-                    fclose($fp);
-                } else {
-                    $this->setError($this->modx->lexicon('ugm_could_not_open') .
-                        ' ' . MODX_CORE_PATH . 'cache/upgrademodx/versionlist ' . ' ' .
-                        $this->modx->lexicon('ugm_for_writing'));
+                $contents = array_values($contents); // 'reindex' array
+            }
+
+            /* GitHub won't necessarily have them in the correct order.
+               Sort them with a Custom insertion sort since they will
+               be almost sorted already */
+
+            /* Make sure we don't access an invalid index */
+            $versionsToShow = min($versionsToShow, count($contents));
+
+            for ($i = 1; $i < $versionsToShow; $i++) {
+                $element = $contents[$i];
+                $j = $i;
+                while ($j > 0 && (version_compare($contents[$j - 1]->name, $element->name) < 0)) {
+                    $contents[$j] = $contents[$j - 1];
+                    $j = $j - 1;
+                }
+                $contents[$j] = $element;
+            }
+
+            $latestVersionObj = reset($contents);
+            $latestVersion = substr($latestVersionObj->name, 1);
+            $this->latestVersion = $latestVersion;
+            /* See if the latest version is newer than the current version */
+            $newVersion = version_compare($currentVersion, $latestVersion) < 0;
+
+            /* Update Properties if there are no cURL errors */
+            $e = $this->getErrors();
+            if (empty($e)) {
+                $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
+                if ($snippet) {
+                    $properties = $snippet->get('properties');
+                    $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S');
+                    $properties['latestVersion']['value'] = $latestVersion;
+                    $snippet->set('properties', $properties);
+                    $snippet->save();
                 }
             }
+
+            $downloadable = false;
+
+            $ch = curl_init();
+            if ($newVersion) { /* New version exists, see if it's available at modx.com/download */
+                $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
+
+                curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
+                curl_setopt($ch, CURLOPT_URL, $downloadUrl);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+                curl_setopt($ch, CURLOPT_HEADER, false);
+                curl_setopt($ch, CURLOPT_NOBODY, true);
+
+                $retCode = curl_exec($ch);
+
+                if (empty($retCode) || ($retCode === false)) {
+                    if ($retCode === false) {
+                        $this->setError('(modx.com/download) ' . curl_error($ch));
+                    } else {
+                        $this->setError('(modx.com/download) ' .
+                            $this->modx->lexicon('ugm_empty_return'));
+                    }
+                }
+                if ($retCode !== false) {
+                    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                    $downloadable = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
+                }
+
+                curl_close($ch);
+
+
+                if ($downloadable) {
+                    /* Create the array of versions and save it in a cache file for the installer
+                       This snippet will insert the versions into the form when creating the
+                       script file from the Tpl chunk when the user submits the Upgrade form in the widget */
+                    $InstallData = array();
+
+                    $i = 1;
+                    foreach ($contents as $content) {
+                        $name = substr($content->name, 1);
+
+                        $url = 'http://modx.com/download/direct/modx-' . $name . '.zip';
+                        $InstallData[$name] = array(
+                            'tree' => 'Revolution',
+                            'name' => 'MODX Revolution ' . $name,
+                            'link' => $url,
+                            'location' => 'setup/index.php',
+                        );
+                        $i++;
+                        if ($i > $versionsToShow) {
+                            break;
+                        }
+                    }
+                    $versionList = var_export($InstallData, true);
+                    $this->mmkDir(MODX_CORE_PATH . 'cache/upgrademodx');
+                    $fp = fopen(MODX_CORE_PATH . 'cache/upgrademodx/versionlist', 'w');
+                    if ($fp) {
+                        fwrite($fp, '$InstallData = ' . $versionList . ';');
+                        fclose($fp);
+                    } else {
+                        $this->setError($this->modx->lexicon('ugm_could_not_open') .
+                            ' ' . MODX_CORE_PATH . 'cache/upgrademodx/versionlist ' . ' ' .
+                            $this->modx->lexicon('ugm_for_writing'));
+                    }
+                }
+            }
+
+            return ($newVersion && $downloadable);
         }
 
-        return ($newVersion && $downloadable);
-    }
-
-    public function mmkDir($folder, $perm = 0755) {
-        if (!is_dir($folder)) {
-            mkdir($folder, $perm);
+        public function mmkDir($folder, $perm = 0755) {
+            if (!is_dir($folder)) {
+                mkdir($folder, $perm);
+            }
         }
     }
 }
-
 /*********** Processing starts here ***********/
 
 
