@@ -1,9 +1,9 @@
 <?php
 /**
- * en default topic lexicon file for UpgradeMODX extra
+ * sv default topic lexicon file for UpgradeMODX extra
  *
- * Copyright 2015 by Bob Ray <http://bobsguides.com>
- * Created on 08-13-2015
+ * Copyright 2015 by Kristoffer Karlström <http://www.kmmtiming.se>
+ * Created on 09-08-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
