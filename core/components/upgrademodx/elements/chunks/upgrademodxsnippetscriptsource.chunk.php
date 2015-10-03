@@ -43,7 +43,7 @@ if (extension_loaded('xdebug')) {
 $method = 0;
 if (ini_get(extension_loaded('curl'))) {
     $method = 'curl';
-} elseif ('allow_url_fopen') {
+} elseif (ini_get('allow_url_fopen')) {
     $method = 'fopen';
 
 } else {

@@ -1,5 +1,9 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.2.2-pl
+---------------------------------
+Fix bug with blank screen when both cURL and allow_url_fopen are disabled
+
 UpgradeMODX 1.2.1-rc
 ---------------------------------
 Fix issue with version list
