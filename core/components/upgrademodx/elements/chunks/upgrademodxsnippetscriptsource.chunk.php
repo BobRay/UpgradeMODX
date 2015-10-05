@@ -55,6 +55,7 @@ if (extension_loaded('curl')) {
   /* [[+InstallData]] */
 
 
+
 class MODXInstaller {
     static public function downloadFile($url, $path, $method)
     {
@@ -70,7 +71,11 @@ class MODXInstaller {
                         while (!feof($file)) {
                             fwrite($newf, fread($file, 1024 * 8), 1024 * 8);
                         }
+                    } else {
+                        return ('Could not open ' . $newf . ' for writing');
                     }
+                } else {
+                    return ('fopen failed to open ' . $url);
                 }
             } catch (Exception $e) {
                 return 'ERROR:Download ' . $e->getMessage();
@@ -237,7 +242,15 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
 
 
     $source = dirname(__FILE__) . "/modx.zip";
+    if (! file_exists($source)) {
+        die('Unknown error -- Download failed');
+    }
     $destination = $tempDir;
+
+    if (! file_exists($tempDir)) {
+        die('Unable to create directory: ' . $tempDir);
+    }
+
 
     $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
     if ($success !== true) {
