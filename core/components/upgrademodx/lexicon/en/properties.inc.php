@@ -45,3 +45,4 @@ $_lang['ugm_latestVersion_desc'] = 'Latest version (at last check) -- set automa
 $_lang['ugm_plOnly_desc'] = 'Show only pl (stable) versions; default: yes';
 $_lang['ugm_versionsToShow_desc'] = 'Number of versions to show in upgrade form (not widget); default: 5';
 $_lang['ugm_language_desc'] = 'Two-letter language code for language to use; default: en';
+$_lang['ugm_forcePclZip_desc'] = 'Force the use of PclZip instead of ZipArchive';

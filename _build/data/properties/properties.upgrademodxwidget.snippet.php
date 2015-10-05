@@ -81,7 +81,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2.4.0-pl',
+    'value' => '2.4.1-pl',
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
@@ -106,6 +106,18 @@ $properties = array (
     array (
     ),
     'value' => '5',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
+  'forcePclZip' => 
+  array (
+    'name' => 'forcePclZip',
+    'desc' => 'ugm_forcePclZip_desc',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => false,
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),

@@ -66,11 +66,9 @@ if (! class_exists('UpgradeMODX')) {
         /** @var $errors array - array of error message (non-fatal errors only) */
         protected $errors = array();
 
-        /**
-         *
-         */
 
         public function __construct($modx) {
+            /** @var $modx modX*/
             $this->modx = $modx;
         }
 
@@ -265,7 +263,9 @@ if (php_sapi_name() === 'cli') {
         'interval' => '+1 seconds',
         'plOnly' => false,
         'language' => 'en',
+        'forcePclZip' => false,
     );
+    $forcePclZip = $modx->getOption('forcePclZip', $scriptProperties, false);
 } else {
     /* This will execute when in MODX */
     $language = $modx->getOption('language', $scriptProperties, 'en');
@@ -279,9 +279,11 @@ if (php_sapi_name() === 'cli') {
     if (! $modx->user->isMember($groups)) {
         return '';
     }
+    $forcePclZip = $modx->getOption('forcePclZip', $scriptProperties, false);
 }
 /* See if user has submitted the form. If so, create the upgrade script and launch it */
 if (isset($_POST['UpgradeMODX'])) {
+
     $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
     if ($fp) {
         $versionList = '';
@@ -292,8 +294,13 @@ if (isset($_POST['UpgradeMODX'])) {
         if (empty($versionList)) {
             return $modx->lexicon('ugm_no_version_list') . '@ ' . $file;
         } else {
+            $forceString = '$forcePclZip = ';
+            $forceString .= $forcePclZip ? 'true' : 'false';
+            $forceString .= ';';
             $fields = array(
+                '/* [[+ForcePclZip]] */' => $forceString,
                 '/* [[+InstallData]] */' => $versionList,
+                
             );
             $fileContent = $modx->getChunk('UpgradeMODXSnippetScriptSource');
             $fileContent = str_replace(array_keys($fields), array_values($fields), $fileContent);
