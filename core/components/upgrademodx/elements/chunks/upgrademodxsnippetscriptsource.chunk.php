@@ -41,18 +41,19 @@ if (extension_loaded('xdebug')) {
 }
 
 $method = 0;
-if (ini_get(extension_loaded('curl'))) {
+if (extension_loaded('curl')) {
     $method = 'curl';
 } elseif (ini_get('allow_url_fopen')) {
     $method = 'fopen';
-
 } else {
     die('Neither allow_url_fopen or cURL is enabled, cannot download the MODX archive');
-
 }
 
 /* Do not touch the following comments! You have been warned!  */
+  /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
+  /* [[+ForcePclZip]] */
   /* [[+InstallData]] */
+
 
 class MODXInstaller {
     static public function downloadFile($url, $path, $method)
@@ -162,12 +163,14 @@ class MODXInstaller {
         }
     }
     
-    static public function unZip($corePath, $source, $destination) {
+    static public function unZip($corePath, $source, $destination, $forcePclZip = false) {
         $status = true;
-        if (class_exists('ZipArchive', false)) {
+        if ( (! $forcePclZip) && class_exists('ZipArchive', false)) {
             $zip = new ZipArchive;
             if ($zip instanceof ZipArchive) {
-                if ($zip->open($source)) {
+                $open = $zip->open($source, ZIPARCHIVE::CHECKCONS);
+
+                if ($open == true) {
                     $result = $zip->extractTo($destination);
                     if ($result === false) {
                          /* Yes, this is fucking nuts, but it's necessary on some platforms */
@@ -236,7 +239,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     $source = dirname(__FILE__) . "/modx.zip";
     $destination = $tempDir;
 
-    $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination);
+    $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
     if ($success !== true) {
         die($success);
     }  
