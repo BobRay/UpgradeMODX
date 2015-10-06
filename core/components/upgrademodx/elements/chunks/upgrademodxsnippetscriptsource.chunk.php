@@ -251,6 +251,10 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         die('Unable to create directory: ' . $tempDir);
     }
 
+    if (! is_readable($tempDir)) {
+        die('Unable to read from /temp directory');
+    }
+
 
     $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
     if ($success !== true) {
@@ -263,17 +267,20 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
      *  the MODX files will be below that */
 
     $dir = '';
-    if ($handle = opendir(dirname(__FILE__) . '/temp')) {
+    $handle = opendir(dirname(__FILE__) . '/temp');
+    if ($handle !== false) {
         while (false !== ($name = readdir($handle))) {
             if ($name != "." && $name != "..") {
                 $dir = $name;
             }
         }
         closedir($handle);
+    } else {
+        die ('Unable to read directory contents or directory is empty: ' . dirname(__FILE__) . '/temp' );
     }
     
     if (empty($dir)) {
-        die('Could not get downloaded filename');
+        die('Unknown error reading /temp directory');
     }
 
 
