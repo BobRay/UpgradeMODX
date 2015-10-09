@@ -45,7 +45,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '60 seconds',
+    'value' => '1 week',
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
@@ -93,7 +93,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => false,
+    'value' => true,
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),

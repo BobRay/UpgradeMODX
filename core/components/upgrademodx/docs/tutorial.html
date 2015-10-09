@@ -7,7 +7,7 @@
 <p>(Jump to <a href="[[~[[*id]]]]#propertiesTable">Properties Table</a>)</p>
 <br />
 
-<p><b>The RC version of UpgradeMODX has been tested more extensively than the Beta version, but you are still strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
+<p><b>The pl version of UpgradeMODX has been tested more extensively than the beta and rc versions, but you are still strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
 
 <p>For testing purposes, clicking on the &quot;Upgrade MODX&quot; button in the widget will not alter your site in any way (though all users will be logged out). Nothing happens until you click on the green &quot;Upgrade&quot; button in the upgrade form the widget button launches. The danger is that the upgrade script will download and place all the files, but Setup will fail for some reason. I've never had this happen, but if it does, you'll be left with a mixed site that may be broken. You can try to fix the problem and re-run Setup. If Setup completes with no problems, you should be fine.</p>
 
@@ -32,6 +32,7 @@
     <li>Upgrades very old versions of MODX Revolution (tested on 2.0.3)</li>
     <li>Upgrades versions of MODX with moved/renamed directories</li>
     <li>Uses PclZip if ZipArchive is not available</li>
+    <li>Adds the <code>&forcePclZip</code> property to bypass ZipArchive</li>
 </ul>
 
 <br/>
@@ -40,6 +41,8 @@
 <p>To upgrade your site, just click on the &quot;Upgrade MODX&quot; button in the widget. That will launch the form where you can select a version to upgrade to. Downloading and extracting the files may take some time, so be patient.</p>
 
 <p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) -> Dashboards.</p>
+
+<p>If downloading new MODX version fails, try setting the <code>&forcePclZip</code> property of the snippet to <code>Yes</code>.</p>
 
 
 <br />
@@ -71,7 +74,7 @@
 <br/>
 
 <div class="box">
-    <p>The Beta versions and the RC versions have the <code>&plOnly</code> property set to false to show all versions and the <code>&interval</code> property set to 60 seconds. Feel free to change these. The short interval is so you can see how much the widget slows down the dashboard page-load times. If your site is not up to date and you go to the dashboard after 60 seconds have elapsed, the widget will check for upgrades. If you immediately reload the dashboard page, the widget won't check and you can see the difference.</p>
+    <p>The beta and the rc versions have the <code>&plOnly</code> property set to false to show all versions and the <code>&interval</code> property set to 60 seconds. Feel free to change these. The short interval is so you can see how much the widget slows down the dashboard page-load times. If your site is not up to date and you go to the dashboard after 60 seconds have elapsed, the widget will check for upgrades. If you immediately reload the dashboard page, the widget won't check and you can see the difference.</p>
 
     <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
 
@@ -117,7 +120,7 @@
     <tr>
         <td>interval</td>
         <td>Interval between checks -- Examples: 1 week, 3 days, 6 hours</td>
-        <td>60 seconds</td>
+        <td>1 week</td>
     </tr>
     <tr>
         <td>language</td>
