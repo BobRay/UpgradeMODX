@@ -117,13 +117,20 @@ if (! class_exists('UpgradeMODX')) {
             if (empty($contents) || ($contents === false)) {
                 if ($contents === false) {
                     $this->setError('(GitHub) ' . curl_error($ch));
+                    return false;
                 } else {
                     $this->setError('(GitHub) ' .
                         $this->modx->lexicon('ugm_empty_return'));
+                    return false;
                 }
             }
-
+            $contents = utf8_encode($contents);
             $contents = json_decode($contents);
+
+            if (empty($contents)) {
+                $this->setError($this->modx->lexicon('ugm_json_decode_failed'));
+                return false;
+            }
 
 
             if ($plOnly) { /* remove non-pl version objects */
@@ -142,6 +149,8 @@ if (! class_exists('UpgradeMODX')) {
 
             /* Make sure we don't access an invalid index */
             $versionsToShow = min($versionsToShow, count($contents));
+            /* Make sure we show at least one */
+            $versionsToShow =  ! empty($versionsToShow)? $versionsToShow : 1;
 
             for ($i = 1; $i < $versionsToShow; $i++) {
                 $element = $contents[$i];
@@ -170,6 +179,8 @@ if (! class_exists('UpgradeMODX')) {
                     $snippet->set('properties', $properties);
                     $snippet->save();
                 }
+            } else {
+                return false;
             }
 
             $downloadable = false;
@@ -191,9 +202,11 @@ if (! class_exists('UpgradeMODX')) {
                 if (empty($retCode) || ($retCode === false)) {
                     if ($retCode === false) {
                         $this->setError('(modx.com/download) ' . curl_error($ch));
+                        return false;
                     } else {
                         $this->setError('(modx.com/download) ' .
                             $this->modx->lexicon('ugm_empty_return'));
+                        return false;
                     }
                 }
                 if ($retCode !== false) {

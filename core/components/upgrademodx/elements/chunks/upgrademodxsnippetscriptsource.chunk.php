@@ -87,7 +87,6 @@ class MODXInstaller {
                 fclose($newf);
             }
 
-            return true;
         } elseif ($method == 'curl') {
             $newf = fopen($path, "wb");
             if ($newf) {
@@ -122,6 +121,7 @@ class MODXInstaller {
         } else {
             return 'Invalid method in call to downloadFile()';
         }
+
         return true;
     }
 
@@ -230,21 +230,24 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         die ('Could not read main config file');
     }
 
+
     /* run unzip and install */
-    $success = MODXInstaller::downloadFile($rowInstall['link'], "modx.zip", $method);
+    $source = dirname(__FILE__) . "/modx.zip";
+    $success = MODXInstaller::downloadFile($rowInstall['link'], $source, $method);
+
+    /* Make sure we have the downloaded file */
     if ($success !== true) {
         die($success);
+    } elseif (!file_exists($source)) {
+            die ('Missing file: ' . $source);
+    } elseif  (filesize($source) < 1) {
+        die ('File: ' . $source . ' is empty');
     }
 
     $tempDir = realPath(dirname(__FILE__)) . '/temp';
     MODXInstaller::mmkdir($tempDir);
     clearstatcache();
 
-
-    $source = dirname(__FILE__) . "/modx.zip";
-    if (! file_exists($source)) {
-        die('Unknown error -- Download failed');
-    }
     $destination = $tempDir;
 
     if (! file_exists($tempDir)) {
@@ -267,7 +270,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
      *  the MODX files will be below that */
 
     $dir = '';
-    $handle = opendir(dirname(__FILE__) . '/temp');
+    $handle = opendir($tempDir);
     if ($handle !== false) {
         while (false !== ($name = readdir($handle))) {
             if ($name != "." && $name != "..") {

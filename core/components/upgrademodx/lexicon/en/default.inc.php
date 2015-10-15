@@ -49,3 +49,4 @@ $_lang['ugm_modx_up_to_date'] = 'MODX is up to date';
 $_lang['ugm_error'] = 'Error';
 $_lang['ugm_logout_note'] = 'Note: All users will be logged out';
 $_lang['ugm_upgrade_modx'] = 'Upgrade MODX';
+$_lang['ugm_json_decode_failed'] = 'Failed JSON decode for version data from GitHub in upgradeAvailable()';
