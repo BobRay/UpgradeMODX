@@ -40,8 +40,14 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.max_nesting_level', 100000);
 }
 
+/* Do not touch the following comments! You have been warned!  */
+  /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
+  /* [[+ForcePclZip]] */
+  /* [[+ForceFopen]] */
+  /* [[+InstallData]] */
+
 $method = 0;
-if (extension_loaded('curl')) {
+if (extension_loaded('curl') && (!$forceFopen)) {
     $method = 'curl';
 } elseif (ini_get('allow_url_fopen')) {
     $method = 'fopen';
@@ -49,10 +55,6 @@ if (extension_loaded('curl')) {
     die('Neither allow_url_fopen or cURL is enabled, cannot download the MODX archive');
 }
 
-/* Do not touch the following comments! You have been warned!  */
-  /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
-  /* [[+ForcePclZip]] */
-  /* [[+InstallData]] */
 
 
 
@@ -90,8 +92,10 @@ class MODXInstaller {
         } elseif ($method == 'curl') {
             $newf = fopen($path, "wb");
             if ($newf) {
+                set_time_limit(0);
                 $ch = curl_init(str_replace(" ", "%20", $url));
-                curl_setopt($ch, CURLOPT_TIMEOUT, 50);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 180);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_FILE, $newf);
                 if (filter_var(ini_get('open_basedir'), FILTER_VALIDATE_BOOLEAN) === false && filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) === false) {
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -113,10 +117,13 @@ class MODXInstaller {
                         curl_setopt($ch, CURLOPT_URL, $newurl);
                     }
                 }
-                $data = curl_exec($ch);
+                $retVal = curl_exec($ch);
+                if ($retVal === false) {
+                    return ('cUrl download of modx.zip failed');
+                }
                 curl_close($ch);
             } else {
-                return ("Cannot create target file.");
+                return ('Cannot open ' . $path . ' for writing');
             }
         } else {
             return 'Invalid method in call to downloadFile()';

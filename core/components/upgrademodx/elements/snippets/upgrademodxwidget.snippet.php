@@ -265,7 +265,6 @@ if (! class_exists('UpgradeMODX')) {
 }
 /*********** Processing starts here ***********/
 
-
 if (php_sapi_name() === 'cli') {
     /* This section for debugging during development. It won't execute in MODX */
     include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
@@ -277,8 +276,9 @@ if (php_sapi_name() === 'cli') {
         'plOnly' => false,
         'language' => 'en',
         'forcePclZip' => false,
+        'forceFopen' => false,
     );
-    $forcePclZip = $modx->getOption('forcePclZip', $scriptProperties, false);
+
 } else {
     /* This will execute when in MODX */
     $language = $modx->getOption('language', $scriptProperties, 'en');
@@ -292,8 +292,11 @@ if (php_sapi_name() === 'cli') {
     if (! $modx->user->isMember($groups)) {
         return '';
     }
-    $forcePclZip = $modx->getOption('forcePclZip', $scriptProperties, false);
 }
+
+$forcePclZip = $modx->getOption('forcePclZip', $scriptProperties, false);
+$forceFopen = $modx->getOption('forceFopen', $scriptProperties, false);
+
 /* See if user has submitted the form. If so, create the upgrade script and launch it */
 if (isset($_POST['UpgradeMODX'])) {
 
@@ -307,11 +310,17 @@ if (isset($_POST['UpgradeMODX'])) {
         if (empty($versionList)) {
             return $modx->lexicon('ugm_no_version_list') . '@ ' . $file;
         } else {
-            $forceString = '$forcePclZip = ';
-            $forceString .= $forcePclZip ? 'true' : 'false';
-            $forceString .= ';';
+            $forcePclZipString = '$forcePclZip = ';
+            $forcePclZipString .= $forcePclZip ? 'true' : 'false';
+            $forcePclZipString .= ';';
+
+            $forceFopenString = '$forceFopen = ';
+            $forceFopenString .= $forceFopen ? 'true' : 'false';
+            $forceFopenString .= ';';
+
             $fields = array(
                 '/* [[+ForcePclZip]] */' => $forceString,
+                '/* [[+ForceFopen]] */' => $forceFopenString,
                 '/* [[+InstallData]] */' => $versionList,
                 
             );

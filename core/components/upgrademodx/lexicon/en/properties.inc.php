@@ -46,3 +46,4 @@ $_lang['ugm_plOnly_desc'] = 'Show only pl (stable) versions; default: yes';
 $_lang['ugm_versionsToShow_desc'] = 'Number of versions to show in upgrade form (not widget); default: 5';
 $_lang['ugm_language_desc'] = 'Two-letter language code for language to use; default: en';
 $_lang['ugm_forcePclZip_desc'] = 'Force the use of PclZip instead of ZipArchive';
+$_lang['ugm_forceFopen_desc'] = 'Force the use of fopen instead of cURL for the download';

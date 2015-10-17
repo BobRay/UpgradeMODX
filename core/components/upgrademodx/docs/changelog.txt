@@ -1,5 +1,11 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.4.0-pl
+---------------------------------
+Add forceFopen property
+Improve error handling and diagnostics
+
+
 
 UpgradeMODX 1.3.0-pl
 ---------------------------------

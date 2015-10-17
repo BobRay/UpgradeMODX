@@ -33,6 +33,7 @@
     <li>Upgrades versions of MODX with moved/renamed directories</li>
     <li>Uses PclZip if ZipArchive is not available</li>
     <li>Adds the <code>&forcePclZip</code> property to bypass ZipArchive</li>
+    <li>Adds the <code>&forceFopen</code> property to bypass cURL for the download</li>
 </ul>
 
 <br/>
@@ -101,6 +102,11 @@
 
 <table class="properties">
     <tr><th>Property</th><th>Description</th><th>Default</th></tr>
+    <tr>
+        <td>forceFopen</td>
+        <td>Force the use of fopen instead of cURL for the download</td>
+        <td>No</td>
+    </tr>
 
     <tr>
         <td>forcePclZip</td>
