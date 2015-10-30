@@ -132,7 +132,7 @@ if (!class_exists('UpgradeMODX')) {
 
         public function writeScriptFile() {
 
-            $fp = fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
+            $fp = @fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
             if ($fp) {
                 $file = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
                 $versionList = var_export($this->versionArray, true);
@@ -303,7 +303,7 @@ if (!class_exists('UpgradeMODX')) {
             $versionList = var_export($this->versionArray, true);
 
             $this->mmkDir(MODX_CORE_PATH . 'cache/upgrademodx');
-            $fp = fopen(MODX_CORE_PATH . 'cache/upgrademodx/versionlist', 'w');
+            $fp = @fopen(MODX_CORE_PATH . 'cache/upgrademodx/versionlist', 'w');
             if ($fp) {
                 fwrite($fp, '<' . '?p' . "hp\n" . '$InstallData = ' . $versionList . ';');
                 fclose($fp);
@@ -369,7 +369,7 @@ if (!class_exists('UpgradeMODX')) {
 
                 $context = stream_context_create($opts);
 
-                $fp = fopen($downloadUrl, 'r', false, $context);
+                $fp = @fopen($downloadUrl, 'r', false, $context);
                 if ($fp) {
                     $downloadable = true;
                 }
