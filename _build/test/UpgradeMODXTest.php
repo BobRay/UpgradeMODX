@@ -134,11 +134,11 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
         @unlink( $path);
         $this->ugm->init($this->props);
-        $this->assertNotEmpty($this->ugm->currentVersion, implode("\n" . $this->ugm->getErrors()));
+        $this->assertNotEmpty($this->ugm->currentVersion, implode("\n" , $this->ugm->getErrors()));
         $current = $this->ugm->currentVersion;
-        $this->assertNotEmpty($this->ugm->latestVersion, implode("\n" . $this->ugm->getErrors()));
+        $this->assertNotEmpty($this->ugm->latestVersion, implode("\n" , $this->ugm->getErrors()));
         $latest = $this->ugm->latestVersion;
-        $this->assertNotEmpty($this->ugm->versionArray, implode("\n" . $this->ugm->getErrors()));
+        $this->assertNotEmpty($this->ugm->versionArray, implode("\n" , $this->ugm->getErrors()));
         $versionArray = $this->ugm->versionArray;
 
         /* Test with existing versionlist file */
@@ -197,7 +197,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
             echo "\nFailure -- ";
             $errors = @$this->ugm->getErrors();
             $this->assertNotEmpty($errors);
-            fwrite(STDOUT, @implode(', ' . $errors));
+            fwrite(STDOUT, @implode(', ' , $errors));
         }*/
         $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
     }
