@@ -1,0 +1,339 @@
+<?php
+
+/**
+ * Created by PhpStorm.
+ * User: Bob Ray
+ * Date: 10/25/15
+ * Time: 10:34 PM
+ */
+class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
+
+    /** @var $versionlist string - array of versions to display if upgrade is available as a string
+     *  to inject into upgrade script */
+    public $versionList = '';
+
+    /** @var $versionArray string - array of versions to display if upgrade is available as a string
+     *  to inject into upgrade script */
+
+    public $versionArray = '';
+
+    /** @var $modx modX - modx object */
+    protected $modx = null;
+
+    /** @var $latestVersion string - latest version available; set only if an upgrade */
+    protected $latestVersion = '';
+
+    /** @var $errors array - array of error message (non-fatal errors only) */
+    protected $errors = array();
+
+    /** @var $forcePclZip boolean */
+    protected $forcePclZip = false;
+
+    /** @var $forceFopen boolean */
+    protected $forceFopen = false;
+
+    /** @var $plOnly boolean */
+    protected $plOnly = true;
+
+    /** @var $versionData  */
+    protected $versionData =  '[{
+            "name":"v2.4.2-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.4.2-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.4.2-pl","commit":{
+                "sha":"ed2adf4c3c4bba5102f5acba256f20845761ba56","url":"https://api.github.com/repos/modxcms/revolution/commits/ed2adf4c3c4bba5102f5acba256f20845761ba56"}},{
+            "name":"v2.4.1-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.4.1-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.4.1-pl","commit":{
+                "sha":"d63cc1735422a9c5c51b18a9f21d26bd1f6c390b","url":"https://api.github.com/repos/modxcms/revolution/commits/d63cc1735422a9c5c51b18a9f21d26bd1f6c390b"}},{
+            "name":"v2.4.0-rc1","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.4.0-rc1","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.4.0-rc1","commit":{
+                "sha":"e1042374fa8c46a853c8f583ec16061b9ad4ebb5","url":"https://api.github.com/repos/modxcms/revolution/commits/e1042374fa8c46a853c8f583ec16061b9ad4ebb5"}},{
+            "name":"v2.4.0-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.4.0-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.4.0-pl","commit":{
+                "sha":"429427aa5ba35c7e7b09601302442efdeaced534","url":"https://api.github.com/repos/modxcms/revolution/commits/429427aa5ba35c7e7b09601302442efdeaced534"}},{
+            "name":"v2.3.6-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.3.6-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.3.6-pl","commit":{
+                "sha":"1b473d07ee9fd4f9a670967b0d28a19c3a3209b4","url":"https://api.github.com/repos/modxcms/revolution/commits/1b473d07ee9fd4f9a670967b0d28a19c3a3209b4"}},{
+            "name":"v2.3.5-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.3.5-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.3.5-pl","commit":{
+                "sha":"b3f4f2d3aaf4f5671e8726b06e67724b234d9372","url":"https://api.github.com/repos/modxcms/revolution/commits/b3f4f2d3aaf4f5671e8726b06e67724b234d9372"}},{
+            "name":"v2.3.4-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.3.4-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.3.4-pl","commit":{
+                "sha":"4a307fcb60a24ec8afbb91edd0c145a606629dea","url":"https://api.github.com/repos/modxcms/revolution/commits/4a307fcb60a24ec8afbb91edd0c145a606629dea"}},{
+            "name":"v2.3.3-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.3.3-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.3.3-pl","commit":{
+                "sha":"b754e6e619837bd41c7c4e2ba6ecacb67e6732a4","url":"https://api.github.com/repos/modxcms/revolution/commits/b754e6e619837bd41c7c4e2ba6ecacb67e6732a4"}},{
+            "name":"v2.3.2-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.3.2-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.3.2-pl","commit":{
+                "sha":"35c0b0592b2048eda52a2bd21e47cc3f1042eb03","url":"https://api.github.com/repos/modxcms/revolution/commits/35c0b0592b2048eda52a2bd21e47cc3f1042eb03"}},{
+            "name":"v2.3.1-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.3.1-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.3.1-pl","commit":{
+                "sha":"ccd0f149cc0393a24ac0581c1824d1f49a3d74b0","url":"https://api.github.com/repos/modxcms/revolution/commits/ccd0f149cc0393a24ac0581c1824d1f49a3d74b0"}},{
+            "name":"v2.3.0-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.3.0-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.3.0-pl","commit":{
+                "sha":"9bdcb3f187b61bb670fb1ee33cc1503c267b4aac","url":"https://api.github.com/repos/modxcms/revolution/commits/9bdcb3f187b61bb670fb1ee33cc1503c267b4aac"}},{
+            "name":"v2.2.16-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.16-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.16-pl","commit":{
+                "sha":"c8bc292b4279c7beb6d0b5347c3c2fd621fd8c48","url":"https://api.github.com/repos/modxcms/revolution/commits/c8bc292b4279c7beb6d0b5347c3c2fd621fd8c48"}},{
+            "name":"v2.2.15-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.15-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.15-pl","commit":{
+                "sha":"abc44483b06d591d13767ed7d6d96d0e44b3f8eb","url":"https://api.github.com/repos/modxcms/revolution/commits/abc44483b06d591d13767ed7d6d96d0e44b3f8eb"}},{
+            "name":"v2.2.14-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.14-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.14-pl","commit":{
+                "sha":"a0e6938780fadd86161deae118b2a0371c82c65f","url":"https://api.github.com/repos/modxcms/revolution/commits/a0e6938780fadd86161deae118b2a0371c82c65f"}},{
+            "name":"v2.2.13-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.13-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.13-pl","commit":{
+                "sha":"91f917764a5e2c10cb4079b8513dc90168cfdd25","url":"https://api.github.com/repos/modxcms/revolution/commits/91f917764a5e2c10cb4079b8513dc90168cfdd25"}},{
+            "name":"v2.2.12-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.12-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.12-pl","commit":{
+                "sha":"9b5bf30f27a4445fe048144e114e6c4d8ccc0074","url":"https://api.github.com/repos/modxcms/revolution/commits/9b5bf30f27a4445fe048144e114e6c4d8ccc0074"}},{
+            "name":"v2.2.11-pl2","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.11-pl2","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.11-pl2","commit":{
+                "sha":"46c66a5d602c315f9de16eea69f02dce199ef998","url":"https://api.github.com/repos/modxcms/revolution/commits/46c66a5d602c315f9de16eea69f02dce199ef998"}},{
+            "name":"v2.2.11-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.11-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.11-pl","commit":{
+                "sha":"7f7b48075eb74f58d4604b05c028c5efaa35c738","url":"https://api.github.com/repos/modxcms/revolution/commits/7f7b48075eb74f58d4604b05c028c5efaa35c738"}},{
+            "name":"v2.2.10-pl2","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.10-pl2","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.10-pl2","commit":{
+                "sha":"70306d97716346ff397cf0a32819e02392d287c8","url":"https://api.github.com/repos/modxcms/revolution/commits/70306d97716346ff397cf0a32819e02392d287c8"}},{
+            "name":"v2.2.10-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.10-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.10-pl","commit":{
+                "sha":"223fc91c784a1ebbcf5502e8a6088a8069fac915","url":"https://api.github.com/repos/modxcms/revolution/commits/223fc91c784a1ebbcf5502e8a6088a8069fac915"}},{
+            "name":"v2.2.9-pl2","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.9-pl2","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.9-pl2","commit":{
+                "sha":"528d3a8521f4067eb045d08f5822230e732608cb","url":"https://api.github.com/repos/modxcms/revolution/commits/528d3a8521f4067eb045d08f5822230e732608cb"}},{
+            "name":"v2.2.9-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.9-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.9-pl","commit":{
+                "sha":"e2dd98878fc0eba193a6f42d4de715cc8a41d805","url":"https://api.github.com/repos/modxcms/revolution/commits/e2dd98878fc0eba193a6f42d4de715cc8a41d805"}},{
+            "name":"v2.2.8-pl2","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.8-pl2","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.8-pl2","commit":{
+                "sha":"b3021d3b83732e474a8d9e4ff4a4c6699816b224","url":"https://api.github.com/repos/modxcms/revolution/commits/b3021d3b83732e474a8d9e4ff4a4c6699816b224"}},{
+            "name":"v2.2.8-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.8-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.8-pl","commit":{
+                "sha":"038670d38f327262827897770a354ca489b3a8f1","url":"https://api.github.com/repos/modxcms/revolution/commits/038670d38f327262827897770a354ca489b3a8f1"}},{
+            "name":"v2.2.7-pl2","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.7-pl2","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.7-pl2","commit":{
+                "sha":"ced3eea73991be3f9206a708c242ef7c087169ad","url":"https://api.github.com/repos/modxcms/revolution/commits/ced3eea73991be3f9206a708c242ef7c087169ad"}},{
+            "name":"v2.2.7-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.7-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.7-pl","commit":{
+                "sha":"7fd91c4ce08b4e45aff85acfe3af692e552164fb","url":"https://api.github.com/repos/modxcms/revolution/commits/7fd91c4ce08b4e45aff85acfe3af692e552164fb"}},{
+            "name":"v2.2.6-pl2","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.6-pl2","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.6-pl2","commit":{
+                "sha":"57785f06bf2b40032eecb695d5b168409264f3fe","url":"https://api.github.com/repos/modxcms/revolution/commits/57785f06bf2b40032eecb695d5b168409264f3fe"}},{
+            "name":"v2.2.6-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.6-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.6-pl","commit":{
+                "sha":"3da428742cbb108212c54edcdd0dbab0067a9389","url":"https://api.github.com/repos/modxcms/revolution/commits/3da428742cbb108212c54edcdd0dbab0067a9389"}},{
+            "name":"v2.2.5-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.5-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.5-pl","commit":{
+                "sha":"8608c05ddb6e65c0ecdf585896bc53c0997638cf","url":"https://api.github.com/repos/modxcms/revolution/commits/8608c05ddb6e65c0ecdf585896bc53c0997638cf"}},{
+            "name":"v2.2.4-pl","zipball_url":"https://api.github.com/repos/modxcms/revolution/zipball/v2.2.4-pl","tarball_url":"https://api.github.com/repos/modxcms/revolution/tarball/v2.2.4-pl","commit":{
+                "sha":"d91dd6a4675e66fab97a1c5487123d014be332fc","url":"https://api.github.com/repos/modxcms/revolution/commits/d91dd6a4675e66fab97a1c5487123d014be332fc"}}]';
+
+    /** @var $versionsToShow int */
+    protected $versionsToShow = false;
+
+    protected $props = array(
+        'versionsToShow' => 5,
+        'hideWhenNoUpgrade' => false,
+        'lastCheck' => '',
+        'interval' => '+1 seconds',
+        'plOnly' => true,
+        'language' => 'en',
+        'forcePclZip' => false,
+        'forceFopen' => false,
+    );
+
+    /** @var  $ugm upgradeMODX */
+    protected $ugm;
+
+
+
+    protected function setUp() {
+        parent::setUp(); // TODO: Change the autogenerated stub
+        include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
+        $this->modx =& $modx;
+        include 'C:\xampp\htdocs\addons\assets\mycomponents\upgrademodx\core\components\upgrademodx\model\upgrademodx.class.php';
+        $this->ugm = new UpgradeMODX($modx);
+        $this->ugm->init($this->props);
+        $this->modx->lexicon->load('en:upgrademodx:default');
+    }
+
+    public function testInit() {
+
+        /* Test with no versionlist file */
+        /**  @var $InstallData array */
+        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        @unlink( $path);
+        $this->ugm->init($this->props);
+        $this->assertNotEmpty($this->ugm->currentVersion, implode("\n" . $this->ugm->getErrors()));
+        $current = $this->ugm->currentVersion;
+        $this->assertNotEmpty($this->ugm->latestVersion, implode("\n" . $this->ugm->getErrors()));
+        $latest = $this->ugm->latestVersion;
+        $this->assertNotEmpty($this->ugm->versionArray, implode("\n" . $this->ugm->getErrors()));
+        $versionArray = $this->ugm->versionArray;
+
+        /* Test with existing versionlist file */
+        $this->ugm->init($this->props);
+        $this->assertFileExists($path);
+        $this->assertNotEmpty($this->ugm->currentVersion);
+        $this->assertEquals($current, $this->ugm->currentVersion);
+        $this->assertNotEmpty($this->ugm->latestVersion);
+        $this->assertEquals($latest, $this->ugm->latestVersion);
+        $this->assertNotEmpty($this->ugm->versionArray);
+
+        $this->assertEquals($versionArray, $this->ugm->versionArray);
+
+
+        require $path;
+        $this->assertNotEmpty($InstallData);
+        $this->assertEquals($versionArray, $InstallData);
+        $latest = reset($InstallData);
+        $this->assertEquals(substr($latest['name'], 16), $this->ugm->latestVersion);
+
+        $this->assertEmpty($this->ugm->getErrors());
+
+    }
+
+    public function testgetJSONFromGitHub_fopen_6() {
+
+        /* Avoid Timeout */
+        $retVal = array();
+        $i = 0;
+
+        while (empty($retVal)) {
+            $retVal = $this->ugm->getJSONFromGitHub(6, true);
+            $i++;
+            if ($i >= 4 || (!empty($retVal))) {
+                break;
+            }
+        }
+        fwrite(STDOUT, "\nAttempts with fopen -- timeout = 6: " . $i);
+
+        $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+    }
+
+    public function testgetJSONFromGitHub_fopen_1() {
+
+        // var_dump($retVal);
+
+        /* Try to Force timeout */
+        $retVal = $this->ugm->getJSONFromGitHub(1);
+        $i = 1;
+        while (!empty($retVal) && $i < 10) {
+            $retVal = $this->ugm->getJSONFromGitHub(1, true);
+            $i++;
+        }
+        fwrite(STDOUT, "\nAttempts with fopen -- timeout = 1: " . $i);
+        /*if ($retVal === false) {
+            echo "\nFailure -- ";
+            $errors = @$this->ugm->getErrors();
+            $this->assertNotEmpty($errors);
+            fwrite(STDOUT, @implode(', ' . $errors));
+        }*/
+        $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+    }
+
+    public function testGetJSONFromGitHub_curl_6() {
+        /* Try with cURL */
+        $retVal = array();
+        $i = 0;
+
+        while (empty($retVal)) {
+            $retVal = $this->ugm->getJSONFromGitHub(6, false);
+            $i++;
+            if ($i >= 4 || (!empty($retVal))) {
+                break;
+            }
+        }
+        fwrite(STDOUT, "\nAttempts with cURL -- timeout = 6: " . $i . "\n");
+
+        if ($retVal === false) {
+            $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+        }
+
+        // var_dump($retVal);
+    }
+
+    public function testGetJSONFromGitHub_curl_1() {
+        /* Try to Force timeout */
+        $retVal = $this->ugm->getJSONFromGitHub(1);
+        $i = 1;
+        while (!empty($retVal) && $i < 10) {
+            $retVal = $this->ugm->getJSONFromGitHub(1, false);
+            $i++;
+        }
+        fwrite(STDOUT,"\nAttempts with cURL -- timeout = 1: \n" . $i);
+        $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+    }
+
+    public function testfinalizeVersionArray() {
+
+        $this->ugm->plOnly = true;
+        $vl = $this->ugm->finalizeVersionArray($this->versionData);
+        $this->assertTrue(is_array($vl));
+        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+
+        foreach($vl as $version)  {
+            $name = $version['name'];
+            // echo "\n" . $name;
+
+            $this->assertTrue(strpos($name, 'pl') !== false);
+        }
+
+        // var_dump($vl);
+        /* Try again with $plOnly false */
+        $this->ugm->plOnly = false;
+        $vl = $this->ugm->finalizeVersionArray($this->versionData);
+        $this->assertTrue(is_array($vl));
+        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+
+        $found = false;
+        foreach ($vl as $version) {
+            $name = $version['name'];
+            // echo "\n" . $name;
+
+            if (strpos($name, 'pl') === false) {
+                $found = true;
+            }
+        }
+
+        $this->assertTrue($found);
+
+        /* Try with actual data from GitHub - fopen */
+        $vl = $this->ugm->getJSONFromGitHub(35, true);
+        // var_dump($vl);
+        $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
+        $vl = $this->ugm->finalizeVersionArray($vl);
+        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+
+        /* Try with actual data from GitHub  - cURL*/
+        $vl = $this->ugm->getJSONFromGitHub(35, false);
+        // var_dump($vl);
+        $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
+        $vl = $this->ugm->finalizeVersionArray($vl);
+        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+
+
+    }
+
+    public function testUpdateVersionlistFile() {
+        /** @var $InstallData array  */
+        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        if (file_exists($path)) {
+           unlink($path);
+        }
+        $data = $this->versionData;
+        $versionArray = $this->ugm->finalizeVersionArray($data);
+        $this->ugm->updateVersionlistFile($versionArray);
+        require($path);
+        $x = file_get_contents($path);
+        $this->assertNotEmpty($x);
+        $this->assertTrue(strpos($x, '$InstallData') !== false);
+    }
+
+    public function testWriteScriptFile() {
+        $this->ugm->writeScriptFile();
+    }
+
+    public function testDownloadable() {
+        /* Try with cURL */
+        $version = $this->ugm->latestVersion;
+        echo "\n" . $version;
+        $retVal = $this->ugm->downloadable($version);
+        $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
+
+        /* Should fail */
+        $version = '5.5.5-pl';
+        $retVal = $this->ugm->downloadable($version);
+        $this->assertFalse($retVal);
+        $e = $this->ugm->getErrors();
+        $this->assertNotEmpty($e);
+        echo implode("\n", $e);
+
+        /* Try with fopen */
+        $version = $this->ugm->latestVersion;
+        echo "\n" . $version;
+        $retVal = $this->ugm->downloadable($version, 'fopen');
+        $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
+
+        /* Should fail */
+        $version = '5.5.5-pl';
+        $retVal = $this->ugm->downloadable($version, 'fopen');
+        $this->assertFalse($retVal);
+        $e = $this->ugm->getErrors();
+        $this->assertNotEmpty($e);
+        echo implode("\n", $e);
+
+    }
+
+
+}
