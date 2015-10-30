@@ -266,7 +266,7 @@ if (!class_exists('UpgradeMODX')) {
             for ($i = 1; $i < $versionsToShow; $i++) {
                 $element = $contents[$i];
                 $j = $i;
-                while ($j > 0 && (version_compare($contents[$j - 1]->name, $element->name) < 0)) {
+                while ($j > 0 && (version_compare($contents[$j - 1]['name'], $element['name']) < 0)) {
                     $contents[$j] = $contents[$j - 1];
                     $j = $j - 1;
                 }
