@@ -113,7 +113,7 @@ if (!class_exists('UpgradeMODX')) {
 
             $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
             if (!file_exists($path)) {
-                $retVal = $this->getJSONFromGitHub($this->gitHubTimeout,$this->forceFopen);
+                $retVal = $this->getJSONFromGitHub($path, true, 6, 6);
                 if ($retVal !== false) {
                     $retVal = $this->finalizeVersionArray($retVal);
                     if ($retVal !== false) {
@@ -166,10 +166,23 @@ if (!class_exists('UpgradeMODX')) {
             }
         }
 
-        public function getJSONFromGitHub($gitHubTimeout = 6, $forceFopen = false) {
-            $username = $this->modx->getOption('github_username');
-            $token = $this->modx->getOption('github_token');
+        public function getJSONFromGitHub($method, $timeout = 6, $tries = 2) {
+            $this->clearErrors();
+            $data = '';
             $url = 'https://api.github.com/repos/modxcms/revolution/tags';
+            // ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
+            if ($method == 'curl') {
+                $data =  $this->curlGetData($url, true, $timeout, $tries);
+            } else {
+                $data =  $this->fopenGetData($url, true, $timeout, $tries);
+            }
+            if (strpos($data, 'rate limit') !== false) {
+                $this->setError($this->modx->lexicon('ugm_github_rate_limit_exceeded'));
+                $data = false;
+            }
+            return (strip_tags($data));
+
+            /************************ */
             $ch = null;
             if ($forceFopen) {
                 $method = 'fopen';
@@ -200,7 +213,7 @@ if (!class_exists('UpgradeMODX')) {
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_HEADER, false);
                 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($ch, CURLOPT_USERAGENT, "revolution");
+                curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0)");
                 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $gitHubTimeout);
                 curl_setopt($ch, CURLOPT_TIMEOUT, $gitHubTimeout);
                 if (!empty($username) && !empty($token)) {
@@ -314,75 +327,191 @@ if (!class_exists('UpgradeMODX')) {
             }
 
         }
-        public function downloadable($version, $method = 'curl') {
-            $downloadable = false;
-            $downloadUrl = 'http://modx.com/download/direct/modx-' . $version . '.zip';
 
+        public function curlGetData($url, $returnData = false, $timeout = 6, $tries = 6 ) {
+            $username = $this->modx->getOption('github_username');
+            $token = $this->modx->getOption('github_token');
+            $retVal = false;
+            $errorMsg = $this->modx->lexicon('ugm_curl_failed');
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+            curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0)");
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, $returnData);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            curl_setopt($ch, CURLOPT_NOBODY, !$returnData);
+            if (strpos($url, 'github') !== false) {
+
+                if (!empty($username) && !empty($token)) {
+                    curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $token);
+                }
+            }
+
+            $i = $tries;
+
+            while ($i--) {
+                $retVal = @curl_exec($ch);
+                if (!empty($retVal)) {
+                    break;
+                }
+            }
+
+            if (empty($retVal) || ($retVal === false)) {
+                $e = curl_error($ch);
+                if (!empty($e)) {
+                    $errorMsg = $e;
+                }
+                $this->setError($errorMsg);
+            } elseif (! $returnData) { /* Just checking for existence */
+                $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $retVal = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
+            }
+            curl_close($ch);
+            return $retVal;
+        }
+
+        public function fopenGetData($url, $returnData = false, $timeout = 6, $tries = 6) {
+            $username = $this->modx->getOption('github_username');
+            $token = $this->modx->getOption('github_token');
+            $errorMsg = '(' . $url . ' - fopen) ' . $this->modx->lexicon('failed');
+            $retVal = false;
+            $opts = array(
+                'http' => array(
+                    'method' => 'GET',
+                    'timeout' => $timeout,
+                    'max_redirects' => 1,
+                    'ignore_errors' => true,
+                    'user_agent' => 'Mozilla/4.0 (compatible; MSIE 6.0)',
+
+                )
+            );
+
+            if (!empty($username) && !empty($token)) {
+                $opts['http']['header'] = "Authorization: Basic " . base64_encode($username . ':' . $token);
+            }
+            $ctx = stream_context_create($opts);
+
+            $i = $tries;
+
+            $old = @ini_set('default_socket_timeout', $timeout);
+
+            while ($i--) {
+                if (!$returnData) {
+                    $retVal = @fopen($url, 'r');
+                    // $x = $http_response_header;
+                    if ($retVal) {
+                        @fclose($retVal);
+                        $retVal = true;
+                        break;
+                    } else {
+                        $timeout += 2;
+                        ini_set('default_socket_timeout', $timeout);
+                    }
+                } else {
+                    $retVal = @file_get_contents($url, false, $ctx);
+                    // $x = $http_response_header;
+                }
+            }
+
+            @ini_set('default_socket_timeout', $old);
+
+        if (!$retVal) {
+            $this->setError($errorMsg);
+        }
+
+        return $retVal;
+
+
+    }
+
+
+        public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
+            $this->clearErrors();
+            $downloadUrl = 'http://modx.com/download/direct/modx-' . $version . '.zip';
+            if ($method == 'curl') {
+
+                return $this->curlGetData($downloadUrl, false, $timeout, $tries);
+            } else {
+                return $this->fopenGetData($downloadUrl, false, $timeout, $tries);
+            }
+
+            $this->clearErrors();
+            $downloadable = false;
+            $timeout = $timeout / 2;
+            $errorMsg = $this->modx->lexicon('ugm_not_available');
+            $downloadUrl = 'http://modx.com/download/direct/modx-' . $version . '.zip';
+            $retCode = false;
             if ($method == 'curl') { /* New version exists, see if it's available at modx.com/download */
 
                 $ch = curl_init();
-                curl_setopt($ch, CURLOPT_TIMEOUT, $this->modxTimeout);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+                curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
                 curl_setopt($ch, CURLOPT_URL, $downloadUrl);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
                 curl_setopt($ch, CURLOPT_HEADER, false);
                 curl_setopt($ch, CURLOPT_NOBODY, true);
 
-                $retCode = curl_exec($ch);
+                $i = $tries;
+
+                while($i--) {
+                    $retCode = curl_exec($ch);
+                    if (!empty($retCode)) {
+                        break;
+                    }
+                }
 
                 if (empty($retCode) || ($retCode === false)) {
-                    if ($retCode === false) {
-                        $this->setError('(modx.com/download) ' . curl_error($ch));
-                        return false;
-                    } else {
-                        $this->setError('(modx.com/download) ' .
-                            $this->modx->lexicon('ugm_empty_return'));
-                        return false;
+                    $e = curl_error($ch);
+                    if (!empty($e)) {
+                        $errorMsg = $e;
                     }
                 } else {
 
                     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                     $downloadable = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
-
-                    if (!$downloadable) {
-                        $this->setError('(modx -- ' . $method . ') ' . $this->modx->lexicon('ugm_not_available'));
-                    }
-
-                    curl_close($ch);
-
-
-                    if ($downloadable) {
-                        $this->updateDownloadableCache($version);
-
-                    }
                 }
+                curl_close($ch);
             } else {
                 $opts = array(
                     'http' => array(
                         'method' => 'GET',
-                        'timeout' => $this->modxTimeout,
-                        'max_redirects' => 1,
+                        // 'header' => 'Connection: close',
+                        'timeout' => $this->modxTimeout/2,
+                        'max_redirects' => 0,
                         'ignore_errors' => true,
                     ));
 
-                $context = stream_context_create($opts);
+               //  $context = stream_context_create($opts);
+                $i = $tries;
 
-                $fp = @fopen($downloadUrl, 'r', false, $context);
-                if ($fp) {
-                    $downloadable = true;
+                $old = ini_set('default_socket_timeout', $timeout);
+
+
+                while($i--) {
+                    $fp = @fopen($downloadUrl, 'r');
+                    // $x = $http_response_header;
+                    if ($fp){
+                        $downloadable = true;
+                        break;
+                    } else {
+                        $timeout += 2;
+                        ini_set('default_socket_timeout', $timeout);
+                    }
                 }
+                ini_set('default_socket_timeout', $old);
             }
             if (!$downloadable) {
-                $this->setError('(modx -- ' . $method . ') ' . $this->modx->lexicon('ugm_not_available'));
+                $this->setError('(modx.com/download -- ' . $method . ') ' . $errorMsg);
             }
             return $downloadable;
         }
 
-        public function updateDownloadableCache($version) {
 
-        }
         /**
          * @param $lastCheck string = time of previous check
          * @param $interval - interval between checks
@@ -396,6 +525,10 @@ if (!class_exists('UpgradeMODX')) {
                 $retVal = time() > strtotime($lastCheck . ' ' . $interval);
             }
             return $retVal;
+        }
+
+        public function clearErrors() {
+            $this->errors = array();
         }
 
         public function getLatestVersion() {

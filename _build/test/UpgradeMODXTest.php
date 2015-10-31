@@ -167,16 +167,11 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
         /* Avoid Timeout */
         $retVal = array();
-        $i = 0;
 
-        while (empty($retVal)) {
-            $retVal = $this->ugm->getJSONFromGitHub(6, true);
-            $i++;
-            if ($i >= 4 || (!empty($retVal))) {
-                break;
-            }
-        }
-        fwrite(STDOUT, "\nAttempts with fopen -- timeout = 6: " . $i);
+
+        $retVal = $this->ugm->getJSONFromGitHub('fopen', 10, 3);
+
+        fwrite(STDOUT, "\nAttempts with fopen -- timeout = 6");
 
         $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
     }
@@ -199,7 +194,16 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
             $this->assertNotEmpty($errors);
             fwrite(STDOUT, @implode(', ' , $errors));
         }*/
-        $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+        if ($i < 10) {
+            $this->assertEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+            $this->assertTrue(is_array($this->ugm->getErrors()));
+            $this->assertNotEmpty($this->ugm->getErrors());
+            fwrite(STDOUT, "\nErrors: " . implode("\n", $this->ugm->getErrors()));
+        } else {
+            $this->assertNotEmpty($retVal);
+            $this->assertEmpty($this->ugm->getErrors());
+
+        }
     }
 
     public function testGetJSONFromGitHub_curl_6() {
@@ -207,18 +211,14 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $retVal = array();
         $i = 0;
 
-        while (empty($retVal)) {
-            $retVal = $this->ugm->getJSONFromGitHub(6, false);
-            $i++;
-            if ($i >= 4 || (!empty($retVal))) {
-                break;
-            }
-        }
+        $retVal = $this->ugm->getJSONFromGitHub('curl', 6, 3);
         fwrite(STDOUT, "\nAttempts with cURL -- timeout = 6: " . $i . "\n");
 
-        if ($retVal === false) {
-            $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
-        }
+        $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+        $this->assertEmpty($this->ugm->getErrors());
+
+
+        echo "\n" . $retVal;
 
         // var_dump($retVal);
     }
@@ -228,11 +228,25 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $retVal = $this->ugm->getJSONFromGitHub(1);
         $i = 1;
         while (!empty($retVal) && $i < 10) {
-            $retVal = $this->ugm->getJSONFromGitHub(1, false);
+            $retVal = $this->ugm->getJSONFromGitHub('curl', 1, 1);
             $i++;
         }
-        fwrite(STDOUT,"\nAttempts with cURL -- timeout = 1: \n" . $i);
-        $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+        fwrite(STDOUT,"\nAttempts with cURL -- timeout = 1: " . $i);
+        if ($i == 10) {
+            $this->assertNotEmpty($retVal);
+            $this->assertEmpty($this->ugm->getErrors());
+            fwrite(STDOUT, "\nErrors: " . implode("\n", $this->ugm->getErrors()));
+            fwrite(STDOUT, "\nErrors: " . implode("\n", $this->ugm->getErrors()));
+
+        } else {
+            $this->assertEmpty($retVal, implode("\n", $this->ugm->getErrors()));
+            $this->assertTrue(is_array($this->ugm->getErrors()));
+            $this->assertNotEmpty($this->ugm->getErrors());
+            fwrite(STDOUT, "\nAttempts with cURL -- timeout = 1: " . $i);
+
+
+        }
+
     }
 
     public function testfinalizeVersionArray() {
@@ -263,20 +277,21 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
             if (strpos($name, 'pl') === false) {
                 $found = true;
+                break;
             }
         }
 
         $this->assertTrue($found);
 
         /* Try with actual data from GitHub - fopen */
-        $vl = $this->ugm->getJSONFromGitHub(35, true);
+        $vl = $this->ugm->getJSONFromGitHub('fopen', 6, 3);
         // var_dump($vl);
         $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
         $vl = $this->ugm->finalizeVersionArray($vl);
         $this->assertEquals($this->ugm->versionsToShow, count($vl));
 
         /* Try with actual data from GitHub  - cURL*/
-        $vl = $this->ugm->getJSONFromGitHub(35, false);
+        $vl = $this->ugm->getJSONFromGitHub('curl', 6, 3);
         // var_dump($vl);
         $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
         $vl = $this->ugm->finalizeVersionArray($vl);
@@ -304,30 +319,36 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $this->ugm->writeScriptFile();
     }
 
-    public function testDownloadable() {
+    public function testDownloadableCurl() {
         /* Try with cURL */
         $version = $this->ugm->latestVersion;
         echo "\n" . $version;
-        $retVal = $this->ugm->downloadable($version);
+        $retVal = $this->ugm->downloadable($version, 'curl', 7, 6);
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
+    }
 
+    public function testDownloadableCurlFail() {
         /* Should fail */
         $version = '5.5.5-pl';
-        $retVal = $this->ugm->downloadable($version);
+        $retVal = $this->ugm->downloadable($version, 'curl', 1, 1);
         $this->assertFalse($retVal);
         $e = $this->ugm->getErrors();
         $this->assertNotEmpty($e);
         echo implode("\n", $e);
 
+    }
+    public function testDownloadableFopen() {
         /* Try with fopen */
         $version = $this->ugm->latestVersion;
         echo "\n" . $version;
-        $retVal = $this->ugm->downloadable($version, 'fopen');
+        $retVal = $this->ugm->downloadable($version, 'fopen', 6, 6);
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
+    }
 
+    public function testDownloadableFopenFail() {
         /* Should fail */
         $version = '5.5.5-pl';
-        $retVal = $this->ugm->downloadable($version, 'fopen');
+        $retVal = $this->ugm->downloadable($version, 'fopen', 1, 1);
         $this->assertFalse($retVal);
         $e = $this->ugm->getErrors();
         $this->assertNotEmpty($e);
