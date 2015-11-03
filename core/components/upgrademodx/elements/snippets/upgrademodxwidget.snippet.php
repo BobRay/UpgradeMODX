@@ -55,15 +55,21 @@
 if (php_sapi_name() === 'cli') {
     /* This section for debugging during development. It won't execute in MODX */
     include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
+    $snippet =
     $scriptProperties = array(
         'versionsToShow' => 5,
         'hideWhenNoUpgrade' => false,
-        'lastCheck' => '',
-        'interval' => '+1 seconds',
+        'lastCheck' => '2015-11-03 10:13:00',
+        'interval' => '+60 seconds',
         'plOnly' => false,
         'language' => 'en',
         'forcePclZip' => false,
         'forceFopen' => false,
+        'currentVersion' => $modx->getOption('settings_version'),
+        'latestVersion' => '2.4.2-pl',
+        'githubTimeout' => 6,
+        'modTimeout' => 6,
+        'tries' => 2,
     );
 
 } else {
@@ -104,36 +110,41 @@ if (isset($_POST['UpgradeMODX'])) {
 
 }
 
-
-$upgrade = new UpgradeMODX($modx);
-
-$props = $scriptProperties;
-$lastCheck = $modx->getOption('lastCheck', $props);
-$interval = $modx->getOption('interval', $props);
-if (empty($lastCheck)) {
-    $lastCheck = '2015-08-17 00:00:004';
+/* Set the method */
+$forceFopen = $modx->getOption('forceFopen', $props, false, true);
+$method = null;
+if (extension_loaded('curl') && (!$forceFopen)) {
+    $method = 'curl';
+} elseif (ini_get('allow_url_fopen')) {
+    $method = 'fopen';
+} else {
+    die('Neither allow_url_fopen or cURL is enabled, cannot check for upgrades');
 }
 
-if (!($lastCheck && $interval)) {
-    return '<p style="color:red">' .
-        $modx->lexicon('ugm_missing_properties')
-        . '</p>';
-}
-
-$hideWhenNoUpGrade = $modx->getOption('hideWhenNoUpgrade', $props);
-// $plOnly = $modx->getOption('plOnly', $props);
-// $versionsToShow = $modx->getOption('versionsToShow', $props, 5);
-
-
+$lastCheck = $modx->getOption('lastCheck', $props, '2015-08-17 00:00:004', true);
+$interval = $modx->getOption('interval', $props, '+1 week', true);
+$interval = '+1 week';
+$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props, false, true);
+$plOnly = $modx->getOption('plOnly', $props);
+$versionsToShow = $modx->getOption('versionsToShow', $props, 5);
 $currentVersion = $modx->getOption('settings_version');
+$latestVersion = $modx->getOption('latestVersion', $props, '', true);
 
-if ($upgrade->timeToCheck($lastCheck, $interval)) {
-    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow);
+$versionListExists = false;
+if (file_exists(MODX_CORE_PATH . 'cache/upgrademodx/versionlist')) {
+    $v = file_get_contents(MODX_CORE_PATH . 'cache/upgrademodx/versionlist');
+    if (! empty($v)) {
+        $versionListExists = true;
+    }
+}
+
+$timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
+/* Perform check if no versionlist or latestVersion, or if it's time to check */
+if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
+    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $method);
     $latestVersion = $upgrade->getLatestVersion();
 } else {
-    $latestVersion = $modx->getOption('latestVersion', $props);
     $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;;
-
 }
 $placeholders = array();
 $placeholders['[[+ugm_current_version]]'] = $currentVersion;

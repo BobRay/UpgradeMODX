@@ -53,9 +53,6 @@
 if (!class_exists('UpgradeMODX')) {
     class UpgradeMODX {
 
-        /** @var $versionlist string - array of versions to display if upgrade is available as a string
-         *  to inject into upgrade script */
-        public $versionList = '';
 
         /** @var $versionArray string - array of versions to display if upgrade is available as a string
          *  to inject into upgrade script */
@@ -65,11 +62,8 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $modx modX - modx object */
         public $modx = null;
 
-        /** @var $latestVersion string - latest version available; set only if an upgrade */
+        /** @var $latestVersion string - latest version available */
         public $latestVersion = '';
-
-        /** @var $currentVersion string - current version in use */
-        public $currentVersion = '';
 
         /** @var $errors array - array of error message (non-fatal errors only) */
         public $errors = array();
@@ -80,17 +74,14 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $forceFopen boolean */
         public $forceFopen = false;
 
-        /** @var $plOnly boolean */
-        public $plOnly = false;
-
-        /** @var $versionsToShow int */
-        public $versionsToShow = false;
-
         /** @var $githubTimeout int */
         public $gitHubTimeout = 6;
 
         /** @var $modxTimeout int */
         public $modxTimeout = 6;
+
+        /** @var $attempts int */
+        public $attempts = 2;
 
 
         public function __construct($modx) {
@@ -105,28 +96,12 @@ if (!class_exists('UpgradeMODX')) {
             $this->forcePclZip = $this->modx->getOption('forcePclZip', $props, false);
             $this->forceFopen = $this->modx->getOption('forceFopen', $props, false);
             $this->plOnly = $this->modx->getOption('plOnly', $props);
-            $this->versionsToShow = $this->modx->getOption('versionsToShow', $props, 5);
             $this->gitHubTimeout = $this->modx->getOption('githubTimeout', $props, 6, true);
             $this->modxTimeout = $this->modx->getOption('modxTimeout', $props, 6, true);
-            $this->currentVersion = $this->modx->getOption('settings_version');
+            $this->attempts = $this->modx->getOption('attempts', $props, 2, true);
             $this->errors = array();
+            $this->latestVersion = $this->modx->getOption('latestVersion', $props, '', true);
 
-            $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
-            if (!file_exists($path)) {
-                $retVal = $this->getJSONFromGitHub($path, true, 6, 6);
-                if ($retVal !== false) {
-                    $retVal = $this->finalizeVersionArray($retVal);
-                    if ($retVal !== false) {
-                        $this->updateVersionlistFile($retVal);
-                        $this->versionArray = $retVal;
-                    }
-                }
-            } else {
-                require $path;
-                $this->versionArray = $InstallData;
-            }
-            $latest = reset($this->versionArray);
-            $this->latestVersion = substr($latest['name'], 16);
 
         }
 
@@ -176,79 +151,17 @@ if (!class_exists('UpgradeMODX')) {
             } else {
                 $data =  $this->fopenGetData($url, true, $timeout, $tries);
             }
-            if (strpos($data, 'rate limit') !== false) {
-                $this->setError($this->modx->lexicon('ugm_github_rate_limit_exceeded'));
+
+            $pos = strpos($data, 'API rate limit exceeded for');
+            if ($pos !== false) {
+                $this->setError('(GitHub -- ' . $method . ') ' . substr($data, $pos, 38));
                 $data = false;
             }
+
             return (strip_tags($data));
-
-            /************************ */
-            $ch = null;
-            if ($forceFopen) {
-                $method = 'fopen';
-                ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
-                $opts = array(
-                    'http' => array(
-                        'method' => 'GET',
-                        'timeout' => $gitHubTimeout,
-                        'max_redirects' => 1,
-                        'ignore_errors' => true,
-
-                    )
-                );
-
-                if (!empty($username) && !empty($token)) {
-                    $opts['http']['header'] = "Authorization: Basic " . base64_encode($username . ':' . $token);
-                }
-                $ctx = stream_context_create($opts);
-                $contents = @file_get_contents($url, false, $ctx);
-                // $headers = $http_response_header;
-            } else {
-                $method = 'curl';
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-                // curl_setopt($ch, CURLOPT_SSLVERSION, 4);
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, false);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-                curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0)");
-                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $gitHubTimeout);
-                curl_setopt($ch, CURLOPT_TIMEOUT, $gitHubTimeout);
-                if (!empty($username) && !empty($token)) {
-                    curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $token);
-                }
-
-                $contents = @curl_exec($ch);
-            }
-
-            if (!empty($contents)) {
-                $pos = strpos($contents, 'API rate limit exceeded for');
-                if ($pos !== false) {
-                    $this->setError('(GitHub -- ' . $method . ') ' . substr($contents, $pos, 38));
-                    return false;
-                }
-
-            } else { /* Empty return */
-                $msg = $this->modx->lexicon('ugm_empty_return');
-
-                if ($method === 'curl') {
-                    $s = curl_error($ch);
-                    $msg = !empty($s)?  curl_error($ch) : $msg;
-                }
-
-                $this->setError('(GitHub -- ' . $method . ') ' . $msg);
-
-                return false;
-            }
-
-            $contents = strip_tags($contents);
-            return $contents;
-
         }
 
-        public function finalizeVersionArray($contents) {
+        public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5) {
             $contents = utf8_encode($contents);
             $contents = $this->modx->fromJSON($contents);
             if (empty($contents)) {
@@ -257,7 +170,7 @@ if (!class_exists('UpgradeMODX')) {
             }
 
 
-            if ($this->plOnly) { /* remove non-pl version objects */
+            if ($plOnly) { /* remove non-pl version objects */
                 foreach ($contents as $key => $content) {
                     $name = substr($content['name'], 1);
                     if (strpos($name, 'pl') === false) {
@@ -272,7 +185,7 @@ if (!class_exists('UpgradeMODX')) {
                be almost sorted already */
 
             /* Make sure we don't access an invalid index */
-            $versionsToShow = min($this->versionsToShow, count($contents));
+            $versionsToShow = min($versionsToShow, count($contents));
             /* Make sure we show at least one */
             $versionsToShow = !empty($versionsToShow) ? $versionsToShow : 1;
             /* Sort by version */
@@ -300,13 +213,31 @@ if (!class_exists('UpgradeMODX')) {
                     'location' => 'setup/index.php',
                 );
                 $i++;
-                if ($i > $this->versionsToShow) {
+                if ($i > $versionsToShow) {
                     break;
                 }
             }
+
             $this->versionArray = $versionArray;
             return $this->versionArray;
 
+
+        }
+
+        public function updateLatestVersion($versionArray) {
+            $latest = reset($versionArray);
+            $this->latestVersion = substr($latest['name'], 16);
+        }
+
+        public function updateSnippetProperties($lastCheck, $latestVersion ) {
+            $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
+            if ($snippet) {
+                $properties = $snippet->get('properties');
+                $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S', $lastCheck);
+                $properties['latestVersion']['value'] = $latestVersion;
+                $snippet->set('properties', $properties);
+                $snippet->save();
+            }
 
         }
         public function updateVersionlistFile($versionArray) {
@@ -332,7 +263,7 @@ if (!class_exists('UpgradeMODX')) {
             $username = $this->modx->getOption('github_username');
             $token = $this->modx->getOption('github_token');
             $retVal = false;
-            $errorMsg = $this->modx->lexicon('ugm_curl_failed');
+            $errorMsg = '(' . $url . ' - curl) ' . $this->modx->lexicon('failed');
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0)");
@@ -421,10 +352,7 @@ if (!class_exists('UpgradeMODX')) {
         if (!$retVal) {
             $this->setError($errorMsg);
         }
-
         return $retVal;
-
-
     }
 
 
@@ -432,82 +360,11 @@ if (!class_exists('UpgradeMODX')) {
             $this->clearErrors();
             $downloadUrl = 'http://modx.com/download/direct/modx-' . $version . '.zip';
             if ($method == 'curl') {
-
-                return $this->curlGetData($downloadUrl, false, $timeout, $tries);
+                $downloadable =  $this->curlGetData($downloadUrl, false, $timeout, $tries);
             } else {
-                return $this->fopenGetData($downloadUrl, false, $timeout, $tries);
+                $downloadable =  $this->fopenGetData($downloadUrl, false, $timeout, $tries);
             }
 
-            $this->clearErrors();
-            $downloadable = false;
-            $timeout = $timeout / 2;
-            $errorMsg = $this->modx->lexicon('ugm_not_available');
-            $downloadUrl = 'http://modx.com/download/direct/modx-' . $version . '.zip';
-            $retCode = false;
-            if ($method == 'curl') { /* New version exists, see if it's available at modx.com/download */
-
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-                curl_setopt($ch, CURLOPT_URL, $downloadUrl);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-                curl_setopt($ch, CURLOPT_HEADER, false);
-                curl_setopt($ch, CURLOPT_NOBODY, true);
-
-                $i = $tries;
-
-                while($i--) {
-                    $retCode = curl_exec($ch);
-                    if (!empty($retCode)) {
-                        break;
-                    }
-                }
-
-                if (empty($retCode) || ($retCode === false)) {
-                    $e = curl_error($ch);
-                    if (!empty($e)) {
-                        $errorMsg = $e;
-                    }
-                } else {
-
-                    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    $downloadable = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
-                }
-                curl_close($ch);
-            } else {
-                $opts = array(
-                    'http' => array(
-                        'method' => 'GET',
-                        // 'header' => 'Connection: close',
-                        'timeout' => $this->modxTimeout/2,
-                        'max_redirects' => 0,
-                        'ignore_errors' => true,
-                    ));
-
-               //  $context = stream_context_create($opts);
-                $i = $tries;
-
-                $old = ini_set('default_socket_timeout', $timeout);
-
-
-                while($i--) {
-                    $fp = @fopen($downloadUrl, 'r');
-                    // $x = $http_response_header;
-                    if ($fp){
-                        $downloadable = true;
-                        break;
-                    } else {
-                        $timeout += 2;
-                        ini_set('default_socket_timeout', $timeout);
-                    }
-                }
-                ini_set('default_socket_timeout', $old);
-            }
-            if (!$downloadable) {
-                $this->setError('(modx.com/download -- ' . $method . ') ' . $errorMsg);
-            }
             return $downloadable;
         }
 
@@ -542,80 +399,34 @@ if (!class_exists('UpgradeMODX')) {
         public function getErrors() {
             return $this->errors;
         }
-        public function getVersionList() {
-            return $this->versionList;
-        }
 
 
-        public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5) {
+        public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5, $method = 'curl') {
 
-            $latestVersionObj = reset($contents);
-            $latestVersion = substr($latestVersionObj->name, 1);
-            $this->latestVersion = $latestVersion;
-            /* See if the latest version is newer than the current version */
-            $newVersion = version_compare($currentVersion, $latestVersion) < 0;
+            $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout, $this->attempts);
 
-            /* Update Properties if there are no cURL errors */
-            $e = $this->getErrors();
-            if (empty($e)) {
-                $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
-                if ($snippet) {
-                    $properties = $snippet->get('properties');
-                    $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S');
-                    $properties['latestVersion']['value'] = $latestVersion;
-                    $snippet->set('properties', $properties);
-                    $snippet->save();
+            if ($retVal !== false) {
+                $retVal = $this->finalizeVersionArray($retVal);
+                if ($retVal !== false) {
+                    $this->updateLatestVersion($retVal);
+                    $this->updateSnippetProperties(time(), $this->latestVersion);
+                    $this->updateVersionlistFile($retVal);
                 }
+            }
+
+            $latestVersion = $this->latestVersion;
+
+            if (!empty($this->errors)) {
+                $upgradeAvailable = false;
             } else {
-                return false;
+
+                /* See if the latest version is newer than the current version */
+                $newVersion = version_compare($currentVersion, $latestVersion) < 0;
+                $downloadable = $this->downloadable($latestVersion, $method, $this->modxTimeout, $this->attempts);
+                $upgradeAvailable = $newVersion && $downloadable;
             }
 
-            $downloadable = false;
-
-            $ch = curl_init();
-            if ($newVersion) { /* New version exists, see if it's available at modx.com/download */
-                $downloadUrl = 'http://modx.com/download/direct/modx-' . $this->latestVersion . '.zip';
-
-                curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, FALSE);
-                curl_setopt($ch, CURLOPT_URL, $downloadUrl);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
-                curl_setopt($ch, CURLOPT_HEADER, false);
-                curl_setopt($ch, CURLOPT_NOBODY, true);
-
-                $retCode = curl_exec($ch);
-
-                if (empty($retCode) || ($retCode === false)) {
-                    if ($retCode === false) {
-                        $this->setError('(modx.com/download) ' . curl_error($ch));
-                        return false;
-                    } else {
-                        $this->setError('(modx.com/download) ' .
-                            $this->modx->lexicon('ugm_empty_return'));
-                        return false;
-                    }
-                }
-                if ($retCode !== false) {
-                    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    $downloadable = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
-                }
-
-                curl_close($ch);
-
-
-                if ($downloadable) {
-                    /* Create the array of versions and save it in a cache file for the installer
-                       This snippet will insert the versions into the form when creating the
-                       script file from the Tpl chunk when the user submits the Upgrade form in the widget */
-
-                    $this->updateVersionlist(true);
-
-                }
-            }
-
-            return ($newVersion && $downloadable);
+            return $upgradeAvailable;
         }
 
         public function mmkDir($folder, $perm = 0755) {
