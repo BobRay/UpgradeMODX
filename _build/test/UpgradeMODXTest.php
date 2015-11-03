@@ -131,21 +131,17 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
         /* Test with no versionlist file */
         /**  @var $InstallData array */
-        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        /*$path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
         @unlink( $path);
         $this->ugm->init($this->props);
-        $this->assertNotEmpty($this->ugm->currentVersion, implode("\n" , $this->ugm->getErrors()));
-        $current = $this->ugm->currentVersion;
-        $this->assertNotEmpty($this->ugm->latestVersion, implode("\n" , $this->ugm->getErrors()));
+        $this->assertTrue(is_string($this->ugm->latestVersion), implode("\n" , $this->ugm->getErrors()));
         $latest = $this->ugm->latestVersion;
         $this->assertNotEmpty($this->ugm->versionArray, implode("\n" , $this->ugm->getErrors()));
-        $versionArray = $this->ugm->versionArray;
+        $versionArray = $this->ugm->versionArray;*/
 
         /* Test with existing versionlist file */
         $this->ugm->init($this->props);
-        $this->assertFileExists($path);
-        $this->assertNotEmpty($this->ugm->currentVersion);
-        $this->assertEquals($current, $this->ugm->currentVersion);
+        /*$this->assertFileExists($path);
         $this->assertNotEmpty($this->ugm->latestVersion);
         $this->assertEquals($latest, $this->ugm->latestVersion);
         $this->assertNotEmpty($this->ugm->versionArray);
@@ -159,7 +155,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $latest = reset($InstallData);
         $this->assertEquals(substr($latest['name'], 16), $this->ugm->latestVersion);
 
-        $this->assertEmpty($this->ugm->getErrors());
+        $this->assertEmpty($this->ugm->getErrors());*/
 
     }
 
@@ -209,10 +205,9 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
     public function testGetJSONFromGitHub_curl_6() {
         /* Try with cURL */
         $retVal = array();
-        $i = 0;
 
         $retVal = $this->ugm->getJSONFromGitHub('curl', 6, 3);
-        fwrite(STDOUT, "\nAttempts with cURL -- timeout = 6: " . $i . "\n");
+        fwrite(STDOUT, "\nAttempts with cURL -- timeout = 6 \n");
 
         $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
         $this->assertEmpty($this->ugm->getErrors());
@@ -251,24 +246,21 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
     public function testfinalizeVersionArray() {
 
-        $this->ugm->plOnly = true;
-        $vl = $this->ugm->finalizeVersionArray($this->versionData);
+        $vl = $this->ugm->finalizeVersionArray($this->versionData, true);
         $this->assertTrue(is_array($vl));
-        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+        $this->assertEquals(5, count($vl));
 
         foreach($vl as $version)  {
             $name = $version['name'];
             // echo "\n" . $name;
-
             $this->assertTrue(strpos($name, 'pl') !== false);
         }
 
         // var_dump($vl);
         /* Try again with $plOnly false */
-        $this->ugm->plOnly = false;
-        $vl = $this->ugm->finalizeVersionArray($this->versionData);
+        $vl = $this->ugm->finalizeVersionArray($this->versionData, false, 7);
         $this->assertTrue(is_array($vl));
-        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+        $this->assertEquals(7, count($vl));
 
         $found = false;
         foreach ($vl as $version) {
@@ -287,15 +279,15 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $vl = $this->ugm->getJSONFromGitHub('fopen', 6, 3);
         // var_dump($vl);
         $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
-        $vl = $this->ugm->finalizeVersionArray($vl);
-        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+        $vl = $this->ugm->finalizeVersionArray($vl, true, 6);
+        $this->assertEquals(6, count($vl));
 
         /* Try with actual data from GitHub  - cURL*/
         $vl = $this->ugm->getJSONFromGitHub('curl', 6, 3);
         // var_dump($vl);
         $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
-        $vl = $this->ugm->finalizeVersionArray($vl);
-        $this->assertEquals($this->ugm->versionsToShow, count($vl));
+        $vl = $this->ugm->finalizeVersionArray($vl, true, 7);
+        $this->assertEquals(7, count($vl));
 
 
     }
@@ -321,7 +313,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
     public function testDownloadableCurl() {
         /* Try with cURL */
-        $version = $this->ugm->latestVersion;
+        $version = '2.4.0-pl';
         echo "\n" . $version;
         $retVal = $this->ugm->downloadable($version, 'curl', 7, 6);
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
@@ -339,7 +331,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
     }
     public function testDownloadableFopen() {
         /* Try with fopen */
-        $version = $this->ugm->latestVersion;
+        $version = '2.4.0-pl';
         echo "\n" . $version;
         $retVal = $this->ugm->downloadable($version, 'fopen', 6, 6);
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
@@ -355,6 +347,60 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         echo implode("\n", $e);
 
     }
+
+    public function testTimeToCheck() {
+        $t = time();
+        $values = array(
+             array(
+                 'time' => $t,
+                 'interval' => '+1 week',
+                 'expected' => false,
+             ),
+            array(
+                'time' => $t - 62,
+                'interval' => '+61 seconds',
+                'expected' => true,
+            ),
+        );
+
+         foreach ($values as $a) {
+             $retVal = $this->ugm->timeToCheck(strftime('%Y-%m-%d %H:%M:%S', $a['time']), $a['interval']);
+             $expected = $a['expected'];
+             $this->assertEquals($expected, $retVal);
+         }
+    }
+
+    public function testUpgradeAvailable() {
+
+        $currentVersion = '2.4.0-pl';
+        $retVal =  $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
+        $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
+
+        $currentVersion = '2.4.3-pl';
+        $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
+        $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
+
+        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        $currentVersion = '2.4.0-pl';
+        $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
+        $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
+
+        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        $currentVersion = '2.4.3-pl';
+        $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
+        $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
+
+        $this->assertTrue(file_exists($path), implode("\n", $this->ugm->getErrors()) );
+
+        }
 
 
 }
