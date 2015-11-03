@@ -51,3 +51,6 @@ $_lang['ugm_logout_note'] = 'Note: All users will be logged out';
 $_lang['ugm_upgrade_modx'] = 'Upgrade MODX';
 $_lang['ugm_json_decode_failed'] = 'Failed JSON decode for version data from GitHub in upgradeAvailable()';
 $_lang['ugm_not_available'] = 'New version not yet available for download at MODX repo';
+
+/* Used in upgrademodx.class.php */
+$_lang['failed'] = 'failed';

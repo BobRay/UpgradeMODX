@@ -37,6 +37,9 @@
 
 
 /* Used in properties.upgrademodxwidget.snippet.php */
+$_lang['ubm_attempts_desc'] = 'Number of tries to get data from GitHub or MODX; default: 2';
+$_lang['ugm_github_timeout_desc'] = 'Timeout in seconds for checking Github; default: 6';
+$_lang['ugm_modx_timeout_desc'] = 'Timeout in seconds for checking download status from MODX; default: 6';
 $_lang['ugm_groups_desc'] = 'group, or commma-separated list of groups, who will see the widget';
 $_lang['ugm_hideWhenNoUpgrade_desc'] = 'Hide widget when no upgrade is available: default: No';
 $_lang['ugm_interval_desc'] = 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 week';

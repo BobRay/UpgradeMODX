@@ -13,6 +13,54 @@
 
 
 $properties = array (
+  'attempts' => 
+  array (
+    'name' => 'attempts',
+    'desc' => 'ubm_attempts_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '2',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
+  'forceFopen' => 
+  array (
+    'name' => 'forceFopen',
+    'desc' => 'ugm_forceFopen_desc',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => false,
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
+  'forcePclZip' => 
+  array (
+    'name' => 'forcePclZip',
+    'desc' => 'ugm_forcePclZip_desc',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => false,
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
+  'githubTimeout' => 
+  array (
+    'name' => 'githubTimeout',
+    'desc' => 'ugm_github_timeout_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '6',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
   'groups' => 
   array (
     'name' => 'groups',
@@ -69,7 +117,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2015-10-16 23:55:37',
+    'value' => '',
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
@@ -82,6 +130,18 @@ $properties = array (
     array (
     ),
     'value' => '2.4.2-pl',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
+  'modxTimeout' => 
+  array (
+    'name' => 'modxTimeout',
+    'desc' => 'ugm_modx_timeout_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '6',
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
@@ -106,30 +166,6 @@ $properties = array (
     array (
     ),
     'value' => '5',
-    'lexicon' => 'upgrademodx:properties',
-    'area' => '',
-  ),
-  'forcePclZip' => 
-  array (
-    'name' => 'forcePclZip',
-    'desc' => 'ugm_forcePclZip_desc',
-    'type' => 'combo-boolean',
-    'options' => 
-    array (
-    ),
-    'value' => false,
-    'lexicon' => 'upgrademodx:properties',
-    'area' => '',
-  ),
-  'forceFopen' => 
-  array (
-    'name' => 'forceFopen',
-    'desc' => 'ugm_forceFopen_desc',
-    'type' => 'combo-boolean',
-    'options' => 
-    array (
-    ),
-    'value' => false,
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
