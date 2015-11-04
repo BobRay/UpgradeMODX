@@ -32,6 +32,7 @@
     <li>Upgrades very old versions of MODX Revolution (tested on 2.0.3)</li>
     <li>Upgrades versions of MODX with moved/renamed directories</li>
     <li>Uses PclZip if ZipArchive is not available</li>
+    <li>Uses fopen if cURL is not available</li>
     <li>Adds the <code>&forcePclZip</code> property to bypass ZipArchive</li>
     <li>Adds the <code>&forceFopen</code> property to bypass cURL for the download</li>
 </ul>
@@ -51,7 +52,7 @@
 <div class="box">
     <p>In very old versions of MODX, creation of the dashboard widget  will fail and you'll see a bunch of error messages during the install. The UpgradeMODX installer will attempt to create a resource  called <code>UpgradeMODX</code> that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an upgrade is available, it will let you launch the installer.</p>
 
-<p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the version of PHP to version 5.4 or below or manually make the changes to the three files shown in <a href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
+<p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the version of PHP to version 5.4 or below, or manually make the changes to the three files shown in <a href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
 
 <p>Once you've upgraded MODX to a recent-enough version, you can uninstall and re-install UpgradeMODX to get the widget.</p>
 </div>
@@ -75,11 +76,10 @@
 <br/>
 
 <div class="box">
-    <p>The beta and the rc versions have the <code>&plOnly</code> property set to false to show all versions and the <code>&interval</code> property set to 60 seconds. Feel free to change these. The short interval is so you can see how much the widget slows down the dashboard page-load times. If your site is not up to date and you go to the dashboard after 60 seconds have elapsed, the widget will check for upgrades. If you immediately reload the dashboard page, the widget won't check and you can see the difference.</p>
-
+    
     <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
 
-    <p>If either site is slow to respond, cURL or fopen will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, change the <fixedpre>&githubTimeout</fixedpre> and <fixedpre>&modxTimeout</fixedpre> properties and/or the <fixedpre>&attempts</fixedpre> property.</p>
+    <p>If either site is slow to respond, cURL or fopen will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, change the <code>&githubTimeout</code> and <code>&modxTimeout</code> properties and/or the <code>&attempts</code> property.</p>
 </div>
 
 <br/>
@@ -94,6 +94,20 @@
 <p>The upgrade script downloads everything to a <code>/temp</code> directory in the MODX root directory. It deletes that directory and itself when it finishes successfully so nothing should be left behind after the upgrade.</p>
 
 <p>After upgrading the site, It's a good idea to make sure that the <code>upgrade.php</code> file in the MODX root directory, and the <code>/temp</code> directory, also in the MODX root directory, have been removed, especially if the script times out.</p>
+
+<br />
+<h3>Troubleshooting</h3>
+
+<p>If you get frequent timeouts, you can increase the <code>&githubTimeout</code> or <code>&modxTimeout</code> properties. They set how long the program will wait for a response. The default is 6 seconds.  There is also the <code>&attempts</code> property, which determines how many times the script will try to connect. By default, the script will make two tries at each site. Feel free to change the value.</p>
+
+<p>By default, UpgradeMODX uses cURL to check for and download files and ZipArchive to unzip them. If cURL isn't working
+    for you, you can set the <code>&forceFopen</code> property to <code>Yes</code> to avoid using cURL altogether.
+    Similarly, you can set the <code>&forcePclZip</code> property to <code>Yes</code> to avoid using ZipArchive to unzip
+    the downloaded MODX file. </p>
+
+
+<p>UpgradeMODX stores the list of the latest available versions of MODX in a file called <code>versionlist</code>. By default, it's located in the <code>{core_path}cache/upgrademodx/</code> directory. You can specify another directory with the <code>&versionListPath</code> property. Use only the directory (minus the filename) in the property and be sure it ends with a slash. UpgradeMODX will translate both <code>{core_path}</code> and <code>{assets_path}</code> in the propert value.</p>
+
 
 <br/>
 <a name="propertiesTable"></a>
