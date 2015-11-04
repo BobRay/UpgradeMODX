@@ -101,7 +101,8 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
     /** @var $versionsToShow int */
     protected $versionsToShow = false;
 
-    protected $props = array(
+
+   /* protected $props = array(
         'versionsToShow' => 5,
         'hideWhenNoUpgrade' => false,
         'lastCheck' => '',
@@ -110,7 +111,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         'language' => 'en',
         'forcePclZip' => false,
         'forceFopen' => false,
-    );
+    );*/
 
     /** @var  $ugm upgradeMODX */
     protected $ugm;
@@ -123,7 +124,10 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $this->modx =& $modx;
         include 'C:\xampp\htdocs\addons\assets\mycomponents\upgrademodx\core\components\upgrademodx\model\upgrademodx.class.php';
         $this->ugm = new UpgradeMODX($modx);
-        $this->ugm->init($this->props);
+        $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
+        $props = $snippet->getProperties();
+        $this->ugm->init($props);
+        $this->props = $props;
         $this->modx->lexicon->load('en:upgrademodx:default');
     }
 
@@ -167,6 +171,8 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
         $retVal = $this->ugm->getJSONFromGitHub('fopen', 10, 3);
 
+
+        fwrite(STDOUT, "\nReturn: " . $retVal);
         fwrite(STDOUT, "\nAttempts with fopen -- timeout = 6");
 
         $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
@@ -207,6 +213,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $retVal = array();
 
         $retVal = $this->ugm->getJSONFromGitHub('curl', 6, 3);
+        fwrite(STDOUT, "\nReturn: " . $retVal);
         fwrite(STDOUT, "\nAttempts with cURL -- timeout = 6 \n");
 
         $this->assertNotEmpty($retVal, implode("\n", $this->ugm->getErrors()));
@@ -230,13 +237,12 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         if ($i == 10) {
             $this->assertNotEmpty($retVal);
             $this->assertEmpty($this->ugm->getErrors());
-            fwrite(STDOUT, "\nErrors: " . implode("\n", $this->ugm->getErrors()));
-            fwrite(STDOUT, "\nErrors: " . implode("\n", $this->ugm->getErrors()));
 
         } else {
             $this->assertEmpty($retVal, implode("\n", $this->ugm->getErrors()));
             $this->assertTrue(is_array($this->ugm->getErrors()));
             $this->assertNotEmpty($this->ugm->getErrors());
+            fwrite(STDOUT, "\nErrors: " . implode("\n", $this->ugm->getErrors()));
             fwrite(STDOUT, "\nAttempts with cURL -- timeout = 1: " . $i);
 
 
@@ -294,7 +300,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
     public function testUpdateVersionlistFile() {
         /** @var $InstallData array  */
-        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        $path = $this->ugm->versionListPath . 'versionlist';
         if (file_exists($path)) {
            unlink($path);
         }
@@ -302,13 +308,28 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $versionArray = $this->ugm->finalizeVersionArray($data);
         $this->ugm->updateVersionlistFile($versionArray);
         require($path);
+        $this->assertTrue(is_array($InstallData));
         $x = file_get_contents($path);
         $this->assertNotEmpty($x);
         $this->assertTrue(strpos($x, '$InstallData') !== false);
     }
 
     public function testWriteScriptFile() {
+        $path = MODX_BASE_PATH . 'upgrade.php';
         $this->ugm->writeScriptFile();
+        $this->assertFileExists($path);
+        $c = file_get_contents($path);
+        $this->assertNotEmpty($c);
+        $this->assertTrue(strpos($c, '[[') === false);
+
+        unlink($path);
+        $this->assertFileNotExists($path);
+        $this->ugm->writeScriptFile();
+        $this->assertFileExists($path);
+        $c = file_get_contents($path);
+        $this->assertNotEmpty($c);
+        $this->assertTrue(strpos($c, '[[') === false);
+
     }
 
     public function testDownloadableCurl() {
