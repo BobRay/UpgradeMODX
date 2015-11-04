@@ -2,8 +2,11 @@ Changelog for UpgradeMODX
 
 UpgradeMODX 1.4.0-pl
 ---------------------------------
-Add forceFopen property
+Add forceFopen, githubTimeout, modxTimeout properties
+Add attempts, and versionListPath properties
 Improve error handling and diagnostics
+Refactor for better dependency injection and reliability
+
 
 
 

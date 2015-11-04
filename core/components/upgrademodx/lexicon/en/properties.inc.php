@@ -37,6 +37,7 @@
 
 
 /* Used in properties.upgrademodxwidget.snippet.php */
+$_lang['ugm_version_list_path_desc'] = 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/';
 $_lang['ubm_attempts_desc'] = 'Number of tries to get data from GitHub or MODX; default: 2';
 $_lang['ugm_github_timeout_desc'] = 'Timeout in seconds for checking Github; default: 6';
 $_lang['ugm_modx_timeout_desc'] = 'Timeout in seconds for checking download status from MODX; default: 6';

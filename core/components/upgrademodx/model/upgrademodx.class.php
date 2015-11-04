@@ -56,8 +56,10 @@ if (!class_exists('UpgradeMODX')) {
 
         /** @var $versionArray string - array of versions to display if upgrade is available as a string
          *  to inject into upgrade script */
-
         public $versionArray = '';
+
+        /** @var $versionListPath string - location of versionlist file */
+        public $versionListPath;
 
         /** @var $modx modX - modx object */
         public $modx = null;
@@ -101,20 +103,23 @@ if (!class_exists('UpgradeMODX')) {
             $this->attempts = $this->modx->getOption('attempts', $props, 2, true);
             $this->errors = array();
             $this->latestVersion = $this->modx->getOption('latestVersion', $props, '', true);
-
+            $path = $this->modx->getOption('versionListPath', $props, MODX_CORE_PATH . 'cache/upgrademodx/');
+            $this->versionListPath = str_replace('{core_path}', MODX_CORE_PATH, $path);
 
         }
 
         public function writeScriptFile() {
-
+            /** @var  $InstallData array */
             $fp = @fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
             if ($fp) {
-                $file = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
-                $versionList = var_export($this->versionArray, true);
+                @include $this->versionListPath . 'versionlist';
+                $versionArray = $InstallData;
 
-                if (empty($versionList)) {
-                    $this->setError($this->modx->lexicon('ugm_no_version_list') . '@ ' . $file);
+                if (! is_array($versionArray) || empty($versionArray)) {
+                    $this->setError($this->modx->lexicon('ugm_no_version_list') . '@ ' . $this->versionListPath);
                 } else {
+                    $versionList = var_export($versionArray, true);
+
                     $forcePclZipString = '$forcePclZip = ';
                     $forcePclZipString .= $this->forcePclZip ? 'true' : 'false';
                     $forcePclZipString .= ';';
@@ -240,20 +245,18 @@ if (!class_exists('UpgradeMODX')) {
             }
 
         }
-        public function updateVersionlistFile($versionArray) {
-            $this->mmkDir(MODX_CORE_PATH . 'cache/upgrademodx');
-            $InstallData = array();
-
+        public function updateVersionListFile($versionArray) {
+            $path = $this->versionListPath;
+            $this->mmkDir($path);
             $versionList = var_export($this->versionArray, true);
 
-            $this->mmkDir(MODX_CORE_PATH . 'cache/upgrademodx');
-            $fp = @fopen(MODX_CORE_PATH . 'cache/upgrademodx/versionlist', 'w');
+            $fp = @fopen($this->versionListPath . 'versionlist', 'w');
             if ($fp) {
                 fwrite($fp, '<' . '?p' . "hp\n" . '$InstallData = ' . $versionList . ';');
                 fclose($fp);
             } else {
                 $this->setError($this->modx->lexicon('ugm_could_not_open') .
-                    ' ' . MODX_CORE_PATH . 'cache/upgrademodx/versionlist ' . ' ' .
+                    ' ' . $path . 'versionlist ' . ' ' .
                     $this->modx->lexicon('ugm_for_writing'));
             }
 

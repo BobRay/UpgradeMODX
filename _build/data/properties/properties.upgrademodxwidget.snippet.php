@@ -157,6 +157,18 @@ $properties = array (
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
+  'versionListPath' => 
+  array (
+    'name' => 'versionListPath',
+    'desc' => 'ugm_version_list_path_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '{core_path}cache/upgrademodx/',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
   'versionsToShow' => 
   array (
     'name' => 'versionsToShow',

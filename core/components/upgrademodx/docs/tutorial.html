@@ -62,7 +62,7 @@
 
 <p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change the <code>&groups</code> property of the UpgradeMODXWidget snippet. You can also change the <code>&interval</code> property if you'd like it to check for upgrades more or less often.</p>
 
-<p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60 seconds. It will only execute when you visit the dashboard at least 60 second after the last check. The minimum recommendation for the <code>&interval</code> property on a production site is <code>1 day</code>.</p>
+<p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60 seconds. It will only execute when you visit the dashboard at least 60 seconds after the last check. The minimum recommendation for the <code>&interval</code> property on a production site is <code>1 day</code>.</p>
 
 <p>By default, UpgradeMODX considers only pl (stable) versions for upgrade (except in the beta and rc versions). You can change the <code>&plOnly</code> property to see all versions. You can change the <code>&versionsToShow</code> property to show more versions (the default is 5). Initially, the interval for checking is set to <code>1 week</code> (except in the beta and rc versions where it's 60 seconds). You can change that by setting the <code>&interval</code> property. That property should always be an integer followed by the name of the unit (e.g., 6 hours, 3 days, 1 week, 1 month.</p>
 
@@ -79,7 +79,7 @@
 
     <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
 
-    <p>If either site is slow to respond, cURL will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, I'll create properties for the timeout intervals.</p>
+    <p>If either site is slow to respond, cURL or fopen will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, change the <fixedpre>&githubTimeout</fixedpre> and <fixedpre>&modxTimeout</fixedpre> properties and/or the <fixedpre>&attempts</fixedpre> property.</p>
 </div>
 
 <br/>
@@ -103,6 +103,11 @@
 <table class="properties">
     <tr><th>Property</th><th>Description</th><th>Default</th></tr>
     <tr>
+        <td>attempts</td>
+        <td>Number of tries to get date from MODX or GitHub</td>
+        <td>2</td>
+    </tr>
+    <tr>
         <td>forceFopen</td>
         <td>Force the use of fopen instead of cURL for the download</td>
         <td>No</td>
@@ -112,6 +117,11 @@
         <td>forcePclZip</td>
         <td>Force the use of PclZip instead of ZipArchive</td>
         <td>No</td>
+    </tr>
+    <tr>
+        <td>githubTimeout</td>
+        <td>Timeout (in seconds) for requests to GitHub</td>
+        <td>6</td>
     </tr>
     <tr>
         <td>groups</td>
@@ -144,9 +154,19 @@
         <td></td>
     </tr>
     <tr>
+        <td>modxTimeout</td>
+        <td>Timeout (in seconds) for requests to MODX</td>
+        <td>6</td>
+    </tr>
+    <tr>
         <td>plOnly</td>
         <td>Show only pl (stable) versions</td>
         <td>Yes</td>
+    </tr>
+    <tr>
+        <td>versionListPath</td>
+        <td>Path to versionlist file (minus the filename -- should end in a slash)</td>
+        <td>{core_path}cache/upgrademodx/</td>
     </tr>
     <tr>
         <td>versionsToShow</td>
