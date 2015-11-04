@@ -118,7 +118,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
 } elseif (ini_get('allow_url_fopen')) {
     $method = 'fopen';
 } else {
-    die('Neither allow_url_fopen or cURL is enabled, cannot check for upgrades');
+    die($this->modx->lexicon('ugm_no_curl_no_fopen'));
 }
 
 $lastCheck = $modx->getOption('lastCheck', $props, '2015-08-17 00:00:004', true);
