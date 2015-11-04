@@ -118,7 +118,7 @@ if (!class_exists('UpgradeMODX')) {
                 if (! is_array($versionArray) || empty($versionArray)) {
                     $this->setError($this->modx->lexicon('ugm_no_version_list') . '@ ' . $this->versionListPath);
                 } else {
-                    $versionList = var_export($versionArray, true);
+                    $versionList = '$InstallData = ' .  var_export($versionArray, true) . ';';
 
                     $forcePclZipString = '$forcePclZip = ';
                     $forcePclZipString .= $this->forcePclZip ? 'true' : 'false';
