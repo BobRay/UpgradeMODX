@@ -103,9 +103,9 @@ if (!class_exists('UpgradeMODX')) {
             $this->attempts = $this->modx->getOption('attempts', $props, 2, true);
             $this->errors = array();
             $this->latestVersion = $this->modx->getOption('latestVersion', $props, '', true);
-            $path = $this->modx->getOption('versionListPath', $props, MODX_CORE_PATH . 'cache/upgrademodx/');
-            $this->versionListPath = str_replace('{core_path}', MODX_CORE_PATH, $path);
-
+            $path = $this->modx->getOption('versionListPath', $props, MODX_CORE_PATH . 'cache/upgrademodx/', true);
+            $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
+            $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
         }
 
         public function writeScriptFile() {
