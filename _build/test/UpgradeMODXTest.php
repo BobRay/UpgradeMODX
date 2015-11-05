@@ -321,6 +321,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $c = file_get_contents($path);
         $this->assertNotEmpty($c);
         $this->assertTrue(strpos($c, '[[') === false);
+        $this->assertTrue(strpos($c, 'MODX Revolution') !== false);
 
         unlink($path);
         $this->assertFileNotExists($path);
@@ -329,6 +330,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $c = file_get_contents($path);
         $this->assertNotEmpty($c);
         $this->assertTrue(strpos($c, '[[') === false);
+        $this->assertTrue(strpos($c, 'MODX Revolution') !== false);
 
     }
 
@@ -401,7 +403,8 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
 
-        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        // $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
+        $path = $this->ugm->versionListPath . 'versionlist';
         if (file_exists($path)) {
             unlink($path);
         }
@@ -410,7 +413,6 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
 
-        $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
         if (file_exists($path)) {
             unlink($path);
         }
