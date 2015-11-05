@@ -106,7 +106,12 @@
     the downloaded MODX file. </p>
 
 
-<p>UpgradeMODX stores the list of the latest available versions of MODX in a file called <code>versionlist</code>. By default, it's located in the <code>{core_path}cache/upgrademodx/</code> directory. You can specify another directory with the <code>&versionListPath</code> property. Use only the directory (minus the filename) in the property and be sure it ends with a slash. UpgradeMODX will translate both <code>{core_path}</code> and <code>{assets_path}</code> in the propert value.</p>
+<p>UpgradeMODX stores the list of the latest available versions of MODX in a file called <code>versionlist</code>. That file is used to create the form that allows you to select the version to install. By default, the versionlist file is located in the <code>{core_path}cache/upgrademodx/</code> directory. You can specify another directory with the <code>&versionListPath</code> property. Use only the directory (minus the filename) in the property and be sure it ends with a slash. UpgradeMODX will translate both <code>{core_path}</code> and <code>{assets_path}</code> in the property value. The path can also be a hard-coded full path. Here's an example:</p>
+
+<pre><fixedpre>
+{assets_path}components/upgrademodx/
+</fixedpre></pre>
+
 
 
 <br/>

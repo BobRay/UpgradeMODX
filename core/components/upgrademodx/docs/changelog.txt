@@ -8,8 +8,6 @@ Improve error handling and diagnostics
 Refactor for better dependency injection and reliability
 
 
-
-
 UpgradeMODX 1.3.0-pl
 ---------------------------------
 Fix bug with blank screen when both cURL and allow_url_fopen are disabled
@@ -18,9 +16,11 @@ Refactor unZip code
 Add forcePclZip property
 Improve error handling
 
+
 UpgradeMODX 1.2.2-pl
 ---------------------------------
 Public Launch
+
 
 UpgradeMODX 1.2.1-rc
 ---------------------------------
