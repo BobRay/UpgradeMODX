@@ -480,7 +480,7 @@ if ($hasWidgets) {
             . '.');
     } else {
         $attributes = array(
-            xPDOTransport::UNIQUE_KEY => 'id',
+            xPDOTransport::UNIQUE_KEY => 'name',
             xPDOTransport::PRESERVE_KEYS => false,
             xPDOTransport::UPDATE_OBJECT => true,
         );
