@@ -262,6 +262,10 @@ if (!class_exists('UpgradeMODX')) {
 
         }
 
+        public function getVersionListPath() {
+            return $this->versionListPath;
+        }
+
         public function curlGetData($url, $returnData = false, $timeout = 6, $tries = 6 ) {
             $username = $this->modx->getOption('github_username');
             $token = $this->modx->getOption('github_token');
@@ -434,7 +438,7 @@ if (!class_exists('UpgradeMODX')) {
 
         public function mmkDir($folder, $perm = 0755) {
             if (!is_dir($folder)) {
-                mkdir($folder, $perm);
+                mkdir($folder, $perm, true);
             }
         }
     }

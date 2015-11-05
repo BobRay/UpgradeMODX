@@ -129,10 +129,13 @@ $plOnly = $modx->getOption('plOnly', $props);
 $versionsToShow = $modx->getOption('versionsToShow', $props, 5);
 $currentVersion = $modx->getOption('settings_version');
 $latestVersion = $modx->getOption('latestVersion', $props, '', true);
+$versionListPath = $upgrade->getVersionListPath();
 
 $versionListExists = false;
-if (file_exists(MODX_CORE_PATH . 'cache/upgrademodx/versionlist')) {
-    $v = file_get_contents(MODX_CORE_PATH . 'cache/upgrademodx/versionlist');
+
+$fullVersionListPath = $versionListPath . 'versionlist';
+if (file_exists($fullVersionListPath)) {
+    $v = file_get_contents($fullVersionListPath);
     if (! empty($v)) {
         $versionListExists = true;
     }
