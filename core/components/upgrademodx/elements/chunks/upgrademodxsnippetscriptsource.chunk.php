@@ -62,6 +62,9 @@ class MODXInstaller {
     static public function downloadFile($url, $path, $method)
     {
         $newfname = $path;
+        if (file_exists($path)) {
+            unlink($path);
+        }
         $newf = null;
         $file = null;
         if ($method == 'fopen') {
@@ -70,6 +73,7 @@ class MODXInstaller {
                 if ($file) {
                     $newf = fopen($newfname, "wb");
                     if ($newf) {
+                        set_time_limit(0);
                         while (!feof($file)) {
                             fwrite($newf, fread($file, 1024 * 8), 1024 * 8);
                         }
@@ -132,7 +136,7 @@ class MODXInstaller {
         return true;
     }
 
-    static public function removeFolder($path) {
+    static public function removeFolder($path, $removeRoot = true) {
         $dir = realpath($path);
         if (!is_dir($dir)) {
             return;
@@ -149,16 +153,19 @@ class MODXInstaller {
                 unlink($file->getRealPath());
             }
         }
-        rmdir($dir);
+        if ($removeRoot) {
+            rmdir($dir);
+        }
     }
 
     static public function copyFolder($src, $dest) {
+
         $path = realpath($src);
         $dest = realpath($dest);
         $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
         foreach ($objects as $name => $object) {
             $startsAt = substr(dirname($name), strlen($path));
-            self::mmkDir($dest . $startsAt);
+            self::mmkDir($dest . $startsAt, true);
             if ($object->isDir()) {
                 self::mmkDir($dest . substr($name, strlen($path)));
             }
@@ -169,9 +176,60 @@ class MODXInstaller {
         }
     }
 
+    static public function normalize($paths) {
+        if (is_array($paths)) {
+            foreach ($paths as $k => $v) {
+                $v = str_replace('\\', '/', rtrim($v, '/\\'));
+                $paths[$k] = $v;
+            }
+        } else {
+            $paths = str_replace('\\', '/', rtrim($paths, '/\\'));
+        }
+        return $paths;
+    }
+
+    static public function getDirectories($directories = array()) {
+        if (empty($directories)) {
+            $directories = array(
+                'setup' => MODX_BASE_PATH . 'setup',
+                'core' => MODX_CORE_PATH,
+                'manager' => MODX_MANAGER_PATH,
+                'connectors' => MODX_CONNECTORS_PATH,
+            );
+        }
+        /* See if we need to do processors path */
+        $modxProcessorsPath = MODXInstaller::normalize(MODX_PROCESSORS_PATH);
+        if (strpos(MODX_PROCESSORS_PATH, 'core/model/modx/processors') === false) {
+            $directories['core/model/modx/processors'] = $modxProcessorsPath;
+        }
+
+        /* Normalize directory paths */
+        $directories = MODXInstaller::normalize($directories);
+
+        return $directories;
+
+    }
+
+    static public function copyFiles($sourceDir, $directories) {
+
+        /* Normalize directory paths */
+        MODXInstaller::normalize($directories);
+        MODXInstaller::normalize($sourceDir);
+
+        /* Copy directories */
+        foreach ($directories as $source => $target) {
+            MODXInstaller::mmkDir($target);
+            set_time_limit(0);
+            MODXInstaller::copyFolder($sourceDir . '/' . $source, $target);
+        }
+
+    }
+
     static public function mmkDir($folder, $perm = 0755) {
         if (!is_dir($folder)) {
-            mkdir($folder, $perm);
+            $oldumask = umask(0);
+            mkdir($folder, $perm, true);
+            umask($oldumask);
         }
     }
     
@@ -203,7 +261,7 @@ class MODXInstaller {
         } else {
             $zipClass = $corePath . 'xpdo/compression/pclzip.lib.php';
             if (file_exists($zipClass)) {
-                include MODX_CORE_PATH . 'xpdo/compression/pclzip.lib.php';
+                include $corePath . 'xpdo/compression/pclzip.lib.php';
                 $archive = new PclZip($source);
                 if ($archive->extract(PCLZIP_OPT_PATH, $destination) == 0) {
                     $status = 'Extraction with PclZip failed - Error : ' . $archive->errorInfo(true);
@@ -214,11 +272,39 @@ class MODXInstaller {
         }
         return $status;
     }
+
+
+
+    /**
+     * Get name of downloaded MODX directory (e.g., modx-3.4.0-pl).
+     *
+     * @param $tempDir string - temporary download directory
+     * @return string - Name of directory
+     */
+    public static function getModxDir($tempDir) {
+        $handle = opendir($tempDir);
+        if ($handle !== false) {
+            while (false !== ($name = readdir($handle))) {
+                if ($name != "." && $name != "..") {
+                    $dir = $name;
+                }
+            }
+            closedir($handle);
+        } else {
+            die ('Unable to read directory contents or directory is empty: ' . dirname(__FILE__) . '/temp');
+        }
+
+        if (empty($dir)) {
+            die('Unknown error reading /temp directory');
+        }
+
+        return $dir;
+    }
 }
 
 /* Next two lines for running in debugger  */
 // if (true || !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
-//      $rowInstall = $InstallData['revo2.3.5-pl'];
+//      $rowInstall = $InstallData['revo2.4.1-pl'];
 // Comment our the two lines below to run in debugger.
 
 if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
@@ -247,8 +333,8 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         die($success);
     } elseif (!file_exists($source)) {
             die ('Missing file: ' . $source);
-    } elseif  (filesize($source) < 1) {
-        die ('File: ' . $source . ' is empty');
+    } elseif  (filesize($source) < 10000) {
+        die ('File: ' . $source . ' is too small -- download failed');
     }
 
     $tempDir = realPath(dirname(__FILE__)) . '/temp';
@@ -264,76 +350,35 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     if (! is_readable($tempDir)) {
         die('Unable to read from /temp directory');
     }
-
-
+    set_time_limit(0);
     $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
     if ($success !== true) {
         die($success);
-    }  
-    
-    unlink(dirname(__FILE__) . '/modx.zip');
-
-    /* Get name of downloaded MODX directory (e.g., modx-3.4.0-pl).
-     *  the MODX files will be below that */
-
-    $dir = '';
-    $handle = opendir($tempDir);
-    if ($handle !== false) {
-        while (false !== ($name = readdir($handle))) {
-            if ($name != "." && $name != "..") {
-                $dir = $name;
-            }
-        }
-        closedir($handle);
-    } else {
-        die ('Unable to read directory contents or directory is empty: ' . dirname(__FILE__) . '/temp' );
-    }
-    
-    if (empty($dir)) {
-        die('Unknown error reading /temp directory');
     }
 
 
-/* Directories to process */
-    $directories = array(
-        'setup' => MODX_BASE_PATH . 'setup',
-        'core' => MODX_CORE_PATH,
-        'manager' => MODX_MANAGER_PATH,
-        'connectors' => MODX_CONNECTORS_PATH,
-    );
+    $directories = MODXInstaller::getDirectories();
 
-    /* Normalize directory paths */
-    foreach ($directories as $k => $v) {
-       $v = rtrim($v, '/\\');
-       $v = str_replace('\\', '/', $v);
-       $directories[$k] = $v;
+    $directories = MODXInstaller::normalize($directories);
+
+    $sourceDir = $tempDir . '/' . MODXInstaller::getModxDir($tempDir);
+    $sourceDir = MODXInstaller::normalize($sourceDir);
+
+    MODXInstaller::copyFiles($sourceDir, $directories);
+
+    unlink($source);
+
+    if (! is_dir(MODX_BASE_PATH . 'setup')) {
+        die('File Copy Failed');
     }
 
-    /* Create Setup directory if necessary */
-    MODXInstaller::mmkDir($directories['setup']);
+    MODXInstaller::removeFolder($tempDir, true);
 
-    /* See if we need to do processors path */
-    $modxProcessorsPath = rtrim(MODX_PROCESSORS_PATH, '/\\');
-    $modxProcessorsPath = str_replace('\\', '/', $modxProcessorsPath);
-    if (strpos(MODX_PROCESSORS_PATH, 'core/model/modx/processors') === false) {
-        $directories['core/model/modx/processors'] = $modxProcessorsPath;
-    }
-
-    /* Copy directories */
-    foreach ($directories as $source => $target) {
-
-        set_time_limit(0);
-        MODXInstaller::copyFolder(dirname(__FILE__) . '/temp/' . $dir . '/' . $source, $target);
-    }
-    MODXInstaller::removeFolder(dirname(__FILE__) . '/temp');
-
-    /* Clear cache files */
+    /* Clear cache files but not cache folder */
 
     $path = MODX_CORE_PATH . 'cache';
     if (is_dir($path)) {
-        MODXInstaller::removeFolder($path);
-        /* recreate cache dir */
-        MODXInstaller::mmkDir($path);
+        MODXInstaller::removeFolder($path, false);
     }
 
     unlink(basename(__FILE__));

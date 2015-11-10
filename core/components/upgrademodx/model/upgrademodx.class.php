@@ -132,8 +132,8 @@ if (!class_exists('UpgradeMODX')) {
                         '/* [[+ForcePclZip]] */' => $forcePclZipString,
                         '/* [[+ForceFopen]] */' => $forceFopenString,
                         '/* [[+InstallData]] */' => $versionList,
-
                     );
+
                     $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');
                     $fileContent = str_replace(array_keys($fields), array_values($fields), $fileContent);
                     fwrite($fp, $fileContent);
