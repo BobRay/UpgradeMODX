@@ -40,23 +40,6 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.max_nesting_level', 100000);
 }
 
-/* Do not touch the following comments! You have been warned!  */
-  /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
-  /* [[+ForcePclZip]] */
-  /* [[+ForceFopen]] */
-  /* [[+InstallData]] */
-
-$method = 0;
-if (extension_loaded('curl') && (!$forceFopen)) {
-    $method = 'curl';
-} elseif (ini_get('allow_url_fopen')) {
-    $method = 'fopen';
-} else {
-    MODXInstaller::quit('Neither allow_url_fopen or cURL is enabled, cannot download the MODX archive');
-}
-
-
-
 
 class MODXInstaller {
     static public function downloadFile($url, $path, $method)
@@ -356,6 +339,19 @@ class MODXInstaller {
     }
 }
 
+/* Do not touch the following comments! You have been warned!  */
+/** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
+/* [[+ForcePclZip]] */
+/* [[+ForceFopen]] */
+/* [[+InstallData]] */
+
+$method = 0;
+if (extension_loaded('curl') && (!$forceFopen)) {
+    $method = 'curl';
+} elseif (ini_get('allow_url_fopen')) {
+    $method = 'fopen';
+}
+
 /* Next two lines for running in debugger  */
 // if (true || !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
 //      $rowInstall = $InstallData['revo2.4.1-pl'];
@@ -484,7 +480,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         echo "<h2> Using " . $method . "</h2>";
         echo '<br><button>Upgrade &rarr;</button>';
     } else {
-        echo '<h2>Cannot download the files - allow_url_fopen is not enabled on this server.</h2>';
+        echo '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>';
     }
     echo '</form>
 </div>
