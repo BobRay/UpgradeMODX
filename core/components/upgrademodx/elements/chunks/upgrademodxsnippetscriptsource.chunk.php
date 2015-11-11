@@ -273,7 +273,55 @@ class MODXInstaller {
         return $status;
     }
 
+    public static function remote_filesize($url, $method = 'curl') {
+        $retVal = 'unknown';
+        if ($method === 'curl') {
+            $curl = curl_init($url);
 
+            // Issue a HEAD request and follow any redirects.
+            curl_setopt($curl, CURLOPT_NOBODY, true);
+            curl_setopt($curl, CURLOPT_HEADER, true);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla');
+
+            $data = curl_exec($curl);
+            curl_close($curl);
+
+            if ($data) {
+                $content_length = "unknown";
+                $status = "unknown";
+
+                if (preg_match("/^HTTP\/1\.[01] (\d\d\d)/", $data, $matches)) {
+                    $status = (int)$matches[1];
+                }
+
+                if (preg_match("/Content-Length: (\d+)/", $data, $matches)) {
+                    $content_length = (int)$matches[1];
+                }
+
+                // http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+                if ($status == 200 || ($status > 300 && $status <= 308)) {
+                    $retVal = $content_length;
+                }
+            }
+
+        } elseif ($method === 'fopen') {
+            static $regex = '/^Content-Length: *+\K\d++$/im';
+            if (!$fp = @fopen($url, 'rb')) {
+                return false;
+            }
+            if (
+                isset($http_response_header) &&
+                preg_match($regex, implode("\n", $http_response_header), $matches)
+            ) {
+                return (int)$matches[0];
+            }
+            $retVal = strlen(stream_get_contents($fp));
+        }
+        return $retVal;
+
+    }
 
     /**
      * Get name of downloaded MODX directory (e.g., modx-3.4.0-pl).
@@ -307,6 +355,7 @@ class MODXInstaller {
 //      $rowInstall = $InstallData['revo2.4.1-pl'];
 // Comment our the two lines below to run in debugger.
 
+
 if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
     $rowInstall = $InstallData[$_GET['modx']];
 
@@ -326,14 +375,17 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
 
     /* run unzip and install */
     $source = dirname(__FILE__) . "/modx.zip";
-    $success = MODXInstaller::downloadFile($rowInstall['link'], $source, $method);
+    $url = $rowInstall['link'];
+    set_time_limit(0);
+    $success = MODXInstaller::downloadFile($url, $source, $method);
 
     /* Make sure we have the downloaded file */
+    $expectedSize = MODXInstaller::remote_filesize($url, $method);
     if ($success !== true) {
         die($success);
     } elseif (!file_exists($source)) {
             die ('Missing file: ' . $source);
-    } elseif  (filesize($source) < 10000) {
+    } elseif  (filesize($source) < ($expectedSize - 1000)) {
         die ('File: ' . $source . ' is too small -- download failed');
     }
 
