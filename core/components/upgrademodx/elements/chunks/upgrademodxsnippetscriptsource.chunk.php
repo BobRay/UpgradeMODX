@@ -52,7 +52,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
 } elseif (ini_get('allow_url_fopen')) {
     $method = 'fopen';
 } else {
-    die('Neither allow_url_fopen or cURL is enabled, cannot download the MODX archive');
+    MODXInstaller::quit('Neither allow_url_fopen or cURL is enabled, cannot download the MODX archive');
 }
 
 
@@ -247,7 +247,7 @@ class MODXInstaller {
                          $result = $zip->extractTo($destination);
                          if ($result === false) {
                              $msg = $zip->getStatusString();
-                             die($msg);
+                             MODXInstaller::quit($msg);
                          }
                     }
                     $zip->close();
@@ -339,14 +339,20 @@ class MODXInstaller {
             }
             closedir($handle);
         } else {
-            die ('Unable to read directory contents or directory is empty: ' . dirname(__FILE__) . '/temp');
+            MODXInstaller::quit ('Unable to read directory contents or directory is empty: ' . dirname(__FILE__) . '/temp');
         }
 
         if (empty($dir)) {
-            die('Unknown error reading /temp directory');
+            MODXInstaller::quit('Unknown error reading /temp directory');
         }
 
         return $dir;
+    }
+
+    public static function quit($msg) {
+        $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:80px;padding:30px;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
+        $end = '</p><p style="margin-bottom:120px;"><a href="' . MODX_MANAGER_URL . '">Back to Manager</a></p></div>';
+        MODXInstaller::quit($begin . $msg  . $end);
     }
 }
 
@@ -363,13 +369,13 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         @include 'config.core.php';
     }
     if (!defined('MODX_CORE_PATH')) {
-        die('Could not read config.core.php');
+        MODXInstaller::quit('Could not read config.core.php');
     }
 
     @include MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
 
     if (!defined('MODX_CONNECTORS_PATH')) {
-        die ('Could not read main config file');
+        MODXInstaller::quit ('Could not read main config file');
     }
 
 
@@ -382,11 +388,11 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     /* Make sure we have the downloaded file */
     $expectedSize = MODXInstaller::remote_filesize($url, $method);
     if ($success !== true) {
-        die($success);
+        MODXInstaller::quit($success);
     } elseif (!file_exists($source)) {
-            die ('Missing file: ' . $source);
+            MODXInstaller::quit ('Missing file: ' . $source);
     } elseif  (filesize($source) < ($expectedSize - 1000)) {
-        die ('File: ' . $source . ' is too small -- download failed');
+        MODXInstaller::quit ('File: ' . $source . ' is too small -- download failed');
     }
 
     $tempDir = realPath(dirname(__FILE__)) . '/temp';
@@ -396,16 +402,16 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     $destination = $tempDir;
 
     if (! file_exists($tempDir)) {
-        die('Unable to create directory: ' . $tempDir);
+        MODXInstaller::quit('Unable to create directory: ' . $tempDir);
     }
 
     if (! is_readable($tempDir)) {
-        die('Unable to read from /temp directory');
+        MODXInstaller::quit('Unable to read from /temp directory');
     }
     set_time_limit(0);
     $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
     if ($success !== true) {
-        die($success);
+        MODXInstaller::quit($success);
     }
 
 
@@ -421,7 +427,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     unlink($source);
 
     if (! is_dir(MODX_BASE_PATH . 'setup')) {
-        die('File Copy Failed');
+        MODXInstaller::quit('File Copy Failed');
     }
 
     MODXInstaller::removeFolder($tempDir, true);
