@@ -258,18 +258,40 @@ class MODXInstaller {
 
     public static function remote_filesize($url, $method = 'curl') {
         $retVal = 'unknown';
+        clearstatcache();
         if ($method === 'curl') {
-            $curl = curl_init($url);
+            $ch = curl_init($url);
 
             // Issue a HEAD request and follow any redirects.
-            curl_setopt($curl, CURLOPT_NOBODY, true);
-            curl_setopt($curl, CURLOPT_HEADER, true);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla');
+            curl_setopt($ch, CURLOPT_TIMEOUT, 60 );
+            curl_setopt($ch, CURLOPT_NOBODY, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
 
-            $data = curl_exec($curl);
-            curl_close($curl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla');
+            if (filter_var(ini_get('open_basedir'), FILTER_VALIDATE_BOOLEAN) === false && filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) === false) {
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            } else {
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+                $rch = curl_copy_handle($ch);
+                $newurl = $url;
+                curl_setopt($rch, CURLOPT_URL, $newurl);
+                $header = curl_exec($rch);
+                if (curl_errno($rch)) {
+                    $code = 0;
+                } else {
+                    $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
+                    if ($code == 301 || $code == 302) {
+                        preg_match('/Location:(.*?)\n/i', $header, $matches);
+                        $newurl = trim(array_pop($matches));
+                    }
+                    curl_close($rch);
+                    curl_setopt($ch, CURLOPT_URL, $newurl);
+                }
+            }
+
+            $data = curl_exec($ch);
+            curl_close($ch);
 
             if ($data) {
                 $content_length = "unknown";
