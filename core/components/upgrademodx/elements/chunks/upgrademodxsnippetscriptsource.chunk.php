@@ -387,9 +387,18 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         MODXInstaller::quit($success);
     } elseif (!file_exists($source)) {
             MODXInstaller::quit ('Missing file: ' . $source);
-    } elseif  (filesize($source) < ($expectedSize - 1000)) {
-        MODXInstaller::quit ('File: ' . $source . ' is too small -- download failed');
     }
+
+    $size = filesize($source);
+    if ($expectedSize  !== 'unknown') {
+            if ($size < ($expectedSize - 1000)) {
+                MODXInstaller::quit('File: ' . $source . ' is too small -- download failed');
+            }
+    } elseif ($size < 1) {
+        MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
+    }
+
+
 
     $tempDir = realPath(dirname(__FILE__)) . '/temp';
     MODXInstaller::mmkdir($tempDir);
