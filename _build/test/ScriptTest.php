@@ -274,6 +274,13 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         MODXInstaller::removeFolder($folder, true);
         $this->assertFalse(is_dir($folder));
 
+        $folder = 'C:\xampp\htdocs\addons\assets\mycomponents\upgrademodx\_build\test\temp';
+        $this->assertTrue(is_dir($folder));
+        MODXInstaller::removeFolder($folder, false);
+        $this->assertTrue(is_dir($folder));
+        MODXInstaller::removeFolder($folder);
+        $this->assertFalse(is_dir($folder));
+
     }
 
 
