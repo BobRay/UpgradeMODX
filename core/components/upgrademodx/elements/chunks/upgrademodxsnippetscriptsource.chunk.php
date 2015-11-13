@@ -106,7 +106,7 @@ class MODXInstaller {
                 }
                 $retVal = curl_exec($ch);
                 if ($retVal === false) {
-                    return ('cUrl download of modx.zip failed');
+                    return ('cUrl download of modx.zip failed ');
                 }
                 curl_close($ch);
             } else {
@@ -235,7 +235,7 @@ class MODXInstaller {
                     }
                     $zip->close();
                 } else {
-                    $status = 'Could not open ZipArchive ' . $source;
+                    $status = 'Could not open ZipArchive ' . $source . ' ' . $zip->getStatusString();
                 }
 
             } else {
@@ -256,77 +256,6 @@ class MODXInstaller {
         return $status;
     }
 
-    public static function remote_filesize($url, $method = 'curl') {
-        $retVal = 'unknown';
-        clearstatcache();
-        if ($method === 'curl') {
-            $ch = curl_init($url);
-
-            // Issue a HEAD request and follow any redirects.
-            curl_setopt($ch, CURLOPT_TIMEOUT, 60 );
-            curl_setopt($ch, CURLOPT_NOBODY, true);
-            curl_setopt($ch, CURLOPT_HEADER, true);
-
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla');
-            if (filter_var(ini_get('open_basedir'), FILTER_VALIDATE_BOOLEAN) === false && filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) === false) {
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            } else {
-                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-                $rch = curl_copy_handle($ch);
-                $newurl = $url;
-                curl_setopt($rch, CURLOPT_URL, $newurl);
-                $header = curl_exec($rch);
-                if (curl_errno($rch)) {
-                    $code = 0;
-                } else {
-                    $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
-                    if ($code == 301 || $code == 302) {
-                        preg_match('/Location:(.*?)\n/i', $header, $matches);
-                        $newurl = trim(array_pop($matches));
-                    }
-                    curl_close($rch);
-                    curl_setopt($ch, CURLOPT_URL, $newurl);
-                }
-            }
-
-            $data = curl_exec($ch);
-            curl_close($ch);
-
-            if ($data) {
-                $content_length = "unknown";
-                $status = "unknown";
-
-                if (preg_match("/^HTTP\/1\.[01] (\d\d\d)/", $data, $matches)) {
-                    $status = (int)$matches[1];
-                }
-
-                if (preg_match("/Content-Length: (\d+)/", $data, $matches)) {
-                    $content_length = (int)$matches[1];
-                }
-
-                // http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
-                if ($status == 200 || ($status > 300 && $status <= 308)) {
-                    $retVal = $content_length;
-                }
-            }
-
-        } elseif ($method === 'fopen') {
-            static $regex = '/^Content-Length: *+\K\d++$/im';
-            if (!$fp = @fopen($url, 'rb')) {
-                return false;
-            }
-            if (
-                isset($http_response_header) &&
-                preg_match($regex, implode("\n", $http_response_header), $matches)
-            ) {
-                return (int)$matches[0];
-            }
-            $retVal = strlen(stream_get_contents($fp));
-        }
-        return $retVal;
-
-    }
 
     /**
      * Get name of downloaded MODX directory (e.g., modx-3.4.0-pl).
@@ -404,23 +333,14 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     $success = MODXInstaller::downloadFile($url, $source, $method);
 
     /* Make sure we have the downloaded file */
-    $expectedSize = MODXInstaller::remote_filesize($url, $method);
+
     if ($success !== true) {
         MODXInstaller::quit($success);
     } elseif (!file_exists($source)) {
             MODXInstaller::quit ('Missing file: ' . $source);
-    }
-
-    $size = filesize($source);
-    if ($expectedSize  !== 'unknown') {
-            if ($size < ($expectedSize - 1000)) {
-                MODXInstaller::quit('File: ' . $source . ' is too small -- download failed');
-            }
-    } elseif ($size < 1) {
+    } elseif (filesize($source) < 1) {
         MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
     }
-
-
 
     $tempDir = realPath(dirname(__FILE__)) . '/temp';
     MODXInstaller::mmkdir($tempDir);
