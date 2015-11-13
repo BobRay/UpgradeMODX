@@ -11,7 +11,7 @@
 
 <p>For testing purposes, clicking on the &quot;Upgrade MODX&quot; button in the widget will not alter your site in any way (though all users will be logged out). Nothing happens until you click on the green &quot;Upgrade&quot; button in the upgrade form the widget button launches. The danger is that the upgrade script will download and place all the files, but Setup will fail for some reason. I've never had this happen, but if it does, you'll be left with a mixed site that may be broken. You can try to fix the problem and re-run Setup. If Setup completes with no problems, you should be fine.</p>
 
-<p>Also for testing purposes (and for fixing any corrupted MODX files), when an upgrade is available, you can &quot;upgrade&quot; MODX to the version you currently have.  UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup.</p>
+<p>Also for testing purposes (and for fixing any corrupted MODX files), when an upgrade is available, you can &quot;upgrade&quot; MODX to the version you currently have.  UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup. In theory, UpgradeMODX can also be used to &quot;downgrade&quot; MODX to a previous version, though this has not been extensively tested.</p>
 
 <br />
 <h3>Installing UpgradeMODX</h3>
@@ -62,6 +62,8 @@
 
 
 <p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change the <code>&groups</code> property of the UpgradeMODXWidget snippet. You can also change the <code>&interval</code> property if you'd like it to check for upgrades more or less often.</p>
+
+<p>Hint: To get to the Manager's dashboard, you can click on the MODX logo at the upper left.</p>
 
 <p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60 seconds. It will only execute when you visit the dashboard at least 60 seconds after the last check. The minimum recommendation for the <code>&interval</code> property on a production site is <code>1 day</code>.</p>
 
