@@ -267,15 +267,6 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    function testRemoteFilesize() {
-        $url = 'http://modx.com/download/direct/modx-2.4.1-pl.zip';
-        $size = MODXInstaller::remote_filesize($url, 'curl');
-        $this->assertEquals(10552449, $size);
-        $size = MODXInstaller::remote_filesize($url, 'fopen');
-        $this->assertEquals(10552449, $size);
-
-    }
-
     public function testRemoveFolder() {
         $folder = 'C:\xampp\htdocs\addons\assets\mycomponents\upgrademodx\_build\test\temproot';
         $this->assertTrue(is_dir($folder));
