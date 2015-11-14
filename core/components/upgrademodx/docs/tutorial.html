@@ -14,6 +14,11 @@
 <p>Also for testing purposes (and for fixing any corrupted MODX files), when an upgrade is available, you can &quot;upgrade&quot; MODX to the version you currently have.  UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup. In theory, UpgradeMODX can also be used to &quot;downgrade&quot; MODX to a previous version, though this has not been extensively tested.</p>
 
 <br />
+<div class="box">
+    <p>If you have moved your core directory, you'll get a red warning message during Setup telling you that your core path is invalid. This is normal. Just correct the core path, and Setup will work fine.</p>
+</div>
+
+<br />
 <h3>Installing UpgradeMODX</h3>
 
 <p>Go to Extras -> Installer (or System -> Package Management in older versions of MODX) on the main menu in the MODX Manager and click on the &quot;Download Extras&quot; button. That will take you to the Revolution Repository (AKA Web Transport Facility). Put UpgradeMODX in the search box and press Enter. Click on the &quot;Download&quot; button, and once the package is downloaded, click on the &quot;Back to Package Manager&quot; button. That should bring you back to your Package Management grid. Click on the &quot;Install&quot; button next to UpgradeMODX in the grid. The UpgradeMODX package should now be installed.</p>
@@ -43,9 +48,6 @@
 <p>To upgrade your site, just click on the &quot;Upgrade MODX&quot; button in the widget. That will launch the form where you can select a version to upgrade to. Downloading and extracting the files may take some time, so be patient.</p>
 
 <p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) -> Dashboards.</p>
-
-<p>If downloading new MODX version fails, try setting the <code>&forcePclZip</code> property of the snippet to <code>Yes</code>.</p>
-
 
 <br />
 
@@ -79,9 +81,9 @@
 
 <div class="box">
     
-    <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
+    <p>When checking, the widget will make one cURL or fopen call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL or fopen call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
 
-    <p>If either site is slow to respond, cURL or fopen will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, change the <code>&githubTimeout</code> and <code>&modxTimeout</code> properties and/or the <code>&attempts</code> property.</p>
+    <p>If either site is slow to respond, or you're on a slow internet connection, cURL or fopen will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, change the <code>&githubTimeout</code> and <code>&modxTimeout</code> properties and/or the <code>&attempts</code> property.</p>
 </div>
 
 <br/>
@@ -106,7 +108,6 @@
     for you, you can set the <code>&forceFopen</code> property to <code>Yes</code> to avoid using cURL altogether.
     Similarly, you can set the <code>&forcePclZip</code> property to <code>Yes</code> to avoid using ZipArchive to unzip
     the downloaded MODX file. </p>
-
 
 <p>UpgradeMODX stores the list of the latest available versions of MODX in a file called <code>versionlist</code>. That file is used to create the form that allows you to select the version to install. By default, the versionlist file is located in the <code>{core_path}cache/upgrademodx/</code> directory. You can specify another directory with the <code>&versionListPath</code> property. Use only the directory (minus the filename) in the property and be sure it ends with a slash. UpgradeMODX will translate both <code>{core_path}</code> and <code>{assets_path}</code> in the property value. The path can also be a hard-coded full path. Here's an example:</p>
 

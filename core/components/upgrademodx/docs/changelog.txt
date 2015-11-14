@@ -5,7 +5,10 @@ UpgradeMODX 1.4.0-pl
 Add forceFopen, githubTimeout, modxTimeout properties
 Add attempts, and versionListPath properties
 Improve error handling and diagnostics
+Unit tests for all methods
 Refactor for better dependency injection and reliability
+Fix bug with missing version list
+
 
 
 UpgradeMODX 1.3.0-pl
