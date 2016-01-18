@@ -413,7 +413,7 @@ if (!class_exists('UpgradeMODX')) {
             $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout, $this->attempts);
 
             if ($retVal !== false) {
-                $retVal = $this->finalizeVersionArray($retVal);
+                $retVal = $this->finalizeVersionArray($retVal, $plOnly, $versionsToShow);
                 if ($retVal !== false) {
                     $this->updateLatestVersion($retVal);
                     $this->updateSnippetProperties(time(), $this->latestVersion);
