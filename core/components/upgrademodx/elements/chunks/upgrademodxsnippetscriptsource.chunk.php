@@ -388,6 +388,16 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     }
 
     unlink(basename(__FILE__));
+
+    /* Log upgrade in Manager Actions log */
+    include MODX_CORE_PATH . 'model/modx/modx.class.php';
+    $modx = new modX();
+    $modx->initialize('web');
+    $modx->lexicon->load('core:default');
+    $modx->logManagerAction('Upgrade MODX','modWorkspace', $modx->lexicon('version') . ' ' . $_GET['modx'], $_GET['userId'] );
+    $modx = null;
+
+    /* Forward to Setup */
     header('Location: ' . $rowInstall['location']);
 
 } else {
@@ -417,25 +427,25 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     </div>
 
 <div class="content">';
-    echo '<h2>Choose MODX version for Upgrade</h2>
+    echo "\n" .  '<h2>Choose MODX version for Upgrade</h2>
     <form>';
     foreach ($ItemGrid as $tree => $item) {
-        echo '<div class="column">
-            <h3>' . strtoupper($tree) . '</h3>';
+        echo "\n" . '<div class="column">' .
+            "\n<h3>" . strtoupper($tree) . '</h3>';
         foreach ($item as $version => $itemInfo) {
-            echo '<label><input type="radio" name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . '</span></label><br>';
+            echo "\n    " . '<label><input type="radio" name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . '</span></label><br>';
         }
         echo '</div>';
     }
-
+    echo "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
     if ($method) {
-        echo "<h2> Using " . $method . "</h2>";
-        echo '<br><button>Upgrade &rarr;</button>';
+        echo "\n<h2> Using " . $method . "</h2>";
+        echo "\n" . '<br><button>Upgrade &rarr;</button>';
     } else {
-        echo '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>';
+        echo "\n" . '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>';
     }
-    echo '</form>
-</div>
+    echo '</form>' . "\n " .
+'</div>
     <div class="footer">
         <p>Originally created by <a href="http://ga-alex.com" title="">Bumkaka</a> & <a href="http://dmi3yy.com" title="">Dmi3yy</a></p>
         <p>Modified for Revolution only by <a href="http://sottwell.com" title="">sottwell</a></p>
