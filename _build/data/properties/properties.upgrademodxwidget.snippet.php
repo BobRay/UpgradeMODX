@@ -129,7 +129,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2.4.2-pl',
+    'value' => '2.4.3-pl',
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
