@@ -85,6 +85,9 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $attempts int */
         public $attempts = 2;
 
+        /** @var $verifyPeer int */
+        public $verifyPeer = true;
+
 
         public function __construct($modx) {
             /** @var $modx modX */
@@ -106,6 +109,7 @@ if (!class_exists('UpgradeMODX')) {
             $path = $this->modx->getOption('versionListPath', $props, MODX_CORE_PATH . 'cache/upgrademodx/', true);
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
+            $this->verifyPeer = $this->modx->getOption('ssl_verify_peer', $props, true);
         }
 
         public function writeScriptFile() {
@@ -274,8 +278,8 @@ if (!class_exists('UpgradeMODX')) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0)");
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->verifyPeer);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, $returnData);

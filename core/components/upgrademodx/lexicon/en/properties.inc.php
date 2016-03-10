@@ -51,3 +51,4 @@ $_lang['ugm_versionsToShow_desc'] = 'Number of versions to show in upgrade form 
 $_lang['ugm_language_desc'] = 'Two-letter language code for language to use; default: en';
 $_lang['ugm_forcePclZip_desc'] = 'Force the use of PclZip instead of ZipArchive';
 $_lang['ugm_forceFopen_desc'] = 'Force the use of fopen instead of cURL for the download';
+$_lang['ugm_ssl_verify_peer_desc'] = 'For security, have cURL verify the identity of the server';

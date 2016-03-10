@@ -157,6 +157,18 @@ $properties = array (
     'lexicon' => 'upgrademodx:properties',
     'area' => '',
   ),
+  'ssl_verify_peer' => 
+  array (
+    'name' => 'ssl_verify_peer',
+    'desc' => 'ugm_ssl_verify_peer_desc',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => true,
+    'lexicon' => 'upgrademodx:properties',
+    'area' => '',
+  ),
   'versionListPath' => 
   array (
     'name' => 'versionListPath',
