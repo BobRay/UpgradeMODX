@@ -1,5 +1,11 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.5.0-pl
+---------------------------------
+Log upgrades to MODX Manager Actions log
+Add snippet property to control cURL SSL_VERIFY_PEER
+
+
 UpgradeMODX 1.4.0-pl
 ---------------------------------
 Add forceFopen, githubTimeout, modxTimeout properties
