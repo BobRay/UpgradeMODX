@@ -85,22 +85,18 @@ class MODXInstaller {
                 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0)');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_FILE, $newf);
-                if (filter_var(ini_get('open_basedir'), FILTER_VALIDATE_BOOLEAN) === false && filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) === false) {
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                if (is_null(ini_get('open_basedir')) && filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) === false) {
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 } else {
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
                     $rch = curl_copy_handle($ch);
-                    $newurl = $url;
-                    curl_setopt($rch, CURLOPT_URL, $newurl);
-                    $header = curl_exec($rch);
-                    if (curl_errno($rch)) {
-                        $code = 0;
-                    } else {
-                        $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
-                        if ($code == 301 || $code == 302) {
-                            preg_match('/Location:(.*?)\n/i', $header, $matches);
-                            $newurl = trim(array_pop($matches));
-                        }
+                    // Check for redirects
+                    curl_setopt($rch, CURLOPT_URL, $url);
+                    curl_exec($rch);
+                    if (!curl_errno($rch)) {
+                        $newurl = curl_getinfo($rch, CURLINFO_REDIRECT_URL);
                         curl_close($rch);
                         curl_setopt($ch, CURLOPT_URL, $newurl);
                     }
