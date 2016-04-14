@@ -42,7 +42,7 @@ if (extension_loaded('xdebug')) {
 
 
 class MODXInstaller {
-    static public function downloadFile($url, $path, $method)
+    static public function downloadFile($url, $path, $method, $certPath)
     {
         $newfname = $path;
         if (file_exists($path)) {
@@ -81,6 +81,9 @@ class MODXInstaller {
             if ($newf) {
                 set_time_limit(0);
                 $ch = curl_init(str_replace(" ", "%20", $url));
+                curl_setopt($ch, CURLOPT_CAINFO, $certPath);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
                 curl_setopt($ch, CURLOPT_TIMEOUT, 180);
                 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0)');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -107,7 +110,8 @@ class MODXInstaller {
                 }
                 $retVal = curl_exec($ch);
                 if ($retVal === false) {
-                    return ('cUrl download of modx.zip failed ');
+
+                    return ('cUrl download of modx.zip failed ' . curl_error($ch));
                 }
                 curl_close($ch);
             } else {
@@ -287,7 +291,7 @@ class MODXInstaller {
     public static function quit($msg) {
         $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:80px;padding:30px;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
         $end = '</p><p style="margin-bottom:120px;"><a href="' . MODX_MANAGER_URL . '">Back to Manager</a></p></div>';
-        MODXInstaller::quit($begin . $msg  . $end);
+        die($begin . $msg  . $end);
     }
 }
 
@@ -306,12 +310,12 @@ if (extension_loaded('curl') && (!$forceFopen)) {
 
 /* Next two lines for running in debugger  */
 // if (true || !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
-//      $rowInstall = $InstallData['revo2.4.1-pl'];
+//       $rowInstall = $InstallData['revo2.4.1-pl'];
 // Comment our the two lines below to run in debugger.
 
 
-if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
-    $rowInstall = $InstallData[$_GET['modx']];
+   if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
+       $rowInstall = $InstallData[$_GET['modx']];
 
     if (file_exists('config.core.php')) {
         @include 'config.core.php';
@@ -330,8 +334,13 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     /* run unzip and install */
     $source = dirname(__FILE__) . "/modx.zip";
     $url = $rowInstall['link'];
+    $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
+    if (! file_exists($certPath)) {
+        MODXInstaller::quit('Could not find cacert.pem');
+    }
     set_time_limit(0);
-    $success = MODXInstaller::downloadFile($url, $source, $method);
+
+    $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
 
     /* Make sure we have the downloaded file */
 
@@ -339,7 +348,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         MODXInstaller::quit($success);
     } elseif (!file_exists($source)) {
             MODXInstaller::quit ('Missing file: ' . $source);
-    } elseif (filesize($source) < 1) {
+    } elseif (filesize($source) < 64) {
         MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
     }
 
@@ -391,6 +400,7 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
 
     /* Log upgrade in Manager Actions log */
     include MODX_CORE_PATH . 'model/modx/modx.class.php';
+
     $modx = new modX();
     $modx->initialize('web');
     $modx->lexicon->load('core:default');
