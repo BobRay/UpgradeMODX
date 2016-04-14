@@ -41,7 +41,7 @@ if ($object->xpdo) {
                         'pagetitle' => 'UpgradeMODX',
                         'alias' => 'upgrade-modx',
                         'description' => 'View this resource to check for upgrades if your MODX version shows no widget',
-                        'content' => '[[!UpgradeMODX]]',
+                        'content' => '[[!UpgradeMODXWidget]]',
                     ), '', false, true );
                     $doc->save();
 
