@@ -399,7 +399,8 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $retVal =  $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
 
-        $currentVersion = '2.4.3-pl';
+        /* This has to be updated to the current version before testing */
+        $currentVersion = '2.4.4-pl';
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
 
@@ -417,7 +418,9 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
             unlink($path);
         }
 
-        $currentVersion = '2.4.3-pl';
+
+        /* This has to be updated to the current version before testing */
+        $currentVersion = '2.4.4-pl';
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
 
