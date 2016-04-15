@@ -88,6 +88,11 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $verifyPeer int */
         public $verifyPeer = true;
 
+        /** @var $github_username string */
+            public $github_username;
+
+        /** @var $github_token string */
+            public $github_token;
 
         public function __construct($modx) {
             /** @var $modx modX */
@@ -110,6 +115,12 @@ if (!class_exists('UpgradeMODX')) {
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
             $this->verifyPeer = $this->modx->getOption('ssl_verify_peer', $props, true);
+
+            /* Next two use System Setting if property is empty */
+            $this->github_username = $this->modx->getOption('github_username',
+                $props, $this->modx->getOption('github_username', null), true);
+            $this->github_token = $this->modx->getOption('github_token', $props,
+                $this->modx->getOption('github_token', null), true);
         }
 
         public function writeScriptFile() {
@@ -271,8 +282,8 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function curlGetData($url, $returnData = false, $timeout = 6, $tries = 6 ) {
-            $username = $this->modx->getOption('github_username');
-            $token = $this->modx->getOption('github_token');
+            $username = $this->github_username;
+            $token = $this->github_token;
             $retVal = false;
             $errorMsg = '(' . $url . ' - curl) ' . $this->modx->lexicon('failed');
             $ch = curl_init();

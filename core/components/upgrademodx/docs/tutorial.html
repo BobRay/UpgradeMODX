@@ -7,7 +7,7 @@
 <p>(Jump to <a href="[[~[[*id]]]]#propertiesTable">Properties Table</a>)</p>
 <br />
 
-<p><b>The pl version of UpgradeMODX has been tested more extensively than the beta and rc versions, but you are still strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
+<p><b>The pl versions of UpgradeMODX has been tested more extensively than the beta and rc versions, but you are still strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
 
 <p>For testing purposes, clicking on the &quot;Upgrade MODX&quot; button in the widget will not alter your site in any way (though all users will be logged out). Nothing happens until you click on the green &quot;Upgrade&quot; button in the upgrade form the widget button launches. The danger is that the upgrade script will download and place all the files, but Setup will fail for some reason. I've never had this happen, but if it does, you'll be left with a mixed site that may be broken. You can try to fix the problem and re-run Setup. If Setup completes with no problems, you should be fine.</p>
 
@@ -90,7 +90,7 @@
 
 <br/>
 
-<p>You are *strongly* advised not to change anything in the package except the snippet properties. Be aware that the snippet properties will revert to their defaults if you upgrade or re-install UpgradeMODX. This is because snippet-type widgets can't use property sets and have no tag to edit.</p>
+<p>You are *strongly* advised not to change anything in the package except the snippet properties. Be aware that the snippet properties will revert to their defaults if you upgrade or re-install UpgradeMODX. This is because, at this writing, snippet-type widgets can't use property sets and have no tag to edit.</p>
 
 <br/>
 <h3>Security</h3>
@@ -102,6 +102,15 @@
 <p>After upgrading the site, It's a good idea to make sure that the <code>upgrade.php</code> file in the MODX root directory, and the <code>/temp</code> directory, also in the MODX root directory, have been removed, especially if the script times out.</p>
 
 <br />
+<h3>GitHub API Rate Limit Exceeded</h3>
+<br />
+
+<p>The default install of UpgradeMODX makes anonymous requests to the MODX repository at GitHub for information. Requests of this type are limited to 60 per hour. If a lot of people are making requests, or your <code>&interval</code> setting is very short, or if you are doing a lot of testing, this limit could be hit and you will get the error message: <code>GitHub API Rate Limit Exceeded</code>. You can try again later, but to solve this problem permanently, you can get your own GitHub token so your requests will not be anonymous. That will bump your limit up to 5,000 requests per hour.</p>
+
+<p>You can create a free account at GitHub, or use an existing one. To get a token, follow the directions <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">here</a>. Copy your token to the clipboard, then paste it into the <code>&github_token</code> property of the UpgradeMODXWidget snippet. Enter your GitHub username in the <code>github_username</code> property. Don't forget to save the snippet.</p>
+
+<p>Because the UpgradeMODXWidget snippet properties will be overwritten by upgrades to the UpgradeMODX package, you may choose to leave the <code>&github_token</code> and <code>github_username</code> properties empty and create matching System Settings. As long as the 'key' fields of the properties are <code>github_username</code> and <code>github_token</code>, and the 'value' field is correct, the other fields of the System Setting don't matter.</p>
+
 <h3>Troubleshooting</h3>
 
 <p>If you get frequent timeouts, you can increase the <code>&githubTimeout</code> or <code>&modxTimeout</code> properties. They set how long the program will wait for a response. The default is 6 seconds.  There is also the <code>&attempts</code> property, which determines how many times the script will try to connect. By default, the script will make two tries at each site. Feel free to change the value.</p>
@@ -111,9 +120,15 @@
     Similarly, you can set the <code>&forcePclZip</code> property to <code>Yes</code> to avoid using ZipArchive to unzip
     the downloaded MODX file. </p>
 
+<br />
+
 <div class="box">
-    <p>Version 1.5 of UpgradeMODX sets the cURL SSL_VERIFY_PEER option to true by default. If you get a cURL error related to the security certificate, it means that the <a href="http://unitstep.net/blog/2009/05/05/using-curl-in-php-to-access-https-ssltls-protected-sites/" target="_blank">security certificate bundle</a> is missing, outdated, or not configured properly on your server. A quick fix is to set the <code>ssl_verify_peer</code> property of the UpgradeMODX widget snippet to <code>No</code>. This is less secure, and the certificate setup should really be corrected. How that is done depends on your server. You may have to contact your host to fix it.</p>
+    <p>Version 1.5.1 of UpgradeMODX sets the cURL SSL_VERIFY_PEER option to <code>true</code> by default. It also provides a certificate file in the package, so there should be no need to turn it off. Having this setting off leaves you vulnerable to man-in-the-middle attacks where the attacker could pretend to be the MODX repo and lead you to download malicious code instead of MODX. </p>
 </div>
+
+
+<br/>
+
 
 <p>UpgradeMODX stores the list of the latest available versions of MODX in a file called <code>versionlist</code>. That file is used to create the form that allows you to select the version to install. By default, the <code>versionlist</code> file is located in the <code>{core_path}cache/upgrademodx/</code> directory. You can specify another directory with the <code>&versionListPath</code> property. Use only the directory (minus the filename) in the property and be sure it ends with a slash. UpgradeMODX will translate both <code>{core_path}</code> and <code>{assets_path}</code> in the property value. The path can also be a hard-coded full path. Here's an example:</p>
 
@@ -145,6 +160,16 @@
         <td>forcePclZip</td>
         <td>Force the use of PclZip instead of ZipArchive</td>
         <td>No</td>
+    </tr>
+    <tr>
+        <td>github_token</td>
+        <td>(optional) Token for GitHub - available from your GitHub profile</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>github_username</td>
+        <td>(optional) Your GitHub username</td>
+        <td></td>
     </tr>
     <tr>
         <td>githubTimeout</td>
@@ -190,6 +215,11 @@
         <td>plOnly</td>
         <td>Show only pl (stable) versions</td>
         <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ssl_verify_peer</td>
+        <td>For security, have cURL verify the identity of the server</td>
+        <td>Yes (strongly recommended)</td>
     </tr>
     <tr>
         <td>versionListPath</td>

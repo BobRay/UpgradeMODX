@@ -1,5 +1,15 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.5.1-pl
+---------------------------------
+Correct snippet tag in resource
+Add Swedish translation (thanks to kristk)
+Fix protocol for loading fonts and logo (thanks to inreti)
+Add support for local certs for VERIFYPEER
+Fix bug with quit function
+Add github_username and github_token properties
+Improve diagnostics
+
 UpgradeMODX 1.5.0-pl
 ---------------------------------
 Log upgrades to MODX Manager Actions log
