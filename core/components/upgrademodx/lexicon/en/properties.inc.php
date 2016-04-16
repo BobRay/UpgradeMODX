@@ -38,7 +38,7 @@
 
 /* Used in properties.upgrademodxwidget.snippet.php */
 $_lang['ugm_github_token_desc'] = 'Github token - available from your GitHub profile';
-$_lang['ugm_github_username_desc'] = 'You username at GitHub';
+$_lang['ugm_github_username_desc'] = 'Your username at GitHub';
 $_lang['ugm_version_list_path_desc'] = 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/';
 $_lang['ubm_attempts_desc'] = 'Number of tries to get data from GitHub or MODX; default: 2';
 $_lang['ugm_github_timeout_desc'] = 'Timeout in seconds for checking Github; default: 6';

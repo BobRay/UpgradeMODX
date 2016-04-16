@@ -124,7 +124,7 @@ $properties = array (
   'github_token' => 
   array (
     'name' => 'github_token',
-    'desc' => 'ugm_github_token_desc~~Github token - available from your GitHub profile',
+    'desc' => 'ugm_github_token_desc',
     'type' => 'textfield',
     'options' => 
     array (
@@ -136,7 +136,7 @@ $properties = array (
   'github_username' => 
   array (
     'name' => 'github_username',
-    'desc' => 'ugm_github_username_desc~~You username at GitHub',
+    'desc' => 'ugm_github_username_desc',
     'type' => 'textfield',
     'options' => 
     array (
