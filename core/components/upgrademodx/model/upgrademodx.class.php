@@ -287,6 +287,10 @@ if (!class_exists('UpgradeMODX')) {
             $retVal = false;
             $errorMsg = '(' . $url . ' - curl) ' . $this->modx->lexicon('failed');
             $ch = curl_init();
+            if ($this->verifyPeer) {
+                $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
+                curl_setopt($ch, CURLOPT_CAINFO, $certPath);
+            }
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0)");
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
