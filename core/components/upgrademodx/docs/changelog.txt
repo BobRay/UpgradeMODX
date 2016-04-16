@@ -3,9 +3,10 @@ Changelog for UpgradeMODX
 UpgradeMODX 1.5.1-pl
 ---------------------------------
 Correct snippet tag in resource
+Fix issue with open_basedir check (thanks to Jako)
 Add Swedish translation (thanks to kristk)
 Fix protocol for loading fonts and logo (thanks to inreti)
-Add support for local certs for VERIFYPEER
+Add support for local certs for SSL_VERIFY_PEER
 Fix bug with quit function
 Add github_username and github_token properties
 Improve diagnostics

@@ -88,7 +88,9 @@ class MODXInstaller {
                 curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0)');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_FILE, $newf);
-                if (filter_var(ini_get('open_basedir'), FILTER_VALIDATE_BOOLEAN) === false && filter_var(ini_get('safe_mode'), FILTER_VALIDATE_BOOLEAN) === false) {
+                $openBasedir = ini_get('open_basedir');
+                if (empty($openBasedir) && filter_var(ini_get('safe_mode'),
+                        FILTER_VALIDATE_BOOLEAN) === false) {
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
                 } else {
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
