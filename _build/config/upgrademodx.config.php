@@ -462,7 +462,7 @@ $components = array(
 
     /* ******************** LEXICON HELPER SETTINGS ***************** */
     /* These settings are used by LexiconHelper */
-    'rewriteCodeFiles' => false,  /* remove ~~descriptions */
+    'rewriteCodeFiles' => true,  /* remove ~~descriptions */
     'rewriteLexiconFiles' => true, /* automatically add missing strings to lexicon files */
     /* ******************************************* */
 
