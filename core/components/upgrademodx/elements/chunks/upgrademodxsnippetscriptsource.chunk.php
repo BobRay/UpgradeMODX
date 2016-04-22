@@ -95,16 +95,18 @@ class MODXInstaller {
                 } else {
                     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
                     $rch = curl_copy_handle($ch);
-                    $newurl = $url;
-                    curl_setopt($rch, CURLOPT_URL, $newurl);
+                    curl_setopt($rch, CURLOPT_URL, $url);
                     $header = curl_exec($rch);
-                    if (curl_errno($rch)) {
-                        $code = 0;
-                    } else {
+                    if (!curl_errno($rch)) {
+                        $newurl = $url;
                         $code = curl_getinfo($rch, CURLINFO_HTTP_CODE);
                         if ($code == 301 || $code == 302) {
-                            preg_match('/Location:(.*?)\n/i', $header, $matches);
-                            $newurl = trim(array_pop($matches));
+                            if (version_compare(PHP_VERSION, '5.3.7') < 0) {
+                                preg_match('/Location:(.*?)\n/i', $header, $matches);
+                                $newurl = trim(array_pop($matches));
+                            } else {
+                                $newurl = curl_getinfo($rch, CURLINFO_REDIRECT_URL);
+                            }
                         }
                         curl_close($rch);
                         curl_setopt($ch, CURLOPT_URL, $newurl);
