@@ -2,7 +2,7 @@
 /**
 * Resolver to connect widgets to system events for UpgradeMODX extra
 *
-* Copyright 2015 by Bob Ray <http://bobsguides.com>
+* Copyright 2015-2016 by Bob Ray <http://bobsguides.com>
 * Created on 08-14-2015
 *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
