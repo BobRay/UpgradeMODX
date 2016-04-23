@@ -1,5 +1,10 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.5.2-pl
+---------------------------------
+Fix problem with malformed URL (thanks to Jako)
+Modifications for MODX Cloud and similar platforms
+
 UpgradeMODX 1.5.1-pl
 ---------------------------------
 Correct snippet tag in resource
