@@ -1,8 +1,56 @@
 Changelog for UpgradeMODX
 
-UpgradeMODX 1.2.0-rc2
+UpgradeMODX 1.5.2-pl
+---------------------------------
+Fix problem with malformed URL (thanks to Jako)
+Modifications for MODX Cloud and similar platforms
+
+UpgradeMODX 1.5.1-pl
+---------------------------------
+Correct snippet tag in resource
+Fix issue with open_basedir check (thanks to Jako)
+Add Swedish translation (thanks to kristk)
+Fix protocol for loading fonts and logo (thanks to inreti)
+Add support for local certs for SSL_VERIFY_PEER
+Fix bug with quit function
+Add github_username and github_token properties
+Improve diagnostics
+
+UpgradeMODX 1.5.0-pl
+---------------------------------
+Log upgrades to MODX Manager Actions log
+Add snippet property to control cURL SSL_VERIFY_PEER
+
+
+UpgradeMODX 1.4.0-pl
+---------------------------------
+Add forceFopen, githubTimeout, modxTimeout properties
+Add attempts, and versionListPath properties
+Improve error handling and diagnostics
+Unit tests for all methods
+Refactor for better dependency injection and reliability
+Fix bug with missing version list
+
+
+
+UpgradeMODX 1.3.0-pl
+---------------------------------
+Fix bug with blank screen when both cURL and allow_url_fopen are disabled
+Fix bug in test for cURL
+Refactor unZip code
+Add forcePclZip property
+Improve error handling
+
+
+UpgradeMODX 1.2.2-pl
+---------------------------------
+Public Launch
+
+
+UpgradeMODX 1.2.1-rc
 ---------------------------------
 Fix issue with version list
+Wrap class in if (class_exists)
 
 
 UpgradeMODX 1.2.0-rc

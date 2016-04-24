@@ -7,11 +7,16 @@
 <p>(Jump to <a href="[[~[[*id]]]]#propertiesTable">Properties Table</a>)</p>
 <br />
 
-<p><b>The RC version of UpgradeMODX has been tested more extensively than the Beta version, but you are still strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
+<p><b>The pl versions of UpgradeMODX has been tested more extensively than the beta and rc versions, but you are still strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
 
 <p>For testing purposes, clicking on the &quot;Upgrade MODX&quot; button in the widget will not alter your site in any way (though all users will be logged out). Nothing happens until you click on the green &quot;Upgrade&quot; button in the upgrade form the widget button launches. The danger is that the upgrade script will download and place all the files, but Setup will fail for some reason. I've never had this happen, but if it does, you'll be left with a mixed site that may be broken. You can try to fix the problem and re-run Setup. If Setup completes with no problems, you should be fine.</p>
 
-<p>Also for testing purposes (and for fixing any corrupted MODX files), when an upgrade is available, you can &quot;upgrade&quot; MODX to the version you currently have.  UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup.</p>
+<p>Also for testing purposes (and for fixing any corrupted MODX files), when an upgrade is available, you can &quot;upgrade&quot; MODX to the version you currently have.  UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup. In theory, UpgradeMODX can also be used to &quot;downgrade&quot; MODX to a previous version, though this has not been extensively tested.</p>
+
+<br />
+<div class="box">
+    <p>If you have moved your core directory, you'll get a red warning message during Setup telling you that your core path is invalid. This is normal. Just correct the core path, and Setup will work fine.</p>
+</div>
 
 <br />
 <h3>Installing UpgradeMODX</h3>
@@ -32,6 +37,11 @@
     <li>Upgrades very old versions of MODX Revolution (tested on 2.0.3)</li>
     <li>Upgrades versions of MODX with moved/renamed directories</li>
     <li>Uses PclZip if ZipArchive is not available</li>
+    <li>Uses fopen if cURL is not available</li>
+    <li>Adds the <code>&forcePclZip</code> property to bypass ZipArchive</li>
+    <li>Adds the <code>&forceFopen</code> property to bypass cURL for the download</li>
+    <li>Logs upgrades to the MODX Manager Actions log</li>
+    <li>Adds a snippet property to control cURL SSL_VERIFY_PEER option</li>
 </ul>
 
 <br/>
@@ -41,13 +51,12 @@
 
 <p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) -> Dashboards.</p>
 
-
 <br />
 
 <div class="box">
     <p>In very old versions of MODX, creation of the dashboard widget  will fail and you'll see a bunch of error messages during the install. The UpgradeMODX installer will attempt to create a resource  called <code>UpgradeMODX</code> that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an upgrade is available, it will let you launch the installer.</p>
 
-<p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the version of PHP to version 5.4 or below or manually make the changes to the three files shown in <a href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
+<p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the version of PHP to version 5.4 or below, or manually make the changes to the three files shown in <a href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
 
 <p>Once you've upgraded MODX to a recent-enough version, you can uninstall and re-install UpgradeMODX to get the widget.</p>
 </div>
@@ -58,7 +67,9 @@
 
 <p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change the <code>&groups</code> property of the UpgradeMODXWidget snippet. You can also change the <code>&interval</code> property if you'd like it to check for upgrades more or less often.</p>
 
-<p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60 seconds. It will only execute when you visit the dashboard at least 60 second after the last check. The minimum recommendation for the <code>&interval</code> property on a production site is <code>1 day</code>.</p>
+<p>Hint: To get to the Manager's dashboard, you can click on the MODX logo at the upper left.</p>
+
+<p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60 seconds. It will only execute when you visit the dashboard at least 60 seconds after the last check. The minimum recommendation for the <code>&interval</code> property on a production site is <code>1 day</code>.</p>
 
 <p>By default, UpgradeMODX considers only pl (stable) versions for upgrade (except in the beta and rc versions). You can change the <code>&plOnly</code> property to see all versions. You can change the <code>&versionsToShow</code> property to show more versions (the default is 5). Initially, the interval for checking is set to <code>1 week</code> (except in the beta and rc versions where it's 60 seconds). You can change that by setting the <code>&interval</code> property. That property should always be an integer followed by the name of the unit (e.g., 6 hours, 3 days, 1 week, 1 month.</p>
 
@@ -71,16 +82,15 @@
 <br/>
 
 <div class="box">
-    <p>The Beta versions and the RC versions have the <code>&plOnly</code> property set to false to show all versions and the <code>&interval</code> property set to 60 seconds. Feel free to change these. The short interval is so you can see how much the widget slows down the dashboard page-load times. If your site is not up to date and you go to the dashboard after 60 seconds have elapsed, the widget will check for upgrades. If you immediately reload the dashboard page, the widget won't check and you can see the difference.</p>
+    
+    <p>When checking, the widget will make one cURL or fopen call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL or fopen call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
 
-    <p>When checking, the widget will make one cURL call to GitHub even if there is no upgrade available. If there is a new version, it will make another cURL call to the MODX site to see if it's available at <code>modx.com/download</code>.</p>
-
-    <p>If either site is slow to respond, cURL will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, I'll create properties for the timeout intervals.</p>
+    <p>If either site is slow to respond, or you're on a slow internet connection, cURL or fopen will time out and the last check value won't be reset (you should see error messages in the widget if it's set to show all the time). UpgradeMODX will check again on the next load of the dashboard. Usually, reloading the dashboard page will solve it. This could happen over and over and cause slow loading of the dashboard until the sites respond within the time limit. If it's a significant issue, change the <code>&githubTimeout</code> and <code>&modxTimeout</code> properties and/or the <code>&attempts</code> property.</p>
 </div>
 
 <br/>
 
-<p>You are *strongly* advised not to change anything in the package except the snippet properties. Be aware that the snippet properties will revert to their defaults if you upgrade or re-install UpgradeMODX. This is because snippet-type widgets can't use property sets and have no tag to edit.</p>
+<p>You are *strongly* advised not to change anything in the package except the snippet properties. Be aware that the snippet properties will revert to their defaults if you upgrade or re-install UpgradeMODX. This is because, at this writing, snippet-type widgets can't use property sets and have no tag to edit.</p>
 
 <br/>
 <h3>Security</h3>
@@ -91,6 +101,43 @@
 
 <p>After upgrading the site, It's a good idea to make sure that the <code>upgrade.php</code> file in the MODX root directory, and the <code>/temp</code> directory, also in the MODX root directory, have been removed, especially if the script times out.</p>
 
+<br />
+<h3>GitHub API Rate Limit Exceeded</h3>
+<br />
+
+<p>The default install of UpgradeMODX makes anonymous requests to the MODX repository at GitHub for information. Requests of this type are limited to 60 per hour. If a lot of people are making requests, or your <code>&interval</code> setting is very short, or if you are doing a lot of testing, this limit could be hit and you will get the error message: <code>GitHub API Rate Limit Exceeded</code>. You can try again later, but to solve this problem permanently, you can get your own GitHub token so your requests will not be anonymous. That will bump your limit up to 5,000 requests per hour.</p>
+
+<p>You can create a free account at GitHub, or use an existing one. To get a token, follow the directions <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">here</a>. Copy your token to the clipboard, then paste it into the <code>&github_token</code> property of the UpgradeMODXWidget snippet. Enter your GitHub username in the <code>github_username</code> property. Don't forget to save the snippet.</p>
+
+<p>Because the UpgradeMODXWidget snippet properties will be overwritten by upgrades to the UpgradeMODX package, you may choose to leave the <code>&github_token</code> and <code>github_username</code> properties empty and create matching System Settings. As long as the 'key' fields of the properties are <code>github_username</code> and <code>github_token</code>, and the 'value' field is correct, the other fields of the System Setting don't matter. You can create System Settings for any of the snippet properties.</p>
+
+<h3>Troubleshooting</h3>
+
+<p>If you get frequent timeouts, you can increase the <code>&githubTimeout</code> or <code>&modxTimeout</code> properties. They set how long the program will wait for a response. The default is 6 seconds.  There is also the <code>&attempts</code> property, which determines how many times the script will try to connect. By default, the script will make two tries at each site. Feel free to change the value.</p>
+
+<p>By default, UpgradeMODX uses cURL to check for and download files and ZipArchive to unzip them. If cURL isn't working
+    for you, you can set the <code>&forceFopen</code> property to <code>Yes</code> to avoid using cURL altogether.
+    Similarly, you can set the <code>&forcePclZip</code> property to <code>Yes</code> to avoid using ZipArchive to unzip
+    the downloaded MODX file. </p>
+
+<br />
+
+<div class="box">
+    <p>Version 1.5.1 of UpgradeMODX sets the cURL SSL_VERIFY_PEER option to <code>true</code> by default. It also provides a certificate file in the package, so there should be no need to turn it off. Having this setting off leaves you vulnerable to man-in-the-middle attacks where the attacker could pretend to be the MODX repo and lead you to download malicious code instead of MODX. </p>
+</div>
+
+
+<br/>
+
+
+<p>UpgradeMODX stores the list of the latest available versions of MODX in a file called <code>versionlist</code>. That file is used to create the form that allows you to select the version to install. By default, the <code>versionlist</code> file is located in the <code>{core_path}cache/upgrademodx/</code> directory. You can specify another directory with the <code>&versionListPath</code> property. Use only the directory (minus the filename) in the property and be sure it ends with a slash. UpgradeMODX will translate both <code>{core_path}</code> and <code>{assets_path}</code> in the property value. The path can also be a hard-coded full path. Here's an example:</p>
+
+<pre><fixedpre>
+{assets_path}components/upgrademodx/
+</fixedpre></pre>
+
+
+
 <br/>
 <a name="propertiesTable"></a>
 
@@ -98,7 +145,37 @@
 
 <table class="properties">
     <tr><th>Property</th><th>Description</th><th>Default</th></tr>
+    <tr>
+        <td>attempts</td>
+        <td>Number of tries to get date from MODX or GitHub</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>forceFopen</td>
+        <td>Force the use of fopen instead of cURL for the download</td>
+        <td>No</td>
+    </tr>
 
+    <tr>
+        <td>forcePclZip</td>
+        <td>Force the use of PclZip instead of ZipArchive</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>github_token</td>
+        <td>(optional) Token for GitHub - available from your GitHub profile</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>github_username</td>
+        <td>(optional) Your GitHub username</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>githubTimeout</td>
+        <td>Timeout (in seconds) for requests to GitHub</td>
+        <td>6</td>
+    </tr>
     <tr>
         <td>groups</td>
         <td>group, or commma-separated list of groups, who will see the widget</td>
@@ -112,7 +189,7 @@
     <tr>
         <td>interval</td>
         <td>Interval between checks -- Examples: 1 week, 3 days, 6 hours</td>
-        <td>60 seconds</td>
+        <td>1 week</td>
     </tr>
     <tr>
         <td>language</td>
@@ -130,9 +207,24 @@
         <td></td>
     </tr>
     <tr>
+        <td>modxTimeout</td>
+        <td>Timeout (in seconds) for requests to MODX</td>
+        <td>6</td>
+    </tr>
+    <tr>
         <td>plOnly</td>
         <td>Show only pl (stable) versions</td>
         <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ssl_verify_peer</td>
+        <td>For security, have cURL verify the identity of the server</td>
+        <td>Yes (strongly recommended)</td>
+    </tr>
+    <tr>
+        <td>versionListPath</td>
+        <td>Path to versionlist file (minus the filename -- should end in a slash)</td>
+        <td>{core_path}cache/upgrademodx/</td>
     </tr>
     <tr>
         <td>versionsToShow</td>

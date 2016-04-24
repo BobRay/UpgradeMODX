@@ -16,14 +16,14 @@ $components = array(
     'packageName' => 'UpgradeMODX',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => 'UpgradeMODX project extra',
-    'version' => '1.2.0',
-    'release' => 'rc',
+    'version' => '1.5.2',
+    'release' => 'pl',
     'author' => 'Bob Ray',
     'email' => '<http://bobsguides.com>',
     'authorUrl' => 'http://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
     'packageDocumentationUrl' => 'http://bobsguides.com/upgrademodx-tutorial.html',
-    'copyright' => '2015',
+    'copyright' => '2015-2016',
 
     /* no need to edit this except to change format */
     'createdon' => strftime('%m-%d-%Y'),
@@ -462,7 +462,7 @@ $components = array(
 
     /* ******************** LEXICON HELPER SETTINGS ***************** */
     /* These settings are used by LexiconHelper */
-    'rewriteCodeFiles' => false,  /* remove ~~descriptions */
+    'rewriteCodeFiles' => true,  /* remove ~~descriptions */
     'rewriteLexiconFiles' => true, /* automatically add missing strings to lexicon files */
     /* ******************************************* */
 

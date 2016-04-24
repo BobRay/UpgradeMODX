@@ -2,7 +2,7 @@
 /**
  * Properties file for UpgradeMODXWidget snippet
  *
- * Copyright 2015 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015-2016 by Bob Ray <http://bobsguides.com>
  * Created on 08-17-2015
  *
  * @package upgrademodx
@@ -13,41 +13,65 @@
 
 
 $properties = array (
-  'groups' => 
+  'attempts' => 
   array (
-    'name' => 'groups',
-    'desc' => 'ugm_groups_desc',
+    'name' => 'attempts',
+    'desc' => 'ubm_attempts_desc',
     'type' => 'textfield',
     'options' => 
     array (
     ),
-    'value' => 'Administrator',
+    'value' => '2',
     'lexicon' => 'upgrademodx:properties',
-    'area' => '',
+    'area' => 'Download',
   ),
-  'hideWhenNoUpgrade' => 
+  'forceFopen' => 
   array (
-    'name' => 'hideWhenNoUpgrade',
-    'desc' => 'ugm_hideWhenNoUpgrade_desc',
+    'name' => 'forceFopen',
+    'desc' => 'ugm_forceFopen_desc',
     'type' => 'combo-boolean',
     'options' => 
     array (
     ),
     'value' => false,
     'lexicon' => 'upgrademodx:properties',
-    'area' => '',
+    'area' => 'Download',
   ),
-  'interval' => 
+  'forcePclZip' => 
   array (
-    'name' => 'interval',
-    'desc' => 'ugm_interval_desc',
+    'name' => 'forcePclZip',
+    'desc' => 'ugm_forcePclZip_desc',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => false,
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Download',
+  ),
+  'modxTimeout' => 
+  array (
+    'name' => 'modxTimeout',
+    'desc' => 'ugm_modx_timeout_desc',
     'type' => 'textfield',
     'options' => 
     array (
     ),
-    'value' => '60 seconds',
+    'value' => '6',
     'lexicon' => 'upgrademodx:properties',
-    'area' => '',
+    'area' => 'Download',
+  ),
+  'ssl_verify_peer' => 
+  array (
+    'name' => 'ssl_verify_peer',
+    'desc' => 'ugm_ssl_verify_peer_desc',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => true,
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Download',
   ),
   'language' => 
   array (
@@ -59,31 +83,7 @@ $properties = array (
     ),
     'value' => 'en',
     'lexicon' => 'upgrademodx:properties',
-    'area' => '',
-  ),
-  'lastCheck' => 
-  array (
-    'name' => 'lastCheck',
-    'desc' => 'ugm_lastCheck_desc',
-    'type' => 'textfield',
-    'options' => 
-    array (
-    ),
-    'value' => '2015-08-28 01:09:12',
-    'lexicon' => 'upgrademodx:properties',
-    'area' => '',
-  ),
-  'latestVersion' => 
-  array (
-    'name' => 'latestVersion',
-    'desc' => 'ugm_latestVersion_desc',
-    'type' => 'textfield',
-    'options' => 
-    array (
-    ),
-    'value' => '2.4.0-pl',
-    'lexicon' => 'upgrademodx:properties',
-    'area' => '',
+    'area' => 'Form',
   ),
   'plOnly' => 
   array (
@@ -93,9 +93,9 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => false,
+    'value' => true,
     'lexicon' => 'upgrademodx:properties',
-    'area' => '',
+    'area' => 'Form',
   ),
   'versionsToShow' => 
   array (
@@ -107,7 +107,115 @@ $properties = array (
     ),
     'value' => '5',
     'lexicon' => 'upgrademodx:properties',
-    'area' => '',
+    'area' => 'Form',
+  ),
+  'githubTimeout' => 
+  array (
+    'name' => 'githubTimeout',
+    'desc' => 'ugm_github_timeout_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '6',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'GitHub',
+  ),
+  'github_token' => 
+  array (
+    'name' => 'github_token',
+    'desc' => 'ugm_github_token_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'GitHub',
+  ),
+  'github_username' => 
+  array (
+    'name' => 'github_username',
+    'desc' => 'ugm_github_username_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'GitHub',
+  ),
+  'groups' => 
+  array (
+    'name' => 'groups',
+    'desc' => 'ugm_groups_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => 'Administrator',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Security',
+  ),
+  'hideWhenNoUpgrade' => 
+  array (
+    'name' => 'hideWhenNoUpgrade',
+    'desc' => 'ugm_hideWhenNoUpgrade_desc',
+    'type' => 'combo-boolean',
+    'options' => 
+    array (
+    ),
+    'value' => false,
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Widget',
+  ),
+  'interval' => 
+  array (
+    'name' => 'interval',
+    'desc' => 'ugm_interval_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '1 week',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Widget',
+  ),
+  'lastCheck' => 
+  array (
+    'name' => 'lastCheck',
+    'desc' => 'ugm_lastCheck_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Widget',
+  ),
+  'latestVersion' => 
+  array (
+    'name' => 'latestVersion',
+    'desc' => 'ugm_latestVersion_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '2.4.3-pl',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Widget',
+  ),
+  'versionListPath' => 
+  array (
+    'name' => 'versionListPath',
+    'desc' => 'ugm_version_list_path_desc',
+    'type' => 'textfield',
+    'options' => 
+    array (
+    ),
+    'value' => '{core_path}cache/upgrademodx/',
+    'lexicon' => 'upgrademodx:properties',
+    'area' => 'Widget',
   ),
 );
 

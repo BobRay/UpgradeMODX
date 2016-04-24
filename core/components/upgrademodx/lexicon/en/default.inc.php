@@ -49,3 +49,9 @@ $_lang['ugm_modx_up_to_date'] = 'MODX is up to date';
 $_lang['ugm_error'] = 'Error';
 $_lang['ugm_logout_note'] = 'Note: All users will be logged out';
 $_lang['ugm_upgrade_modx'] = 'Upgrade MODX';
+$_lang['ugm_json_decode_failed'] = 'Failed JSON decode for version data from GitHub in upgradeAvailable()';
+$_lang['ugm_not_available'] = 'New version not yet available for download at MODX repo';
+$_lang['ugm_no_curl_no_fopen'] = 'Neither allow_url_fopen nor cURL can be used to check for upgrades';
+
+/* Used in upgrademodx.class.php */
+$_lang['failed'] = 'failed';

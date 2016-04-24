@@ -37,6 +37,12 @@
 
 
 /* Used in properties.upgrademodxwidget.snippet.php */
+$_lang['ugm_github_token_desc'] = 'Github token - available from your GitHub profile';
+$_lang['ugm_github_username_desc'] = 'Your username at GitHub';
+$_lang['ugm_version_list_path_desc'] = 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/';
+$_lang['ubm_attempts_desc'] = 'Number of tries to get data from GitHub or MODX; default: 2';
+$_lang['ugm_github_timeout_desc'] = 'Timeout in seconds for checking Github; default: 6';
+$_lang['ugm_modx_timeout_desc'] = 'Timeout in seconds for checking download status from MODX; default: 6';
 $_lang['ugm_groups_desc'] = 'group, or commma-separated list of groups, who will see the widget';
 $_lang['ugm_hideWhenNoUpgrade_desc'] = 'Hide widget when no upgrade is available: default: No';
 $_lang['ugm_interval_desc'] = 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 week';
@@ -45,3 +51,6 @@ $_lang['ugm_latestVersion_desc'] = 'Latest version (at last check) -- set automa
 $_lang['ugm_plOnly_desc'] = 'Show only pl (stable) versions; default: yes';
 $_lang['ugm_versionsToShow_desc'] = 'Number of versions to show in upgrade form (not widget); default: 5';
 $_lang['ugm_language_desc'] = 'Two-letter language code for language to use; default: en';
+$_lang['ugm_forcePclZip_desc'] = 'Force the use of PclZip instead of ZipArchive';
+$_lang['ugm_forceFopen_desc'] = 'Force the use of fopen instead of cURL for the download';
+$_lang['ugm_ssl_verify_peer_desc'] = 'For security, have cURL verify the identity of the server';
