@@ -2,8 +2,9 @@
 /**
  * sv default topic lexicon file for UpgradeMODX extra
  *
- * Copyright 2015 by Kristoffer Karlström <http://www.kmmtiming.se>
+ * Copyright 2016 by Kristoffer Karlström <http://www.kmmtiming.se>
  * Created on 09-08-2015
+ * Edited on 04-24-2016
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -20,6 +21,7 @@
  *
  * @package upgrademodx
  */
+ 
 /**
  * Description
  * -----------
@@ -32,7 +34,9 @@
  *
  * @package upgrademodx
  **/
+ 
 $_lang['package'] = 'UpgradeModx';
+
 /* Used in upgrademodxwidget.snippet.php */
 $_lang['ugm_current_version_caption'] = 'Aktuell version';
 $_lang['ugm_latest_version_caption'] = 'Senaste version';
@@ -46,3 +50,9 @@ $_lang['ugm_modx_up_to_date'] = 'MODX är uppdaterat';
 $_lang['ugm_error'] = 'Fel';
 $_lang['ugm_logout_note'] = 'OBS: Alla användare kommer att loggas ut';
 $_lang['ugm_upgrade_modx'] = 'Uppgradera MODX';
+$_lang['ugm_json_decode_failed'] = 'Misslyckades med att avkoda JSON för versionsinformation från GitHub i upgradeAvailable()';
+$_lang['ugm_not_available'] = 'Den nya versionen är ännu inte tillgänglig för nedladdning från MODX repositoriumet';
+$_lang['ugm_no_curl_no_fopen'] = 'Varken allow_url_fopen eller cURL kan användas för att söka efter uppgraderingar';
+
+/* Used in upgrademodx.class.php */
+$_lang['failed'] = 'misslyckades';
