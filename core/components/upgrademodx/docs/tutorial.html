@@ -99,7 +99,7 @@
 
 <p>The upgrade script downloads everything to a <code>/temp</code> directory in the MODX root directory. It deletes that directory and itself when it finishes successfully so nothing should be left behind after the upgrade.</p>
 
-<p>After upgrading the site, It's a good idea to make sure that the <code>upgrade.php</code> file in the MODX root directory, and the <code>/temp</code> directory, also in the MODX root directory, have been removed, especially if the script times out.</p>
+<p>After upgrading the site, It's a good idea to make sure that the <code>upgrade.php</code> file in the MODX root directory, the modx.zip file, and the <code>/temp</code> directory, also in the MODX root directory, have been removed, especially if the script times out or fails. The files are relatively harmless, but their existence could identify your site as a MODX site, and there's no point in giving potential hackers that information.</p>
 
 <br />
 <h3>GitHub API Rate Limit Exceeded</h3>
