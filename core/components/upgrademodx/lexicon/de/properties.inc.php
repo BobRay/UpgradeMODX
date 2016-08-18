@@ -42,18 +42,18 @@
 $_lang['ugm_github_token_desc'] = 'Github token - verfügbar von ihrem GitHub Profil';
 $_lang['ugm_github_username_desc'] = 'Ihr Benutzername auf GitHub';
 
-$_lang['ugm_version_list_path_desc'] = 'Pfad zur Versionslistendatei (ohne Dateiname -- sollte mit einem Schrägstrich enden); Vorgabe: {core_path}cache/upgrademodx/';
-$_lang['ubm_attempts_desc'] = 'Anzahl der Versuche um Daten von Github oder MODX zu empfangen; Vorgabe: 2';
-$_lang['ugm_github_timeout_desc'] = 'Zeitüberschreitung in Sekunden für die Überprüfung von Github; Vorgabe: 6';
-$_lang['ugm_modx_timeout_desc'] = 'Zeitüberschreitung in Sekunden für die Überprüfung des Downloadstatus von MODX; Vorgabe: 6';
+$_lang['ugm_version_list_path_desc'] = 'Pfad zur Versionslistendatei (ohne Dateiname -- sollte mit einem Schrägstrich enden); Standard: {core_path}cache/upgrademodx/';
+$_lang['ubm_attempts_desc'] = 'Anzahl der Versuche um Daten von Github oder MODX zu empfangen; Standard: 2';
+$_lang['ugm_github_timeout_desc'] = 'Zeitüberschreitung in Sekunden für die Überprüfung von Github; Standard: 6';
+$_lang['ugm_modx_timeout_desc'] = 'Zeitüberschreitung in Sekunden für die Überprüfung des Downloadstatus von MODX; Standard: 6';
 $_lang['ugm_groups_desc'] = 'Gruppe, oder komma-separierte Liste von Gruppen, welche das Widget sehen dürfen';
-$_lang['ugm_hideWhenNoUpgrade_desc'] = 'Verstecken des Widgets, wenn kein Update verfügbar ist; Vorgabe: Nein';
-$_lang['ugm_interval_desc'] = 'Intervall zwischen Überprüfungen -- Beispiel: 1 week, 3 days, 6 hours; Vorgabe: 1 week';
+$_lang['ugm_hideWhenNoUpgrade_desc'] = 'Verstecken des Widgets, wenn kein Update verfügbar ist; Standard: Nein';
+$_lang['ugm_interval_desc'] = 'Intervall zwischen Überprüfungen -- Beispiel: 1 week, 3 days, 6 hours; Standard: 1 week';
 $_lang['ugm_lastCheck_desc'] = 'Datum und Zeit der letzten Überprüfung -- wird automatisch gesetzt';
 $_lang['ugm_latestVersion_desc'] = 'Neueste Version (bei der letzten Überprüfung)-- wird automatisch gesetzt';
-$_lang['ugm_plOnly_desc'] = 'Anzeigen nur von "pl" (stabile) Versionen; Vorgabe: Ja';
-$_lang['ugm_versionsToShow_desc'] = 'Anzahl der anzuzeigenden Version im Update-Formular (nicht Widget); Vorgabe: 5';
-$_lang['ugm_language_desc'] = 'Zwei-Zeichen Sprachcode (ISO 639-1) für die zu verwendete Sprache; Vorgabe: en';
+$_lang['ugm_plOnly_desc'] = 'Anzeigen nur von "pl" (stabile) Versionen; Standard: Ja';
+$_lang['ugm_versionsToShow_desc'] = 'Anzahl der anzuzeigenden Version im Update-Formular (nicht Widget); Standard: 5';
+$_lang['ugm_language_desc'] = 'Zwei-Zeichen Sprachcode (ISO 639-1) für die zu verwendete Sprache; Standard: en';
 $_lang['ugm_forcePclZip_desc'] = 'Erzwingen der Nutzung von PclZip anstatt von ZipArchive';
 $_lang['ugm_forceFopen_desc'] = 'Erzwingen der Nutzung von fopen anstatt von cURL für das Herunterladen';
 $_lang['ugm_ssl_verify_peer_desc'] = 'Zur Sicherheit, cURL die Identität des Servers verifizieren lassen';
