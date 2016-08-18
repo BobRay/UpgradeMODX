@@ -102,7 +102,7 @@ if (!class_exists('UpgradeMODX')) {
         public function init($props) {
             /** @var $InstallData array */
             $language = $this->modx->getOption('language', $props, 'en', true);
-            $this->modx->lexicon->load($language . ':upgrademods:default');
+            $this->modx->lexicon->load($language . ':upgrademodx:default');
             $this->forcePclZip = $this->modx->getOption('forcePclZip', $props, false);
             $this->forceFopen = $this->modx->getOption('forceFopen', $props, false);
             $this->plOnly = $this->modx->getOption('plOnly', $props);
