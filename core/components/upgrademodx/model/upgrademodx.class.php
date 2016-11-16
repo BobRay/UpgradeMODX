@@ -225,7 +225,7 @@ if (!class_exists('UpgradeMODX')) {
             foreach ($contents as $version) {
                 $name = substr($version['name'], 1);
 
-                $url = 'http://modx.com/download/direct/modx-' . $name . '.zip';
+                $url = 'https://modx.com/download/direct?id=modx-' . $name . '.zip';
                 $versionArray[$name] = array(
                     'tree' => 'Revolution',
                     'name' => 'MODX Revolution ' . htmlentities($name),
