@@ -439,6 +439,10 @@ if (!class_exists('UpgradeMODX')) {
                 }
             }
 
+            if ($retVal === false) {
+                $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
+            }
+
             $latestVersion = $this->latestVersion;
 
             if (!empty($this->errors)) {

@@ -41,6 +41,7 @@ $_lang['ugm_current_version_caption'] = 'Current Version';
 $_lang['ugm_latest_version_caption'] = 'Latest Version';
 $_lang['ugm_empty_return'] = 'Empty return';
 $_lang['ugm_no_version_list'] = 'Could not get version list';
+$_lang['ugm_no_version_list_from_github'] = 'Could not get version list from GitHub';
 $_lang['ugm_could_not_open'] = 'Could not open';
 $_lang['ugm_for_writing'] = 'for writing';
 $_lang['ugm_missing_properties'] = 'lastCheck or interval properties not set';
