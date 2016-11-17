@@ -1,5 +1,12 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.5.3-pl
+---------------------------------
+Fix bug with strip_tags and failure to get versionList from GitHub
+Remove unused argument from updateVersionListFile
+Add error message on failure to get versionList from GitHub
+
+
 UpgradeMODX 1.5.2-pl
 ---------------------------------
 Fix problem with malformed URL (thanks to Jako)
