@@ -177,8 +177,7 @@ if (!class_exists('UpgradeMODX')) {
                 $this->setError('(GitHub -- ' . $method . ') ' . substr($data, $pos, 38));
                 $data = false;
             }
-
-            return (strip_tags($data));
+            return $data === false? false : strip_tags($data);
         }
 
         public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5) {
@@ -260,7 +259,7 @@ if (!class_exists('UpgradeMODX')) {
             }
 
         }
-        public function updateVersionListFile($versionArray) {
+        public function updateVersionListFile() {
             $path = $this->versionListPath;
             $this->mmkDir($path);
             $versionList = var_export($this->versionArray, true);
@@ -436,7 +435,7 @@ if (!class_exists('UpgradeMODX')) {
                 if ($retVal !== false) {
                     $this->updateLatestVersion($retVal);
                     $this->updateSnippetProperties(time(), $this->latestVersion);
-                    $this->updateVersionlistFile($retVal);
+                    $this->updateVersionListFile();
                 }
             }
 
