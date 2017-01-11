@@ -2,7 +2,7 @@
 /**
  * UpgradeMODX class file for UpgradeMODX Widget snippet for  extra
  *
- * Copyright 2015 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015-2017 by Bob Ray <http://bobsguides.com>
  * Created on 08-16-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
@@ -224,7 +224,7 @@ if (!class_exists('UpgradeMODX')) {
             foreach ($contents as $version) {
                 $name = substr($version['name'], 1);
 
-                $url = 'http://modx.com/download/direct/modx-' . $name . '.zip';
+                $url = 'https://modx.com/download/direct?id=modx-' . $name . '.zip';
                 $versionArray[$name] = array(
                     'tree' => 'Revolution',
                     'name' => 'MODX Revolution ' . htmlentities($name),
