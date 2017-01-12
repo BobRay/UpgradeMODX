@@ -2,6 +2,16 @@ Changelog for UpgradeMODX
 
 UpgradeMODX 1.5.3-pl
 ---------------------------------
+Fix open_base_dir redirect issue (thanks to Jako)
+Add Italian translation (thanks to FerX)
+Update Swedish translation (thanks to Kristoffer Karlström)
+Fix lexicon->load issue (thanks to sebastian-marinescu)
+Hide inactive MODX version 2.5.3
+Minor bug fixes and improvements
+
+
+UpgradeMODX 1.5.3-pl
+---------------------------------
 Fix bug with strip_tags and failure to get versionList from GitHub
 Remove unused argument from updateVersionListFile
 Add error message on failure to get versionList from GitHub
