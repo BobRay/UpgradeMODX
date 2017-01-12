@@ -201,7 +201,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2.4.3-pl',
+    'value' => '2.5.4-pl',
     'lexicon' => 'upgrademodx:properties',
     'area' => 'Widget',
   ),
