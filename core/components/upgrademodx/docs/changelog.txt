@@ -1,12 +1,14 @@
 Changelog for UpgradeMODX
 
-UpgradeMODX 1.5.3-pl
+UpgradeMODX 1.5.4-pl
 ---------------------------------
 Fix open_base_dir redirect issue (thanks to Jako)
 Add Italian translation (thanks to FerX)
 Update Swedish translation (thanks to Kristoffer Karlström)
 Fix lexicon->load issue (thanks to sebastian-marinescu)
 Hide inactive MODX version 2.5.3
+Change name of temp directory to ugmtemp
+Delete any created files if there is an error
 Minor bug fixes and improvements
 
 
