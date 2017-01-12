@@ -189,15 +189,19 @@ if (!class_exists('UpgradeMODX')) {
             }
 
 
-            if ($plOnly) { /* remove non-pl version objects */
+             /* remove non-pl version objects if plOnly is set, and remove MODX 2.5.3 */
                 foreach ($contents as $key => $content) {
                     $name = substr($content['name'], 1);
-                    if (strpos($name, 'pl') === false) {
+                    if ($plOnly && strpos($name, 'pl') === false) {
+                        unset($contents[$key]);
+                        continue;
+                    }
+                    if (strpos($name, '2.5.3-pl') !== false) {
                         unset($contents[$key]);
                     }
                 }
                 $contents = array_values($contents); // 'reindex' array
-            }
+
 
             /* GitHub won't necessarily have them in the correct order.
                Sort them with a Custom insertion sort since they will
@@ -254,7 +258,7 @@ if (!class_exists('UpgradeMODX')) {
                 $properties = $snippet->get('properties');
                 $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S', $lastCheck);
                 $properties['latestVersion']['value'] = $latestVersion;
-                $snippet->set('properties', $properties);
+                $snippet->setProperties($properties);
                 $snippet->save();
             }
 
