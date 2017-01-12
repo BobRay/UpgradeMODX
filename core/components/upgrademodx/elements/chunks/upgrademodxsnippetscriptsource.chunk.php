@@ -356,7 +356,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
         MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
     }
 
-    $tempDir = realPath(dirname(__FILE__)) . '/temp';
+    $tempDir = realPath(dirname(__FILE__)) . '/ugmtemp';
     MODXInstaller::mmkdir($tempDir);
     clearstatcache();
 
@@ -367,7 +367,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
     }
 
     if (! is_readable($tempDir)) {
-        MODXInstaller::quit('Unable to read from /temp directory');
+        MODXInstaller::quit('Unable to read from /ugmtemp directory');
     }
     set_time_limit(0);
     $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
