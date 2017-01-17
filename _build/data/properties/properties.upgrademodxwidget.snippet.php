@@ -2,7 +2,7 @@
 /**
  * Properties file for UpgradeMODXWidget snippet
  *
- * Copyright 2015-2016 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015-2017 by Bob Ray <http://bobsguides.com>
  * Created on 08-17-2015
  *
  * @package upgrademodx
@@ -201,7 +201,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2.4.3-pl',
+    'value' => '2.5.4-pl',
     'lexicon' => 'upgrademodx:properties',
     'area' => 'Widget',
   ),

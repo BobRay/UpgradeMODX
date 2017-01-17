@@ -143,7 +143,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         unlink($path);
         $url = 'http://modx.com/download/direct/modx-2.4.1-pl.zip';
         $method = 'curl';
-        $certPath = MODX_CORE_PATH . 'components/upgrademods/cacert.pem';
+        $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
         MODXInstaller::downloadFile($url, $path, $method, $certPath);
         $this->assertFileExists($path);
         $this->assertNotEmpty(filesize($path));

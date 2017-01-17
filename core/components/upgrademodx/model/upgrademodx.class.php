@@ -2,7 +2,7 @@
 /**
  * UpgradeMODX class file for UpgradeMODX Widget snippet for  extra
  *
- * Copyright 2015 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015-2017 by Bob Ray <http://bobsguides.com>
  * Created on 08-16-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
@@ -102,7 +102,7 @@ if (!class_exists('UpgradeMODX')) {
         public function init($props) {
             /** @var $InstallData array */
             $language = $this->modx->getOption('language', $props, 'en', true);
-            $this->modx->lexicon->load($language . ':upgrademods:default');
+            $this->modx->lexicon->load($language . ':upgrademodx:default');
             $this->forcePclZip = $this->modx->getOption('forcePclZip', $props, false);
             $this->forceFopen = $this->modx->getOption('forceFopen', $props, false);
             $this->plOnly = $this->modx->getOption('plOnly', $props);
@@ -177,8 +177,7 @@ if (!class_exists('UpgradeMODX')) {
                 $this->setError('(GitHub -- ' . $method . ') ' . substr($data, $pos, 38));
                 $data = false;
             }
-
-            return (strip_tags($data));
+            return $data === false? false : strip_tags($data);
         }
 
         public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5) {
@@ -190,15 +189,19 @@ if (!class_exists('UpgradeMODX')) {
             }
 
 
-            if ($plOnly) { /* remove non-pl version objects */
+             /* remove non-pl version objects if plOnly is set, and remove MODX 2.5.3 */
                 foreach ($contents as $key => $content) {
                     $name = substr($content['name'], 1);
-                    if (strpos($name, 'pl') === false) {
+                    if ($plOnly && strpos($name, 'pl') === false) {
+                        unset($contents[$key]);
+                        continue;
+                    }
+                    if (strpos($name, '2.5.3-pl') !== false) {
                         unset($contents[$key]);
                     }
                 }
                 $contents = array_values($contents); // 'reindex' array
-            }
+
 
             /* GitHub won't necessarily have them in the correct order.
                Sort them with a Custom insertion sort since they will
@@ -225,7 +228,7 @@ if (!class_exists('UpgradeMODX')) {
             foreach ($contents as $version) {
                 $name = substr($version['name'], 1);
 
-                $url = 'http://modx.com/download/direct/modx-' . $name . '.zip';
+                $url = 'https://modx.com/download/direct?id=modx-' . $name . '.zip';
                 $versionArray[$name] = array(
                     'tree' => 'Revolution',
                     'name' => 'MODX Revolution ' . htmlentities($name),
@@ -255,12 +258,12 @@ if (!class_exists('UpgradeMODX')) {
                 $properties = $snippet->get('properties');
                 $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S', $lastCheck);
                 $properties['latestVersion']['value'] = $latestVersion;
-                $snippet->set('properties', $properties);
+                $snippet->setProperties($properties);
                 $snippet->save();
             }
 
         }
-        public function updateVersionListFile($versionArray) {
+        public function updateVersionListFile() {
             $path = $this->versionListPath;
             $this->mmkDir($path);
             $versionList = var_export($this->versionArray, true);
@@ -436,8 +439,12 @@ if (!class_exists('UpgradeMODX')) {
                 if ($retVal !== false) {
                     $this->updateLatestVersion($retVal);
                     $this->updateSnippetProperties(time(), $this->latestVersion);
-                    $this->updateVersionlistFile($retVal);
+                    $this->updateVersionListFile();
                 }
+            }
+
+            if ($retVal === false) {
+                $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
             }
 
             $latestVersion = $this->latestVersion;
