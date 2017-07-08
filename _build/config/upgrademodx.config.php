@@ -19,10 +19,10 @@ $components = array(
     'version' => '1.5.4',
     'release' => 'pl',
     'author' => 'Bob Ray',
-    'email' => '<http://bobsguides.com>',
-    'authorUrl' => 'http://bobsguides.com',
+    'email' => '<https://bobsguides.com>',
+    'authorUrl' => 'https://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
-    'packageDocumentationUrl' => 'http://bobsguides.com/upgrademodx-tutorial.html',
+    'packageDocumentationUrl' => 'https://bobsguides.com/upgrademodx-tutorial.html',
     'copyright' => '2015-2017',
 
     /* no need to edit this except to change format */

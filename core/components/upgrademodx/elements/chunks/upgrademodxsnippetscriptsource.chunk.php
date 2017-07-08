@@ -3,7 +3,7 @@
 /**
  * UpgradeMODXWidget snippet for UpgradeMODX extra
  *
- * Copyright 2015 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015-2017 Bob Ray <https://bobsguides.com>
  * Created on 08-16-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
@@ -463,7 +463,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
     <div class="footer">
         <p>Originally created by <a href="http://ga-alex.com" title="">Bumkaka</a> & <a href="http://dmi3yy.com" title="">Dmi3yy</a></p>
         <p>Modified for Revolution only by <a href="http://sottwell.com" title="">sottwell</a></p>
-        <p>Modified for Upgrade only with dashboard widget by <a href="http://bobsguides.com" title="">BobRay</a></p>
+        <p>Modified for Upgrade only with dashboard widget by <a href="https://bobsguides.com" title="">BobRay</a></p>
         <p>Designed by <a href="http://a-sharapov.com" title="">Sharapov</a></p>
     </div>
 </body>

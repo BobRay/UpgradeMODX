@@ -2,7 +2,7 @@
 /**
  * UpgradeMODX class file for UpgradeMODX Widget snippet for  extra
  *
- * Copyright 2015-2017 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015-2017 Bob Ray <https://bobsguides.com>
  * Created on 08-16-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
@@ -387,7 +387,7 @@ if (!class_exists('UpgradeMODX')) {
 
         public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
             $this->clearErrors();
-            $downloadUrl = 'http://modx.com/download/direct/modx-' . $version . '.zip';
+            $downloadUrl = 'https://modx.com/download/direct/modx-' . $version . '.zip';
             if ($method == 'curl') {
                 $downloadable =  $this->curlGetData($downloadUrl, false, $timeout, $tries);
             } else {
