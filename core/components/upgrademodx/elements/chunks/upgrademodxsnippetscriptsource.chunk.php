@@ -433,7 +433,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
 </head>
 <body>
     <div class="header">
-        <img src="https://cdn.modx.com/assets/i/logos/v5/svgs/modx-color.svg" alt="Logo">
+        <img src="https://modx.com/assets/i/logos/v5/svgs/modx-color.svg" alt="Logo">
         <h1 class="main-heading"><span>MODX</span> UpgradeMODX </h1>
         <div class="header-button-wrapper">
             <a href="https://github.com/BobRay/UpgradeMODX" class="button">GitHub</a>
@@ -461,10 +461,10 @@ if (extension_loaded('curl') && (!$forceFopen)) {
     echo '</form>' . "\n " .
 '</div>
     <div class="footer">
-        <p>Originally created by <a href="http://ga-alex.com" title="">Bumkaka</a> & <a href="http://dmi3yy.com" title="">Dmi3yy</a></p>
-        <p>Modified for Revolution only by <a href="http://sottwell.com" title="">sottwell</a></p>
-        <p>Modified for Upgrade only with dashboard widget by <a href="https://bobsguides.com" title="">BobRay</a></p>
-        <p>Designed by <a href="http://a-sharapov.com" title="">Sharapov</a></p>
+        <p>Originally created by <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
+        <p>Modified for Revolution only by <a href="//sottwell.com" title="">sottwell</a></p>
+        <p>Modified for Upgrade only with dashboard widget by <a href="//bobsguides.com" title="">BobRay</a></p>
+        <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
     </div>
 </body>
 </html>
