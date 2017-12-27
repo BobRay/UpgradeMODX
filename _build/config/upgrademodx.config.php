@@ -16,7 +16,7 @@ $components = array(
     'packageName' => 'UpgradeMODX',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => 'UpgradeMODX project extra',
-    'version' => '1.5.4',
+    'version' => '1.5.5',
     'release' => 'pl',
     'author' => 'Bob Ray',
     'email' => '<https://bobsguides.com>',
@@ -235,10 +235,10 @@ $components = array(
      * Set to hasAssets = false to skip.
      * Empty js and/or css files will be created.
      */
-    'hasAssets' => false,
+    'hasAssets' => true,
 
     'assetsDirs' => array(
-
+        'images' => true,
     ),
     /* minify any JS files */
     'minifyJS' => false,

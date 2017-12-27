@@ -1,5 +1,11 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.5.5-pl
+---------------------------------
+Fix issue with MODX logo
+Move background image to local file
+
+
 UpgradeMODX 1.5.4-pl
 ---------------------------------
 Fix open_base_dir redirect issue (thanks to Jako)
