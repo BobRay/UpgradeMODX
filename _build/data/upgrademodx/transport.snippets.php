@@ -2,7 +2,7 @@
 /**
  * snippets transport file for UpgradeMODX extra
  *
- * Copyright 2015-2017 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2018 by Bob Ray <https://bobsguides.com>
  * Created on 08-13-2015
  *
  * @package upgrademodx

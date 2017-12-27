@@ -23,7 +23,7 @@ $components = array(
     'authorUrl' => 'https://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
     'packageDocumentationUrl' => 'https://bobsguides.com/upgrademodx-tutorial.html',
-    'copyright' => '2015-2017',
+    'copyright' => '2015-2018',
 
     /* no need to edit this except to change format */
     'createdon' => strftime('%m-%d-%Y'),

@@ -2,7 +2,7 @@
 /**
  * UpgradeMODX class file for UpgradeMODX Widget snippet for  extra
  *
- * Copyright 2015-2017 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2018 Bob Ray <https://bobsguides.com>
  * Created on 08-16-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
