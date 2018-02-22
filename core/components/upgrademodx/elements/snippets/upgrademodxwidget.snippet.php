@@ -54,26 +54,30 @@
 /** recursive remove dir function.
  *  Removes a directory and all its children */
 
-function rrmdir($dir) {
-    if (is_dir($dir)) {
-        $objects = scandir($dir);
-        foreach ($objects as $object) {
-            if ($object != "." && $object != "..") {
-                if (filetype($dir . "/" . $object) == "dir") {
-                    $prefix = substr($object, 0, 4);
-                    $this->rrmdir($dir . "/" . $object);
-                } else {
-                    $prefix = substr($object, 0, 4);
-                    if ($prefix != '.git' && $prefix != '.svn') {
-                        @unlink($dir . "/" . $object);
+if (! function_exists('rrmdir')) {
+    function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir . "/" . $object) == "dir") {
+                        $prefix = substr($object, 0, 4);
+                        $this->rrmdir($dir . "/" . $object);
+                    } else {
+                        $prefix = substr($object, 0, 4);
+                        if ($prefix != '.git' && $prefix != '.svn') {
+                            @unlink($dir . "/" . $object);
+                        }
                     }
                 }
             }
+            reset($objects);
+            $success = @rmdir($dir);
         }
-        reset($objects);
-        $success = @rmdir($dir);
     }
 }
+
+
 
 
 if (php_sapi_name() === 'cli') {
