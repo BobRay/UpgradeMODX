@@ -441,11 +441,14 @@ if (extension_loaded('curl') && (!$forceFopen)) {
     </div>
 
 <div class="content">';
-    echo "\n" .  '<h2>Choose MODX version for Upgrade</h2>
-    <form>';
+    echo "\n<h2>Choose MODX version for Upgrade</h2>
+    
+    <br><h3> (Using  {$method})</h3>
+    <form>";
     foreach ($ItemGrid as $tree => $item) {
         echo "\n" . '<div class="column">' .
             "\n<h3>" . strtoupper($tree) . '</h3>';
+        echo "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
         foreach ($item as $version => $itemInfo) {
             echo "\n    " . '<label><input type="radio" name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . '</span></label><br>';
         }
@@ -453,7 +456,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
     }
     echo "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
     if ($method) {
-        echo "\n<h2> Using " . $method . "</h2>";
+        // echo "\n<br><h2> Using " . $method . "</h2>";
         echo "\n" . '<br><button>Upgrade &rarr;</button>';
     } else {
         echo "\n" . '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>';
