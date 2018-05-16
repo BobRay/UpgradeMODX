@@ -1,5 +1,10 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 1.5.6-pl
+---------------------------------
+Wrap rrmdir in if(function_exists)
+Add warning not to skip .0 versions
+
 UpgradeMODX 1.5.5-pl
 ---------------------------------
 Fix issue with MODX logo (thanks to DigitalPenguin)
