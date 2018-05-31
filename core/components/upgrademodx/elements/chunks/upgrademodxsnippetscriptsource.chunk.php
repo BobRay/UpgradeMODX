@@ -318,8 +318,8 @@ if (extension_loaded('curl') && (!$forceFopen)) {
 // Comment our the two lines below to run in debugger.
 
 
-   if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
-       $rowInstall = $InstallData[$_GET['modx']];
+if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
+    $rowInstall = $InstallData[$_GET['modx']];
 
     if (file_exists('config.core.php')) {
         @include 'config.core.php';
@@ -401,6 +401,21 @@ if (extension_loaded('curl') && (!$forceFopen)) {
     }
 
     unlink(basename(__FILE__));
+
+    /* Copy root config.core.php to setup/includes and add setup key */
+       $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
+       if (file_exists($rootCoreConfig)) {
+           $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
+           $content = file_get_contents($rootCoreConfig);
+           if (strpos($content,'MODX_SETUP_KEY') === false) {
+               if (strpos($content, '?>') !== false) {
+                    $content = str_replace('?>', $newStr , $content);
+               } else {
+                   $content .= "\n" . $newStr;
+               }
+               file_put_contents(MODX_BASE_PATH . 'setup/includes/config.core.php', $content);
+           }
+       }
 
     /* Log upgrade in Manager Actions log */
     include MODX_CORE_PATH . 'model/modx/modx.class.php';
