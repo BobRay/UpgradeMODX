@@ -330,9 +330,8 @@ if (!class_exists('UpgradeMODX')) {
                 $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 $retVal = $statusCode === 200;
                 if (! $retVal) {
-                    $this->setError('Requested version does not exist');
+                    $this->setError($this->modx->lexicon('ugm_no_such_version'));
                 }
-
             }
             curl_close($ch);
             return $retVal;

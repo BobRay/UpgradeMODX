@@ -53,6 +53,6 @@ $_lang['ugm_upgrade_modx'] = 'Upgrade MODX';
 $_lang['ugm_json_decode_failed'] = 'Failed JSON decode for version data from GitHub in upgradeAvailable()';
 $_lang['ugm_not_available'] = 'New version not yet available for download at MODX repo';
 $_lang['ugm_no_curl_no_fopen'] = 'Neither allow_url_fopen nor cURL can be used to check for upgrades';
-
+$_lang['ugm_no_such_version'] = 'Requested version does not exist';
 /* Used in upgrademodx.class.php */
 $_lang['failed'] = 'failed';
