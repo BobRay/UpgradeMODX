@@ -121,6 +121,9 @@ class MODXInstaller {
             } else {
                 return ('Cannot open ' . $path . ' for writing');
             }
+            if ($newf) {
+                fclose($newf);
+            }
         } else {
             return 'Invalid method in call to downloadFile()';
         }
