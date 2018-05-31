@@ -147,7 +147,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         MODXInstaller::downloadFile($url, $path, $method, $certPath);
         $this->assertFileExists($path);
         $this->assertNotEmpty(filesize($path));
-        fwrite(STDOUT, "\n File Size: " . $this->formatSizeUnits(filesize($path)));
+        // fwrite(STDOUT, "\n File Size: " . $this->formatSizeUnits(filesize($path)));
     }
 
     public function testDownloadFileFopen() {

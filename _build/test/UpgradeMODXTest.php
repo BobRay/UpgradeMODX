@@ -346,11 +346,10 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         /* Should fail */
         $version = '5.5.5-pl';
         $retVal = $this->ugm->downloadable($version, 'curl', 1, 1);
-        $this->assertFalse($retVal);
+        $this->assertFalse($retVal, $retVal);
         $e = $this->ugm->getErrors();
         $this->assertNotEmpty($e);
         echo implode("\n", $e);
-
     }
     public function testDownloadableFopen() {
         /* Try with fopen */
@@ -400,7 +399,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
 
         /* This has to be updated to the current version before testing */
-        $currentVersion = '2.5.4-pl';
+        $currentVersion = '2.6.3-pl';
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
 
@@ -420,7 +419,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
 
         /* This has to be updated to the current version before testing */
-        $currentVersion = '2.5.4-pl';
+        $currentVersion = '2.6.3-pl';
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
 
