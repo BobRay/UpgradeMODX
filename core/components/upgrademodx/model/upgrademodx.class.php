@@ -227,8 +227,9 @@ if (!class_exists('UpgradeMODX')) {
             $i = 1;
             foreach ($contents as $version) {
                 $name = substr($version['name'], 1);
-
-                $url = 'https://modx.com/download/direct?id=modx-' . $name . '.zip';
+                $shortVersion = strtok($name, '-');
+                $url = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $name . '.zip';
+                // $url = 'https://modx.com/download/direct?id=modx-' . $name . '.zip';
                 $versionArray[$name] = array(
                     'tree' => 'Revolution',
                     'name' => 'MODX Revolution ' . htmlentities($name),
@@ -327,7 +328,11 @@ if (!class_exists('UpgradeMODX')) {
                 $this->setError($errorMsg);
             } elseif (! $returnData) { /* Just checking for existence */
                 $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $retVal = $statusCode == 200 || $statusCode == 301 || $statusCode == 302;
+                $retVal = $statusCode === 200;
+                if (! $retVal) {
+                    $this->setError('Requested version does not exist');
+                }
+
             }
             curl_close($ch);
             return $retVal;
@@ -387,7 +392,9 @@ if (!class_exists('UpgradeMODX')) {
 
         public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
             $this->clearErrors();
-            $downloadUrl = 'https://modx.com/download/direct/modx-' . $version . '.zip';
+            $shortVersion = strtok($version, '-');
+            $downloadUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
+            // $downloadUrl = 'https://modx.com/download/direct/modx-' . $version . '.zip';
             if ($method == 'curl') {
                 $downloadable =  $this->curlGetData($downloadUrl, false, $timeout, $tries);
             } else {
