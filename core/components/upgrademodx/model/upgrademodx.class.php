@@ -94,6 +94,9 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $github_token string */
             public $github_token;
 
+        /** @var $devModx bool */
+            protected $devMode;
+
         public function __construct($modx) {
             /** @var $modx modX */
             $this->modx = $modx;
@@ -115,6 +118,7 @@ if (!class_exists('UpgradeMODX')) {
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
             $this->verifyPeer = $this->modx->getOption('ssl_verify_peer', $props, true);
+            $this->devMode = (bool) $this->modx->getOption('ugm.devMode');
 
             /* Next two use System Setting if property is empty */
             $this->github_username = $this->modx->getOption('github_username',
@@ -143,10 +147,15 @@ if (!class_exists('UpgradeMODX')) {
                     $forceFopenString .= $this->forceFopen ? 'true' : 'false';
                     $forceFopenString .= ';';
 
+                    $devModeString = '$devMode = ';
+                    $devModeString .= $this->devMode ? 'true' : 'false';
+                    $devModeString .= ';';
+
                     $fields = array(
                         '/* [[+ForcePclZip]] */' => $forcePclZipString,
                         '/* [[+ForceFopen]] */' => $forceFopenString,
                         '/* [[+InstallData]] */' => $versionList,
+                        '/* [[+devMode]] */' => $devModeString,
                     );
 
                     $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');
@@ -249,6 +258,9 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function updateLatestVersion($versionArray) {
+            if ($this->devMode) {
+                return;
+            }
             $latest = reset($versionArray);
             $this->latestVersion = substr($latest['name'], 16);
         }
@@ -390,6 +402,9 @@ if (!class_exists('UpgradeMODX')) {
 
 
         public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
+            if ($this->devMode) {
+                return true;
+            }
             $this->clearErrors();
             $shortVersion = strtok($version, '-');
             $downloadUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
@@ -437,7 +452,10 @@ if (!class_exists('UpgradeMODX')) {
 
 
         public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5, $method = 'curl') {
-
+            if ($this->devMode) {
+                sleep(3);
+                return true;
+            }
             $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout, $this->attempts);
 
             if ($retVal !== false) {

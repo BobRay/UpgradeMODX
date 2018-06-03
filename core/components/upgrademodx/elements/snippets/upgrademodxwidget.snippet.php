@@ -105,7 +105,7 @@ if (php_sapi_name() === 'cli') {
     $language = $modx->getOption('language', $scriptProperties, 'en', true);
     $modx->lexicon->load($language . ':upgrademodx:default');
     /* Return empty string if user shouldn't see widget */
-
+    $devMode = $modx->getOption('ugm.devMode');
     $groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
     if (strpos($groups, ',') !== false) {
         $groups = explode(',', $groups);
@@ -128,14 +128,15 @@ $upgrade->init($props);
 if (isset($_POST['UpgradeMODX'])) {
     $upgrade->writeScriptFile();
     /* Log out all users before launching the form */
-    $sessionTable = $modx->getTableName('modSession');
-    if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
-        $flushed = false;
-    } else {
-        $modx->user->endSession();
+    if (! $devMode) {
+        $sessionTable = $modx->getTableName('modSession');
+        if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
+            $flushed = false;
+        } else {
+            $modx->user->endSession();
+        }
     }
     $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
-
 }
 
 /* Set the method */

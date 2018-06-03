@@ -337,8 +337,14 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         MODXInstaller::quit ('Could not read main config file');
     }
 
+    $devMode = false;
+
+    /* Set $devMode DO NOT DELETE */
+    /* [[+devMode]] */
 
     /* run unzip and install */
+
+    /* Delete existing modx.zip file */
     $source = dirname(__FILE__) . "/modx.zip";
     $url = $rowInstall['link'];
     $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
@@ -347,16 +353,23 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     }
     set_time_limit(0);
 
-    $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
+    if ($devMode) {
+        sleep(8);
+        $success = true;
+    } else {
+        $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
+    }
 
     /* Make sure we have the downloaded file */
 
-    if ($success !== true) {
-        MODXInstaller::quit($success);
-    } elseif (!file_exists($source)) {
-            MODXInstaller::quit ('Missing file: ' . $source);
-    } elseif (filesize($source) < 64) {
-        MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
+    if (! $devMode) {
+        if ($success !== true) {
+            MODXInstaller::quit($success);
+        } elseif (!file_exists($source)) {
+            MODXInstaller::quit('Missing file: ' . $source);
+        } elseif (filesize($source) < 64) {
+            MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
+        }
     }
 
     $tempDir = realPath(dirname(__FILE__)) . '/ugmtemp';
@@ -373,7 +386,12 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         MODXInstaller::quit('Unable to read from /ugmtemp directory');
     }
     set_time_limit(0);
-    $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
+    if ($devMode) {
+        $success = true;
+        sleep(2);
+    } else {
+        $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
+    }
     if ($success !== true) {
         MODXInstaller::quit($success);
     }
@@ -383,54 +401,70 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
 
     $directories = MODXInstaller::normalize($directories);
 
-    $sourceDir = $tempDir . '/' . MODXInstaller::getModxDir($tempDir);
-    $sourceDir = MODXInstaller::normalize($sourceDir);
-
-    MODXInstaller::copyFiles($sourceDir, $directories);
-
-    unlink($source);
-
-    if (! is_dir(MODX_BASE_PATH . 'setup')) {
-        MODXInstaller::quit('File Copy Failed');
+    if (! $devMode) {
+        $sourceDir = $tempDir . '/' . MODXInstaller::getModxDir($tempDir);
+        $sourceDir = MODXInstaller::normalize($sourceDir);
     }
 
-    MODXInstaller::removeFolder($tempDir, true);
+    if ($devMode) {
+        sleep(4);
+    } else {
+        MODXInstaller::copyFiles($sourceDir, $directories);
 
-    /* Clear cache files but not cache folder */
+        unlink($source);
 
-    $path = MODX_CORE_PATH . 'cache';
-    if (is_dir($path)) {
-        MODXInstaller::removeFolder($path, false);
+        if (!is_dir(MODX_BASE_PATH . 'setup')) {
+            MODXInstaller::quit('File Copy Failed');
+        }
+
+        MODXInstaller::removeFolder($tempDir, true);
+
+        /* Clear cache files but not cache folder */
+
+        $path = MODX_CORE_PATH . 'cache';
+        if (is_dir($path)) {
+            MODXInstaller::removeFolder($path, false);
+        }
+
+        unlink(basename(__FILE__));
     }
 
-    unlink(basename(__FILE__));
+    if ($devMode) {
+        sleep(2);
+    } else {
+        /* Copy root config.core.php to setup/includes and add setup key */
+        $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
+        if (file_exists($rootCoreConfig)) {
+            $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
+            $content = file_get_contents($rootCoreConfig);
+            if (strpos($content, 'MODX_SETUP_KEY') === false) {
+                if (strpos($content, '?>') !== false) {
+                    $content = str_replace('?>', $newStr, $content);
+                } else {
+                    $content .= "\n" . $newStr;
+                }
+                file_put_contents(MODX_BASE_PATH . 'setup/includes/config.core.php', $content);
+            }
+        }
+    }
 
-    /* Copy root config.core.php to setup/includes and add setup key */
-       $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
-       if (file_exists($rootCoreConfig)) {
-           $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
-           $content = file_get_contents($rootCoreConfig);
-           if (strpos($content,'MODX_SETUP_KEY') === false) {
-               if (strpos($content, '?>') !== false) {
-                    $content = str_replace('?>', $newStr , $content);
-               } else {
-                   $content .= "\n" . $newStr;
-               }
-               file_put_contents(MODX_BASE_PATH . 'setup/includes/config.core.php', $content);
-           }
-       }
+    /* Instantiate MODX; Log upgrade in Manager Actions log; Launch setup */
 
-    /* Log upgrade in Manager Actions log */
-    include MODX_CORE_PATH . 'model/modx/modx.class.php';
+    if ($devMode) {
+        sleep(2);
+        echo "<h2>Launching Setup</h2>";
+    } else {
+        include MODX_CORE_PATH . 'model/modx/modx.class.php';
 
-    $modx = new modX();
-    $modx->initialize('web');
-    $modx->lexicon->load('core:default');
-    $modx->logManagerAction('Upgrade MODX','modWorkspace', $modx->lexicon('version') . ' ' . $_GET['modx'], $_GET['userId'] );
-    $modx = null;
+        $modx = new modX();
+        $modx->initialize('web');
+        $modx->lexicon->load('core:default');
+        $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_GET['modx'], $_GET['userId']);
+        $modx = null;
 
-    /* Forward to Setup */
-    header('Location: ' . $rowInstall['location']);
+        /* Forward to Setup */
+        header('Location: ' . $rowInstall['location']);
+    }
 
 } else {
     $ItemGrid = array();
