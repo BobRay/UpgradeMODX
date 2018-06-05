@@ -189,7 +189,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2018-05-16 00:13:24',
+    'value' => '2018-06-04 16:48:40',
     'lexicon' => 'upgrademodx:properties',
     'area' => 'Widget',
   ),
