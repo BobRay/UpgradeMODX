@@ -105,7 +105,7 @@ if (php_sapi_name() === 'cli') {
     $language = $modx->getOption('language', $scriptProperties, 'en', true);
     $modx->lexicon->load($language . ':upgrademodx:default');
     /* Return empty string if user shouldn't see widget */
-    $devMode = $modx->getOption('ugm.devMode');
+    $devMode = $modx->getOption('ugm.devMode',  null, false, true);
     $groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
     if (strpos($groups, ',') !== false) {
         $groups = explode(',', $groups);
@@ -177,6 +177,10 @@ if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
     $latestVersion = $upgrade->getLatestVersion();
 } else {
     $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;;
+}
+
+if ($devMode) {
+    $upgradeAvailable = true;
 }
 $placeholders = array();
 $placeholders['[[+ugm_current_version]]'] = $currentVersion;

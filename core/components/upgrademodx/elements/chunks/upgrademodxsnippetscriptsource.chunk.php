@@ -35,11 +35,14 @@ ini_set('display_errors', 0);
 set_time_limit(0);
 ini_set('max_execution_time', 0);
 header('Content-Type: text/html; charset=utf-8');
+ini_set("zlib.output_compression", 0);  // off
+ini_set("implicit_flush", 1);  // on
 
 if (extension_loaded('xdebug')) {
     ini_set('xdebug.max_nesting_level', 100000);
 }
 
+/* ToDo: Use placeholders for lex strings */
 
 class MODXInstaller {
     static public function downloadFile($url, $path, $method, $certPath)
@@ -227,7 +230,7 @@ class MODXInstaller {
             umask($oldumask);
         }
     }
-    
+
     static public function unZip($corePath, $source, $destination, $forcePclZip = false) {
         $status = true;
         if ( (! $forcePclZip) && class_exists('ZipArchive', false)) {
@@ -295,12 +298,16 @@ class MODXInstaller {
         return $dir;
     }
 
+    public static function updateProgress($path, $content) {
+        return file_put_contents($path, $content, LOCK_EX);
+    }
+
     public static function quit($msg) {
         $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:80px;padding:30px;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
         $end = '</p><p style="margin-bottom:120px;"><a href="' . MODX_MANAGER_URL . '">Back to Manager</a></p></div>';
         die($begin . $msg  . $end);
     }
-}
+} /* End of MODXInstaller class */
 
 /* Do not touch the following comments! You have been warned!  */
 /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
@@ -309,11 +316,301 @@ class MODXInstaller {
 /* [[+InstallData]] */
 
 $method = 0;
+$output = '';
+$submitted = !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']]);
+
 if (extension_loaded('curl') && (!$forceFopen)) {
     $method = 'curl';
 } elseif (ini_get('allow_url_fopen')) {
     $method = 'fopen';
 }
+
+$output .= '
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UpgradeMODX</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");article,aside,audio,b,body,canvas,dd,details,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,img,label,li,mark,menu,nav,ol,p,section,span,strong,summary,table,tbody,td,tfoot,th,thead,time,tr,u,ul,video{margin:0;padding:0;border:0;outline:0;vertical-align:baseline;background:0 0;font-size:100%}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:0 0}table{border-collapse:collapse;border-spacing:0}td,td img{vertical-align:top}button,input,select,textarea{margin:0;font-size:100%}input[type=password],input[type=text],textarea{padding:0}input[type=checkbox]{vertical-align:bottom}input[type=radio]{vertical-align:text-bottom}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}html{overflow-y:scroll}body{color:#111;text-align:left;font:12px Verdana,"Geneva CY","DejaVu Sans",sans-serif}button,input,select,textarea{font-family:Verdana,"Geneva CY","DejaVu Sans",sans-serif}a,a:active,a:focus,a:hover,a:visited,button,input[type=button],input[type=submit],label{cursor:pointer}::selection{background:#84d5e8;color:#fff;text-shadow:none}html{position:relative;background:#f8f8f8 url("[[++assets_url]]components/upgrademodx/images/base.png")}body{background:0 0;font-size:14px;line-height:22px;font-family:"Helvetica Neue",helvetica,arial,sans-serif;text-shadow:0 1px 0 #fff}a{color:#0f7096}.button,button{color:#fff;display:inline-block;padding:15px;font-size:20px;text-decoration:none;border:5px solid #fff;border-radius:8px;background-color:#67a749;background-image:linear-gradient(to top,#67a749 0,#67a749 27.76%,#a1c755 100%);text-shadow:0 0 2px rgba(0,0,0,.64)}a.button{padding:5px 15px}h1,h2,h3,h4,h5{font-family:"PT Serif",helvetica,arial,sans-serif;line-height:28px}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-size:16px}h5{font-size:14px}.header{-moz-box-sizing: border-box;float:left;width:100%;box-sizing:border-box;background:#fff;background:linear-gradient(to bottom,#fff,#f2f2f2);padding:20px;border-bottom:1px solid #fff}.header img{float:left;width:180px;margin:0 5px 0 0}.header h1.main-heading{color:#137899;font-size:32px;line-height:40px}.header-button-wrapper{float:right}.main-heading>span{display:none}.main-heading>sup{color:#ccc;font-weight:400}.content{float:left;padding:30px}.content h2{margin:0;line-height:20px}.content form{margin:10px 0 50px}.content form .column{float:left;box-sizing:border-box;width:500px;margin:20px 0}.column h3{display:inline-block;padding:0 0 5px;margin:0 0 20px;border-bottom:2px solid #000}.column label{float:left;width:100%;clear:both;padding:3px 0}form button{float:left;width:200px;clear:both}label>span{border-bottom:1px dotted #555}label>input{margin:0 5px 0 0}.footer{position:absolute;bottom:20px;right:20px;font-size:10px;color:#ccc}.footer a{color:#aaa}
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+</head>
+<body>
+    <div class="header">
+        <img src="https://modx.com/assets/i/logos/v5/svgs/modx-color.svg" alt="Logo">
+        <h1 class="main-heading"><span>MODX</span> UpgradeMODX </h1>
+        <div class="header-button-wrapper">
+            <a href="https://github.com/BobRay/UpgradeMODX" class="button">GitHub</a>
+        </div>
+    </div>
+
+<div class="content">';
+
+if ($method) {
+    $output .= "<br><h3> (Using  {$method})</h3>";
+} else {
+    MODXInstaller::quit("\n" . '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>');
+}
+
+
+if (!$submitted) {
+    $output .= "\n<h2>Choose MODX version for Upgrade</h2>";
+    $ItemGrid = array();
+    foreach ($InstallData as $ver => $item) {
+        $ItemGrid[$item['tree']][$ver] = $item;
+    }
+
+    $output .= "\n    <form>";
+    foreach ($ItemGrid as $tree => $item) {
+        $output .= "\n" . '<div class="column">' .
+            "\n<h3>" . strtoupper($tree) . '</h3>';
+        $output .= "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
+        foreach ($item as $version => $itemInfo) {
+            $output .= "\n    " . '<label><input type="radio" name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . '</span></label><br>';
+        }
+        $output .= '</div>';
+    }
+    $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
+    $output .= "\n" . '<br><button id="ugm_submit_button">Upgrade</button>';
+    $output .= '</form>' . "\n ";
+
+} else {
+    $output .= "\n" . '<br><h1 id="ugm_progress">Progress</h1>';
+}
+
+if (!$submitted) {
+
+    $output .= "\n" . '<script type="text/javascript">
+    "use strict";
+    
+    $("#ugm_submit_button").click(function (e) {
+            var radio_buttons = $("input[name=\'modx\']");
+            if ( radio_buttons.filter(\':checked\').length === 0) {
+                e.preventDefault();
+                alert("Select a Version");
+                /*$("#submitdata").empty();
+                $("#submitdata").append("Name: " + name + "<br/>Email: " + email + "<br/>Message: " + msg);*/
+            }
+            
+    });
+    </script>';
+
+} else {
+
+    $output .= "\n" . '<script type="text/javascript">
+
+    //        alert("READY");
+        var previous = "Upgrade";
+        var progress = document.getElementById("ugm_progress");
+        /* TpDo: correct location */
+        //$progressFilePath = MODX_CORE_PATH . \'cache/upgrademodx\';
+        var url = "http://localhost/addons/assets/components/upgrademodx/cache/upgrademodx/ugmprogress.txt"; //xxx
+        // assets/components/upgrademodx/cache/upgrademodx/ugmprogress.txt
+        
+        
+        var update = function(text) {
+            progress.innerHTML = text;
+        };
+            
+            
+          /*  var newDataRequest = $.ajax({
+                type: "GET",
+                url: url,
+                cache: false,
+                data: {},
+                dataType:"text",
+                timeout: 30000
+            });
+                
+                   
+            newDataRequest.done(function(data){
+                console.log(data);
+                setTimeout(newDataRequest, 1000);
+            });
+                    
+            newDataRequest.fail(function(jqXHR, textStatus) {
+                /!*if (jqXHR.status === 0){
+                    console.log(\'Not connect.n Verify Network.\');
+                } else if (jqXHR.status === 404) {
+                    console.log(\'Requested page not found. [404]\');
+                } else if (jqXHR.status === 500) {
+                    console.log(\'Internal Server Error [500].\');
+                } else if (exception === \'parsererror\') {
+                    console.log(\'Requested JSON parse failed.\');
+                } else if (exception === \'timeout\') {
+                    console.log(\'Time out error.\');
+                } else if (exception === \'abort\') {
+                    console.log(\'Ajax request aborted.\');
+                } else {
+                    console.log(\'Uncaught Error.n\' + jqXHR.responseText);
+                }*!/
+            });
+         newDataRequest();
+        
+        
+    }); */
+     poll();            
+        // Ajax here
+    function poll() {
+        // console.log("Starting Poll");
+        $.ajax({
+            type: "GET",
+            url: url,
+            cache: false,
+            data: {},
+            dataType:"text",
+            timeout: 2000,
+            //crossDomain: true,
+
+           
+            success: function(data){
+               // console.log("Success");
+                // console.log("Data:" +"X" + data + "X");
+                if (data !== previous) {
+                    
+                    progress.innerHTML = data;
+                    // console.log("Progress: " + progress);
+                    // console.log("Previous: " + previous);
+
+                    previous = data;
+                }
+            },
+            complete: function(data) {
+                var s = data.responseText;
+                // console.log(s);
+                if (s.includes("Launching Setup") !== true) {
+                    if (s.includes("Finished") !== true) {
+                        setTimeout(poll, 2000);
+                    }
+                } else {
+                    window.location.replace("http://localhost/addons/setup/index.php");
+                }
+            },
+            
+            
+            error : function (x, d, e) {
+              if (x.status === -5) {
+                  alert("You are offline!! Please Check Your Network.");
+              } else {
+                  if (x.status === 404) {
+                     alert("Requested URL not found");
+                  } else {
+                      if (x.status === 500) {
+                          alert("Internal Server Error.");
+                      } else {
+                          if (e === "parsererror") {
+                              alert("Error: Parsing JSON Request failed.");
+                          } else {
+                              if (e === "timeout") {
+                                  alert("Request Time out.");
+                              } else {
+                                  console.log("Unknown Error: " + x.responseText);
+                              }
+                          }
+                      }
+                  }
+              }
+            }
+       });
+//            },[[+nf_set_interval]]);
+  //     },1000);
+     }
+
+    
+</script>';
+}
+
+   /* $(document).ready(function (event) {
+        $("#ugm_submit_button" ).click(function() {
+            alert( "Please select one of the options" );
+            return false;
+        });*/
+        /* set the timer that checks the status.php file for progress reports */
+        /*    var timer = setInterval(function(){
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    cache: false,
+                    data: {},
+                    dataType:"text",
+                    //crossDomain: true,
+
+                   
+                    success: function(data){
+                        if (data != previous) {
+                             console.log("Data: " + data);
+                            progress.innerHTML = data;
+                            console.log("Progress: " + progress);
+                            console.log("Previous: " + previous);
+
+                            previous = data;
+                        }
+                    },
+                    error : function (x, d, e) {
+                      if (x.status == -5) {
+                          alert("You are offline!! Please Check Your Network.");
+                      } else {
+                          if (x.status == 404) {
+                             /!* alert("Requested URL not found"); *!/
+                          } else {
+                              if (x.status == 500) {
+                                  alert("Internal Server Error.");
+                              } else {
+                                  if (e == "parsererror") {
+                                      alert("Error: Parsing JSON Request failed.");
+                                  } else {
+                                      if (e == "timeout") {
+                                          alert("Request Time out.");
+                                      } else {
+                                          console.log("Unknown Error: " + x.responseText);
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+               });
+//            },[[+nf_set_interval]]);
+              },1000);*/
+       
+//    });    
+
+
+    /*
+                if (ajax.readyState == 4) {
+                    if (ajax.responseText != previous) {
+                        progress.innerHTML = ajax.responseText;
+                        console.log("Progress: " + progress);
+                        console.log("Text: " + ajax.responseText);
+                        console.log("Previous: " + previous);
+
+                        previous = ajax.responseText;
+                    }
+                }
+            };
+
+        }, 1000);*/
+
+$output .= "\n</div>"; // end content div
+
+if (!$submitted) {
+    $output .= '<div class="footer">
+            <p>Originally created by <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
+            <p>Modified for Revolution only by <a href="//sottwell.com" title="">sottwell</a></p>
+            <p>Modified for Upgrade only with dashboard widget by <a href="//bobsguides.com" title="">BobRay</a></p>
+            <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
+            </div>';
+}
+
+
+$output .= "\n</body>";
+$output .= "\n</html>";
+
+echo $output;
+ob_flush();
+flush();
+
 
 /* Next two lines for running in debugger  */
 // if (true || !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
@@ -321,8 +618,9 @@ if (extension_loaded('curl') && (!$forceFopen)) {
 // Comment our the two lines below to run in debugger.
 
 
-if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
-    $rowInstall = $InstallData[$_GET['modx']];
+
+
+if ($submitted) {
 
     if (file_exists('config.core.php')) {
         @include 'config.core.php';
@@ -334,12 +632,13 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     @include MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
 
     if (!defined('MODX_CONNECTORS_PATH')) {
-        MODXInstaller::quit ('Could not read main config file');
+        MODXInstaller::quit('Could not read main config file');
     }
 
     $devMode = false;
+    $rowInstall = $InstallData[$_GET['modx']];
 
-    /* Set $devMode DO NOT DELETE */
+    /* Set true $devMode DO NOT DELETE */
     /* [[+devMode]] */
 
     /* run unzip and install */
@@ -348,21 +647,31 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
     $source = dirname(__FILE__) . "/modx.zip";
     $url = $rowInstall['link'];
     $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
-    if (! file_exists($certPath)) {
+    if (!file_exists($certPath)) {
         MODXInstaller::quit('Could not find cacert.pem');
     }
     set_time_limit(0);
 
-    if ($devMode) {
-        sleep(8);
-        $success = true;
-    } else {
-        $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
+    /* Initialize progress file */
+    $progressFilePath = 'assets/components/upgrademodx/cache/upgrademodx';
+    if (!is_dir($progressFilePath)) {
+        MODXInstaller::mmkdir($progressFilePath);
     }
+    $progressFilePath .= '/ugmprogress.txt';
+    $success = MODXInstaller::updateProgress($progressFilePath, 'Starting Upgrade');
+    sleep(2);
+
+    if (!$success) {
+        MODXInstaller::quit('Could not write to ugmprogress file: ' . $path);
+    }
+
+    MODXInstaller::updateProgress($progressFilePath, 'Downloading Files');
+
 
     /* Make sure we have the downloaded file */
 
-    if (! $devMode) {
+    if (!$devMode) {
+        $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
         if ($success !== true) {
             MODXInstaller::quit($success);
         } elseif (!file_exists($source)) {
@@ -370,22 +679,30 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         } elseif (filesize($source) < 64) {
             MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
         }
+    } else {
+        sleep(2);
     }
 
+    /* Make temp directory */
     $tempDir = realPath(dirname(__FILE__)) . '/ugmtemp';
     MODXInstaller::mmkdir($tempDir);
     clearstatcache();
 
     $destination = $tempDir;
 
-    if (! file_exists($tempDir)) {
+    if (!file_exists($tempDir)) {
         MODXInstaller::quit('Unable to create directory: ' . $tempDir);
     }
 
-    if (! is_readable($tempDir)) {
+    if (!is_readable($tempDir)) {
         MODXInstaller::quit('Unable to read from /ugmtemp directory');
     }
+
+    /* Unzip File */
+
+    MODXInstaller::updateProgress($progressFilePath, 'Unzipping Files');
     set_time_limit(0);
+
     if ($devMode) {
         $success = true;
         sleep(2);
@@ -396,21 +713,21 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         MODXInstaller::quit($success);
     }
 
-
+    /* Get directories for file copy */
     $directories = MODXInstaller::getDirectories();
-
     $directories = MODXInstaller::normalize($directories);
 
-    if (! $devMode) {
+    if (!$devMode) {
         $sourceDir = $tempDir . '/' . MODXInstaller::getModxDir($tempDir);
         $sourceDir = MODXInstaller::normalize($sourceDir);
     }
 
+    /* Copy MODX files to destination */
+    MODXInstaller::updateProgress($progressFilePath, 'Copying Files');
     if ($devMode) {
-        sleep(4);
+        sleep(2);
     } else {
         MODXInstaller::copyFiles($sourceDir, $directories);
-
         unlink($source);
 
         if (!is_dir(MODX_BASE_PATH . 'setup')) {
@@ -429,10 +746,12 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
         unlink(basename(__FILE__));
     }
 
+    /* Copy root config.core.php to setup/includes and add setup key */
+    MODXInstaller::updateProgress($progressFilePath, 'Preparing Setup');
     if ($devMode) {
         sleep(2);
     } else {
-        /* Copy root config.core.php to setup/includes and add setup key */
+
         $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
         if (file_exists($rootCoreConfig)) {
             $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
@@ -447,82 +766,21 @@ if (!empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GE
             }
         }
     }
-
+}
     /* Instantiate MODX; Log upgrade in Manager Actions log; Launch setup */
-
+if ($submitted) {
     if ($devMode) {
-        sleep(2);
-        echo "<h2>Launching Setup</h2>";
+        MODXInstaller::updateProgress($progressFilePath, 'Finished');
     } else {
         include MODX_CORE_PATH . 'model/modx/modx.class.php';
-
         $modx = new modX();
         $modx->initialize('web');
         $modx->lexicon->load('core:default');
         $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_GET['modx'], $_GET['userId']);
+        /* Redirect done with 'replace' in JavaScript when it sees 'Launching MODX'. */
+        // $modx->sendRedirect($rowInstall['location']);
         $modx = null;
-
-        /* Forward to Setup */
-        header('Location: ' . $rowInstall['location']);
+        MODXInstaller::updateProgress($progressFilePath, 'Launching Setup');
     }
-
-} else {
-    $ItemGrid = array();
-    foreach ($InstallData as $ver => $item) {
-        $ItemGrid[$item['tree']][$ver] = $item;
-    }
-
-/* Display the Form */
-    echo '
-<!DOCTYPE html>
-<html>
-<head>
-    <title>UpgradeMODX</title>
-    <meta charset="utf-8">
-    <style type="text/css">
-        @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");article,aside,audio,b,body,canvas,dd,details,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,img,label,li,mark,menu,nav,ol,p,section,span,strong,summary,table,tbody,td,tfoot,th,thead,time,tr,u,ul,video{margin:0;padding:0;border:0;outline:0;vertical-align:baseline;background:0 0;font-size:100%}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:0 0}table{border-collapse:collapse;border-spacing:0}td,td img{vertical-align:top}button,input,select,textarea{margin:0;font-size:100%}input[type=password],input[type=text],textarea{padding:0}input[type=checkbox]{vertical-align:bottom}input[type=radio]{vertical-align:text-bottom}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}html{overflow-y:scroll}body{color:#111;text-align:left;font:12px Verdana,"Geneva CY","DejaVu Sans",sans-serif}button,input,select,textarea{font-family:Verdana,"Geneva CY","DejaVu Sans",sans-serif}a,a:active,a:focus,a:hover,a:visited,button,input[type=button],input[type=submit],label{cursor:pointer}::selection{background:#84d5e8;color:#fff;text-shadow:none}html{position:relative;background:#f8f8f8 url("[[++assets_url]]components/upgrademodx/images/base.png")}body{background:0 0;font-size:14px;line-height:22px;font-family:"Helvetica Neue",helvetica,arial,sans-serif;text-shadow:0 1px 0 #fff}a{color:#0f7096}.button,button{color:#fff;display:inline-block;padding:15px;font-size:20px;text-decoration:none;border:5px solid #fff;border-radius:8px;background-color:#67a749;background-image:linear-gradient(to top,#67a749 0,#67a749 27.76%,#a1c755 100%);text-shadow:0 0 2px rgba(0,0,0,.64)}a.button{padding:5px 15px}h1,h2,h3,h4,h5{font-family:"PT Serif",helvetica,arial,sans-serif;line-height:28px}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-size:16px}h5{font-size:14px}.header{-moz-box-sizing: border-box;float:left;width:100%;box-sizing:border-box;background:#fff;background:linear-gradient(to bottom,#fff,#f2f2f2);padding:20px;border-bottom:1px solid #fff}.header img{float:left;width:180px;margin:0 5px 0 0}.header h1.main-heading{color:#137899;font-size:32px;line-height:40px}.header-button-wrapper{float:right}.main-heading>span{display:none}.main-heading>sup{color:#ccc;font-weight:400}.content{float:left;padding:30px}.content h2{margin:0;line-height:20px}.content form{margin:10px 0 50px}.content form .column{float:left;box-sizing:border-box;width:500px;margin:20px 0}.column h3{display:inline-block;padding:0 0 5px;margin:0 0 20px;border-bottom:2px solid #000}.column label{float:left;width:100%;clear:both;padding:3px 0}form button{float:left;width:200px;clear:both}label>span{border-bottom:1px dotted #555}label>input{margin:0 5px 0 0}.footer{position:absolute;bottom:20px;right:20px;font-size:10px;color:#ccc}.footer a{color:#aaa}
-    </style>
-</head>
-<body>
-    <div class="header">
-        <img src="https://modx.com/assets/i/logos/v5/svgs/modx-color.svg" alt="Logo">
-        <h1 class="main-heading"><span>MODX</span> UpgradeMODX </h1>
-        <div class="header-button-wrapper">
-            <a href="https://github.com/BobRay/UpgradeMODX" class="button">GitHub</a>
-        </div>
-    </div>
-
-<div class="content">';
-    echo "\n<h2>Choose MODX version for Upgrade</h2>
-    
-    <br><h3> (Using  {$method})</h3>
-    <form>";
-    foreach ($ItemGrid as $tree => $item) {
-        echo "\n" . '<div class="column">' .
-            "\n<h3>" . strtoupper($tree) . '</h3>';
-        echo "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
-        foreach ($item as $version => $itemInfo) {
-            echo "\n    " . '<label><input type="radio" name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . '</span></label><br>';
-        }
-        echo '</div>';
-    }
-    echo "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
-    if ($method) {
-        // echo "\n<br><h2> Using " . $method . "</h2>";
-        echo "\n" . '<br><button>Upgrade &rarr;</button>';
-    } else {
-        echo "\n" . '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>';
-    }
-    echo '</form>' . "\n " .
-'</div>
-    <div class="footer">
-        <p>Originally created by <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
-        <p>Modified for Revolution only by <a href="//sottwell.com" title="">sottwell</a></p>
-        <p>Modified for Upgrade only with dashboard widget by <a href="//bobsguides.com" title="">BobRay</a></p>
-        <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
-    </div>
-</body>
-</html>
-';
 }
-?>
+
