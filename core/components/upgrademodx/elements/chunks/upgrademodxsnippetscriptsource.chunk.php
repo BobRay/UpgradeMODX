@@ -42,6 +42,7 @@ if (extension_loaded('xdebug')) {
     ini_set('xdebug.max_nesting_level', 100000);
 }
 
+/* ToDo: Use placeholders for lex strings */
 
 class MODXInstaller {
     static public function downloadFile($url, $path, $method, $certPath)
@@ -479,7 +480,9 @@ if (!$submitted) {
                 var s = data.responseText;
                 // console.log(s);
                 if (s.includes("Launching Setup") !== true) {
-                    setTimeout(poll, 2000);
+                    if (s.includes("Finished") !== true) {
+                        setTimeout(poll, 2000);
+                    }
                 } else {
                     window.location.replace("http://localhost/addons/setup/index.php");
                 }
@@ -629,7 +632,7 @@ if ($submitted) {
     @include MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
 
     if (!defined('MODX_CONNECTORS_PATH')) {
-        MODXInstaller::quit ('Could not read main config file');
+        MODXInstaller::quit('Could not read main config file');
     }
 
     $devMode = false;
@@ -644,31 +647,30 @@ if ($submitted) {
     $source = dirname(__FILE__) . "/modx.zip";
     $url = $rowInstall['link'];
     $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
-    if (! file_exists($certPath)) {
+    if (!file_exists($certPath)) {
         MODXInstaller::quit('Could not find cacert.pem');
     }
     set_time_limit(0);
 
-   /* Initialize progress file */
-   $progressFilePath = 'assets/components/upgrademodx/cache/upgrademodx';
-   if (!is_dir($progressFilePath)) {
-       MODXInstaller::mmkdir($progressFilePath);
-   }
-   $progressFilePath .= '/ugmprogress.txt';
-    $success =  MODXInstaller::updateProgress($progressFilePath, 'Starting Upgrade');
-   sleep(2);
+    /* Initialize progress file */
+    $progressFilePath = 'assets/components/upgrademodx/cache/upgrademodx';
+    if (!is_dir($progressFilePath)) {
+        MODXInstaller::mmkdir($progressFilePath);
+    }
+    $progressFilePath .= '/ugmprogress.txt';
+    $success = MODXInstaller::updateProgress($progressFilePath, 'Starting Upgrade');
+    sleep(2);
 
-   if (! $success) {
-       MODXInstaller::quit('Could not write to ugmprogress file: ' . $path);
-   }
+    if (!$success) {
+        MODXInstaller::quit('Could not write to ugmprogress file: ' . $path);
+    }
 
-   MODXInstaller::updateProgress($progressFilePath, 'Downloading Files');
-
+    MODXInstaller::updateProgress($progressFilePath, 'Downloading Files');
 
 
     /* Make sure we have the downloaded file */
 
-    if (! $devMode) {
+    if (!$devMode) {
         $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
         if ($success !== true) {
             MODXInstaller::quit($success);
@@ -688,11 +690,11 @@ if ($submitted) {
 
     $destination = $tempDir;
 
-    if (! file_exists($tempDir)) {
+    if (!file_exists($tempDir)) {
         MODXInstaller::quit('Unable to create directory: ' . $tempDir);
     }
 
-    if (! is_readable($tempDir)) {
+    if (!is_readable($tempDir)) {
         MODXInstaller::quit('Unable to read from /ugmtemp directory');
     }
 
@@ -715,7 +717,7 @@ if ($submitted) {
     $directories = MODXInstaller::getDirectories();
     $directories = MODXInstaller::normalize($directories);
 
-    if (! $devMode) {
+    if (!$devMode) {
         $sourceDir = $tempDir . '/' . MODXInstaller::getModxDir($tempDir);
         $sourceDir = MODXInstaller::normalize($sourceDir);
     }
@@ -764,26 +766,21 @@ if ($submitted) {
             }
         }
     }
-
-    /* Instantiate MODX; Log upgrade in Manager Actions log; Launch setup */
-    MODXInstaller::updateProgress($progressFilePath, 'Launching Setup');
-
 }
-
-if (!$devMode) {
-    if ($submitted) {
+    /* Instantiate MODX; Log upgrade in Manager Actions log; Launch setup */
+if ($submitted) {
+    if ($devMode) {
+        MODXInstaller::updateProgress($progressFilePath, 'Finished');
+    } else {
         include MODX_CORE_PATH . 'model/modx/modx.class.php';
-
         $modx = new modX();
         $modx->initialize('web');
         $modx->lexicon->load('core:default');
         $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_GET['modx'], $_GET['userId']);
-        $modx->sendRedirect($rowInstall['location']);
+        /* Redirect done with 'replace' in JavaScript when it sees 'Launching MODX'. */
+        // $modx->sendRedirect($rowInstall['location']);
         $modx = null;
-
-        /* Forward to Setup */
-        // header('Location: ' . $rowInstall['location']);
+        MODXInstaller::updateProgress($progressFilePath, 'Launching Setup');
     }
 }
 
-?>
