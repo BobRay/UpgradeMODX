@@ -388,9 +388,8 @@ if (!$submitted) {
             var radio_buttons = $("input[name=\'modx\']");
             if ( radio_buttons.filter(\':checked\').length === 0) {
                 e.preventDefault();
+                /* ToDo: Make this a dialog */
                 alert("Select a Version");
-                /*$("#submitdata").empty();
-                $("#submitdata").append("Name: " + name + "<br/>Email: " + email + "<br/>Message: " + msg);*/
             }
             
     });
@@ -399,59 +398,18 @@ if (!$submitted) {
 } else {
 
     $output .= "\n" . '<script type="text/javascript">
-
-    //        alert("READY");
-        var previous = "Upgrade";
-        var progress = document.getElementById("ugm_progress");
-        var url = "[[+ugm_progress_url]]"; //xxx
-        // assets/components/upgrademodx/cache/upgrademodx/ugmprogress.txt
+    
+    var previous = "Upgrade";
+    var progress = document.getElementById("ugm_progress");
+    var url = "[[+ugm_progress_url]]";
+    var update = function(text) {
+        progress.innerHTML = text;
+    };
         
-        
-        var update = function(text) {
-            progress.innerHTML = text;
-        };
-            
-            
-          /*  var newDataRequest = $.ajax({
-                type: "GET",
-                url: url,
-                cache: false,
-                data: {},
-                dataType:"text",
-                timeout: 30000
-            });
-                
-                   
-            newDataRequest.done(function(data){
-                console.log(data);
-                setTimeout(newDataRequest, 1000);
-            });
-                    
-            newDataRequest.fail(function(jqXHR, textStatus) {
-                /!*if (jqXHR.status === 0){
-                    console.log(\'Not connect.n Verify Network.\');
-                } else if (jqXHR.status === 404) {
-                    console.log(\'Requested page not found. [404]\');
-                } else if (jqXHR.status === 500) {
-                    console.log(\'Internal Server Error [500].\');
-                } else if (exception === \'parsererror\') {
-                    console.log(\'Requested JSON parse failed.\');
-                } else if (exception === \'timeout\') {
-                    console.log(\'Time out error.\');
-                } else if (exception === \'abort\') {
-                    console.log(\'Ajax request aborted.\');
-                } else {
-                    console.log(\'Uncaught Error.n\' + jqXHR.responseText);
-                }*!/
-            });
-         newDataRequest();
-        
-        
-    }); */
+         
      poll();            
-        // Ajax here
+      
     function poll() {
-        // console.log("Starting Poll");
         $.ajax({
             type: "GET",
             url: url,
@@ -459,26 +417,17 @@ if (!$submitted) {
             data: {},
             dataType:"text",
             timeout: 2000,
-            //crossDomain: true,
-
            
             success: function(data){
-               // console.log("Success");
-                // console.log("Data:" +"X" + data + "X");
                 if (data !== previous) {
-                    
                     progress.innerHTML = data;
-                    // console.log("Progress: " + progress);
-                    // console.log("Previous: " + previous);
-
                     previous = data;
                 }
             },
             complete: function(data) {
                 var s = data.responseText;
-                // console.log(s);
                 if (s.includes("Launching Setup") !== true) {
-                    if (s.includes("Finished") !== true) {
+                    if (s.includes("+Finished") !== true) {
                         setTimeout(poll, 2000);
                     }
                 } else {
@@ -486,9 +435,9 @@ if (!$submitted) {
                 }
             },
             
-            
             error : function (x, d, e) {
               if (x.status === -5) {
+                  /* ToDo: Make these dialogs */
                   alert("You are offline!! Please Check Your Network.");
               } else {
                   if (x.status === 404) {
@@ -501,7 +450,7 @@ if (!$submitted) {
                               alert("Error: Parsing JSON Request failed.");
                           } else {
                               if (e === "timeout") {
-                                  alert("Request Time out.");
+                                  console.log("Request Time out.");
                               } else {
                                   console.log("Unknown Error: " + x.responseText);
                               }
@@ -511,84 +460,11 @@ if (!$submitted) {
               }
             }
        });
-//            },[[+nf_set_interval]]);
-  //     },1000);
-     }
+    }
 
     
 </script>';
 }
-
-   /* $(document).ready(function (event) {
-        $("#ugm_submit_button" ).click(function() {
-            alert( "Please select one of the options" );
-            return false;
-        });*/
-        /* set the timer that checks the status.php file for progress reports */
-        /*    var timer = setInterval(function(){
-                $.ajax({
-                    type: "GET",
-                    url: url,
-                    cache: false,
-                    data: {},
-                    dataType:"text",
-                    //crossDomain: true,
-
-                   
-                    success: function(data){
-                        if (data != previous) {
-                             console.log("Data: " + data);
-                            progress.innerHTML = data;
-                            console.log("Progress: " + progress);
-                            console.log("Previous: " + previous);
-
-                            previous = data;
-                        }
-                    },
-                    error : function (x, d, e) {
-                      if (x.status == -5) {
-                          alert("You are offline!! Please Check Your Network.");
-                      } else {
-                          if (x.status == 404) {
-                             /!* alert("Requested URL not found"); *!/
-                          } else {
-                              if (x.status == 500) {
-                                  alert("Internal Server Error.");
-                              } else {
-                                  if (e == "parsererror") {
-                                      alert("Error: Parsing JSON Request failed.");
-                                  } else {
-                                      if (e == "timeout") {
-                                          alert("Request Time out.");
-                                      } else {
-                                          console.log("Unknown Error: " + x.responseText);
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  }
-               });
-//            },[[+nf_set_interval]]);
-              },1000);*/
-       
-//    });    
-
-
-    /*
-                if (ajax.readyState == 4) {
-                    if (ajax.responseText != previous) {
-                        progress.innerHTML = ajax.responseText;
-                        console.log("Progress: " + progress);
-                        console.log("Text: " + ajax.responseText);
-                        console.log("Previous: " + previous);
-
-                        previous = ajax.responseText;
-                    }
-                }
-            };
-
-        }, 1000);*/
 
 $output .= "\n</div>"; // end content div
 
@@ -636,7 +512,7 @@ if ($submitted) {
     $devMode = false;
     $rowInstall = $InstallData[$_GET['modx']];
 
-    /* Set true $devMode DO NOT DELETE */
+    /* Set true $devMode; DO NOT DELETE the next line*/
     /* [[+devMode]] */
 
     /* run unzip and install */
@@ -660,7 +536,6 @@ if ($submitted) {
     }
 
     MODXInstaller::updateProgress($progressFilePath, 'Downloading Files');
-
 
     /* Make sure we have the downloaded file */
 
