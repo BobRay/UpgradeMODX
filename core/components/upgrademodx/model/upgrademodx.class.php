@@ -89,13 +89,19 @@ if (!class_exists('UpgradeMODX')) {
         public $verifyPeer = true;
 
         /** @var $github_username string */
-            public $github_username;
+            public $github_username = '';
 
         /** @var $github_token string */
-            public $github_token;
+            public $github_token = '';
 
         /** @var $devModx bool */
             protected $devMode = false;
+
+        /** @var $progressFilePath string */
+            protected $progressFilePath = '';
+
+        /** @var $progressFileURL string */
+        protected $progressFileURL = '';
 
         public function __construct($modx) {
             /** @var $modx modX */
@@ -119,8 +125,12 @@ if (!class_exists('UpgradeMODX')) {
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
             $this->verifyPeer = $this->modx->getOption('ssl_verify_peer', $props, true);
             $this->devMode = (bool) $this->modx->getOption('ugm.devMode', null, false, true);
+            $this->progressFilePath = MODX_ASSETS_PATH . 'components/upgrademodx/ugmprogress.txt';
+            $this->mmkDir(MODX_ASSETS_PATH . 'components/upgrademodx');
+            $this->progressFileURL = MODX_ASSETS_URL . 'components/upgrademodx/ugmprogress.txt';
+            file_put_contents($this->progressFilePath, 'Starting Upgrade');
 
-            /* Next two use System Setting if property is empty */
+            /* These use System Setting if property is empty */
             $this->github_username = $this->modx->getOption('github_username',
                 $props, $this->modx->getOption('github_username', null), true);
             $this->github_token = $this->modx->getOption('github_token', $props,
@@ -158,6 +168,8 @@ if (!class_exists('UpgradeMODX')) {
                         '/* [[+ForceFopen]] */' => $forceFopenString,
                         '/* [[+InstallData]] */' => $versionList,
                         '/* [[+devMode]] */' => $devModeString,
+                        '[[+ugm_progress_path]]' => $this->progressFilePath,
+                        '[[+ugm_progress_url]]' => $this->progressFileURL,
                     );
 
                     $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');

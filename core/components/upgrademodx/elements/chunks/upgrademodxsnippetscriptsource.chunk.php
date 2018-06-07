@@ -403,9 +403,7 @@ if (!$submitted) {
     //        alert("READY");
         var previous = "Upgrade";
         var progress = document.getElementById("ugm_progress");
-        /* TpDo: correct location */
-        //$progressFilePath = MODX_CORE_PATH . \'cache/upgrademodx\';
-        var url = "http://localhost/addons/assets/components/upgrademodx/cache/upgrademodx/ugmprogress.txt"; //xxx
+        var url = "[[+ugm_progress_url]]"; //xxx
         // assets/components/upgrademodx/cache/upgrademodx/ugmprogress.txt
         
         
@@ -653,11 +651,7 @@ if ($submitted) {
     set_time_limit(0);
 
     /* Initialize progress file */
-    $progressFilePath = 'assets/components/upgrademodx/cache/upgrademodx';
-    if (!is_dir($progressFilePath)) {
-        MODXInstaller::mmkdir($progressFilePath);
-    }
-    $progressFilePath .= '/ugmprogress.txt';
+    $progressFilePath = '[[+ugm_progress_path]]';
     $success = MODXInstaller::updateProgress($progressFilePath, 'Starting Upgrade');
     sleep(2);
 
