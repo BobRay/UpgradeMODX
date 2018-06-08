@@ -240,11 +240,14 @@ if (!class_exists('UpgradeMODX')) {
                be almost sorted already */
 
             /* Make sure we don't access an invalid index */
-            $versionsToShow = min($this->versionsToShow, count($contents));
+            $versionsToShow = min($versionsToShow, count($contents));
+
             /* Make sure we show at least one */
             $versionsToShow = !empty($versionsToShow) ? $versionsToShow : 1;
+
             /* Sort by version */
-            for ($i = 1; $i < $versionsToShow; $i++) {
+            $count = count($contents);
+            for ($i = 0; $i < $count; $i++) {
                 $element = $contents[$i];
                 $j = $i;
                 while ($j > 0 && (version_compare($contents[$j - 1]['name'], $element['name']) < 0)) {
@@ -253,27 +256,41 @@ if (!class_exists('UpgradeMODX')) {
                 }
                 $contents[$j] = $element;
             }
-            /* Truncate to $versionsToShow */
-            $contents = array_splice($contents, 0, $versionsToShow);
+
+            /* Truncate to $versionsToShow but extend to show current version
+               plus one previous version */
+
             $versionArray = array();
             $i = 1;
+            $currentFound = false;
             foreach ($contents as $version) {
                 $name = substr($version['name'], 1);
+                $compare = version_compare($currentVersion, $name);
+
                 $shortVersion = strtok($name, '-');
                 $url = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $name . '.zip';
-                // $url = 'https://modx.com/download/direct?id=modx-' . $name . '.zip';
+                // OLD  $url = 'https://modx.com/download/direct?id=modx-' . $name . '.zip';
                 $versionArray[$name] = array(
                     'tree' => 'Revolution',
                     'name' => 'MODX Revolution ' . htmlentities($name),
                     'link' => $url,
                     'location' => 'setup/index.php',
                     'selected' => false,
+                    'current' => $compare === 0 ? true : false,
                 );
-                $i++;
-                if ($i > $versionsToShow) {
+
+                if ($currentFound && ($i >= ($versionsToShow))) {
                     break;
                 }
+
+                if ($compare >= 0) {
+                    $currentFound = true;
+                    $i++;
+                    continue;
+                }
+                $i++;
             }
+
 
             /* Select oldest X.X.0 version newer than current version or
               latest if there isn't one. */
@@ -290,7 +307,6 @@ if (!class_exists('UpgradeMODX')) {
                 /* If it's a .0 version newer than the current version, select it */
                 if (preg_match($pattern, $key)) {
                     if (version_compare($key, $currentVersion) > 0) {
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, $key . " -- Newer");
                         $versionArray[$key]['selected'] = true;
                         $selectedOne = true;
                         break;
