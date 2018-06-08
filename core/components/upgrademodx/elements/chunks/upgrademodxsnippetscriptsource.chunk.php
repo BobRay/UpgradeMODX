@@ -367,7 +367,8 @@ if (!$submitted) {
             "\n<h3>" . strtoupper($tree) . '</h3>';
         $output .= "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
         foreach ($item as $version => $itemInfo) {
-            $output .= "\n    " . '<label><input type="radio" name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . '</span></label><br>';
+            $selected = $itemInfo['selected']? ' checked ' : '';
+            $output .= "\n    " . '<label><input type="radio"' . $selected . 'name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . '</span></label><br>';
         }
         $output .= '</div>';
     }

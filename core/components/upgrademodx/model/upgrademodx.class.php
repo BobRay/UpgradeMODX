@@ -97,11 +97,15 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $devModx bool */
             protected $devMode = false;
 
+        /** @var $versionsToShow bool */
+        protected $versionsToShow = 5;
+
         /** @var $progressFilePath string */
             protected $progressFilePath = '';
 
         /** @var $progressFileURL string */
         protected $progressFileURL = '';
+
 
         public function __construct($modx) {
             /** @var $modx modX */
@@ -129,6 +133,7 @@ if (!class_exists('UpgradeMODX')) {
             $this->mmkDir(MODX_ASSETS_PATH . 'components/upgrademodx');
             $this->progressFileURL = MODX_ASSETS_URL . 'components/upgrademodx/ugmprogress.txt';
             file_put_contents($this->progressFilePath, 'Starting Upgrade');
+            $this->versionsToShow = $this->modx->getOption('versionsToShow', $props, 5, true);
 
             /* These use System Setting if property is empty */
             $this->github_username = $this->modx->getOption('github_username',
@@ -207,6 +212,7 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5) {
+            $currentVersion = $this->modx->getOption('settings_version', null);
             $contents = utf8_encode($contents);
             $contents = $this->modx->fromJSON($contents);
             if (empty($contents)) {
@@ -234,7 +240,7 @@ if (!class_exists('UpgradeMODX')) {
                be almost sorted already */
 
             /* Make sure we don't access an invalid index */
-            $versionsToShow = min($versionsToShow, count($contents));
+            $versionsToShow = min($this->versionsToShow, count($contents));
             /* Make sure we show at least one */
             $versionsToShow = !empty($versionsToShow) ? $versionsToShow : 1;
             /* Sort by version */
@@ -261,6 +267,7 @@ if (!class_exists('UpgradeMODX')) {
                     'name' => 'MODX Revolution ' . htmlentities($name),
                     'link' => $url,
                     'location' => 'setup/index.php',
+                    'selected' => false,
                 );
                 $i++;
                 if ($i > $versionsToShow) {
@@ -268,10 +275,37 @@ if (!class_exists('UpgradeMODX')) {
                 }
             }
 
-            $this->versionArray = $versionArray;
+            /* Select oldest X.X.0 version newer than current version or
+              latest if there isn't one. */
+            reset($versionArray);
+            $latest = key($versionArray);
+
+            /* Reverse array so we can stop at the first one that
+               fits the criteria */
+            $versionArray = array_reverse($versionArray, true);
+            $selectedOne = false;
+            foreach ($versionArray as $key => $value) {
+
+                $pattern = "/\d+\.\d+\.0/";
+                /* If it's a .0 version newer than the current version, select it */
+                if (preg_match($pattern, $key)) {
+                    if (version_compare($key, $currentVersion) > 0) {
+                        $this->modx->log(modX::LOG_LEVEL_ERROR, $key . " -- Newer");
+                        $versionArray[$key]['selected'] = true;
+                        $selectedOne = true;
+                        break;
+                    }
+                }
+            }
+
+            /* No .0 version - select latest version */
+            if (!$selectedOne) {
+                $versionArray[$latest]['selected'] = true;
+            }
+
+            /* Un-reverse it */
+            $this->versionArray = array_reverse($versionArray, true);
             return $this->versionArray;
-
-
         }
 
         public function updateLatestVersion($versionArray) {
