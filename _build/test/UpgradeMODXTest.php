@@ -126,6 +126,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $this->ugm = new UpgradeMODX($modx);
         $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
         $props = $snippet->getProperties();
+        $props['ugm.devMode'] = false;
         $this->ugm->init($props);
         $this->props = $props;
         $this->modx->lexicon->load('en:upgrademodx:default');
@@ -252,7 +253,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
     public function testfinalizeVersionArray() {
 
-        $vl = $this->ugm->finalizeVersionArray($this->versionData, true);
+        $vl = $this->ugm->finalizeVersionArray($this->versionData, true, 5, '2.6.3-pl');
         $this->assertTrue(is_array($vl));
         $this->assertEquals(5, count($vl));
 
@@ -264,7 +265,7 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
         // var_dump($vl);
         /* Try again with $plOnly false */
-        $vl = $this->ugm->finalizeVersionArray($this->versionData, false, 7);
+        $vl = $this->ugm->finalizeVersionArray($this->versionData, false, 7, '2.6.3-pl');
         $this->assertTrue(is_array($vl));
         $this->assertEquals(7, count($vl));
 
@@ -278,22 +279,43 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
                 break;
             }
         }
-
         $this->assertTrue($found);
 
+        $vl = $this->ugm->finalizeVersionArray($this->versionData, true, 5, '2.2.11-pl');
+        $this->assertEquals(18, count($vl));
+
+        $vl = $this->ugm->finalizeVersionArray($this->versionData, true, 5, '2.2.12-pl');
+        $this->assertEquals(16, count($vl));
+
+        $vl = $this->ugm->finalizeVersionArray($this->versionData, true, 5, '2.2.0-pl');
+        $this->assertEquals(29, count($vl));
         /* Try with actual data from GitHub - fopen */
         $vl = $this->ugm->getJSONFromGitHub('fopen', 6, 3);
         // var_dump($vl);
         $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
-        $vl = $this->ugm->finalizeVersionArray($vl, true, 6);
+        $vl = $this->ugm->finalizeVersionArray($vl, true, 6, '2.6.3-pl');
         $this->assertEquals(6, count($vl));
 
         /* Try with actual data from GitHub  - cURL*/
         $vl = $this->ugm->getJSONFromGitHub('curl', 6, 3);
         // var_dump($vl);
         $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
-        $vl = $this->ugm->finalizeVersionArray($vl, true, 7);
+        $vl = $this->ugm->finalizeVersionArray($vl, true, 7, '2.6.3-pl');
         $this->assertEquals(7, count($vl));
+
+        /* Try with older version */
+        $vl = $this->ugm->getJSONFromGitHub('curl', 6, 3);
+        // var_dump($vl);
+        $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
+        $vl = $this->ugm->finalizeVersionArray($vl, true, 7, '2.4.4-pl'); //xxx
+        $this->assertTrue(count($vl) >= 10);
+
+        /* Try with older, non-existent version */
+        $vl = $this->ugm->getJSONFromGitHub('curl', 6, 3);
+        // var_dump($vl);
+        $this->assertNotEmpty($vl, implode("\n", $this->ugm->getErrors()));
+        $vl = $this->ugm->finalizeVersionArray($vl, true, 7, '2.5.5-pl'); //xxx
+        $this->assertTrue(count($vl) >= 10);
 
 
     }
@@ -398,10 +420,10 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         $retVal =  $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
 
-        /* This has to be updated to the current version before testing */
-        $currentVersion = '2.6.3-pl';
+        /* This has to be updated to the latest version of MODX before testing */
+        $currentVersion = '2.6.4-pl';
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
-        $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
+        $this->assertFalse($retVal, 'Set to latest version of MODX!');
 
         // $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
         $path = $this->ugm->versionListPath . 'versionlist';
@@ -411,15 +433,15 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
 
         $currentVersion = '2.4.0-pl';
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
-        $this->assertTrue($retVal, implode("\n", $this->ugm->getErrors()));
+        $this->assertTrue($retVal, 'Set to latest version of MODX!');
 
         if (file_exists($path)) {
             unlink($path);
         }
 
 
-        /* This has to be updated to the current version before testing */
-        $currentVersion = '2.6.3-pl';
+        /* This has to be updated to the latest version of MODX before testing */
+        $currentVersion = '2.6.4-pl';
         $retVal = $this->ugm->upgradeAvailable($currentVersion, true, 5, 'curl');
         $this->assertFalse($retVal, implode("\n", $this->ugm->getErrors()));
 

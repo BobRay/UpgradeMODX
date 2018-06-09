@@ -128,7 +128,7 @@ if (!class_exists('UpgradeMODX')) {
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
             $this->verifyPeer = $this->modx->getOption('ssl_verify_peer', $props, true);
-            $this->devMode = (bool) $this->modx->getOption('ugm.devMode', null, false, true);
+            $this->devMode = (bool) $this->modx->getOption('ugm.devMode', $props, false, true);
             $this->progressFilePath = MODX_ASSETS_PATH . 'components/upgrademodx/ugmprogress.txt';
             $this->mmkDir(MODX_ASSETS_PATH . 'components/upgrademodx');
             $this->progressFileURL = MODX_ASSETS_URL . 'components/upgrademodx/ugmprogress.txt';
@@ -211,8 +211,9 @@ if (!class_exists('UpgradeMODX')) {
             return $data === false? false : strip_tags($data);
         }
 
-        public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5) {
-            $currentVersion = $this->modx->getOption('settings_version', null);
+        /* Final arg is there for unit tests */
+        public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5, $currentVersion = '') {
+            $currentVersion = empty($currentVersion) ? $this->modx->getOption('settings_version', null) : $currentVersion;
             $contents = utf8_encode($contents);
             $contents = $this->modx->fromJSON($contents);
             if (empty($contents)) {
@@ -470,14 +471,14 @@ if (!class_exists('UpgradeMODX')) {
 
         public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
             if ($this->devMode) {
-                return true;
+               return true;
             }
             $this->clearErrors();
             $shortVersion = strtok($version, '-');
             $downloadUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
             // $downloadUrl = 'https://modx.com/download/direct/modx-' . $version . '.zip';
             if ($method == 'curl') {
-                $downloadable =  $this->curlGetData($downloadUrl, false, $timeout, $tries);
+                $downloadable = $this->curlGetData($downloadUrl, false, $timeout, $tries);
             } else {
                 $downloadable =  $this->fopenGetData($downloadUrl, false, $timeout, $tries);
             }
