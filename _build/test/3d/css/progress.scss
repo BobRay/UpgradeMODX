@@ -1,4 +1,3 @@
-@import "normalize.css";
 @import "general.scss";
 
 
@@ -29,9 +28,10 @@
     background: #1d9650;
     color: #fff;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 4px;
     font-size: 1em;
     line-height: 4;
+
 }
 
 .progress-button[disabled],
