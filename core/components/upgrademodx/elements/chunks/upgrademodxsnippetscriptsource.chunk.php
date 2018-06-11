@@ -381,24 +381,7 @@ if (!$submitted) {
     $output .= "\n" . '<br><h1 id="ugm_progress">Progress</h1>';
 }
 
-if (!$submitted) {
-
-    $output .= "\n" . '<script type="text/javascript">
-    "use strict";
-    
-    $("#ugm_submit_button").click(function (e) {
-            var radio_buttons = $("input[name=\'modx\']");
-            if ( radio_buttons.filter(\':checked\').length === 0) {
-                e.preventDefault();
-                /* ToDo: Make this a dialog */
-                alert("Select a Version");
-            }
-            
-    });
-    </script>';
-
-} else {
-
+if ($submitted) {
     $output .= "\n" . '<script type="text/javascript">
     
     var previous = "Upgrade";
@@ -407,9 +390,8 @@ if (!$submitted) {
     var update = function(text) {
         progress.innerHTML = text;
     };
-        
          
-     poll();            
+    poll();            
       
     function poll() {
         $.ajax({
