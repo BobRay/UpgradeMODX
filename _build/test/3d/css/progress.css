@@ -1,5 +1,5 @@
 @charset "UTF-8";
-/*@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);*/
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 /*@font-face {
     font-family: 'codropsicons';
     src:url('../fonts/codropsicons/codropsicons.eot');
@@ -34,12 +34,6 @@ a {
 
 a:hover, a:focus {
   color: #fff;
-}
-
-.wrapper {
-  position: fixed;
-  top: 70px;
-  left: 100px;
 }
 
 /*
@@ -122,8 +116,7 @@ a:hover, a:focus {
   border: none;
   background: #1d9650;
   color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 4px;
+  letter-spacing: 3px;
   font-size: 1em;
   line-height: 4;
 }
@@ -203,6 +196,13 @@ a:hover, a:focus {
 .progress-button[data-perspective] .content {
   padding: 0 60px;
   background: #1d9650;
+}
+
+.wrapper {
+  font-size: 24px;
+  position: fixed;
+  top: 170px;
+  left: 300px;
 }
 
 .progress-button[data-perspective] .progress-wrap {
