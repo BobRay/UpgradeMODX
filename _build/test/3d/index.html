@@ -19,7 +19,7 @@
             <!-- Top Navigation -->
 
             <div class="wrapper">
-                    <button class="progress-button" data-style="rotate-angle-bottom" data-perspective data-horizontal><span class="content">Submit</span></button>
+                    <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective data-horizontal><span class="content">Submit</span></button>
             </div>
 
         </div><!-- /container -->
@@ -27,7 +27,7 @@
         <script src="js/progressButton.js"></script>
         <script>
             // [].slice.call( document.querySelectorAll( 'button.progress-button' ) ).forEach( function( bttn ) {
-            var bttn = document.getElementsByClassName('progress-button')[0];
+            var bttn = document.getElementById('ugm_submit_button');
             new ProgressButton( bttn, {
                     callback : function( instance ) {
                         var progress = 0,
