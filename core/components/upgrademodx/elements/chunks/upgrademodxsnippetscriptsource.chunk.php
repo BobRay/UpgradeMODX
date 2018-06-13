@@ -301,6 +301,37 @@ class MODXInstaller {
     public static function updateProgress($path, $content) {
         return file_put_contents($path, $content, LOCK_EX);
     }
+    public static function createVersionForm($InstallData) {
+        $output = '';
+        $ItemGrid = array();
+        foreach ($InstallData as $ver => $item) {
+            $ItemGrid[$item['tree']][$ver] = $item;
+        }
+
+        $output .= "\n    <form>";
+        foreach ($ItemGrid as $tree => $item) {
+            $output .= "\n" . '<div class="column">' .
+                "\n<h3>" . strtoupper($tree) . '</h3>';
+            $output .= "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
+            foreach ($item as $version => $itemInfo) {
+                $selected = $itemInfo['selected'] ? ' checked' : '';
+                $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(current version)' : '';
+
+                $output .= <<<EOD
+        <label><input type="radio"{$selected} name="modx" value="$version">
+            <span>{$itemInfo['name']} $current</span>
+        </label>
+<br>
+EOD;
+
+            }
+            $output .= '</div>';
+        }
+        $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
+        $output .= "\n" . '<br><button id="ugm_submit_button">Upgrade</button>';
+        $output .= '</form>' . "\n ";
+        return $output;
+    }
 
     public static function quit($msg) {
         $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:80px;padding:30px;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
@@ -325,7 +356,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
     $method = 'fopen';
 }
 
-$output .= '
+$output .= <<<EOD
 <!DOCTYPE html>
 <html>
 <head>
@@ -345,122 +376,106 @@ $output .= '
         </div>
     </div>
 
-<div class="content">';
+    <div class="content">
+EOD;
 
-if ($method) {
-    $output .= "<br><h3> (Using  {$method})</h3>";
-} else {
+if (! $method) {
     MODXInstaller::quit("\n" . '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>');
+} else {
+    if (!$submitted) {
+        $output .= "\n<h2>Choose MODX version for Upgrade</h2>";
+        $output .= "<br><h3> (Using  {$method})</h3>";
+    }
+
 }
 
-
 if (!$submitted) {
-    $output .= "\n<h2>Choose MODX version for Upgrade</h2>";
-    $ItemGrid = array();
-    foreach ($InstallData as $ver => $item) {
-        $ItemGrid[$item['tree']][$ver] = $item;
-    }
-
-    $output .= "\n    <form>";
-    foreach ($ItemGrid as $tree => $item) {
-        $output .= "\n" . '<div class="column">' .
-            "\n<h3>" . strtoupper($tree) . '</h3>';
-        $output .= "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
-        foreach ($item as $version => $itemInfo) {
-            $selected = $itemInfo['selected']? ' checked ' : '';
-            $current = $itemInfo['current']? ' &nbsp;&nbsp;(current version) ' : '';
-            $output .= "\n    " . '<label><input type="radio"' . $selected . 'name="modx" value="' . $version . '">            <span>' . $itemInfo['name'] . $current .  '</span></label><br>';
-        }
-        $output .= '</div>';
-    }
-    $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
-    $output .= "\n" . '<br><button id="ugm_submit_button">Upgrade</button>';
-    $output .= '</form>' . "\n ";
-
+    $output .= MODXInstaller::createVersionForm($InstallData);
 } else {
-    $output .= "\n" . '<br><h1 id="ugm_progress">Progress</h1>';
+    $output .= "\n" . '<br><h1 id="ugm_progress">Downloading Files</h1>';
 }
 
 if ($submitted) {
-    $output .= "\n" . '<script type="text/javascript">
-    
-    var previous = "Upgrade";
-    var progress = document.getElementById("ugm_progress");
-    var url = "[[+ugm_progress_url]]";
-    var update = function(text) {
-        progress.innerHTML = text;
-    };
-         
-    poll();            
-      
-    function poll() {
-        $.ajax({
-            type: "GET",
-            url: url,
-            cache: false,
-            data: {},
-            dataType:"text",
-            timeout: 2000,
-           
-            success: function(data){
-                if (data !== previous) {
-                    progress.innerHTML = data;
-                    previous = data;
-                }
-            },
-            complete: function(data) {
-                var s = data.responseText;
-                if (s.includes("Launching Setup") !== true) {
-                    if (s.includes("+Finished") !== true) {
-                        setTimeout(poll, 2000);
+    $output .= <<<EOD
+    <script type="text/javascript">
+        var previous = "Upgrade";
+        var progress = document.getElementById("ugm_progress");
+        var url = "[[+ugm_progress_url]]";
+        var update = function(text) {
+            progress.innerHTML = text;
+        };
+             
+        poll();            
+          
+        function poll() {
+            $.ajax({
+                type: "GET",
+                url: url,
+                cache: false,
+                data: {},
+                dataType:"text",
+                timeout: 2000,
+               
+                success: function(data){
+                    if (data !== previous) {
+                        progress.innerHTML = data;
+                        previous = data;
                     }
-                } else {
-                    window.location.replace("http://localhost/addons/setup/index.php");
-                }
-            },
-            
-            error : function (x, d, e) {
-              if (x.status === -5) {
-                  /* ToDo: Make these dialogs */
-                  alert("You are offline!! Please Check Your Network.");
-              } else {
-                  if (x.status === 404) {
-                     alert("Requested URL not found");
+                },
+                complete: function(data) {
+                    var s = data.responseText;
+                    if (s.includes("Launching Setup") !== true) {
+                        if (s.includes("+Finished") !== true) {
+                            setTimeout(poll, 2000);
+                        }
+                    } else {
+                        window.location.replace("http://localhost/addons/setup/index.php");
+                    }
+                },
+                
+                error : function (x, d, e) {
+                  if (x.status === -5) {
+                      /* ToDo: Make these dialogs */
+                      alert("You are offline!! Please Check Your Network.");
                   } else {
-                      if (x.status === 500) {
-                          alert("Internal Server Error.");
+                      if (x.status === 404) {
+                         alert("Requested URL not found");
                       } else {
-                          if (e === "parsererror") {
-                              alert("Error: Parsing JSON Request failed.");
+                          if (x.status === 500) {
+                              alert("Internal Server Error.");
                           } else {
-                              if (e === "timeout") {
-                                  console.log("Request Time out.");
+                              if (e === "parsererror") {
+                                  alert("Error: Parsing JSON Request failed.");
                               } else {
-                                  console.log("Unknown Error: " + x.responseText);
+                                  if (e === "timeout") {
+                                      console.log("Request Time out.");
+                                  } else {
+                                      console.log("Unknown Error: " + x.responseText);
+                                  }
                               }
                           }
                       }
                   }
-              }
-            }
-       });
-    }
-
-    
-</script>';
+                }
+           });
+        }
+    </script>
+EOD;
 }
 
-$output .= "\n</div>"; // end content div
+$output .= "\n    </div>"; // end content div
 
 if (!$submitted) {
-    $output .= '<div class="footer">
-            <p>Originally created by <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
-            <p>Modified for Revolution only by <a href="//sottwell.com" title="">sottwell</a></p>
-            <p>Modified for Upgrade only with dashboard widget by <a href="//bobsguides.com" title="">BobRay</a></p>
-            <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
-            </div>';
-}
+    $output .= <<<EOD
 
+    <div class="footer">
+        <p>Originally created by <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
+        <p>Modified for Revolution only by <a href="//sottwell.com" title="">sottwell</a></p>
+        <p>Modified for Upgrade only with dashboard widget by <a href="//bobsguides.com" title="">BobRay</a></p>
+        <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
+    </div>
+EOD;
+}
 
 $output .= "\n</body>";
 $output .= "\n</html>";
@@ -474,9 +489,6 @@ flush();
 // if (true || !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
 //       $rowInstall = $InstallData['revo2.4.1-pl'];
 // Comment our the two lines below to run in debugger.
-
-
-
 
 if ($submitted) {
 
