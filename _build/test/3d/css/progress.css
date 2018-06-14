@@ -194,15 +194,15 @@ a:hover, a:focus {
 }
 
 .progress-button[data-perspective] .content {
-  padding: 0 60px;
+  padding: 0 2px;
   background: #1d9650;
 }
 
 .wrapper {
   font-size: 24px;
   position: fixed;
-  top: 170px;
-  left: 300px;
+  top: 268px;
+  left: 450px;
 }
 
 .progress-button[data-perspective] .progress-wrap {

@@ -301,8 +301,23 @@ class MODXInstaller {
     public static function updateProgress($path, $content) {
         return file_put_contents($path, $content, LOCK_EX);
     }
-    public static function createVersionForm($InstallData) {
+    public static function createVersionForm($InstallData, $submitted) {
         $output = '';
+
+        if ($submitted) { // just return button
+            $output .= <<<EOD
+               <div class="container">
+                    <!-- Top Navigation -->
+        
+                    <div class="wrapper">
+                            <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective data-horizontal><span id="button_content" class="content">Upgrade</span></button>
+                    </div>
+        
+                </div><!-- /container -->
+EOD;
+            return $output;
+        }
+
         $ItemGrid = array();
         foreach ($InstallData as $ver => $item) {
             $ItemGrid[$item['tree']][$ver] = $item;
@@ -324,11 +339,23 @@ class MODXInstaller {
 <br>
 EOD;
 
-            }
+            } // end inner foreach loop
             $output .= '</div>';
-        }
+        } // end outer foreach loop
         $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
-        $output .= "\n" . '<br><button id="ugm_submit_button">Upgrade</button>';
+        // $output .= "\n" . '<br><button id="ugm_submit_button">Upgrade</button>';
+        $output .= <<<EOD
+       <div class="container">
+            <!-- Top Navigation -->
+
+            <div class="wrapper">
+                    <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective data-horizontal><span id = "button_content" class="content">Upgrade</span></button>
+            </div>
+
+        </div><!-- /container -->
+EOD;
+
+
         $output .= '</form>' . "\n ";
         return $output;
     }
@@ -362,22 +389,30 @@ $output .= <<<EOD
 <head>
     <title>UpgradeMODX</title>
     <meta charset="utf-8">
-    <style type="text/css">
-        @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");article,aside,audio,b,body,canvas,dd,details,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,img,label,li,mark,menu,nav,ol,p,section,span,strong,summary,table,tbody,td,tfoot,th,thead,time,tr,u,ul,video{margin:0;padding:0;border:0;outline:0;vertical-align:baseline;background:0 0;font-size:100%}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:0 0}table{border-collapse:collapse;border-spacing:0}td,td img{vertical-align:top}button,input,select,textarea{margin:0;font-size:100%}input[type=password],input[type=text],textarea{padding:0}input[type=checkbox]{vertical-align:bottom}input[type=radio]{vertical-align:text-bottom}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}html{overflow-y:scroll}body{color:#111;text-align:left;font:12px Verdana,"Geneva CY","DejaVu Sans",sans-serif}button,input,select,textarea{font-family:Verdana,"Geneva CY","DejaVu Sans",sans-serif}a,a:active,a:focus,a:hover,a:visited,button,input[type=button],input[type=submit],label{cursor:pointer}::selection{background:#84d5e8;color:#fff;text-shadow:none}html{position:relative;background:#f8f8f8 url("[[++assets_url]]components/upgrademodx/images/base.png")}body{background:0 0;font-size:14px;line-height:22px;font-family:"Helvetica Neue",helvetica,arial,sans-serif;text-shadow:0 1px 0 #fff}a{color:#0f7096}.button,button{color:#fff;display:inline-block;padding:15px;font-size:20px;text-decoration:none;border:5px solid #fff;border-radius:8px;background-color:#67a749;background-image:linear-gradient(to top,#67a749 0,#67a749 27.76%,#a1c755 100%);text-shadow:0 0 2px rgba(0,0,0,.64)}a.button{padding:5px 15px}h1,h2,h3,h4,h5{font-family:"PT Serif",helvetica,arial,sans-serif;line-height:28px}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-size:16px}h5{font-size:14px}.header{-moz-box-sizing: border-box;float:left;width:100%;box-sizing:border-box;background:#fff;background:linear-gradient(to bottom,#fff,#f2f2f2);padding:20px;border-bottom:1px solid #fff}.header img{float:left;width:180px;margin:0 5px 0 0}.header h1.main-heading{color:#137899;font-size:32px;line-height:40px}.header-button-wrapper{float:right}.main-heading>span{display:none}.main-heading>sup{color:#ccc;font-weight:400}.content{float:left;padding:30px}.content h2{margin:0;line-height:20px}.content form{margin:10px 0 50px}.content form .column{float:left;box-sizing:border-box;width:500px;margin:20px 0}.column h3{display:inline-block;padding:0 0 5px;margin:0 0 20px;border-bottom:2px solid #000}.column label{float:left;width:100%;clear:both;padding:3px 0}form button{float:left;width:200px;clear:both}label>span{border-bottom:1px dotted #555}label>input{margin:0 5px 0 0}.footer{position:absolute;bottom:20px;right:20px;font-size:10px;color:#ccc}.footer a{color:#aaa}
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");article,aside,audio,b,body,canvas,dd,details,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,hgroup,html,i,img,label,li,mark,menu,nav,ol,p,section,span,strong,summary,table,tbody,td,tfoot,th,thead,time,tr,u,ul,video{margin:0;padding:0;border:0;outline:0;vertical-align:baseline;background:0 0;font-size:100%}a{margin:0;padding:0;font-size:100%;vertical-align:baseline;background:0 0}table{border-collapse:collapse;border-spacing:0}td,td img{vertical-align:top}button,input,select,textarea{margin:0;font-size:100%}input[type=password],input[type=text],textarea{padding:0}input[type=checkbox]{vertical-align:bottom}input[type=radio]{vertical-align:text-bottom}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}html{overflow-y:scroll}body{color:#111;text-align:left;font:12px Verdana,"Geneva CY","DejaVu Sans",sans-serif}button,input,select,textarea{font-family:Verdana,"Geneva CY","DejaVu Sans",sans-serif}a,a:active,a:focus,a:hover,a:visited,button,input[type=button],input[type=submit],label{cursor:pointer}::selection{background:#84d5e8;color:#fff;text-shadow:none}html{position:relative;background:#f8f8f8 url("[[++assets_url]]components/upgrademodx/images/base.png")}body{background:0 0;font-size:14px;line-height:22px;font-family:"Helvetica Neue",helvetica,arial,sans-serif;text-shadow:0 1px 0 #fff}a{color:#0f7096}.button,button{color:#fff;display:inline-block;padding:15px;font-size:20px;text-decoration:none;border:5px solid #fff;border-radius:8px;background-color:#67a749;background-image:linear-gradient(to top,#67a749 0,#67a749 27.76%,#a1c755 100%);text-shadow:0 0 2px rgba(0,0,0,.64)}a.button{padding:5px 15px}h1,h2,h3,h4,h5{font-family:"PT Serif",helvetica,arial,sans-serif;line-height:28px}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-size:16px}h5{font-size:14px}.header{-moz-box-sizing: border-box;float:left;width:100%;box-sizing:border-box;background:#fff;background:linear-gradient(to bottom,#fff,#f2f2f2);padding:20px;border-bottom:1px solid #fff}.header img{float:left;width:180px;margin:0 5px 0 0}.header h1.main-heading{color:#137899;font-size:32px;line-height:40px}.header-button-wrapper{float:right}.main-heading>span{display:none}.main-heading>sup{color:#ccc;font-weight:400}.content_div{float:left;padding:30px}.content_div h2{margin:0;line-height:20px}.content_div form{margin:10px 0 50px}.content.div form .column{float:left;box-sizing:border-box;width:500px;margin:20px 0}.column h3{display:inline-block;padding:0 0 5px;margin:0 0 20px;border-bottom:2px solid #000}.column label{float:left;width:100%;clear:both;padding:3px 0}form button{float:left;width:200px;clear:both}label>span{border-bottom:1px dotted #555}label>input{margin:0 5px 0 0}.footer{position:absolute;bottom:20px;right:20px;font-size:10px;color:#ccc}.footer a{color:#aaa} 
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+    <link rel="stylesheet" href="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/css/progress.css"/>
 </head>
 <body>
     <div class="header">
         <img src="https://modx.com/assets/i/logos/v5/svgs/modx-color.svg" alt="Logo">
         <h1 class="main-heading"><span>MODX</span> UpgradeMODX </h1>
-        <div class="header-button-wrapper">
+        <!--<div class="header-button-wrapper">
             <a href="https://github.com/BobRay/UpgradeMODX" class="button">GitHub</a>
-        </div>
+        </div>-->
     </div>
 
-    <div class="content">
+    <div class="content_div">
 EOD;
+
+if ($submitted) {
+    $output .= <<<EOD
+<script src="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/js/modernizr.custom.js"></script>
+EOD;
+
+}
 
 if (! $method) {
     MODXInstaller::quit("\n" . '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>');
@@ -389,26 +424,38 @@ if (! $method) {
 
 }
 
-if (!$submitted) {
-    $output .= MODXInstaller::createVersionForm($InstallData);
-} else {
-    $output .= "\n" . '<br><h1 id="ugm_progress">Downloading Files</h1>';
-}
+/*if (!$submitted) {*/
+    $output .= MODXInstaller::createVersionForm($InstallData, $submitted);
+/*} else {*/
+    // $output .= "\n" . '<br><h1 style="display:none" id="ugm_progress">Downloading Files</h1>';
+    /*$output .= <<<EOD
+       <div class="container">
+            <!-- Top Navigation -->
+
+            <div class="wrapper">
+                    <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective data-horizontal><span class="content">XSubmit</span></button>
+            </div>
+
+        </div><!-- /container -->
+EOD;*/
+
+/*}*/
 
 if ($submitted) {
     $output .= <<<EOD
-    <script type="text/javascript">
+    <script>
         var previous = "Upgrade";
-        var progress = document.getElementById("ugm_progress");
         var url = "[[+ugm_progress_url]]";
         var update = function(text) {
-            progress.innerHTML = text;
+           progress.innerHTML = text;
         };
              
         poll();            
           
         function poll() {
+            var progress = document.getElementById('button_content');
             $.ajax({
+            
                 type: "GET",
                 url: url,
                 cache: false,
@@ -418,8 +465,12 @@ if ($submitted) {
                
                 success: function(data){
                     if (data !== previous) {
+                        
                         progress.innerHTML = data;
+                        console.log(progress);
+                        console.log("Data:" + data);
                         previous = data;
+                        
                     }
                 },
                 complete: function(data) {
@@ -475,7 +526,37 @@ if (!$submitted) {
         <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
     </div>
 EOD;
+} else {
+
+    $output .= <<<EOD
+    <script src="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/js/classie.js"></script>
+    <script src="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/js/progressButton.js"></script>
+    <script>
+        // [].slice.call( document.querySelectorAll( 'button.progress-button' ) ).forEach( function( bttn ) {
+        var bttn = document.getElementById('ugm_submit_button');
+        new ProgressButton( bttn, {
+                callback : function( instance ) {
+                    var progress = 0,
+                        interval = setInterval( function() {
+                            progress = Math.min( progress + Math.random() * 0.1, 1 );
+                            if( progress === 1 ) {
+                                instance._stop(1);
+                                clearInterval( interval );
+                            }
+                            instance._setProgress( progress );
+                        }, 1000 );
+                }
+            } );
+            // ProgressButton(bttn);
+        // } );
+        setTimeout(function () {
+            bttn.click();
+        }, 1000);
+    </script>
+EOD;
+
 }
+
 
 $output .= "\n</body>";
 $output .= "\n</html>";
