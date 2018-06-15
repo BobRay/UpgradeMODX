@@ -127,8 +127,8 @@
     };
 
     ProgressButton.prototype._setProgress = function( val ) {
-        var ugm_button_text = document.getElementById('button_text');
-        // console.log('VAL: ' + val);
+        /* Speed controlled by CSS settings */
+        // console.log('Val: ' +val);
         this.progress.style[ this.progressProp ] = 100 * val + '%';
     };
 

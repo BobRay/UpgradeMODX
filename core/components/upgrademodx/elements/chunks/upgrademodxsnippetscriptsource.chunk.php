@@ -559,7 +559,6 @@ EOD;
                             }  else if (button_text == 'Launching Setup') {
                                 progress = 1;
                             }
-                            // progress += .02;
                             // progress = Math.min( progress + Math.random() * 0.1, 1 );
                             progress = Math.min( progress, 1 );
                             // console.log("Text " + button_text);
