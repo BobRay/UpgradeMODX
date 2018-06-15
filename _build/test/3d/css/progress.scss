@@ -50,7 +50,7 @@ $button-gradient-inner: #ddd;
   position: absolute;
   right: 20px;
   color: #0e7138;
-  font-family: "icomoon";
+  // font-family: "icomoon";
   opacity: 0;
   -webkit-transition: opacity 0.9s linear 0.9s;
   transition: opacity 0.9s linear 0.9s;
@@ -119,8 +119,7 @@ span#button_content {
   width: 0;
   height: 100%;
   -webkit-transition: width 0.3s, opacity 0.3s;
-  transition: width 0.6s, opacity 0.3s;
-
+  transition: width 0.3s, opacity 0.3s;
 }
 
 .progress-button[data-vertical] .progress-inner {

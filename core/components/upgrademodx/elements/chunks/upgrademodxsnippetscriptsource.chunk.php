@@ -541,21 +541,29 @@ EOD;
     <script>
         
         var bttn = document.getElementById('ugm_submit_button');
+        var old = '';
         new ProgressButton( bttn, {
                 callback : function( instance ) {
+                    
                     var progress = 0,
                         interval = setInterval( function() {
-                            var button_text = document.getElementById('button_content').innerHTML.toString();
-                            if (button_text == 'Downloading Files') {
+                            // console.log('Progress: ' + progress);
+                            var button_text = document.getElementById('button_content').textContent ||
+                                document.getElementById('button_content').innerText;
+                            if (button_text == 'Downloading Files' && button_text != old) {
                                 progress = 0.1;
-                            } else if (button_text == 'Unzipping Files') {
-                                progress = 0.4;
-                            } else if (button_text == 'Copying Files') {
+                                old = button_text;
+                            } else if (button_text == 'Unzipping Files' && button_text != old) {
+                                progress = 0.3;
+                                old = button_text;
+                            } else if (button_text == 'Copying Files' && button_text != old) {
                                 progress = 0.6;
-                            } else if (button_text == 'Preparing Setup') {
+                                old = button_text;
+                            } else if (button_text == 'Preparing Setup' && button_text != old) {
                                 progress = 0.8;
+                                old = button_text;
                             }  else if (button_text == 'Finished') {
-                                progress = 1
+                                progress = 1;
                             }  else if (button_text == 'Launching Setup') {
                                 progress = 1;
                             }
@@ -563,10 +571,18 @@ EOD;
                             progress = Math.min( progress, 1 );
                             // console.log("Text " + button_text);
                             if( progress === 1 ) {
-                                instance._stop(1);
-                                clearInterval( interval );
+                                setTimeout(function () {
+                                    instance._stop(1);
+                                    clearInterval( interval );
+                                }, 1000);
                             }
                             instance._setProgress( progress );
+                            if( progress === 1 ) {
+                                setTimeout(function () {
+                                    instance._stop(1);
+                                    clearInterval( interval );
+                                }, 1000);
+                            }
                         }, 1000 );
                 }
             } );
