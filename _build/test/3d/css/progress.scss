@@ -1,6 +1,7 @@
 @import "general.scss";
 
-
+$button-gradient-outer: #1d9650;
+$button-gradient-inner: #ddd;
 *, *:after, *::before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -63,8 +64,17 @@
   padding: 0
 }
 */
+
 span#button_content {
-  border: 5px solid darkgreen;
+  border: 2px solid darkgreen;
+  background: $button-gradient-outer;
+  background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner,  $button-gradient-outer);
+  background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+
+  background: -webkit-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+  background: -moz-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+  background: -o-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+  background: linear-gradient(to bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
   // width: 100%;
 }
 /*

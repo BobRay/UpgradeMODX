@@ -153,7 +153,14 @@ a:hover, a:focus {
 }
 */
 span#button_content {
-  border: 5px solid darkgreen;
+  border: 2px solid darkgreen;
+  background: #1d9650;
+  background: linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -ms-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -webkit-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -moz-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -o-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: linear-gradient(to bottom, #1d9650, #ddd, #1d9650);
 }
 
 /*
