@@ -483,7 +483,10 @@ if ($submitted) {
                             setTimeout(poll, 2000);
                         }
                     } else {
-                        window.location.replace("http://localhost/addons/setup/index.php");
+                        setTimeout(function () {
+                            window.location.replace("http://localhost/addons/setup/index.php");
+                        }, 4000);
+                        
                     }
                 },
                 
@@ -542,9 +545,24 @@ EOD;
                 callback : function( instance ) {
                     var progress = 0,
                         interval = setInterval( function() {
-                            var button_text = document.getElementById('button_content');
-                            progress = Math.min( progress + Math.random() * 0.1, 1 );
-                            console.log("Text " + button_text.innerHTML);
+                            var button_text = document.getElementById('button_content').innerHTML.toString();
+                            if (button_text == 'Downloading Files') {
+                                progress = 0.1;
+                            } else if (button_text == 'Unzipping Files') {
+                                progress = 0.4;
+                            } else if (button_text == 'Copying Files') {
+                                progress = 0.6;
+                            } else if (button_text == 'Preparing Setup') {
+                                progress = 0.8;
+                            }  else if (button_text == 'Finished') {
+                                progress = 1
+                            }  else if (button_text == 'Launching Setup') {
+                                progress = 1;
+                            }
+                            // progress += .02;
+                            // progress = Math.min( progress + Math.random() * 0.1, 1 );
+                            progress = Math.min( progress, 1 );
+                            // console.log("Text " + button_text);
                             if( progress === 1 ) {
                                 instance._stop(1);
                                 clearInterval( interval );
@@ -702,7 +720,7 @@ if ($submitted) {
     if ($devMode) {
         sleep(2);
     } else {
-
+        sleep(1);
         $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
         if (file_exists($rootCoreConfig)) {
             $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
