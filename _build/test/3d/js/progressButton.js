@@ -13,8 +13,6 @@
 
     'use strict';
 
-
-
     // https://gist.github.com/edankwan/4389601
     Modernizr.addTest('csstransformspreserve3d', function () {
         var prop = Modernizr.prefixed('transformStyle');
@@ -213,7 +211,7 @@
     // enable button
     ProgressButton.prototype._enable = function() {
         this.button.removeAttribute( 'disabled' );
-    }
+    };
 
     // add to global namespace
     window.ProgressButton = ProgressButton;
