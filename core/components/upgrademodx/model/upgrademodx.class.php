@@ -167,7 +167,7 @@ if (!class_exists('UpgradeMODX')) {
                     $devModeString = '$devMode = ';
                     $devModeString .= $this->devMode ? 'true' : 'false';
                     $devModeString .= ';';
-
+                    $assetsUrl = $this->modx->getOption('ugm.assets_url', null, $this->modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
                     $fields = array(
                         '/* [[+ForcePclZip]] */' => $forcePclZipString,
                         '/* [[+ForceFopen]] */' => $forceFopenString,
@@ -175,6 +175,7 @@ if (!class_exists('UpgradeMODX')) {
                         '/* [[+devMode]] */' => $devModeString,
                         '[[+ugm_progress_path]]' => $this->progressFilePath,
                         '[[+ugm_progress_url]]' => $this->progressFileURL,
+                        '[[+ugm_assets_url]]' => $assetsUrl,
                     );
 
                     $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');

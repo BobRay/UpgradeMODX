@@ -387,10 +387,30 @@ $output .= <<<EOD
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>UpgradeMODX</title>
     <meta charset="utf-8">
     
-     <link rel="stylesheet" href="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/css/progress.css"/>
+    
+    <link rel="apple-touch-icon" sizes="57x57" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="[[+ugm_assets_url]]css/favicons.ico/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="[[+ugm_assets_url]]css/favicons.ico/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="[[+ugm_assets_url]]css/favicons.ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="[[+ugm_assets_url]]css/favicons.ico/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="[[+ugm_assets_url]]css/favicons.ico/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <link rel="stylesheet" href="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/css/progress.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
    
 </head>
