@@ -1,0 +1,460 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+@import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
+html {
+  background: #f8f8f8 url("http://localhost/addons/assets/components/upgrademodx/images/base.png");
+}
+
+body {
+  background: #27ae60;
+  color: #fff;
+  font-family: "Lato", Arial, sans-serif;
+}
+
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+a {
+  color: #148544;
+  text-decoration: none;
+  outline: none;
+}
+
+a:hover, a:focus {
+  color: #fff;
+}
+
+.wrapper {
+  text-align: center;
+  vertical-align: top;
+}
+
+@media screen and (max-width: 25em) {
+  .container > header {
+    font-size: 70%;
+  }
+}
+*, *:after, *::before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* General styles for all types of buttons */
+.progress-button {
+  position: relative;
+  display: inline-block;
+  padding: 0 60px;
+  outline: none;
+  border: none;
+  background: #1d9650;
+  color: #fff;
+  letter-spacing: 3px;
+  font-size: 1em;
+  line-height: 4;
+}
+
+.progress-button[disabled],
+.progress-button[disabled].state-loading {
+  cursor: default;
+}
+
+.progress-button .content {
+  position: relative;
+  display: block;
+}
+
+.progress-button .content::before,
+.progress-button .content::after {
+  position: absolute;
+  right: 20px;
+  color: #0e7138;
+  opacity: 0;
+  -webkit-transition: opacity 0.9s linear 0.9s;
+  transition: opacity 0.9s linear 0.9s;
+}
+
+span#button_content {
+  letter-spacing: 3px;
+  font-size: 1em;
+  line-height: 4;
+  font-family: "Lato", Arial, sans-serif;
+  border: 2px solid darkgreen;
+  background: #1d9650;
+  background: linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -ms-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -webkit-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -moz-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: -o-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
+  background: linear-gradient(to bottom, #1d9650, #ddd, #1d9650);
+}
+
+.notransition {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+
+.progress-button .progress {
+  background: #148544;
+}
+
+.progress-button .progress-inner {
+  position: absolute;
+  left: 0;
+  background: #0c4d26;
+}
+
+.progress-button[data-horizontal] .progress-inner {
+  top: 0;
+  width: 0;
+  height: 100%;
+  -webkit-transition: width 0.3s, opacity 0.3s;
+  transition: width 0.3s, opacity 0.3s;
+}
+
+/* Necessary 3d styles for buttons with perspective */
+.progress-button[data-perspective] {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  -webkit-perspective: 900px;
+  perspective: 900px;
+}
+
+.progress-button[data-perspective] .content {
+  padding: 0;
+  background: #1d9650;
+  text-shadow: #000 0 0 1px, #000 0 0 1px, #000 0 0 1px, #000 0 0 1px, #000 0 0 1px, #000 0 0 1px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrapper {
+  font-size: 24px;
+  position: fixed;
+  top: 268px;
+  left: 450px;
+}
+
+.progress-button[data-perspective] .progress-wrap {
+  display: block;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.progress-button[data-perspective] .content,
+.progress-button[data-perspective] .progress {
+  outline: 1px solid rgba(0, 0, 0, 0);
+  /* Smoothen jagged edges in FF */
+}
+
+/* Fill horizontal */
+/* ====================== */
+.progress-button[data-style=fill][data-horizontal] {
+  overflow: hidden;
+}
+
+.progress-button[data-style=fill][data-horizontal] .content {
+  z-index: 10;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+}
+
+.progress-button[data-style=fill][data-horizontal] .content::before,
+.progress-button[data-style=fill][data-horizontal] .content::after {
+  top: 100%;
+  right: auto;
+  left: 50%;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.progress-button[data-style=fill][data-horizontal].state-success .content,
+.progress-button[data-style=fill][data-horizontal].state-error .content {
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
+}
+
+/* Rotate bottom 3d */
+/* ====================== */
+.progress-button[data-style=rotate-angle-bottom] .progress {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 35px;
+  box-shadow: 0 -1px 0 #148544;
+  /* fix the blurriness that causes a gap */
+  -webkit-transform: rotateX(-90deg);
+  transform: rotateX(-90deg);
+  -webkit-transform-origin: 50% 0;
+  transform-origin: 50% 0;
+}
+
+.progress-button[data-style=rotate-angle-bottom].state-loading .progress-wrap {
+  -webkit-transform: rotateX(45deg);
+  transform: rotateX(45deg);
+}
+
+/* lateral-lines */
+/* ====================== */
+.progress-button[data-style=lateral-lines] .progress-inner {
+  width: 100%;
+  border-right: 3px solid #0e7138;
+  border-left: 3px solid #0e7138;
+  background: transparent;
+}
+
+.progress-button[data-style=lateral-lines] .content::before,
+.progress-button[data-style=lateral-lines] .content::after {
+  right: auto;
+  left: 100%;
+  margin-left: 25px;
+}
+
+.progress-button {
+  width: 500px;
+  height: 200px;
+}
+
+/* UpgradeMODX page styles */
+/* ====================== */
+article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  vertical-align: baseline;
+  background: 0 0;
+  font-size: 100%;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: 0 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td, td img {
+  vertical-align: top;
+}
+
+button, input, select, textarea {
+  margin: 0;
+  font-size: 100%;
+}
+
+input[type=password], input[type=text], textarea {
+  padding: 0;
+}
+
+input[type=checkbox] {
+  vertical-align: bottom;
+}
+
+input[type=radio] {
+  vertical-align: text-bottom;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+body {
+  color: #111;
+  text-align: left;
+  font: 12px Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
+}
+
+button, input, select, textarea {
+  font-family: Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
+}
+
+a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
+  cursor: pointer;
+}
+
+::selection {
+  background: #84d5e8;
+  color: #fff;
+  text-shadow: none;
+}
+
+html {
+  position: relative;
+  background: #f8f8f8 url(base.png);
+}
+
+body {
+  background: 0 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
+  text-shadow: 0 1px 0 #fff;
+}
+
+a {
+  color: #0f7096;
+}
+
+.button, button {
+  color: #fff;
+  display: inline-block;
+  padding: 15px;
+  font-size: 20px;
+  text-decoration: none;
+  border: 5px solid #fff;
+  border-radius: 8px;
+  background-color: #67a749;
+  background-image: linear-gradient(to top, #67a749 0, #67a749 27.76%, #a1c755 100%);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.64);
+}
+
+a.button {
+  padding: 5px 15px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: "PT Serif", helvetica, arial, sans-serif;
+  line-height: 28px;
+}
+
+h1 {
+  font-size: 26px;
+}
+
+h2 {
+  font-size: 22px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+.header {
+  -moz-box-sizing: border-box;
+  float: left;
+  width: 100%;
+  box-sizing: border-box;
+  background: #fff;
+  background: linear-gradient(to bottom, #fff, #f2f2f2);
+  padding: 20px;
+  border-bottom: 1px solid #fff;
+}
+
+.header img {
+  float: left;
+  width: 180px;
+  margin: 0 5px 0 0;
+}
+
+.header h1.main-heading {
+  color: #1778b6;
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.header-button-wrapper {
+  float: right;
+}
+
+.main-heading > span {
+  display: none;
+}
+
+.main-heading > sup {
+  color: #ccc;
+  font-weight: 400;
+}
+
+.content_div {
+  float: left;
+  padding: 30px;
+}
+
+.content_div h2 {
+  margin: 0;
+  line-height: 20px;
+}
+
+.content_div form {
+  margin: 10px 0 50px;
+}
+
+.content.div form .column {
+  float: left;
+  box-sizing: border-box;
+  width: 500px;
+  margin: 20px 0;
+}
+
+.column h3 {
+  display: inline-block;
+  padding: 0 0 5px;
+  margin: 0 0 20px;
+  border-bottom: 2px solid #000;
+}
+
+.column label {
+  float: left;
+  width: 100%;
+  clear: both;
+  padding: 3px 0;
+}
+
+form button {
+  float: left;
+  width: 200px;
+  clear: both;
+}
+
+label > span {
+  border-bottom: 1px dotted #555;
+}
+
+label > input {
+  margin: 0 5px 0 0;
+}
+
+.footer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 10px;
+  color: #ccc;
+}
+
+.footer a {
+  color: #aaa;
+}
+
+/*# sourceMappingURL=progress.css.map */
