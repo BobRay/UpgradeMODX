@@ -410,7 +410,7 @@ $output .= <<<EOD
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
     
-    <link rel="stylesheet" href="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/css/progress.css"/>
+    <link rel="stylesheet" href="[[+ugm_assets_url]]css/progress.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
    
 </head>
@@ -425,7 +425,7 @@ EOD;
 
 if ($submitted) {
     $output .= <<<EOD
-<script src="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/js/modernizr.custom.js"></script>
+<script src="[[+ugm_assets_url]]js/modernizr.custom.js"></script>
 EOD;
 
 }
@@ -531,8 +531,8 @@ EOD;
 
     /* This JS manages starting and stopping the rotation and the progress bar */
     $output .= <<<EOD
-    <script src="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/js/classie.js"></script>
-    <script src="http://localhost/addons/assets/mycomponents/upgrademodx/_build/test/3d/js/progressButton.js"></script>
+    <script src="[[+ugm_assets_url]]js/classie.js"></script>
+    <script src="[[+ugm_assets_url]]js/progressButton.js"></script>
     <script>
         
         var bttn = document.getElementById('ugm_submit_button');
