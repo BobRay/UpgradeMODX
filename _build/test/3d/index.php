@@ -17,17 +17,30 @@
         <script type="text/javascript" src="http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/js/modernizr.custom.js"></script>
     </head>
     <body>
-    <div class="header">
+    <p class="header">
         <img src="https://modx.com/assets/i/logos/v5/svgs/modx-color.svg" alt="Logo">
         <h1 class="main-heading"><span>MODX</span> UpgradeMODX </h1>
-    </div>
 
     <div class="content_div">
     <div class="container">
 
         <div class="wrapper">
-            <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective
-                    data-horizontal><span id="button_content" class="content">Begin Upgrade</span></button>
+            <?php
+            preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
+            if (count($matches) < 2) {
+                preg_match('/Trident\/\d{1,2}.\d{1,2}; rv:([0-9]*)/', $_SERVER['HTTP_USER_AGENT'], $matches);
+            }
+
+            if (count($matches) > 1): ?>
+                <button id="ugm_submit_button" class="progress-button" data-style="fill"
+                        data-horizontal>
+                            Begin Upgrade
+                        <span class="progress"><span class="progress-inner>"</span>
+                </button>
+            <?php else: ?>
+                <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective
+                        data-horizontal><span id="button_content" class="content">Begin Upgrade</span></button>
+            <?php endif; ?>
         </div>
 
     </div>

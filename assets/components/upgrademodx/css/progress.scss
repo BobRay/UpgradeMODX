@@ -104,7 +104,7 @@ span#button_content {
   transition: transform 0.3s;
 }
 
-.progress-button[data-style="fill"][data-horizontal] .content::before,
+/*.progress-button[data-style="fill"][data-horizontal] .content::before,
 .progress-button[data-style="fill"][data-horizontal] .content::after {
   top: 100%;
   right: auto;
@@ -119,7 +119,7 @@ span#button_content {
 .progress-button[data-style="fill"][data-horizontal].state-error .content {
   -webkit-transform: translateY(-100%);
   transform: translateY(-100%);
-}
+}*/
 
 /* Necessary 3d styles for buttons with perspective */
 
@@ -173,7 +173,7 @@ span#button_content {
   transition: transform 0.3s;
 }
 
-.progress-button[data-style="fill"][data-horizontal] .content::before,
+/*.progress-button[data-style="fill"][data-horizontal] .content::before,
 .progress-button[data-style="fill"][data-horizontal] .content::after {
   top: 100%;
   right: auto;
@@ -188,7 +188,7 @@ span#button_content {
 .progress-button[data-style="fill"][data-horizontal].state-error .content {
   -webkit-transform: translateY(-100%);
   transform: translateY(-100%);
-}
+}*/
 
 /* Rotate bottom 3d */
 /* ====================== */
@@ -230,7 +230,7 @@ span#button_content {
 
 .progress-button {
   width:500px;
-  height:200px;
+ // height:200px;
 }
 
 /* UpgradeMODX page styles */
