@@ -30,11 +30,12 @@ a:hover, a:focus {
   color: #fff;
 }
 
+/*
 .wrapper {
-  text-align: center;
-  vertical-align: top;
+    text-align: center;
+    vertical-align: top;
 }
-
+*/
 @media screen and (max-width: 25em) {
   .container > header {
     font-size: 70%;
@@ -48,21 +49,23 @@ a:hover, a:focus {
 
 /* General styles for all types of buttons */
 .progress-button {
-  position: relative;
+  font-size: 24px;
+  position: fixed;
+  top: 315px;
+  left: 450px;
   display: inline-block;
   padding: 0 60px;
   outline: none;
   border: none;
   background: #1d9650;
-  color: #fff;
   letter-spacing: 3px;
-  font-size: 1em;
   line-height: 4;
 }
 
 .progress-button[disabled],
 .progress-button[disabled].state-loading {
   cursor: default;
+  color: #ffffff !important;
 }
 
 .progress-button .content {
@@ -70,29 +73,23 @@ a:hover, a:focus {
   display: block;
 }
 
-.progress-button .content::before,
-.progress-button .content::after {
+/*.progress-button .content::before,
+.progress-button .content::after  {
   position: absolute;
   right: 20px;
-  color: #0e7138;
+  // color: #0e7138;
   opacity: 0;
   -webkit-transition: opacity 0.9s linear 0.9s;
   transition: opacity 0.9s linear 0.9s;
-}
-
-span#button_content {
+  :hover {
+     color:#FF0000;
+  }
+}*/
+span.content {
   letter-spacing: 3px;
   font-size: 1em;
   line-height: 4;
   font-family: "Lato", Arial, sans-serif;
-  border: 2px solid darkgreen;
-  background: #1d9650;
-  background: linear-gradient(bottom, #1d9650, #ddd, #1d9650);
-  background: -ms-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
-  background: -webkit-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
-  background: -moz-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
-  background: -o-linear-gradient(bottom, #1d9650, #ddd, #1d9650);
-  background: linear-gradient(to bottom, #1d9650, #ddd, #1d9650);
 }
 
 .notransition {
@@ -122,6 +119,7 @@ span#button_content {
 /* Fill horizontal */
 /* ====================== */
 .progress-button[data-style=fill][data-horizontal] {
+  border: 3px solid darkgreen;
   overflow: hidden;
 }
 
@@ -133,7 +131,6 @@ span#button_content {
 
 /* Necessary 3d styles for buttons with perspective */
 .progress-button[data-perspective] {
-  position: relative;
   display: inline-block;
   padding: 0;
   background: transparent;
@@ -142,17 +139,16 @@ span#button_content {
 }
 
 .progress-button[data-perspective] .content {
+  border: 3px solid darkgreen;
   padding: 0;
   background: #1d9650;
-  text-shadow: #000 0 0 1px, #000 0 0 1px, #000 0 0 1px, #000 0 0 1px, #000 0 0 1px, #000 0 0 1px;
+  background: linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -ms-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -webkit-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -moz-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -o-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: linear-gradient(to bottom, #1d9650, #dddddd, #1d9650);
   -webkit-font-smoothing: antialiased;
-}
-
-.wrapper {
-  font-size: 24px;
-  position: fixed;
-  top: 315px;
-  left: 450px;
 }
 
 .progress-button[data-perspective] .progress-wrap {
@@ -173,10 +169,20 @@ span#button_content {
 /* ====================== */
 .progress-button[data-style=fill][data-horizontal] {
   overflow: hidden;
+  margin: 0;
+  background: #1d9650;
+  background: linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -ms-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -webkit-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -moz-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: -o-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
+  background: linear-gradient(to bottom, #1d9650, #dddddd, #1d9650);
+  -webkit-font-smoothing: antialiased;
 }
 
 .progress-button[data-style=fill][data-horizontal] .content {
   z-index: 10;
+  -webkit-font-smoothing: antialiased;
   -webkit-transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
 }
@@ -206,8 +212,6 @@ span#button_content {
 /* ====================== */
 .progress-button[data-style=lateral-lines] .progress-inner {
   width: 100%;
-  border-right: 3px solid #0e7138;
-  border-left: 3px solid #0e7138;
   background: transparent;
 }
 
@@ -280,21 +284,15 @@ html {
 body {
   color: #111;
   text-align: left;
-  font: 12px Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
+  font: 12px "Lato", Arial, sans-serif;
 }
 
 button, input, select, textarea {
-  font-family: Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
+  font-family: "Lato", Arial, sans-serif;
 }
 
 a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
   cursor: pointer;
-}
-
-::selection {
-  background: #84d5e8;
-  color: #fff;
-  text-shadow: none;
 }
 
 html {
@@ -307,11 +305,6 @@ body {
   font-size: 14px;
   line-height: 22px;
   font-family: "Helvetica Neue", helvetica, arial, sans-serif;
-  text-shadow: 0 1px 0 #fff;
-}
-
-a {
-  color: #0f7096;
 }
 
 .button, button {
@@ -320,11 +313,9 @@ a {
   padding: 15px;
   font-size: 20px;
   text-decoration: none;
-  border: 5px solid #fff;
   border-radius: 8px;
   background-color: #67a749;
-  background-image: linear-gradient(to top, #67a749 0, #67a749 27.76%, #a1c755 100%);
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.64);
+  text-shadow: 2px 2px 1px #0c4d26;
 }
 
 a.button {
@@ -451,6 +442,10 @@ label > input {
 
 .footer a {
   color: #aaa;
+}
+
+.red {
+  color: #FF0000;
 }
 
 /*# sourceMappingURL=progress.css.map */

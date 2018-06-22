@@ -90,6 +90,7 @@
     ProgressButton.prototype._create = function() {
         var textEl = document.createElement( 'span' );
         textEl.className = 'content';
+        textEl.id = 'button_content';
         textEl.innerHTML = this.button.innerHTML;
         var progressEl = document.createElement( 'span' );
         progressEl.className = 'progress';
@@ -137,6 +138,7 @@
             self.button.setAttribute( 'disabled', '' );
             // add class state-loading to the button (applies a specific transform to the button depending which data-style is defined - defined in the stylesheets)
             classie.remove( self.progress, 'notransition' );
+            classie.remove(self.progress, 'red');
             classie.add( this, 'state-loading' );
 
             setTimeout( function() {
@@ -196,7 +198,7 @@
                 // after options.statusTime remove status
                 setTimeout( function() {
                     classie.remove( self.button, statusClass );
-                    self._enable();
+                    // self._enable();
                 }, self.options.statusTime );
             }
             else {
