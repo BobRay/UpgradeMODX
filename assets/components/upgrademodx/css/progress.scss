@@ -78,7 +78,6 @@ span#button_content {
   position: absolute;
   left: 0;
   background: $inner-progress-background// #0c4d26;
-
 }
 
 .progress-button[data-horizontal] .progress-inner {
@@ -103,23 +102,6 @@ span#button_content {
   -webkit-transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
 }
-
-/*.progress-button[data-style="fill"][data-horizontal] .content::before,
-.progress-button[data-style="fill"][data-horizontal] .content::after {
-  top: 100%;
-  right: auto;
-  left: 50%;
-  -webkit-transition: opacity 0.3s;
-  transition: opacity 0.3s;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
-
-.progress-button[data-style="fill"][data-horizontal].state-success .content,
-.progress-button[data-style="fill"][data-horizontal].state-error .content {
-  -webkit-transform: translateY(-100%);
-  transform: translateY(-100%);
-}*/
 
 /* Necessary 3d styles for buttons with perspective */
 
@@ -173,22 +155,7 @@ span#button_content {
   transition: transform 0.3s;
 }
 
-/*.progress-button[data-style="fill"][data-horizontal] .content::before,
-.progress-button[data-style="fill"][data-horizontal] .content::after {
-  top: 100%;
-  right: auto;
-  left: 50%;
-  -webkit-transition: opacity 0.3s;
-  transition: opacity 0.3s;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
 
-.progress-button[data-style="fill"][data-horizontal].state-success .content,
-.progress-button[data-style="fill"][data-horizontal].state-error .content {
-  -webkit-transform: translateY(-100%);
-  transform: translateY(-100%);
-}*/
 
 /* Rotate bottom 3d */
 /* ====================== */
