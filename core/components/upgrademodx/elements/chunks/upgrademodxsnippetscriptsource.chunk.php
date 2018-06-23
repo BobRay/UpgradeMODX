@@ -301,62 +301,79 @@ class MODXInstaller {
     public static function updateProgress($path, $content) {
         return file_put_contents($path, $content, LOCK_EX);
     }
+
+    /** Returns IE version number or false if not using ID
+     *  Note: returns false for Edge
+     */
+    public static function getIeVersion() {
+        $version = false;
+        preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
+        if (count($matches) < 2) {
+            preg_match('/Trident\/\d{1,2}.\d{1,2}; rv:([0-9]*)/', $_SERVER['HTTP_USER_AGENT'], $matches);
+        }
+
+        if (count($matches) > 1) {
+            // We're using IE < version 12 (Edge)
+            $version = $matches[1];
+        }
+
+        return $version;
+    }
+    public static function getButtonCode($action = "Begin Upgrade", $disabled = false) {
+        $disabled = $disabled? ' disabled ' : '';
+        $ie = MODXInstaller::getIeVersion();
+
+        if ($ie) {
+            $buttonCode =  '
+        <button id="ugm_submit_button" class="progress-button" data-style="fill"
+                data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
+        } else {
+            $buttonCode =  '
+        <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective
+                data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
+        }
+
+        return $buttonCode;
+    }
     public static function createVersionForm($InstallData, $submitted) {
-        $output = '';
-
-        if ($submitted) { // just return button
-            $output .= <<<EOD
-               <div class="container">
-                    <!-- Top Navigation -->
-        
-                    <div class="wrapper">
-                            <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective data-horizontal><span id="button_content" class="content">Begin Upgrade</span></button>
-                    </div>
-        
-                </div><!-- /container -->
-EOD;
-            return $output;
+        if (! $submitted) { // no form tags on landing page so form won't submit again
+            $output = "\n" . '<form action="upgrade.php" name="upgrade_form" id="upgrade_form" method="get">' . "\n";
         }
 
-        $ItemGrid = array();
-        foreach ($InstallData as $ver => $item) {
-            $ItemGrid[$item['tree']][$ver] = $item;
-        }
+        $action = $submitted? "Downloading Files" : "Begin Upgrade";
+        $disabled = $submitted ? true : false;
+        $output .= MODXInstaller::getButtonCode($action, $disabled);
 
-        $output .= "\n    <form>";
-        foreach ($ItemGrid as $tree => $item) {
-            $output .= "\n" . '<div class="column">' .
-                "\n<h3>" . strtoupper($tree) . '</h3>';
-            $output .= "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
-            foreach ($item as $version => $itemInfo) {
-                $selected = $itemInfo['selected'] ? ' checked' : '';
-                $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(current version)' : '';
+        /* If not submitted, add version list */
 
-                $output .= <<<EOD
+        if (! $submitted) {
+            $ItemGrid = array();
+            foreach ($InstallData as $ver => $item) {
+                $ItemGrid[$item['tree']][$ver] = $item;
+            }
+
+            foreach ($ItemGrid as $tree => $item) {
+                $output .= "\n" . '<div class="column">' .
+                    "\n<h3>" . strtoupper($tree) . '</h3>';
+                $output .= "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
+                foreach ($item as $version => $itemInfo) {
+                    $selected = $itemInfo['selected'] ? ' checked' : '';
+                    $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(current version)' : '';
+
+                    $output .= <<<EOD
         <label><input type="radio"{$selected} name="modx" value="$version">
             <span>{$itemInfo['name']} $current</span>
         </label>
 <br>
 EOD;
-
-            } // end inner foreach loop
-            $output .= '</div>';
-        } // end outer foreach loop
-        $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
-        // $output .= "\n" . '<br><button id="ugm_submit_button">Upgrade</button>';
-        $output .= <<<EOD
-       <div class="container">
-            <!-- Top Navigation -->
-
-            <div class="wrapper">
-                    <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective data-horizontal><span id = "button_content" class="content">Begin Upgrade</span></button>
-            </div>
-
-        </div><!-- /container -->
-EOD;
-
-
-        $output .= '</form>' . "\n ";
+                } // end inner foreach loop
+                $output .= '</div>';
+            } // end outer foreach loop
+            $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
+        }
+        if (!$submitted) { // no form tags on landing page so form won't submit again
+            $output .= "\n" . '</form>' . "\n ";
+        }
         return $output;
     }
 
@@ -528,6 +545,19 @@ if ($submitted) {
         }
     </script>
 EOD;
+} else {
+    $output .= <<<EOD
+        <script>
+        $('#ugm_submit_button').hover(
+            function () {
+                $(this).addClass('red');
+            },
+            function () {
+                $(this).removeClass('red');
+            }
+        );
+        </script>
+EOD;
 }
 
 $output .= "\n    </div>"; // end content div
@@ -596,7 +626,10 @@ EOD;
                         }, 1000 );
                 }
             } );
-
+        
+        /* Simulate click on landing page to initiate action; button won't submit
+           because it's not in a form 
+         */
         setTimeout(function () {
             bttn.click();
         }, 1000);
