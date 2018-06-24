@@ -319,30 +319,32 @@ class MODXInstaller {
 
         return $version;
     }
-    public static function getButtonCode($action = "Begin Upgrade", $disabled = false) {
+    public static function getButtonCode($action = "Begin Upgrade", $disabled = false, $submitted = false) {
         $disabled = $disabled? ' disabled ' : '';
+        $red = $submitted? ' red': '';
         $ie = MODXInstaller::getIeVersion();
 
         if ($ie) {
             $buttonCode =  '
-        <button id="ugm_submit_button" class="progress-button" data-style="fill"
+        <button id="ugm_submit_button" class="progress-button' . $red . '" data-style="fill"
                 data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
         } else {
             $buttonCode =  '
-        <button id="ugm_submit_button" class="progress-button" data-style="rotate-angle-bottom" data-perspective
+        <button id="ugm_submit_button" class="progress-button' . $red . '" data-style="rotate-angle-bottom" data-perspective
                 data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
         }
 
         return $buttonCode;
     }
     public static function createVersionForm($InstallData, $submitted) {
+        $output = '';
         if (! $submitted) { // no form tags on landing page after submission so form won't submit again
-            $output = "\n" . '<form action="" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
+            $output .= "\n" . '<form action="" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
         }
 
         $action = $submitted? "Downloading Files" : "Begin Upgrade";
         $disabled = $submitted ? true : false;
-        $output .= MODXInstaller::getButtonCode($action, $disabled);
+        $output .= MODXInstaller::getButtonCode($action, $disabled, $submitted);
 
         /* If not submitted, add version list */
 

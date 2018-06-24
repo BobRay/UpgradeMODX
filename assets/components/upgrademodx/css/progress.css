@@ -65,7 +65,7 @@ a:hover, a:focus {
 .progress-button[disabled],
 .progress-button[disabled].state-loading {
   cursor: default;
-  color: #ffffff !important;
+  color: #FF0000;
 }
 
 .progress-button .content {

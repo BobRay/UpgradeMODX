@@ -6,6 +6,7 @@ $inner-progress-background: #0c4d26;
 $progress-button-background: #1d9650;
 $progress-button-color: #ffffff;
 $button-letter_spacing: 3px;
+$button-active-text-color: #FF0000;
 
 *, *:after, *::before {
   -webkit-box-sizing: border-box;
@@ -32,7 +33,7 @@ $button-letter_spacing: 3px;
 .progress-button[disabled],
 .progress-button[disabled].state-loading {
   cursor: default;
-  color: #ffffff !important;
+  color: $button-active-text-color;
 }
 
 .progress-button .content {
@@ -432,6 +433,6 @@ label > input {
 
 
 .red {
-  color: #FF0000;
+  color: $button-active-text-color;
 }
 

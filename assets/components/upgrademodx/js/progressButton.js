@@ -138,7 +138,6 @@
             self.button.setAttribute( 'disabled', '' );
             // add class state-loading to the button (applies a specific transform to the button depending which data-style is defined - defined in the stylesheets)
             classie.remove( self.progress, 'notransition' );
-            classie.remove(self.progress, 'red');
             classie.add( this, 'state-loading' );
 
             setTimeout( function() {
