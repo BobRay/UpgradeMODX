@@ -137,6 +137,11 @@ if (isset($_POST['UpgradeMODX'])) {
         }
     }
     $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
+} else {
+    /* Just in case */
+    if (file_exists(MODX_BASE_PATH . 'upgrade.php')) {
+        unlink(MODX_BASE_PATH . 'upgrade.php');
+    }
 }
 
 /* Set the method */
