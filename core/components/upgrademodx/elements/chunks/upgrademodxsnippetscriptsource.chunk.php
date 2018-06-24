@@ -236,7 +236,7 @@ class MODXInstaller {
         if ( (! $forcePclZip) && class_exists('ZipArchive', false)) {
             $zip = new ZipArchive;
             if ($zip instanceof ZipArchive) {
-                $open = $zip->open($source, ZIPARCHIVE::CHECKCONS);
+                $open = $zip->open($source, ZipArchive::CHECKCONS);
 
                 if ($open == true) {
                     $result = $zip->extractTo($destination);
@@ -726,7 +726,7 @@ if ($submitted) {
     }
 
     /* Make temp directory */
-    $tempDir = realPath(dirname(__FILE__)) . '/ugmtemp';
+    $tempDir = realpath(dirname(__FILE__)) . '/ugmtemp';
     MODXInstaller::mmkdir($tempDir);
     clearstatcache();
 
