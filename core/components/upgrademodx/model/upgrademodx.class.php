@@ -176,6 +176,7 @@ if (!class_exists('UpgradeMODX')) {
                         '[[+ugm_progress_path]]' => $this->progressFilePath,
                         '[[+ugm_progress_url]]' => $this->progressFileURL,
                         '[[+ugm_assets_url]]' => $assetsUrl,
+                        '[[+manager_url]]' => MODX_MANAGER_URL,
                     );
 
                     $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');
