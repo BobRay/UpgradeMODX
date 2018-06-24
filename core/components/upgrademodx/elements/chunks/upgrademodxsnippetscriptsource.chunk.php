@@ -336,8 +336,8 @@ class MODXInstaller {
         return $buttonCode;
     }
     public static function createVersionForm($InstallData, $submitted) {
-        if (! $submitted) { // no form tags on landing page so form won't submit again
-            $output = "\n" . '<form action="upgrade.php" name="upgrade_form" id="upgrade_form" method="get">' . "\n";
+        if (! $submitted) { // no form tags on landing page after submission so form won't submit again
+            $output = "\n" . '<form action="" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
         }
 
         $action = $submitted? "Downloading Files" : "Begin Upgrade";
@@ -392,7 +392,22 @@ EOD;
 
 $method = 0;
 $output = '';
-$submitted = !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']]);
+$submitted = !empty($_POST['modx']) && is_scalar($_POST['modx']) && isset($InstallData[$_POST['modx']]);
+
+if ($submitted) {
+    /* validate MODX Version and user ID */
+    $pattern = '/^\d{1,3}\.\d{1,3}\.\d{1,3}-(pl|rc|alpha|beta)\d{0,3}$/';
+    if (!preg_match($pattern, (string) $_POST['modx'])) {
+        die('Invalid Version');
+    }
+    if (! isset($_POST['userId'])){
+        die ("no user ID");
+    }
+    if (preg_match('/[^0-9]/', (string) $_POST['userId'])) {
+        die ('Invalid User ID');
+    }
+
+}
 
 if (extension_loaded('curl') && (!$forceFopen)) {
     $method = 'curl';
@@ -648,7 +663,7 @@ flush();
 
 
 /* Next two lines for running in debugger  */
-// if (true || !empty($_GET['modx']) && is_scalar($_GET['modx']) && isset($InstallData[$_GET['modx']])) {
+// if (true || !empty($_POST['modx']) && is_scalar($_POST['modx']) && isset($InstallData[$_POST['modx']])) {
 //       $rowInstall = $InstallData['revo2.4.1-pl'];
 // Comment our the two lines below to run in debugger.
 
@@ -668,7 +683,7 @@ if ($submitted) {
     }
 
     $devMode = false;
-    $rowInstall = $InstallData[$_GET['modx']];
+    $rowInstall = $InstallData[$_POST['modx']];
 
     /* Set true $devMode; DO NOT DELETE the next line*/
     /* [[+devMode]] */
@@ -803,7 +818,7 @@ if ($submitted) {
         $modx = new modX();
         $modx->initialize('web');
         $modx->lexicon->load('core:default');
-        $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_GET['modx'], $_GET['userId']);
+        $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_POST['modx'], $_POST['userId']);
         /* Redirect done with 'replace' in JavaScript when it sees 'Launching MODX'. */
         // $modx->sendRedirect($rowInstall['location']);
         $modx = null;
