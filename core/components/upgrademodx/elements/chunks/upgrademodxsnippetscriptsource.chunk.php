@@ -288,11 +288,11 @@ class MODXInstaller {
             }
             closedir($handle);
         } else {
-            MODXInstaller::quit ('Unable to read directory contents or directory is empty: ' . dirname(__FILE__) . '/temp');
+            MODXInstaller::quit ('[[+ugm_cannot_read_directory]]: ' . dirname(__FILE__) . '/temp');
         }
 
         if (empty($dir)) {
-            MODXInstaller::quit('Unknown error reading /temp directory');
+            MODXInstaller::quit('[[+ugm_unknown_error_reading_temp]]');
         }
 
         return $dir;
@@ -319,7 +319,7 @@ class MODXInstaller {
 
         return $version;
     }
-    public static function getButtonCode($action = "Begin Upgrade", $disabled = false, $submitted = false) {
+    public static function getButtonCode($action = "[[+ugm_begin_upgrade]]", $disabled = false, $submitted = false) {
         $disabled = $disabled? ' disabled ' : '';
         $red = $submitted? ' red': '';
         $ie = MODXInstaller::getIeVersion();
@@ -342,7 +342,7 @@ class MODXInstaller {
             $output .= "\n" . '<form action="" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
         }
 
-        $action = $submitted? "Downloading Files" : "Begin Upgrade";
+        $action = $submitted? "[[+ugm_starting_upgrade]]" : "[[+ugm_begin_upgrade]]";
         $disabled = $submitted ? true : false;
         $output .= MODXInstaller::getButtonCode($action, $disabled, $submitted);
 
@@ -357,10 +357,10 @@ class MODXInstaller {
             foreach ($ItemGrid as $tree => $item) {
                 $output .= "\n" . '<div class="column">' .
                     "\n<h3>" . strtoupper($tree) . '</h3>';
-                $output .= "<br><p style='font-size:125%;'><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>";
+                $output .= "<br><p style='font-size:125%;'>[[+ugm_get_major_versions]]";
                 foreach ($item as $version => $itemInfo) {
                     $selected = $itemInfo['selected'] ? ' checked' : '';
-                    $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(current version)' : '';
+                    $current = $itemInfo['current'] ? ' &nbsp;&nbsp;([[+ugm_current_version_indicator]])' : '';
 
                     $output .= <<<EOD
         <label><input type="radio"{$selected} name="modx" value="$version">
@@ -465,11 +465,11 @@ EOD;
 }
 
 if (! $method) {
-    MODXInstaller::quit("\n" . '<h2>Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.</h2>');
+    MODXInstaller::quit("\n" . '<h2>[[+ugm_no_method_enabled]]</h2>>');
 } else {
     if (!$submitted) {
         $output .= "\n<h2>Choose MODX version for Upgrade</h2>";
-        $output .= "<br><h3> (Using  {$method})</h3>";
+        $output .= "<br><h3> ([[+ugm_using]] {$method})</h3>";
     }
 }
 
@@ -479,7 +479,7 @@ $output .= MODXInstaller::createVersionForm($InstallData, $submitted);
 if ($submitted) {
     $output .= <<<EOD
     <script>
-        var previous = "Begin Upgrade";
+        var previous = "[[+ugm_begin_upgrade]]";
         var url = "[[+ugm_progress_url]]";
         
         /* Polyfill for IE */
@@ -522,8 +522,8 @@ if ($submitted) {
                 },
                 complete: function(data) {
                     var s = data.responseText;
-                    if (s.includes("Launching Setup") !== true) {
-                        if (s.includes("+Finished") !== true) {
+                    if (s.includes("[[+ugm_launching_setup]]") !== true) {
+                        if (s.includes("[[+ugm_finished]]") !== true) {
                             setTimeout(poll, 2000);
                         }
                     } else {
@@ -607,21 +607,21 @@ EOD;
                             // console.log('Progress: ' + progress);
                             var button_text = document.getElementById('button_content').textContent ||
                                 document.getElementById('button_content').innerText;
-                            if (button_text == 'Downloading Files' && button_text != old) {
+                            if (button_text == '[[+ugm_downloading_files]]' && button_text != old) {
                                 progress = 0.1;
                                 old = button_text;
-                            } else if (button_text == 'Unzipping Files' && button_text != old) {
+                            } else if (button_text == '[[+ugm_unzipping_files]]' && button_text != old) {
                                 progress = 0.3;
                                 old = button_text;
-                            } else if (button_text == 'Copying Files' && button_text != old) {
+                            } else if (button_text == '[[+ugm_copying_files]]' && button_text != old) {
                                 progress = 0.6;
                                 old = button_text;
-                            } else if (button_text == 'Preparing Setup' && button_text != old) {
+                            } else if (button_text == '[[+ugm_preparing_setup]]' && button_text != old) {
                                 progress = 0.8;
                                 old = button_text;
-                            }  else if (button_text == 'Finished') {
+                            }  else if (button_text == '[[+ugm_finished]]') {
                                 progress = 1;
-                            }  else if (button_text == 'Launching Setup') {
+                            }  else if (button_text == '[[+ugm_launching_setup]]') {
                                 progress = 1;
                             }
                             // progress = Math.min( progress + Math.random() * 0.1, 1 );
@@ -675,13 +675,13 @@ if ($submitted) {
         @include 'config.core.php';
     }
     if (!defined('MODX_CORE_PATH')) {
-        MODXInstaller::quit('Could not read config.core.php');
+        MODXInstaller::quit('[[+ugm_cannot_read_config_core_php]]');
     }
 
     @include MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
 
     if (!defined('MODX_CONNECTORS_PATH')) {
-        MODXInstaller::quit('Could not read main config file');
+        MODXInstaller::quit('[[+ugm_cannot_read_main_config]]');
     }
 
     $devMode = false;
@@ -697,20 +697,20 @@ if ($submitted) {
     $url = $rowInstall['link'];
     $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
     if (!file_exists($certPath)) {
-        MODXInstaller::quit('Could not find cacert.pem');
+        MODXInstaller::quit('[[+could_not_find_cacert]]');
     }
     set_time_limit(0);
 
     /* Initialize progress file */
     $progressFilePath = '[[+ugm_progress_path]]';
-    $success = MODXInstaller::updateProgress($progressFilePath, 'Starting Upgrade');
+    $success = MODXInstaller::updateProgress($progressFilePath, '[[+ugm_starting_upgrade]]');
     sleep(2);
 
     if (!$success) {
-        MODXInstaller::quit('Could not write to ugmprogress file: ' . $path);
+        MODXInstaller::quit('[[+ugm_could_not_write_progress]]: ' . $path);
     }
 
-    MODXInstaller::updateProgress($progressFilePath, 'Downloading Files');
+    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_downloading_files]]');
 
     /* Make sure we have the downloaded file */
 
@@ -721,7 +721,7 @@ if ($submitted) {
         } elseif (!file_exists($source)) {
             MODXInstaller::quit('Missing file: ' . $source);
         } elseif (filesize($source) < 64) {
-            MODXInstaller::quit('File: ' . $source . ' is empty -- download failed');
+            MODXInstaller::quit('[[+ugm_file]]: ' . $source . ' ' . '[[+ugm_is_empty_download_failed]]');
         }
     } else {
         sleep(2);
@@ -735,16 +735,16 @@ if ($submitted) {
     $destination = $tempDir;
 
     if (!file_exists($tempDir)) {
-        MODXInstaller::quit('Unable to create directory: ' . $tempDir);
+        MODXInstaller::quit('[[+ugm_unable_to_create_directory]]: ' . $tempDir);
     }
 
     if (!is_readable($tempDir)) {
-        MODXInstaller::quit('Unable to read from /ugmtemp directory');
+        MODXInstaller::quit('[[+ugm_unable_to_read_ugmtemp]]');
     }
 
     /* Unzip File */
 
-    MODXInstaller::updateProgress($progressFilePath, 'Unzipping Files');
+    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_unzipping_files]]');
     set_time_limit(0);
 
     if ($devMode) {
@@ -767,7 +767,7 @@ if ($submitted) {
     }
 
     /* Copy MODX files to destination */
-    MODXInstaller::updateProgress($progressFilePath, 'Copying Files');
+    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_copying_files]]');
     if ($devMode) {
         sleep(2);
     } else {
@@ -775,7 +775,7 @@ if ($submitted) {
         unlink($source);
 
         if (!is_dir(MODX_BASE_PATH . 'setup')) {
-            MODXInstaller::quit('File Copy Failed');
+            MODXInstaller::quit('[[+ugm_file_copy_failed]]');
         }
 
         MODXInstaller::removeFolder($tempDir, true);
@@ -791,7 +791,7 @@ if ($submitted) {
     }
 
     /* Copy root config.core.php to setup/includes and add setup key */
-    MODXInstaller::updateProgress($progressFilePath, 'Preparing Setup');
+    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_preparing_setup]]');
     if ($devMode) {
         sleep(2);
     } else {
@@ -814,17 +814,17 @@ if ($submitted) {
     /* Instantiate MODX; Log upgrade in Manager Actions log; Launch setup */
 if ($submitted) {
     if ($devMode) {
-        MODXInstaller::updateProgress($progressFilePath, 'Finished');
+        MODXInstaller::updateProgress($progressFilePath, '[[+ugm_finished]]');
     } else {
         include MODX_CORE_PATH . 'model/modx/modx.class.php';
         $modx = new modX();
         $modx->initialize('web');
         $modx->lexicon->load('core:default');
         $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_POST['modx'], $_POST['userId']);
-        /* Redirect done with 'replace' in JavaScript when it sees 'Launching MODX'. */
+        /* Redirect done with 'replace' in JavaScript when it sees 'Launching Setup'. */
         // $modx->sendRedirect($rowInstall['location']);
         $modx = null;
-        MODXInstaller::updateProgress($progressFilePath, 'Launching Setup');
+        MODXInstaller::updateProgress($progressFilePath, '[[+ugm_launching_setup]]');
     }
 }
 

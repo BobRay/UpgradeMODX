@@ -56,15 +56,30 @@ $_lang['ugm_no_curl_no_fopen'] = 'Neither allow_url_fopen nor cURL can be used t
 $_lang['ugm_no_such_version'] = 'Requested version does not exist';
 
 
-/* Used in upgrademodxscriptsource chunk to tell when process
- *  is finished and Setup should be launched!!!!*/
-$_lang['Launching Setup'] = 'Launching Setup';
-$_lang['Finished'] = 'Finished';
-
-/* Used in upgrademodxscriptsource to report Progress */
-
-
-
 
 /* Used in upgrademodx.class.php */
+$_lang['ugm_current_version'] = '';
+$_lang['ugm_cannot_read_directory'] = 'Unable to read directory contents or directory is empty';
+$_lang['ugm_unknown_error_reading_temp'] = 'Unknown error reading /temp directory';
+$_lang['no_method_enabled'] = 'Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.';
+$_lang['ugm_cannot_read_config_core_php'] = 'Could not read config.core.php';
+$_lang['ugm_cannot_read_main_config'] = 'Cannot Read main config file';
+$_lang['ugm_could_not_find_cacert'] = 'Could not find cacert.pem';
+$_lang['ugm_could_not_write_progress'] = 'Could not write to ugmprogress file';
+$_lang['ugm_file'] = 'File';
+$_lang['ugm_is_empty_download_failed'] = 'is empty -- download failed';
+$_lang['ugm_unable_to_create_directory'] = 'Unable to create directory';
+$_lang['ugm_unable_to_read_ugmtemp'] = 'Unable to read from /ugmtemp directory';
+$_lang['ugm_file_copy_failed'] = 'File Copy Failed';
+$_lang['ugm_begin_upgrade'] = 'Begin Upgrade';
+$_lang['ugm_starting_upgrade'] = 'Starting Upgrade';
+$_lang['ugm_downloading_files'] = 'Downloading Files';
+$_lang['ugm_unzipping_files'] = 'Unzipping Files';
+$_lang['ugm_copying_files'] = 'Copying Files';
+$_lang['ugm_preparing_setup'] = 'Preparing Setup';
+$_lang['ugm_launching_setup'] = 'Launching Setup';
+$_lang['ugm_finished'] = 'Finished';
+$_lang['ugm_get_major_versions'] = '<b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p><br>';
+$_lang['ugm_current_version_indicator'] = 'current version';
 $_lang['failed'] = 'failed';
+$_lang['ugm_using'] = 'Using';

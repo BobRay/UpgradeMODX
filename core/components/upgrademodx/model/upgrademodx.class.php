@@ -177,6 +177,37 @@ if (!class_exists('UpgradeMODX')) {
                         '[[+ugm_progress_url]]' => $this->progressFileURL,
                         '[[+ugm_assets_url]]' => $assetsUrl,
                         '[[+manager_url]]' => MODX_MANAGER_URL,
+                        '[[+ugm_begin_upgrade]]' => $this->modx->lexicon('ugm_begin_upgrade'),
+                        '[[+ugm_starting_upgrade]]' => $this->modx->lexicon('ugm_starting_upgrade'),
+                        '[[+ugm_downloading_files]]' => $this->modx->lexicon('ugm_downloading_files'),
+                        '[[+ugm_unzipping_files]]' => $this->modx->lexicon('ugm_unzipping_files'),
+                        '[[+ugm_copying_files]]' => $this->modx->lexicon('ugm_copying_files'),
+                        '[[+ugm_preparing_setup]]' => $this->modx->lexicon('ugm_preparing_setup'),
+                        '[[+ugm_launching_setup]]' => $this->modx->lexicon('ugm_launching_setup'),
+                        '[[+ugm_finished]]' => $this->modx->lexicon('ugm_finished'),
+                        '[[+ugm_get_major_versions]]' => $this->modx->lexicon('ugm_get_major_versions'),
+                        '[[+ugm_current_version_indicator]]' => $this->modx->lexicon('ugm_current_version_indicator'),
+                        '[[+ugm_cannot_read_directory]]' => $this->modx->lexicon('ugm_cannot_read_directory'),
+                        '[[+ugm_unknown_error_reading_temp]]' => $this->modx->lexicon('ugm_unknown_error_reading_temp'),
+                        '[[+ugm_no_method_enabled]]' => $this->modx->lexicon('no_method_enabled'),
+                        '[[+ugm_cannot_read_config_core_php]]' => $this->modx->lexicon('ugm_cannot_read_config_core_php'),
+                        '[[+ugm_cannot_read_main_config]]' => $this->modx->lexicon('ugm_cannot_read_main_config'),
+                        '[[+ugm_could_not_find_cacert]]' => $this->modx->lexicon('ugm_could_not_find_cacert'),
+                        '[[+ugm_could_not_write_progress]]' => $this->modx->lexicon('ugm_could_not_write_progress'),
+                        '[[+ugm_file]]' => $this->modx->lexicon('ugm_file'),
+                        '[[+ugm_is_empty_download_failed]]' => $this->modx->lexicon('ugm_is_empty_download_failed'),
+                        '[[+ugm_unable_to_create_directory]]' => $this->modx->lexicon('ugm_unable_to_create_directory'),
+                        '[[+ugm_unable_to_read_ugmtemp]]' => $this->modx->lexicon('ugm_unable_to_read_ugmtemp'),
+                        '[[+ugm_file_copy_failed]]' => $this->modx->lexicon('ugm_file_copy_failed'),
+                        '[[+ugm_using]]' => $this->modx->lexicon('ugm_using'),
+
+
+
+
+
+
+
+
                     );
 
                     $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');
