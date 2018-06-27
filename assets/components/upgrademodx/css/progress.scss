@@ -6,7 +6,10 @@ $inner-progress-background: #0c4d26;
 $progress-button-background: #1d9650;
 $progress-button-color: #ffffff;
 $button-letter_spacing: 3px;
-$button-active-text-color: #FF0000;
+$button-active-text-color: #ff0000;
+$column-indent: 40px;
+$footer-color: #222222;
+$footer-background-color: #dddddd;
 
 *, *:after, *::before {
   -webkit-box-sizing: border-box;
@@ -18,11 +21,12 @@ $button-active-text-color: #FF0000;
 .progress-button {
 
   font-size: 24px;
-  position: fixed;
-  top: 315px;
-  left: 450px;
-  display: inline-block;
-  padding: 0 60px;
+  /*position: absolute;
+  top: 130px;
+  left: 450px;*/
+  margin: 0 0 30px 0;
+  display: block;
+  padding: 0;
   outline: none;
   border: none;
   background: $progress-button-background;
@@ -259,7 +263,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 }
 
 html {
-  overflow-y: scroll
+  overflow: scroll
 }
 
 body {
@@ -380,19 +384,23 @@ h5 {
   line-height: 20px
 }
 
-.content_div form {
-  margin: 10px 0 50px
-}
+/*.content_div form {
+  margin: 10px 0 50px;
+  width: 510px;
+  display:block;
+  clear:both;
+}*/
 
-.content.div form .column {
-  float: left;
+//.content.div
+form .column {
+  // float: left;
   box-sizing: border-box;
   width: 500px;
-  margin: 20px 0
+  margin: 0 20px 0 $column-indent;
 }
 
 .column h3 {
-  display: inline-block;
+  display: block;
   padding: 0 0 5px;
   margin: 0 0 20px;
   border-bottom: 2px solid #000
@@ -402,37 +410,61 @@ h5 {
   float: left;
   width: 100%;
   clear: both;
-  padding: 3px 0
+  padding: 5px 0;
+  font-size:125%;
+}
+form.ugm_form {
+   margin: 20px 0 10px 50px;
+   padding: 20px;
+   clear:both;
+   width: 550px;
 }
 
 form button {
-  float: left;
+  float: none;
   width: 200px;
   clear: both
 }
 
-label > span {
+/*label > span {
   border-bottom: 1px dotted #555
-}
+}*/
 
 label > input {
-  margin: 0 5px 0 0
+  margin: 0 5px 4px 0;
 }
 
 .footer {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  font-size: 10px;
-  color: #ccc
+  background-color: $footer-background-color;
+  position: relative;
+  margin: 60px 0 0 77px;
+  padding: 15px 30px;
+  width:500px;
+  color: $footer-color;
+  font-size: 16px;
+  display:block;
+  clear: both;
+  border-radius: 15px;
+  border: 1px solid #333;
+}
+
+.footer p {
+  color: $footer-color;
 }
 
 .footer a {
-  color: #aaa
+  color: #1d9650;
 }
 
+.footer a:hover {
+  color: #b60000;
+}
 
 .red {
   color: $button-active-text-color;
 }
 
+p.version_advice {
+  padding: 0;
+  margin: 20px 0 0;
+}
