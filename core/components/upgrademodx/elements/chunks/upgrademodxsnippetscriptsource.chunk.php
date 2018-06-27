@@ -577,11 +577,7 @@ EOD;
     $output .= <<<EOD
         <script>
         $("input[type='radio']").on("click", function(){             
-            var body = $("body, html");
-            var top = body.scrollTop(); // Get position of the body
-            if(top!==0) {
-                body.animate({scrollTop :0}, 500,);
-            }
+            $('html,body').animate({scrollTop: 0}, 500);
         });
         
         $('#ugm_submit_button').hover(
