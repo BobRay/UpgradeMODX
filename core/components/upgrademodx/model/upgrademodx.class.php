@@ -200,7 +200,14 @@ if (!class_exists('UpgradeMODX')) {
                         '[[+ugm_unable_to_read_ugmtemp]]' => $this->modx->lexicon('ugm_unable_to_read_ugmtemp'),
                         '[[+ugm_file_copy_failed]]' => $this->modx->lexicon('ugm_file_copy_failed'),
                         '[[+ugm_using]]' => $this->modx->lexicon('ugm_using'),
-                        '[[+ugm_choose_version]]' => $this->modx->lexicon('ugm_choose_version'),
+
+
+
+
+
+
+
+
                     );
 
                     $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');

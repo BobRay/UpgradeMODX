@@ -336,22 +336,15 @@ class MODXInstaller {
 
         return $buttonCode;
     }
-    public static function createVersionForm($InstallData, $submitted, $method) {
+    public static function createVersionForm($InstallData, $submitted) {
         $output = '';
-        $action = $submitted ? "[[+ugm_starting_upgrade]]" : "[[+ugm_begin_upgrade]]";
-        $disabled = $submitted ? true : false;
-
-            $output .= "\n" . '<form action="" class="ugm_form" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
-
-            // $output .= "\n" . '<form action="javascript:void(0)" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
-
-        $output .= MODXInstaller::getButtonCode($action, $disabled, $submitted);
-
-
-        if (! $submitted) {
-            // $output .= "<br><h3> ([[+ugm_using]] {$method})</h3>";
-            $output .= "<h2>[[+ugm_choose_version]] ([[+ugm_using]] {$method})</h2>";
+        if (! $submitted) { // no form tags on landing page after submission so form won't submit again
+            $output .= "\n" . '<form action="" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
         }
+
+        $action = $submitted? "[[+ugm_starting_upgrade]]" : "[[+ugm_begin_upgrade]]";
+        $disabled = $submitted ? true : false;
+        $output .= MODXInstaller::getButtonCode($action, $disabled, $submitted);
 
         /* If not submitted, add version list */
 
@@ -362,10 +355,9 @@ class MODXInstaller {
             }
 
             foreach ($ItemGrid as $tree => $item) {
-                $output .= "<p class='version_advice' style='font-size:125%;'>[[+ugm_get_major_versions]]";
-                $output .= "\n" . '<div class="column">';
-                    // "\n<h3>" . strtoupper($tree) . '</h3>';
-
+                $output .= "\n" . '<div class="column">' .
+                    "\n<h3>" . strtoupper($tree) . '</h3>';
+                $output .= "<br><p style='font-size:125%;'>[[+ugm_get_major_versions]]";
                 foreach ($item as $version => $itemInfo) {
                     $selected = $itemInfo['selected'] ? ' checked' : '';
                     $current = $itemInfo['current'] ? ' &nbsp;&nbsp;([[+ugm_current_version_indicator]])' : '';
@@ -377,7 +369,7 @@ class MODXInstaller {
 <br>
 EOD;
                 } // end inner foreach loop
-                $output .= '</div>'; // end column div
+                $output .= '</div>';
             } // end outer foreach loop
             $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
         }
@@ -462,10 +454,7 @@ $output .= <<<EOD
         <h1 class="main-heading"><span>MODX</span> UpgradeMODX </h1>
     </div>
 
-    <!--<div class="content_div">
-        <h2>MODX Revolution</h2>
-        
-    </div>-->
+    <div class="content_div">
 EOD;
 
 if ($submitted) {
@@ -479,12 +468,12 @@ if (! $method) {
     MODXInstaller::quit("\n" . '<h2>[[+ugm_no_method_enabled]]</h2>>');
 } else {
     if (!$submitted) {
-       //  $output .= "\n<h2>Choose MODX version for Upgrade</h2>";
-        // $output .= "<br><h3> ([[+ugm_using]] {$method})</h3>";
+        $output .= "\n<h2>Choose MODX version for Upgrade</h2>";
+        $output .= "<br><h3> ([[+ugm_using]] {$method})</h3>";
     }
 }
 
-$output .= MODXInstaller::createVersionForm($InstallData, $submitted, $method);
+$output .= MODXInstaller::createVersionForm($InstallData, $submitted);
 
 /* This JS Polls the status file and updates the text if the content has changed */
 if ($submitted) {
@@ -576,10 +565,6 @@ EOD;
 } else {
     $output .= <<<EOD
         <script>
-        $("input[type='radio']").on("click", function(){             
-            $('html,body').animate({scrollTop: 0}, 500);
-        });
-        
         $('#ugm_submit_button').hover(
             function () {
                 $(this).addClass('red');
@@ -592,7 +577,7 @@ EOD;
 EOD;
 }
 
-// $output .= "\n    </div>"; // end content div
+$output .= "\n    </div>"; // end content div
 
 if (!$submitted) {
     $output .= <<<EOD
@@ -601,7 +586,7 @@ if (!$submitted) {
         <p>Originally created by <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
         <p>Modified for Revolution only by <a href="//sottwell.com" title="">sottwell</a></p>
         <p>Modified for Upgrade only with dashboard widget by <a href="//bobsguides.com" title="">BobRay</a></p>
-        <p>Header Design by <a href="//a-sharapov.com" title="">Sharapov</a></p>
+        <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
     </div>
 EOD;
 } else {
