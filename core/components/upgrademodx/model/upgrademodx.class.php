@@ -142,7 +142,7 @@ if (!class_exists('UpgradeMODX')) {
                 $this->modx->getOption('github_token', null), true);
         }
 
-        public function writeScriptFile() {
+        public function writeScriptFile($useFile = false) {
             /** @var  $InstallData array */
 
             $fp = @fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
@@ -200,17 +200,14 @@ if (!class_exists('UpgradeMODX')) {
                         '[[+ugm_unable_to_read_ugmtemp]]' => $this->modx->lexicon('ugm_unable_to_read_ugmtemp'),
                         '[[+ugm_file_copy_failed]]' => $this->modx->lexicon('ugm_file_copy_failed'),
                         '[[+ugm_using]]' => $this->modx->lexicon('ugm_using'),
-
-
-
-
-
-
-
-
                     );
+                    if ($useFile) {
+                        $fileContent = file_get_contents(dirname(dirname(__FILE__)) . '/elements/chunks/upgrademodxsnippetscriptsource.chunk.php');
+                        $fields['[[+modx.user.id]]'] = 1;
 
-                    $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');
+                    } else {
+                        $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');
+                    }
                     $fileContent = str_replace(array_keys($fields), array_values($fields), $fileContent);
 
                     if (fwrite($fp, $fileContent) === false) {
