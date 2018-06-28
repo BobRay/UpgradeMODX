@@ -565,6 +565,9 @@ EOD;
 } else {
     $output .= <<<EOD
         <script>
+        $("input[type='radio']").on("click", function(){             
+            $('html,body').animate({scrollTop: 0}, 500);
+        });
         $('#ugm_submit_button').hover(
             function () {
                 $(this).addClass('red');
