@@ -340,6 +340,8 @@ class MODXInstaller {
         $output = '';
         if (! $submitted) { // no form tags on landing page after submission so form won't submit again
             $output .= "\n" . '<form action="" name="upgrade_form" id="upgrade_form" method="post">' . "\n";
+        } else {
+            $output .= "\n" . '<div id="upgrade_form">' . "\n";
         }
 
         $action = $submitted? "[[+ugm_starting_upgrade]]" : "[[+ugm_begin_upgrade]]";
@@ -353,11 +355,11 @@ class MODXInstaller {
             foreach ($InstallData as $ver => $item) {
                 $ItemGrid[$item['tree']][$ver] = $item;
             }
-
+            $output .= "<p style='font-size:125%;'>[[+ugm_get_major_versions]]";
             foreach ($ItemGrid as $tree => $item) {
-                $output .= "\n" . '<div class="column">' .
-                    "\n<h3>" . strtoupper($tree) . '</h3>';
-                $output .= "<br><p style='font-size:125%;'>[[+ugm_get_major_versions]]";
+                $output .= "\n" . '<div class="column">';
+                   /* "\n<h3>" . strtoupper($tree) . '</h3>';*/
+                /*$output .= "<br><p style='font-size:125%;'>[[+ugm_get_major_versions]]";*/
                 foreach ($item as $version => $itemInfo) {
                     $selected = $itemInfo['selected'] ? ' checked' : '';
                     $current = $itemInfo['current'] ? ' &nbsp;&nbsp;([[+ugm_current_version_indicator]])' : '';
@@ -366,7 +368,7 @@ class MODXInstaller {
         <label><input type="radio"{$selected} name="modx" value="$version">
             <span>{$itemInfo['name']} $current</span>
         </label>
-<br>
+
 EOD;
                 } // end inner foreach loop
                 $output .= '</div>';
@@ -375,6 +377,8 @@ EOD;
         }
         if (!$submitted) { // no form tags on landing page so form won't submit again
             $output .= "\n" . '</form>' . "\n ";
+        } else {
+            $output .= "\n" . '</div>' . "\n ";
         }
         return $output;
     }
@@ -419,7 +423,7 @@ if (extension_loaded('curl') && (!$forceFopen)) {
 
 $output .= <<<EOD
 <!DOCTYPE html>
-<html>
+<html lang="[[+ugm_manager_language]]">
 <head>
 
     <title>UpgradeMODX</title>
@@ -467,10 +471,12 @@ EOD;
 if (! $method) {
     MODXInstaller::quit("\n" . '<h2>[[+ugm_no_method_enabled]]</h2>>');
 } else {
-    if (!$submitted) {
-        $output .= "\n<h2>Choose MODX version for Upgrade</h2>";
-        $output .= "<br><h3> ([[+ugm_using]] {$method})</h3>";
+    if ($submitted) {
+        $output .= "\n<h2>[[+ugm_updating_modx_files]]</h2>";
+    } else  {
+        $output .= "\n<h2>[[+ugm_choose_version]]</h2>";
     }
+    $output .= "<h3> ([[+ugm_using]] {$method})</h3>";
 }
 
 $output .= MODXInstaller::createVersionForm($InstallData, $submitted);

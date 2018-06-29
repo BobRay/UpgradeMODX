@@ -58,7 +58,8 @@ $_lang['ugm_no_such_version'] = 'Requested version does not exist';
 
 
 /* Used in upgrademodx.class.php */
-$_lang['ugm_current_version'] = '';
+$_lang['ugm_choose_version'] = 'Choose MODX Version for Upgrade';
+$_lang['ugm_updating_modx_files'] = 'Updating MODX Files';
 $_lang['ugm_cannot_read_directory'] = 'Unable to read directory contents or directory is empty';
 $_lang['ugm_unknown_error_reading_temp'] = 'Unknown error reading /temp directory';
 $_lang['no_method_enabled'] = 'Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.';
@@ -83,3 +84,5 @@ $_lang['ugm_get_major_versions'] = '<b>Important:</b> It is <i>strongly</i> reco
 $_lang['ugm_current_version_indicator'] = 'current version';
 $_lang['failed'] = 'failed';
 $_lang['ugm_using'] = 'Using';
+$_lang['ugm_choose_version'] = 'Choose MODX Version for Upgrade';
+$_lang['ugm_updating_modx_files'] = 'Updating MODX Files';

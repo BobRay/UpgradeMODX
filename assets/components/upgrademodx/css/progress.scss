@@ -8,6 +8,7 @@ $progress-button-color: #ffffff;
 $button-letter_spacing: 3px;
 $button-active-text-color: #FF0000;
 $button-border-color: #0c4d26;
+$h2-color: #777777;
 
 *, *:after, *::before {
   -webkit-box-sizing: border-box;
@@ -19,10 +20,11 @@ $button-border-color: #0c4d26;
 .progress-button {
 
   font-size: 24px;
-  position: fixed;
-  top: 315px;
-  left: 450px;
-  display: inline-block;
+  position: relative;
+  // top: 315px;
+  // left: 450px;
+  // display: inline-block;
+  display: block;
   padding: 0; // 0 60px;
   outline: none;
   background: $progress-button-background;
@@ -331,9 +333,9 @@ a.button {
   padding: 5px 15px
 }
 
-h1, h2, h3, h4, h5 {
+h1 { //, h2, h3, h4, h5 {
   font-family: "PT Serif", helvetica, arial, sans-serif;
-  line-height: 28px
+  line-height: 32px
 }
 
 h1 {
@@ -341,11 +343,14 @@ h1 {
 }
 
 h2 {
-  font-size: 22px
+  font-size: 32px
 }
 
 h3 {
-  font-size: 18px
+  font-size: 18px;
+  margin-top: 20px;
+  font-weight: normal;
+  font-style: italic;
 }
 
 h4 {
@@ -394,20 +399,32 @@ h5 {
 
 .content_div {
   float: left;
-  padding: 30px
+  padding: 5% 10%;
 }
 
 .content_div h2 {
   margin: 0;
-  line-height: 20px
+  line-height: 20px;
+  color: $h2-color;
 }
 
-.content_div form {
+#upgrade_form {
+  margin: 10px 0 50px;
+}
+
+#upgrade_form p {
+  margin-top: 20px;
+  font-size: 125%;
+  width: 550px;
+}
+/*.content_div form {
   margin: 10px 0 50px
-}
+}*/
 
-.content.div form .column {
-  float: left;
+#upgrade_form .column {
+// .content.div form .column {
+  // float: left;
+  display:block;
   box-sizing: border-box;
   width: 500px;
   margin: 20px 0
@@ -428,7 +445,8 @@ h5 {
 }
 
 form button {
-  float: left;
+  display:block;
+  // float: left;
   width: 200px;
   clear: both
 }
