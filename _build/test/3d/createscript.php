@@ -38,17 +38,19 @@ $modx->getService('error', 'error.modError', '', '');
 $modx->lexicon->load('mycomponent:default');
 $modx->setLogLevel(xPDO::LOG_LEVEL_INFO);
 
+$props = array(
+    'plOnly' => true,
+    'latestVersion' => '2.6.4-pl',
+    'devMode' => true,
+);
+
 $corePath = $modx->getOption('ugm.core_path', $props, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
 
 require_once($corePath . 'model/upgrademodx.class.php');
 
 $ugm = new UpgradeMODX($modx);
 
-$props = array(
-    'plOnly' => true,
-    'latestVersion'  => '2.6.4-pl',
-    'devMode' => true,
-);
+
 
 $ugm->init($props);
 $ugm->writeScriptFile(true);
