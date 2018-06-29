@@ -9,6 +9,7 @@ $button-letter_spacing: 3px;
 $button-active-text-color: #FF0000;
 $button-border-color: #0c4d26;
 $h2-color: #777777;
+$button-margin: 20px 0 12px 30px;
 
 *, *:after, *::before {
   -webkit-box-sizing: border-box;
@@ -110,7 +111,7 @@ $h2-color: #777777;
 /* Necessary 3d styles for buttons with perspective */
 
 .progress-button[data-perspective] {
-
+  margin: $button-margin;
   // position: relative;
   display: inline-block;
   padding: 0;
@@ -159,9 +160,10 @@ $h2-color: #777777;
 /* ====================== */
 
 .progress-button[data-style="fill"][data-horizontal] {
+  margin: $button-margin;
   overflow: hidden;
  //  width: 100%;
-  margin: 0;
+ // margin: 0;
   background: $button-gradient-outer;
   background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
   background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
@@ -410,6 +412,7 @@ h5 {
 
 #upgrade_form {
   margin: 10px 0 50px;
+  display:block;
 }
 
 #upgrade_form p {

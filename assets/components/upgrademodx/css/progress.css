@@ -129,6 +129,7 @@ span.content {
 
 /* Necessary 3d styles for buttons with perspective */
 .progress-button[data-perspective] {
+  margin: 20px 0 12px 30px;
   display: inline-block;
   padding: 0;
   background: transparent;
@@ -170,8 +171,8 @@ span.content {
 /* Fill horizontal */
 /* ====================== */
 .progress-button[data-style=fill][data-horizontal] {
+  margin: 20px 0 12px 30px;
   overflow: hidden;
-  margin: 0;
   background: #1d9650;
   background: linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
   background: -ms-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
@@ -404,6 +405,7 @@ h5 {
 
 #upgrade_form {
   margin: 10px 0 50px;
+  display: block;
 }
 
 #upgrade_form p {
