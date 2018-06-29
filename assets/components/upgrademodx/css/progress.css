@@ -172,6 +172,8 @@ span.content {
 /* ====================== */
 .progress-button[data-style=fill][data-horizontal] {
   margin: 20px 0 12px 30px;
+  border: 1px solid #0c4d26;
+  border-radius: 3px !important;
   overflow: hidden;
   background: #1d9650;
   background: linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
