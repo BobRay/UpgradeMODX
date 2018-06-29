@@ -54,9 +54,8 @@ a:hover, a:focus {
   top: 315px;
   left: 450px;
   display: inline-block;
-  padding: 0 60px;
+  padding: 0;
   outline: none;
-  border: none;
   background: #1d9650;
   letter-spacing: 3px;
   line-height: 4;
@@ -119,7 +118,8 @@ span.content {
 /* Fill horizontal */
 /* ====================== */
 .progress-button[data-style=fill][data-horizontal] {
-  border: 3px solid darkgreen;
+  border-collapse: separate;
+  border: none;
   overflow: hidden;
 }
 
@@ -139,8 +139,10 @@ span.content {
 }
 
 .progress-button[data-perspective] .content {
-  border: 3px solid darkgreen;
+  border: 1px solid #0c4d26;
+  border-radius: 3px !important;
   padding: 0;
+  width: 100%;
   background: #1d9650;
   background: linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
   background: -ms-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
@@ -152,6 +154,8 @@ span.content {
 }
 
 .progress-button[data-perspective] .progress-wrap {
+  width: 100%;
+  border: none;
   display: block;
   -webkit-transition: -webkit-transform 0.2s;
   transition: transform 0.2s;
@@ -192,8 +196,9 @@ span.content {
 .progress-button[data-style=rotate-angle-bottom] .progress {
   position: absolute;
   top: 100%;
-  left: 0;
-  width: 100%;
+  left: 2px;
+  width: 496px;
+  outline: 1px solid #0c4d26;
   height: 35px;
   box-shadow: 0 -1px 0 #148544;
   /* fix the blurriness that causes a gap */
@@ -210,33 +215,35 @@ span.content {
 
 /* lateral-lines */
 /* ====================== */
-.progress-button[data-style=lateral-lines] .progress-inner {
+/*
+
+.progress-button[data-style="lateral-lines"] .progress-inner {
   width: 100%;
   background: transparent;
 }
 
-.progress-button[data-style=lateral-lines] .content::before,
-.progress-button[data-style=lateral-lines] .content::after {
+.progress-button[data-style="lateral-lines"] .content::before,
+.progress-button[data-style="lateral-lines"] .content::after {
   right: auto;
   left: 100%;
   margin-left: 25px;
 }
-
-.progress-button {
-  width: 500px;
-  height: 100px;
-}
-
+*/
 /* UpgradeMODX page styles */
 /* ====================== */
 article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
   margin: 0;
   padding: 0;
-  border: 0;
+  border: none;
   outline: 0;
   vertical-align: baseline;
   background: 0 0;
   font-size: 100%;
+}
+
+.progress-button {
+  width: 500px;
+  height: 100px;
 }
 
 a {
@@ -308,12 +315,12 @@ body {
 }
 
 .button, button {
+  border: none;
   color: #fff;
   display: inline-block;
   padding: 15px;
   font-size: 20px;
   text-decoration: none;
-  border-radius: 8px;
   background-color: #67a749;
   text-shadow: 2px 2px 1px #0c4d26;
 }
