@@ -412,6 +412,7 @@ h5 {
   margin-top: 20px;
   font-size: 125%;
   width: 550px;
+  line-height: 25px;
 }
 
 /*.content_div form {
@@ -451,7 +452,7 @@ form button {
   border-bottom: 1px dotted #555
 }*/
 label > input {
-  margin: 0 5px 4px 0;
+  margin: 0 5px 4px 5px;
 }
 
 .footer {
@@ -473,6 +474,96 @@ label > input {
 
 .red {
   color: #FF0000;
+}
+
+/*************** BIG SCREENS below 1300 px ************* */
+@media only screen and (max-width: 1300px) {
+  .column label {
+    border: 1px solid #0c4d26;
+    font-size: 200% !important;
+    margin: 0;
+    padding: 45px 5px;
+    width: 160%;
+  }
+
+  label > input {
+    margin: 0 5px 0 5px;
+    border: 0;
+    width: 60px;
+    height: 1em;
+    display: inline;
+  }
+
+  #upgrade_form p {
+    font-size: 200% !important;
+    line-height: 50px;
+    margin: 20px 0 43px 30px;
+  }
+
+  label > input[type=checkbox] {
+    background-color: #0c4d26;
+    color: #ffffff;
+  }
+}
+/*********** BIG PHONES, TABLETS ***********/
+@media only screen and (max-width: 768px) {
+  .column label {
+    border: 1px solid #0c4d26;
+    font-size: 200% !important;
+    margin: 0;
+    margin-left: -84px;
+    padding: 45px 5px;
+    width: 600px;
+  }
+
+  label > input {
+    margin: 0 5px 0 5px;
+    border: 0;
+    width: 20px;
+    height: 1em;
+    display: inline;
+  }
+
+  #upgrade_form p {
+    font-size: 200% !important;
+    line-height: 40px;
+  }
+
+  label > input[type=checkbox] {
+    background-color: #0c4d26;
+    color: #ffffff;
+  }
+}
+/************ SMALL PHONES **************/
+@media only screen and (max-width: 421px) {
+  .column label {
+    border: 1px solid #0c4d26;
+    font-size: 200% !important;
+    margin: 0;
+    margin-left: -30px;
+    padding: 45px 5px;
+    width: 160%;
+  }
+
+  label > input {
+    margin: 0 5px 0 5px;
+    border: 0;
+    width: 20px;
+    height: 1em;
+    display: inline;
+    position: fixed;
+    opacity: 0;
+  }
+
+  #upgrade_form p {
+    font-size: 200% !important;
+    line-height: 50px;
+  }
+
+  label > input[type=checkbox] {
+    background-color: #0c4d26;
+    color: #ffffff;
+  }
 }
 
 /*# sourceMappingURL=progress.css.map */
