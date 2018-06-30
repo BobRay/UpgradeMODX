@@ -6,7 +6,7 @@ html {
 
 body {
   background: #27ae60;
-  color: #fff;
+  color: #111111;
   font-family: "Lato", Arial, sans-serif;
 }
 
@@ -86,7 +86,7 @@ span.content {
   letter-spacing: 3px;
   font-size: 1em;
   line-height: 4;
-  font-family: "Lato", Arial, sans-serif;
+  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .notransition {
@@ -289,14 +289,8 @@ html {
   overflow-y: scroll;
 }
 
-body {
-  color: #111;
-  text-align: left;
-  font: 12px "Lato", Arial, sans-serif;
-}
-
 button, input, select, textarea {
-  font-family: "Lato", Arial, sans-serif;
+  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
@@ -309,12 +303,17 @@ html {
 }
 
 body {
+  font-family: Georgia, Times, Times New Roman, serif;
+  color: #111111;
   background: 0 0;
+  text-align: left;
   font-size: 14px;
   line-height: 22px;
-  font-family: "Helvetica Neue", helvetica, arial, sans-serif;
 }
 
+/*a {
+  // color: #0f7096
+}*/
 .button, button {
   border: none;
   color: #fff;
@@ -326,10 +325,9 @@ body {
   text-shadow: 2px 2px 1px #0c4d26;
 }
 
-a.button {
-  padding: 5px 15px;
-}
-
+/*a.button {
+  padding: 5px 15px
+}*/
 h1 {
   font-family: "PT Serif", helvetica, arial, sans-serif;
   line-height: 32px;
@@ -360,13 +358,13 @@ h5 {
 
 .header {
   -moz-box-sizing: border-box;
-  float: left;
+  display: block;
   width: 100%;
   box-sizing: border-box;
   background: #fff;
   background: linear-gradient(to bottom, #fff, #f2f2f2);
-  padding: 20px;
-  border-bottom: 1px solid #fff;
+  padding: 36px 0 40px 61px;
+  border-bottom: 2px solid #fff;
 }
 
 .header img {
@@ -395,8 +393,8 @@ h5 {
 }
 
 .content_div {
-  float: left;
-  padding: 5% 10%;
+  display: block;
+  padding: 3% 0 0 8%;
 }
 
 .content_div h2 {
@@ -420,10 +418,11 @@ h5 {
   margin: 10px 0 50px
 }*/
 #upgrade_form .column {
+  margin: 15px 0;
+  padding-left: 37px;
   display: block;
   box-sizing: border-box;
   width: 500px;
-  margin: 20px 0;
 }
 
 .column h3 {
@@ -434,10 +433,12 @@ h5 {
 }
 
 .column label {
-  float: left;
+  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 140%;
+  display: block;
   width: 100%;
-  clear: both;
   padding: 3px 0;
+  margin-bottom: 10px;
 }
 
 form button {
@@ -446,24 +447,28 @@ form button {
   clear: both;
 }
 
-label > span {
-  border-bottom: 1px dotted #555;
-}
-
+/*label > span {
+  border-bottom: 1px dotted #555
+}*/
 label > input {
-  margin: 0 5px 0 0;
+  margin: 0 5px 4px 0;
 }
 
 .footer {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  font-size: 10px;
-  color: #ccc;
+  margin: 1% 0 3% 8%;
+  display: block;
+  font-size: 16px;
+  color: #777777;
 }
 
 .footer a {
-  color: #aaa;
+  color: #03a9f4;
+  text-shadow: 1px 1px 1px #0c4d26;
+}
+
+.footer a:hover {
+  text-shadow: 2px 1px 1px #0c4d26;
+  color: #ffffff;
 }
 
 .red {
