@@ -355,11 +355,10 @@ class MODXInstaller {
             foreach ($InstallData as $ver => $item) {
                 $ItemGrid[$item['tree']][$ver] = $item;
             }
-            $output .= "<p style='font-size:125%;'>[[+ugm_get_major_versions]]";
+            $output .= "<p>[[+ugm_get_major_versions]]</p>";
             foreach ($ItemGrid as $tree => $item) {
                 $output .= "\n" . '<div class="column">';
                    /* "\n<h3>" . strtoupper($tree) . '</h3>';*/
-                /*$output .= "<br><p style='font-size:125%;'>[[+ugm_get_major_versions]]";*/
                 foreach ($item as $version => $itemInfo) {
                     $selected = $itemInfo['selected'] ? ' checked' : '';
                     $current = $itemInfo['current'] ? ' &nbsp;&nbsp;([[+ugm_current_version_indicator]])' : '';
@@ -592,10 +591,10 @@ if (!$submitted) {
     $output .= <<<EOD
 
     <div class="footer">
-        <p>Originally created by <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
-        <p>Modified for Revolution only by <a href="//sottwell.com" title="">sottwell</a></p>
-        <p>Modified for Upgrade only with dashboard widget by <a href="//bobsguides.com" title="">BobRay</a></p>
-        <p>Designed by <a href="//a-sharapov.com" title="">Sharapov</a></p>
+        <p>[[+ugm_originally_created_by]] <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
+        <p>[[+ugm_modified_for_revolution_by]] <a href="//sottwell.com" title="">sottwell</a></p>
+        <p>[[+ugm_modified_for_upgrade_by]] <a href="//bobsguides.com" title="">BobRay</a></p>
+        <p>[[+ugm_original_design_by]] <a href="//a-sharapov.com" title="">Sharapov</a></p>
     </div>
 EOD;
 } else {

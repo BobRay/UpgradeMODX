@@ -40,18 +40,15 @@ $_lang['package'] = 'UpgradeModx';
 /* Used in upgrademodxwidget.snippet.php */
 $_lang['ugm_current_version_caption'] = 'Aktuell version';
 $_lang['ugm_latest_version_caption'] = 'Senaste version';
-$_lang['ugm_empty_return'] = 'Tomt resultat';
 $_lang['ugm_no_version_list'] = 'Kunde inte hämta versionslistan';
 $_lang['ugm_could_not_open'] = 'Kunde inte öppna';
 $_lang['ugm_for_writing'] = 'för redigering';
-$_lang['ugm_missing_properties'] = 'egenskaperna lastCheck eller interval är inte satta';
 $_lang['ugm_upgrade_available'] = 'Uppgradering tillgänglig';
 $_lang['ugm_modx_up_to_date'] = 'MODX är uppdaterat';
 $_lang['ugm_error'] = 'Fel';
 $_lang['ugm_logout_note'] = 'OBS: Alla användare kommer att loggas ut';
 $_lang['ugm_upgrade_modx'] = 'Uppgradera MODX';
 $_lang['ugm_json_decode_failed'] = 'Misslyckades med att avkoda JSON för versionsinformation från GitHub i upgradeAvailable()';
-$_lang['ugm_not_available'] = 'Den nya versionen är ännu inte tillgänglig för nedladdning från MODX repositoriumet';
 $_lang['ugm_no_curl_no_fopen'] = 'Varken allow_url_fopen eller cURL kan användas för att söka efter uppgraderingar';
 
 /* Used in upgrademodx.class.php */

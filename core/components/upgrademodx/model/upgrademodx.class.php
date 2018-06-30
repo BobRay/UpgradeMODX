@@ -149,6 +149,9 @@ if (!class_exists('UpgradeMODX')) {
 
             if ($fp) {
                 @include $this->versionListPath . 'versionlist';
+                if (! isset($InstallData)) {
+                    MODXInstaller::quit($this->modx->lexicon('ugm_missing_versionlist'));
+                }
                 $versionArray = $InstallData;
 
                 if (! is_array($versionArray) || empty($versionArray)) {
@@ -203,6 +206,10 @@ if (!class_exists('UpgradeMODX')) {
                         '[[+ugm_manager_language]]' => $this->modx->getOption('manager_language'),
                         '[[+ugm_choose_version]]' => $this->modx->lexicon('ugm_choose_version'),
                         '[[+ugm_updating_modx_files]]' => $this->modx->lexicon('ugm_updating_modx_files'),
+                        '[[+ugm_originally_created_by]]' => $this->modx->lexicon('ugm_originally_created_by'),
+                        '[[+ugm_modified_for_revolution_by]]' => $this->modx->lexicon('ugm_modified_for_revolution_by'),
+                        '[[+ugm_modified_for_upgrade_by]]' => $this->modx->lexicon('ugm_modified_for_upgrade_by'),
+                        '[[+ugm_original_design_by]]' => $this->modx->lexicon('ugm_original_design_by'),
                     );
                     if ($useFile) {
                         $fileContent = file_get_contents(dirname(dirname(__FILE__)) . '/elements/chunks/upgrademodxsnippetscriptsource.chunk.php');
