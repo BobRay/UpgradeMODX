@@ -87,3 +87,4 @@ $_lang['ugm_originally_created_by'] = 'Originally created by';
 $_lang['ugm_modified_for_revolution_by'] = 'Modified for Revolution only by';
 $_lang['ugm_modified_for_upgrade_by'] = 'Modified for Upgrade only with dashboard widget by';
 $_lang['ugm_original_design_by'] = 'Original Design By';
+$_lang['ugm_back_to_manager'] = 'Back to Manager';

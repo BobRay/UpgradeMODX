@@ -114,7 +114,8 @@ if (!class_exists('UpgradeMODX')) {
 
         public function init($props) {
             /** @var $InstallData array */
-            $language = $this->modx->getOption('language', $props, 'en', true);
+            $language = $this->modx->getOption('language', $props, $this->modx->getOption('manager_language'), true);
+            $language = empty($language) || $language == 'manager_language'? 'en': $language;
             $this->modx->lexicon->load($language . ':upgrademodx:default');
             $this->forcePclZip = $this->modx->getOption('forcePclZip', $props, false);
             $this->forceFopen = $this->modx->getOption('forceFopen', $props, false);
@@ -150,7 +151,10 @@ if (!class_exists('UpgradeMODX')) {
             if ($fp) {
                 @include $this->versionListPath . 'versionlist';
                 if (! isset($InstallData)) {
-                    MODXInstaller::quit($this->modx->lexicon('ugm_missing_versionlist'));
+                    $msg = $this->modx->lexicon('ugm_missing_versionlist');
+                    $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:auto;padding:30px 30px 0;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
+                    $end = '</p><p style="margin-bottom:120px;"><a href="' . $this->modx->getOption('manager_url') . '">' . $this->modx->lexicon('ugm_back_to_manager') . '</a></p></div>';
+                    die($begin . $msg . $end);
                 }
                 $versionArray = $InstallData;
 
