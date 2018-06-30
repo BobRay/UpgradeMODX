@@ -82,7 +82,6 @@ $_lang['ugm_launching_setup'] = 'Launching Setup';
 $_lang['ugm_finished'] = 'Finished';
 $_lang['ugm_get_major_versions'] = '<b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p>';
 $_lang['ugm_current_version_indicator'] = 'current version';
-
 $_lang['ugm_using'] = 'Using';
 $_lang['ugm_choose_version'] = 'Choose MODX Version for Upgrade';
 $_lang['ugm_updating_modx_files'] = 'Updating MODX Files';
