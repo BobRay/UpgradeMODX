@@ -579,12 +579,9 @@ EOD;
             var subButton = $('#ugm_submit_button'); 
             var finished = false;
             var permanentRed = false;
-           //  var originalBackground = '#e5e5e5';
             var checkedBackground = '#ffffff';
             var originalBackground = $('label').css( "background-color" );
-            
-           //  var originalBackground = document.getElementsByTagName('label')[0].style.backgroundColor;
-            console.log("color: " + originalBackground);
+           // console.log("color: " + originalBackground);
             $('input[type="radio"]:checked').parent().css("background",checkedBackground);
              
             $("label > input").change(function() {
@@ -609,11 +606,6 @@ EOD;
                 setTimeout(function(){
                      smoothscroll();
                   }, 500);
-                
-                /*$('html,body').animate({scrollTop: 0}, 1000, "linear", function() {
-                    // Animation complete.
-                    $('#upgrade_form').submit();
-                });*/
             })); 
             function smoothscroll(){
                 var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
@@ -625,27 +617,7 @@ EOD;
                  window.requestAnimationFrame(smoothscroll);
                  window.scrollTo (0,currentScroll - (currentScroll/20));
             }
-           
-            
-           /* $("input[type='radio']").on("click", function(){
-                 setTimeout(function(){
-                     smoothscroll();
-                 }, 500);
-                /!*$('html,body').animate({scrollTop: 0}, 1500, "linear");*!/
-            });
-            */
-            
-           /* $('#ugm_submit_button').submit(function(e){
-            console.log('HERE');
-            e.preventDefault();
-            alert("hello2");
-            }); */
 
-        /*$("#ugm_submit_button").submit(function(e){
-            alert('hello');
-            e.preventDefault();
-            $('html,body').animate({scrollTop: 0}, 500);
-        });*/
         subButton.hover(
             function () {
                 $(this).addClass('red');
