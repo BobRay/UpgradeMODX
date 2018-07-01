@@ -631,10 +631,10 @@ if (!$submitted) {
 EOD;
 
 
-
-        for ($i = 1; $i < 50; $i++) {
+         /* Adds text for debugging scroll */
+        /*for ($i = 1; $i < 50; $i++) {
             $output .= "<br><p>Some Text</p>";
-        }
+        }*/
 
 
 
