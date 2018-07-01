@@ -326,11 +326,11 @@ class MODXInstaller {
 
         if ($ie) {
             $buttonCode =  '
-        <button id="ugm_submit_button" class="progress-button' . $red . '" data-style="fill"
+        <button type="submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="fill"
                 data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
         } else {
             $buttonCode =  '
-        <button id="ugm_submit_button" class="progress-button' . $red . '" data-style="rotate-angle-bottom" data-perspective
+        <button type = "submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="rotate-angle-bottom" data-perspective
                 data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
         }
 
@@ -356,6 +356,7 @@ class MODXInstaller {
                 $ItemGrid[$item['tree']][$ver] = $item;
             }
             $output .= "<p>[[+ugm_get_major_versions]]</p>";
+            //  $i = 0;
             foreach ($ItemGrid as $tree => $item) {
                 $output .= "\n" . '<div class="column">';
                    /* "\n<h3>" . strtoupper($tree) . '</h3>';*/
@@ -367,8 +368,13 @@ class MODXInstaller {
         <label><input type="radio"{$selected} name="modx" value="$version">
             <span>{$itemInfo['name']} $current</span>
         </label>
+       
+       <!--  <br><input type="radio"{$selected} id="radio{$i}" name="modx" value="$version">
+        <label for = "radio{$i}"><span>{$itemInfo['name']} $current</span>
+        </label> -->
 
 EOD;
+                    // $i++;
                 } // end inner foreach loop
                 $output .= '</div>';
             } // end outer foreach loop
@@ -570,15 +576,69 @@ EOD;
 } else {
     $output .= <<<EOD
         <script>
-        $("input[type='radio']").on("click", function(){             
+            var subButton = $('#ugm_submit_button'); 
+            var finished = false;
+            var permanentRed = false;
+            subButton.on("click", (function(e){
+                permanentRed = true;
+                $(this).addClass('red');             
+                e.preventDefault();
+                setInterval(function(){ 
+                    if (finished === true) {
+                        clearInterval();
+                       
+                        $('#upgrade_form').submit();
+                    } 
+                }, 1000);
+
+                setTimeout(function(){
+                     smoothscroll();
+                  }, 500);
+                
+                /*$('html,body').animate({scrollTop: 0}, 1000, "linear", function() {
+                    // Animation complete.
+                    $('#upgrade_form').submit();
+                });*/
+            })); 
+            function smoothscroll(){
+                var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+                if (! currentScroll > 0) {
+                    finished = true;
+                    return;
+                }
+              
+                 window.requestAnimationFrame(smoothscroll);
+                 window.scrollTo (0,currentScroll - (currentScroll/20));
+            }
+           
+            
+            $("input[type='radio']").on("click", function(){
+                 setTimeout(function(){
+                     smoothscroll();
+                 }, 500);
+                /*$('html,body').animate({scrollTop: 0}, 1500, "linear");*/
+            });
+            
+            
+           /* $('#ugm_submit_button').submit(function(e){
+            console.log('HERE');
+            e.preventDefault();
+            alert("hello2");
+            }); */
+
+        /*$("#ugm_submit_button").submit(function(e){
+            alert('hello');
+            e.preventDefault();
             $('html,body').animate({scrollTop: 0}, 500);
-        });
-        $('#ugm_submit_button').hover(
+        });*/
+        subButton.hover(
             function () {
                 $(this).addClass('red');
             },
             function () {
+                if (! permanentRed) {
                 $(this).removeClass('red');
+                }
             }
         );
         </script>
