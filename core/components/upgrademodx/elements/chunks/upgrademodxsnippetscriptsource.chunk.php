@@ -576,12 +576,13 @@ EOD;
 } else {
     $output .= <<<EOD
         <script>
+           "use strict";
             var subButton = $('#ugm_submit_button'); 
             var finished = false;
             var permanentRed = false;
             var checkedBackground = '#ffffff';
             var originalBackground = $('label').css( "background-color" );
-           // console.log("color: " + originalBackground);
+
             $('input[type="radio"]:checked').parent().css("background",checkedBackground);
              
             $("label > input").change(function() {
@@ -590,33 +591,17 @@ EOD;
                     $('input[type="radio"]:not(:checked)').parent().css("background",originalBackground); 
                 } 
             });
-            
+            var doForward = function forward() {
+                $('#upgrade_form').submit();
+            };
+
             subButton.on("click", (function(e){
                 permanentRed = true;
                 $(this).addClass('red');             
                 e.preventDefault();
-                setInterval(function(){ 
-                    if (finished === true) {
-                        clearInterval();
-                       
-                        $('#upgrade_form').submit();
-                    } 
-                }, 1000);
-
-                setTimeout(function(){
-                     smoothscroll();
-                  }, 500);
+                $('html,body').animate({scrollTop: 0}, 500, "linear", doForward);
             })); 
-            function smoothscroll(){
-                var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
-                if (! currentScroll > 0) {
-                    finished = true;
-                    return;
-                }
-              
-                 window.requestAnimationFrame(smoothscroll);
-                 window.scrollTo (0,currentScroll - (currentScroll/20));
-            }
+            
 
         subButton.hover(
             function () {
@@ -644,6 +629,15 @@ if (!$submitted) {
         <p>[[+ugm_original_design_by]] <a href="//a-sharapov.com" title="">Sharapov</a></p>
     </div>
 EOD;
+
+
+
+        for ($i = 1; $i < 50; $i++) {
+            $output .= "<br><p>Some Text</p>";
+        }
+
+
+
 } else {
 
     /* This JS manages starting and stopping the rotation and the progress bar */
