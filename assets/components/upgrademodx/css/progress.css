@@ -279,6 +279,7 @@ input[type=checkbox] {
 
 input[type=radio] {
   vertical-align: text-bottom;
+  display: inline-block;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -433,26 +434,25 @@ h5 {
   border-bottom: 2px solid #000;
 }
 
-.column label {
-  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 140%;
-  display: block;
-  width: 100%;
-  padding: 3px 0;
-  margin-bottom: 10px;
-}
-
 form button {
   display: block;
   width: 200px;
   clear: both;
 }
 
-/*label > span {
-  border-bottom: 1px dotted #555
-}*/
+.column label {
+  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 140%;
+  display: block;
+  width: 100%;
+  padding: 12px;
+  outline: 2px solid palegreen;
+  margin: 2px 0 0 0;
+  background-color: #e5e5e5;
+}
+
 label > input {
-  margin: 0 5px 4px 5px;
+  margin: 0 5px 5px 5px;
 }
 
 .footer {
@@ -491,7 +491,6 @@ label > input {
     border: 0;
     width: 60px;
     height: 1em;
-    display: inline;
   }
 
   #upgrade_form p {
@@ -500,8 +499,9 @@ label > input {
     margin: 20px 0 43px 30px;
   }
 
-  label > input[type=checkbox] {
+  input[type=radio] {
     background-color: #0c4d26;
+    clear: left !important;
     color: #ffffff;
   }
 }
@@ -514,6 +514,7 @@ label > input {
     margin-left: -84px;
     padding: 45px 5px;
     width: 600px;
+    display: inline;
   }
 
   label > input {
@@ -534,6 +535,12 @@ label > input {
     color: #ffffff;
   }
 }
+/* Set background of label for checked radio button */
+/*
+input[type="radio"]:checked + label {
+  background-color: orange;
+}
+*/
 /************ SMALL PHONES **************/
 @media only screen and (max-width: 421px) {
   .column label {

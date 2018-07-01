@@ -283,7 +283,9 @@ input[type=checkbox] {
 }
 
 input[type=radio] {
-  vertical-align: text-bottom
+  vertical-align: text-bottom;
+  display:inline-block;
+
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -447,29 +449,26 @@ h5 {
   border-bottom: 2px solid #000
 }
 
+form button {
+  display: block;
+  width: 200px;
+  clear: both
+}
+
 .column label {
   font-family: $sans-font;
   font-size: 140%;
   display: block;
   width: 100%;
- // clear: both;
-  padding: 3px 0;
-  margin-bottom: 10px;
+  padding: 12px;
+  outline: 2px solid palegreen;
+  margin: 2px 0 0 0;
+    background-color: #e5e5e5;
 }
 
-form button {
-  display:block;
-  // float: left;
-  width: 200px;
-  clear: both
-}
-
-/*label > span {
-  border-bottom: 1px dotted #555
-}*/
 
 label > input {
-  margin: 0 5px 4px 5px;
+  margin: 0 5px 5px 5px;
 }
 
 .footer {
@@ -510,7 +509,7 @@ label > input {
     border: 0;
     width:60px;
     height: 1em;
-    display:inline;
+    // display:inline;
     // visibility:hidden;
   }
 
@@ -520,8 +519,10 @@ label > input {
     margin: 20px 0 43px 30px;
   }
 
-  label > input[type=checkbox] {
+  input[type=radio] {
       background-color: $button-border-color;
+      //display:inline-block;
+      clear: left !important;
       color: #ffffff;
   }
 
@@ -536,6 +537,7 @@ label > input {
     margin-left: -84px;
     padding: 45px 5px;
     width: 600px;
+    display: inline;
   }
   label > input {
     margin: 0 5px 0 5px;
@@ -557,6 +559,13 @@ label > input {
 
 }
 
+/* Set background of label for checked radio button */
+/*
+input[type="radio"]:checked + label {
+  background-color: orange;
+}
+*/
+
 /************ SMALL PHONES **************/
 @media only screen and (max-width: 421px) {
   .column label {
@@ -572,7 +581,7 @@ label > input {
     border: 0;
     width: 20px;
     height: 1em;
-    display: inline;
+    display: inline; // hide button !!!
     position: fixed;
     opacity: 0
     // visibility:hidden;

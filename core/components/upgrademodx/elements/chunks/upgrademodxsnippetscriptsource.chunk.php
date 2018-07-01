@@ -579,6 +579,21 @@ EOD;
             var subButton = $('#ugm_submit_button'); 
             var finished = false;
             var permanentRed = false;
+           //  var originalBackground = '#e5e5e5';
+            var checkedBackground = '#ffffff';
+            var originalBackground = $('label').css( "background-color" );
+            
+           //  var originalBackground = document.getElementsByTagName('label')[0].style.backgroundColor;
+            console.log("color: " + originalBackground);
+            $('input[type="radio"]:checked').parent().css("background",checkedBackground);
+             
+            $("label > input").change(function() {
+                if ($(this).is(":checked")) {
+                    $(this).parent().css("background", checkedBackground);
+                    $('input[type="radio"]:not(:checked)').parent().css("background",originalBackground); 
+                } 
+            });
+            
             subButton.on("click", (function(e){
                 permanentRed = true;
                 $(this).addClass('red');             
@@ -612,13 +627,13 @@ EOD;
             }
            
             
-            $("input[type='radio']").on("click", function(){
+           /* $("input[type='radio']").on("click", function(){
                  setTimeout(function(){
                      smoothscroll();
                  }, 500);
-                /*$('html,body').animate({scrollTop: 0}, 1500, "linear");*/
+                /!*$('html,body').animate({scrollTop: 0}, 1500, "linear");*!/
             });
-            
+            */
             
            /* $('#ugm_submit_button').submit(function(e){
             console.log('HERE');
