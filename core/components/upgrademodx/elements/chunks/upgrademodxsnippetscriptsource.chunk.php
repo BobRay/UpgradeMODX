@@ -388,45 +388,41 @@ EOD;
         return $output;
     }
 
-    public static function quit($msg) {
-        $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:auto;padding:30px 30px 0;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
-        $end = '</p><p style="margin-bottom:120px;"><a href="[[+manager_url]]">Back to Manager</a></p></div>';
-        die($begin . $msg  . $end);
-    }
-} /* End of MODXInstaller class */
+    public static function process() {
+        /* Do not touch the following comments! You have been warned!  */
+        /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
+        /** @var $forceFopen bool - force the use of PclZip instead of ZipArchive */
 
-/* Do not touch the following comments! You have been warned!  */
-/** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
-/* [[+ForcePclZip]] */
-/* [[+ForceFopen]] */
-/* [[+InstallData]] */
+        /* [[+ForcePclZip]] */
+        /* [[+ForceFopen]] */
+        /* [[+InstallData]] */
 
-$method = 0;
-$output = '';
-$submitted = !empty($_POST['modx']) && is_scalar($_POST['modx']) && isset($InstallData[$_POST['modx']]);
+        $method = 0;
+        $output = '';
+        $submitted = !empty($_POST['modx']) && is_scalar($_POST['modx']) && isset($InstallData[$_POST['modx']]);
 
-if ($submitted) {
-    /* validate MODX Version and user ID */
-    $pattern = '/^\d{1,3}\.\d{1,3}\.\d{1,3}-(pl|rc|alpha|beta)\d{0,3}$/';
-    if (!preg_match($pattern, (string) $_POST['modx'])) {
-        die('Invalid Version');
-    }
-    if (! isset($_POST['userId'])){
-        die ("no user ID");
-    }
-    if (preg_match('/[^0-9]/', (string) $_POST['userId'])) {
-        die ('Invalid User ID');
-    }
+        if ($submitted) {
+            /* validate MODX Version and user ID */
+            $pattern = '/^\d{1,3}\.\d{1,3}\.\d{1,3}-(pl|rc|alpha|beta)\d{0,3}$/';
+            if (!preg_match($pattern, (string)$_POST['modx'])) {
+                die('Invalid Version');
+            }
+            if (!isset($_POST['userId'])) {
+                die ("no user ID");
+            }
+            if (preg_match('/[^0-9]/', (string)$_POST['userId'])) {
+                die ('Invalid User ID');
+            }
 
-}
+        }
 
-if (extension_loaded('curl') && (!$forceFopen)) {
-    $method = 'curl';
-} elseif (ini_get('allow_url_fopen')) {
-    $method = 'fopen';
-}
+        if (extension_loaded('curl') && (!$forceFopen)) {
+            $method = 'curl';
+        } elseif (ini_get('allow_url_fopen')) {
+            $method = 'fopen';
+        }
 
-$output .= <<<EOD
+        $output .= <<<EOD
 <!DOCTYPE html>
 <html lang="[[+ugm_manager_language]]">
 <head>
@@ -466,29 +462,29 @@ $output .= <<<EOD
     <div class="content_div">
 EOD;
 
-if ($submitted) {
-    $output .= <<<EOD
+        if ($submitted) {
+            $output .= <<<EOD
 <script src="[[+ugm_assets_url]]js/modernizr.custom.js"></script>
 EOD;
 
-}
+        }
 
-if (! $method) {
-    MODXInstaller::quit("\n" . '<h2>[[+ugm_no_method_enabled]]</h2>>');
-} else {
-    if ($submitted) {
-        $output .= "\n<h2>[[+ugm_updating_modx_files]]</h2>";
-    } else  {
-        $output .= "\n<h2>[[+ugm_choose_version]]</h2>";
-    }
-    $output .= "<h3> ([[+ugm_using]] {$method})</h3>";
-}
+        if (!$method) {
+            MODXInstaller::quit("\n" . '<h2>[[+ugm_no_method_enabled]]</h2>>');
+        } else {
+            if ($submitted) {
+                $output .= "\n<h2>[[+ugm_updating_modx_files]]</h2>";
+            } else {
+                $output .= "\n<h2>[[+ugm_choose_version]]</h2>";
+            }
+            $output .= "<h3> ([[+ugm_using]] {$method})</h3>";
+        }
 
-$output .= MODXInstaller::createVersionForm($InstallData, $submitted);
+        $output .= MODXInstaller::createVersionForm($InstallData, $submitted);
 
-/* This JS Polls the status file and updates the text if the content has changed */
-if ($submitted) {
-    $output .= <<<EOD
+        /* This JS Polls the status file and updates the text if the content has changed */
+        if ($submitted) {
+            $output .= <<<EOD
     <script>
         var previous = "[[+ugm_begin_upgrade]]";
         var url = "[[+ugm_progress_url]]";
@@ -573,8 +569,8 @@ if ($submitted) {
         }
     </script>
 EOD;
-} else {
-    $output .= <<<EOD
+        } else {
+            $output .= <<<EOD
         <script>
            "use strict";
             var subButton = $('#ugm_submit_button'); 
@@ -615,12 +611,12 @@ EOD;
         );
         </script>
 EOD;
-}
+        }
 
-$output .= "\n    </div>"; // end content div
+        $output .= "\n    </div>"; // end content div
 
-if (!$submitted) {
-    $output .= <<<EOD
+        if (!$submitted) {
+            $output .= <<<EOD
 
     <div class="footer">
         <p>[[+ugm_originally_created_by]] <a href="//ga-alex.com" title="">Bumkaka</a> & <a href="//dmi3yy.com" title="">Dmi3yy</a></p>
@@ -631,17 +627,16 @@ if (!$submitted) {
 EOD;
 
 
-         /* Adds text for debugging scroll */
-        /*for ($i = 1; $i < 50; $i++) {
-            $output .= "<br><p>Some Text</p>";
-        }*/
+            /* Adds text for debugging scroll */
+            /*for ($i = 1; $i < 50; $i++) {
+                $output .= "<br><p>Some Text</p>";
+            }*/
 
 
+        } else {
 
-} else {
-
-    /* This JS manages starting and stopping the rotation and the progress bar */
-    $output .= <<<EOD
+            /* This JS manages starting and stopping the rotation and the progress bar */
+            $output .= <<<EOD
     <script src="[[+ugm_assets_url]]js/classie.js"></script>
     <script src="[[+ugm_assets_url]]js/progressButton.js"></script>
     <script>
@@ -702,178 +697,189 @@ EOD;
     </script>
 EOD;
 
-}
+        }
 
 
-$output .= "\n</body>";
-$output .= "\n</html>";
+        $output .= "\n</body>";
+        $output .= "\n</html>";
 
-echo $output;
-ob_flush();
-flush();
+        echo $output;
+        ob_flush();
+        flush();
 
 
-/* Next two lines for running in debugger  */
+        /* Next two lines for running in debugger  */
 // if (true || !empty($_POST['modx']) && is_scalar($_POST['modx']) && isset($InstallData[$_POST['modx']])) {
 //       $rowInstall = $InstallData['revo2.4.1-pl'];
 // Comment our the two lines below to run in debugger.
 
-if ($submitted) {
+        if ($submitted) {
 
-    if (file_exists('config.core.php')) {
-        @include 'config.core.php';
-    }
-    if (!defined('MODX_CORE_PATH')) {
-        MODXInstaller::quit('[[+ugm_cannot_read_config_core_php]]');
-    }
+            if (file_exists('config.core.php')) {
+                @include 'config.core.php';
+            }
+            if (!defined('MODX_CORE_PATH')) {
+                MODXInstaller::quit('[[+ugm_cannot_read_config_core_php]]');
+            }
 
-    @include MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
+            @include MODX_CORE_PATH . 'config/' . MODX_CONFIG_KEY . '.inc.php';
 
-    if (!defined('MODX_CONNECTORS_PATH')) {
-        MODXInstaller::quit('[[+ugm_cannot_read_main_config]]');
-    }
+            if (!defined('MODX_CONNECTORS_PATH')) {
+                MODXInstaller::quit('[[+ugm_cannot_read_main_config]]');
+            }
 
-    $devMode = false;
-    $rowInstall = $InstallData[$_POST['modx']];
+            $devMode = false;
+            $rowInstall = $InstallData[$_POST['modx']];
 
-    /* Set true $devMode; DO NOT DELETE the next line*/
-    /* [[+devMode]] */
+            /* Set true $devMode; DO NOT DELETE the next line*/
+            /* [[+devMode]] */
 
-    /* run unzip and install */
+            /* run unzip and install */
 
-    /* Delete existing modx.zip file */
-    $source = dirname(__FILE__) . "/modx.zip";
-    $url = $rowInstall['link'];
-    $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
-    if (!file_exists($certPath)) {
-        MODXInstaller::quit('[[+could_not_find_cacert]]');
-    }
-    set_time_limit(0);
+            /* Delete existing modx.zip file */
+            $source = dirname(__FILE__) . "/modx.zip";
+            $url = $rowInstall['link'];
+            $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
+            if (!file_exists($certPath)) {
+                MODXInstaller::quit('[[+could_not_find_cacert]]');
+            }
+            set_time_limit(0);
 
-    /* Initialize progress file */
-    $progressFilePath = '[[+ugm_progress_path]]';
-    $success = MODXInstaller::updateProgress($progressFilePath, '[[+ugm_starting_upgrade]]');
-    sleep(2);
+            /* Initialize progress file */
+            $progressFilePath = '[[+ugm_progress_path]]';
+            $success = MODXInstaller::updateProgress($progressFilePath, '[[+ugm_starting_upgrade]]');
+            sleep(2);
 
-    if (!$success) {
-        MODXInstaller::quit('[[+ugm_could_not_write_progress]]: ' . $path);
-    }
+            if (!$success) {
+                MODXInstaller::quit('[[+ugm_could_not_write_progress]]: ' . $path);
+            }
 
-    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_downloading_files]]');
+            MODXInstaller::updateProgress($progressFilePath, '[[+ugm_downloading_files]]');
 
-    /* Make sure we have the downloaded file */
+            /* Make sure we have the downloaded file */
 
-    if (!$devMode) {
-        $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
-        if ($success !== true) {
-            MODXInstaller::quit($success);
-        } elseif (!file_exists($source)) {
-            MODXInstaller::quit('Missing file: ' . $source);
-        } elseif (filesize($source) < 64) {
-            MODXInstaller::quit('[[+ugm_file]]: ' . $source . ' ' . '[[+ugm_is_empty_download_failed]]');
-        }
-    } else {
-        sleep(2);
-    }
-
-    /* Make temp directory */
-    $tempDir = realpath(dirname(__FILE__)) . '/ugmtemp';
-    MODXInstaller::mmkdir($tempDir);
-    clearstatcache();
-
-    $destination = $tempDir;
-
-    if (!file_exists($tempDir)) {
-        MODXInstaller::quit('[[+ugm_unable_to_create_directory]]: ' . $tempDir);
-    }
-
-    if (!is_readable($tempDir)) {
-        MODXInstaller::quit('[[+ugm_unable_to_read_ugmtemp]]');
-    }
-
-    /* Unzip File */
-
-    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_unzipping_files]]');
-    set_time_limit(0);
-
-    if ($devMode) {
-        $success = true;
-        sleep(2);
-    } else {
-        $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
-    }
-    if ($success !== true) {
-        MODXInstaller::quit($success);
-    }
-
-    /* Get directories for file copy */
-    $directories = MODXInstaller::getDirectories();
-    $directories = MODXInstaller::normalize($directories);
-
-    if (!$devMode) {
-        $sourceDir = $tempDir . '/' . MODXInstaller::getModxDir($tempDir);
-        $sourceDir = MODXInstaller::normalize($sourceDir);
-    }
-
-    /* Copy MODX files to destination */
-    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_copying_files]]');
-    if ($devMode) {
-        sleep(2);
-    } else {
-        MODXInstaller::copyFiles($sourceDir, $directories);
-        unlink($source);
-
-        if (!is_dir(MODX_BASE_PATH . 'setup')) {
-            MODXInstaller::quit('[[+ugm_file_copy_failed]]');
-        }
-
-        MODXInstaller::removeFolder($tempDir, true);
-
-        /* Clear cache files but not cache folder */
-
-        $path = MODX_CORE_PATH . 'cache';
-        if (is_dir($path)) {
-            MODXInstaller::removeFolder($path, false);
-        }
-
-        unlink(basename(__FILE__));
-    }
-
-    /* Copy root config.core.php to setup/includes and add setup key */
-    MODXInstaller::updateProgress($progressFilePath, '[[+ugm_preparing_setup]]');
-    if ($devMode) {
-        sleep(2);
-    } else {
-        sleep(1);
-        $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
-        if (file_exists($rootCoreConfig)) {
-            $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
-            $content = file_get_contents($rootCoreConfig);
-            if (strpos($content, 'MODX_SETUP_KEY') === false) {
-                if (strpos($content, '?>') !== false) {
-                    $content = str_replace('?>', $newStr, $content);
-                } else {
-                    $content .= "\n" . $newStr;
+            if (!$devMode) {
+                $success = MODXInstaller::downloadFile($url, $source, $method, $certPath);
+                if ($success !== true) {
+                    MODXInstaller::quit($success);
+                } elseif (!file_exists($source)) {
+                    MODXInstaller::quit('Missing file: ' . $source);
+                } elseif (filesize($source) < 64) {
+                    MODXInstaller::quit('[[+ugm_file]]: ' . $source . ' ' . '[[+ugm_is_empty_download_failed]]');
                 }
-                file_put_contents(MODX_BASE_PATH . 'setup/includes/config.core.php', $content);
+            } else {
+                sleep(2);
+            }
+
+            /* Make temp directory */
+            $tempDir = realpath(dirname(__FILE__)) . '/ugmtemp';
+            MODXInstaller::mmkdir($tempDir);
+            clearstatcache();
+
+            $destination = $tempDir;
+
+            if (!file_exists($tempDir)) {
+                MODXInstaller::quit('[[+ugm_unable_to_create_directory]]: ' . $tempDir);
+            }
+
+            if (!is_readable($tempDir)) {
+                MODXInstaller::quit('[[+ugm_unable_to_read_ugmtemp]]');
+            }
+
+            /* Unzip File */
+
+            MODXInstaller::updateProgress($progressFilePath, '[[+ugm_unzipping_files]]');
+            set_time_limit(0);
+
+            if ($devMode) {
+                $success = true;
+                sleep(2);
+            } else {
+                $success = MODXInstaller::unZip(MODX_CORE_PATH, $source, $destination, $forcePclZip);
+            }
+            if ($success !== true) {
+                MODXInstaller::quit($success);
+            }
+
+            /* Get directories for file copy */
+            $directories = MODXInstaller::getDirectories();
+            $directories = MODXInstaller::normalize($directories);
+
+            if (!$devMode) {
+                $sourceDir = $tempDir . '/' . MODXInstaller::getModxDir($tempDir);
+                $sourceDir = MODXInstaller::normalize($sourceDir);
+            }
+
+            /* Copy MODX files to destination */
+            MODXInstaller::updateProgress($progressFilePath, '[[+ugm_copying_files]]');
+            if ($devMode) {
+                sleep(2);
+            } else {
+                MODXInstaller::copyFiles($sourceDir, $directories);
+                unlink($source);
+
+                if (!is_dir(MODX_BASE_PATH . 'setup')) {
+                    MODXInstaller::quit('[[+ugm_file_copy_failed]]');
+                }
+
+                MODXInstaller::removeFolder($tempDir, true);
+
+                /* Clear cache files but not cache folder */
+
+                $path = MODX_CORE_PATH . 'cache';
+                if (is_dir($path)) {
+                    MODXInstaller::removeFolder($path, false);
+                }
+
+                unlink(basename(__FILE__));
+            }
+
+            /* Copy root config.core.php to setup/includes and add setup key */
+            MODXInstaller::updateProgress($progressFilePath, '[[+ugm_preparing_setup]]');
+            if ($devMode) {
+                sleep(2);
+            } else {
+                sleep(1);
+                $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
+                if (file_exists($rootCoreConfig)) {
+                    $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
+                    $content = file_get_contents($rootCoreConfig);
+                    if (strpos($content, 'MODX_SETUP_KEY') === false) {
+                        if (strpos($content, '?>') !== false) {
+                            $content = str_replace('?>', $newStr, $content);
+                        } else {
+                            $content .= "\n" . $newStr;
+                        }
+                        file_put_contents(MODX_BASE_PATH . 'setup/includes/config.core.php', $content);
+                    }
+                }
             }
         }
-    }
-}
-    /* Instantiate MODX; Log upgrade in Manager Actions log; Launch setup */
-if ($submitted) {
-    if ($devMode) {
-        MODXInstaller::updateProgress($progressFilePath, '[[+ugm_finished]]');
-    } else {
-        include MODX_CORE_PATH . 'model/modx/modx.class.php';
-        $modx = new modX();
-        $modx->initialize('web');
-        $modx->lexicon->load('core:default');
-        $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_POST['modx'], $_POST['userId']);
-        /* Redirect done with 'replace' in JavaScript when it sees 'Launching Setup'. */
-        // $modx->sendRedirect($rowInstall['location']);
-        $modx = null;
-        MODXInstaller::updateProgress($progressFilePath, '[[+ugm_launching_setup]]');
-    }
-}
+        /* Instantiate MODX; Log upgrade in Manager Actions log; Launch setup */
+        if ($submitted) {
+            if ($devMode) {
+                MODXInstaller::updateProgress($progressFilePath, '[[+ugm_finished]]');
+            } else {
+                include MODX_CORE_PATH . 'model/modx/modx.class.php';
+                $modx = new modX();
+                $modx->initialize('web');
+                $modx->lexicon->load('core:default');
+                $modx->logManagerAction('Upgrade MODX', 'modWorkspace', $modx->lexicon('version') . ' ' . $_POST['modx'], $_POST['userId']);
+                /* Redirect done with 'replace' in JavaScript when it sees 'Launching Setup'. */
+                // $modx->sendRedirect($rowInstall['location']);
+                $modx = null;
+                MODXInstaller::updateProgress($progressFilePath, '[[+ugm_launching_setup]]');
+            }
+        }
 
+    }
+
+
+    public static function quit($msg) {
+        $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:auto;padding:30px 30px 0;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
+        $end = '</p><p style="margin-bottom:120px;"><a href="[[+manager_url]]">Back to Manager</a></p></div>';
+        die($begin . $msg  . $end);
+    }
+} /* End of MODXInstaller class */
+
+MODXInstaller::process();
