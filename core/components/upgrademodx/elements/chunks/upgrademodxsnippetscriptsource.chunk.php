@@ -609,7 +609,7 @@ EOD;
                if (top === 0) {
                    forward();
                } else {
-                    var x = new TweenLite.to(window, 1, {scrollTo:{y:0},ease:Power2.easeInOut});
+                    var x = new TweenLite.to(window, 1, {scrollTo:{y:0, x:0},ease:Power2.easeInOut});
                     x.eventCallback("onComplete", forward);
                }
             })); 
