@@ -70,18 +70,6 @@ a:hover, a:focus {
   display: block;
 }
 
-/*.progress-button .content::before,
-.progress-button .content::after  {
-  position: absolute;
-  right: 20px;
-  // color: #0e7138;
-  opacity: 0;
-  -webkit-transition: opacity 0.9s linear 0.9s;
-  transition: opacity 0.9s linear 0.9s;
-  :hover {
-     color:#FF0000;
-  }
-}*/
 span.content {
   letter-spacing: 3px;
   font-size: 1em;
@@ -214,22 +202,6 @@ span.content {
   transform: rotateX(45deg);
 }
 
-/* lateral-lines */
-/* ====================== */
-/*
-
-.progress-button[data-style="lateral-lines"] .progress-inner {
-  width: 100%;
-  background: transparent;
-}
-
-.progress-button[data-style="lateral-lines"] .content::before,
-.progress-button[data-style="lateral-lines"] .content::after {
-  right: auto;
-  left: 100%;
-  margin-left: 25px;
-}
-*/
 /* UpgradeMODX page styles */
 /* ====================== */
 article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
@@ -312,9 +284,6 @@ body {
   line-height: 22px;
 }
 
-/*a {
-  // color: #0f7096
-}*/
 .button, button {
   border: none;
   color: #fff;
@@ -326,9 +295,6 @@ body {
   text-shadow: 2px 2px 1px #0c4d26;
 }
 
-/*a.button {
-  padding: 5px 15px
-}*/
 h1 {
   font-family: "PT Serif", helvetica, arial, sans-serif;
   line-height: 32px;
@@ -416,9 +382,6 @@ h5 {
   line-height: 25px;
 }
 
-/*.content_div form {
-  margin: 10px 0 50px
-}*/
 #upgrade_form .column {
   margin: 15px 0;
   padding-left: 37px;
@@ -535,12 +498,6 @@ label > input {
     color: #ffffff;
   }
 }
-/* Set background of label for checked radio button */
-/*
-input[type="radio"]:checked + label {
-  background-color: orange;
-}
-*/
 /************ SMALL PHONES **************/
 @media only screen and (max-width: 421px) {
   .column label {

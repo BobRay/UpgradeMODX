@@ -49,21 +49,7 @@ $footer-color: #777777;
   display: block;
 }
 
-/*.progress-button .content::before,
-.progress-button .content::after  {
-  position: absolute;
-  right: 20px;
-  // color: #0e7138;
-  opacity: 0;
-  -webkit-transition: opacity 0.9s linear 0.9s;
-  transition: opacity 0.9s linear 0.9s;
-  :hover {
-     color:#FF0000;
-  }
-}*/
-
-
-  span.content {
+span.content {
   letter-spacing: $button-letter_spacing;
   font-size: 1em;
   line-height: 4;
@@ -100,7 +86,6 @@ $footer-color: #777777;
 
 .progress-button[data-style="fill"][data-horizontal] {
   border-collapse: separate;
-  // border: 8px solid $button-border-color;
   border:none;
   overflow: hidden;
 }
@@ -127,10 +112,7 @@ $footer-color: #777777;
 .progress-button[data-perspective] .content {
   border: 1px solid $button-border-color;
   border-radius: 3px !important;
-  // -webkit-backface-visibility: hidden;
-  // outline: 4px solid $button-border-color;
   padding: 0;
-  // width:490px;
   width:100%;
 
   background: $button-gradient-outer;
@@ -168,8 +150,6 @@ $footer-color: #777777;
   border: 1px solid #0c4d26;
   border-radius: 3px !important;
   overflow: hidden;
- //  width: 100%;
- // margin: 0;
   background: $button-gradient-outer;
   background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
   background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
@@ -198,9 +178,6 @@ $footer-color: #777777;
   width: 496px;
   outline: 1px solid $button-border-color;
 
-  // width:100%;
-   // border: 4px solid $button-border-color;
-  // margin-left: -4px;
   height: 35px;
   box-shadow: 0 -1px 0 #148544; /* fix the blurriness that causes a gap */
   -webkit-transform: rotateX(-90deg);
@@ -213,24 +190,6 @@ $footer-color: #777777;
   -webkit-transform: rotateX(45deg);
   transform: rotateX(45deg);
 }
-
-/* lateral-lines */
-/* ====================== */
-/*
-
-.progress-button[data-style="lateral-lines"] .progress-inner {
-  width: 100%;
-  background: transparent;
-}
-
-.progress-button[data-style="lateral-lines"] .content::before,
-.progress-button[data-style="lateral-lines"] .content::after {
-  right: auto;
-  left: 100%;
-  margin-left: 25px;
-}
-*/
-
 
 /* UpgradeMODX page styles */
 /* ====================== */
@@ -320,10 +279,6 @@ body {
 
 }
 
-/*a {
-  // color: #0f7096
-}*/
-
 .button, button {
   border:none;
   color: #fff;
@@ -335,11 +290,7 @@ body {
   text-shadow: 2px 2px 1px #0c4d26;
 }
 
-/*a.button {
-  padding: 5px 15px
-}*/
-
-h1 { //, h2, h3, h4, h5 {
+h1 {
   font-family: "PT Serif", helvetica, arial, sans-serif;
   line-height: 32px;
 }
@@ -369,7 +320,6 @@ h5 {
 
 .header {
   -moz-box-sizing: border-box;
-  // float: left;
   display:block;
   width: 100%;
   box-sizing: border-box;
@@ -405,7 +355,6 @@ h5 {
 }
 
 .content_div {
-  // float: left;
   display:block;
   padding: 3% 0 0 8%;
 }
@@ -427,13 +376,8 @@ h5 {
   width: 550px;
   line-height: 25px;
 }
-/*.content_div form {
-  margin: 10px 0 50px
-}*/
 
 #upgrade_form .column {
-// .content.div form .column {
-  // float: left;
   margin: 15px 0;
   padding-left: 37px;
   display:block;
@@ -509,8 +453,6 @@ label > input {
     border: 0;
     width:60px;
     height: 1em;
-    // display:inline;
-    // visibility:hidden;
   }
 
   #upgrade_form p {
@@ -545,7 +487,6 @@ label > input {
     width: 20px;
     height: 1em;
     display: inline;
-    // visibility:hidden;
   }
 
   #upgrade_form p {
@@ -558,13 +499,6 @@ label > input {
   }
 
 }
-
-/* Set background of label for checked radio button */
-/*
-input[type="radio"]:checked + label {
-  background-color: orange;
-}
-*/
 
 /************ SMALL PHONES **************/
 @media only screen and (max-width: 421px) {
@@ -581,10 +515,9 @@ input[type="radio"]:checked + label {
     border: 0;
     width: 20px;
     height: 1em;
-    display: inline; // hide button !!!
+    display: inline;
     position: fixed;
     opacity: 0
-    // visibility:hidden;
   }
   #upgrade_form p {
     font-size: 200% !important;
