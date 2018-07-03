@@ -451,6 +451,12 @@ EOD;
     
     <link rel="stylesheet" href="[[+ugm_assets_url]]css/progress.css"/>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/plugins/CSSPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/easing/EasePack.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/TweenLite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.1/plugins/ScrollToPlugin.min.js"></script>
+    
    
 </head>
 <body>
@@ -587,28 +593,37 @@ EOD;
                     $('input[type="radio"]:not(:checked)').parent().css("background",originalBackground); 
                 } 
             });
-            var doForward = function forward() {
-                $('#upgrade_form').submit();
-            };
-
-            subButton.on("click", (function(e){
-                permanentRed = true;
-                $(this).addClass('red');             
-                e.preventDefault();
-                $('html,body').animate({scrollTop: 0}, 500, "linear", doForward);
-            })); 
             
-
-        subButton.hover(
-            function () {
-                $(this).addClass('red');
-            },
-            function () {
-                if (! permanentRed) {
-                $(this).removeClass('red');
-                }
+            function forward() {
+                    $('#upgrade_form').submit();
             }
-        );
+              
+            subButton.on("click", (function(e){
+                e.preventDefault();
+                permanentRed = true;
+                $(this).addClass('red');
+                // JQuery's janky scroll:
+                // $('html,body').animate({scrollTop: 0}, 1000, "linear", forward);
+               
+               var top  = window.pageYOffset || document.documentElement.scrollTop;
+               if (top === 0) {
+                   forward();
+               } else {
+                    var x = new TweenLite.to(window, 1, {scrollTo:{y:0},ease:Power2.easeInOut});
+                    x.eventCallback("onComplete", forward);
+               }
+            })); 
+
+            subButton.hover(
+                function () {
+                    $(this).addClass('red');
+                },
+                function () {
+                    if (! permanentRed) {
+                    $(this).removeClass('red');
+                    }
+                }
+            );
         </script>
 EOD;
         }
