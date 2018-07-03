@@ -362,11 +362,12 @@ h5 {
 .content_div {
   display: block;
   padding: 3% 0 0 8%;
+  margin: auto;
 }
 
 .content_div h2 {
   margin: 0;
-  line-height: 20px;
+  line-height: 35px;
   color: #777777;
 }
 
@@ -376,10 +377,10 @@ h5 {
 }
 
 #upgrade_form p {
-  margin-top: 20px;
-  font-size: 125%;
+  margin: 20px 0 30px 0;
+  font-size: 2em;
   width: 550px;
-  line-height: 25px;
+  line-height: 35px;
 }
 
 #upgrade_form .column {
@@ -441,12 +442,31 @@ label > input {
 
 /*************** BIG SCREENS below 1300 px ************* */
 @media only screen and (max-width: 1300px) {
+  .content_div {
+    margin: 0 auto;
+    padding: 3% 0 0 0;
+  }
+
+  .content_div h2, h3 {
+    margin-left: 30px;
+  }
+
+  #upgrade_form .column {
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  #upgrade_form {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
   .column label {
     border: 1px solid #0c4d26;
     font-size: 200% !important;
     margin: 0;
     padding: 45px 5px;
-    width: 160%;
+    width: 90%;
   }
 
   label > input {
@@ -458,7 +478,7 @@ label > input {
 
   #upgrade_form p {
     font-size: 200% !important;
-    line-height: 50px;
+    line-height: 35px;
     margin: 20px 0 43px 30px;
   }
 
@@ -470,14 +490,56 @@ label > input {
 }
 /*********** BIG PHONES, TABLETS ***********/
 @media only screen and (max-width: 768px) {
+  body {
+    text-align: center;
+  }
+
+  .footer {
+    text-align: left;
+  }
+
+  #upgrade_form .column {
+    margin: 15px auto;
+    padding-left: 37px;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .content_div h2 {
+    margin: 0 auto;
+  }
+
+  div.column {
+    margin: 0 auto;
+    padding: 1%;
+  }
+
+  .content_div {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  #upgrade_form {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  #upgrade_form p {
+    margin: 0 auto;
+    font-size: 200% !important;
+    line-height: 35px;
+    text-align: left;
+    padding: 20px 0 0 24px;
+  }
+
   .column label {
+    text-align: left;
     border: 1px solid #0c4d26;
     font-size: 200% !important;
     margin: 0;
-    margin-left: -84px;
-    padding: 45px 5px;
-    width: 600px;
-    display: inline;
+    width: 95%;
+    display: block;
   }
 
   label > input {
@@ -486,11 +548,6 @@ label > input {
     width: 20px;
     height: 1em;
     display: inline;
-  }
-
-  #upgrade_form p {
-    font-size: 200% !important;
-    line-height: 40px;
   }
 
   label > input[type=checkbox] {
@@ -500,33 +557,33 @@ label > input {
 }
 /************ SMALL PHONES **************/
 @media only screen and (max-width: 421px) {
-  .column label {
-    border: 1px solid #0c4d26;
-    font-size: 200% !important;
+  #upgrade_form .column {
     margin: 0;
-    margin-left: -30px;
-    padding: 45px 5px;
-    width: 160%;
+    padding: 0;
   }
 
-  label > input {
-    margin: 0 5px 0 5px;
-    border: 0;
-    width: 20px;
-    height: 1em;
-    display: inline;
-    position: fixed;
-    opacity: 0;
+  .column label {
+    display: block;
+    border: 1px solid #0c4d26;
+    font-size: 200% !important;
+    margin: 0 5px;
+    padding: 45px 15px;
+    width: 98%;
+    line-height: 30px;
+  }
+
+  .content_div h2 {
+    line-height: 32px;
   }
 
   #upgrade_form p {
+    padding: 20px 0 25px 24px;
     font-size: 200% !important;
-    line-height: 50px;
+    line-height: 35px;
   }
 
-  label > input[type=checkbox] {
-    background-color: #0c4d26;
-    color: #ffffff;
+  label > input[type=radio] {
+    display: none;
   }
 }
 
