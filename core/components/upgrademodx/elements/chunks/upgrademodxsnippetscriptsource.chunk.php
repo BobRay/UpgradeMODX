@@ -763,10 +763,10 @@ EOD;
             /* Initialize progress file */
             $progressFilePath = '[[+ugm_progress_path]]';
             $success = MODXInstaller::updateProgress($progressFilePath, '[[+ugm_starting_upgrade]]');
-            sleep(2);
+            // sleep(2);
 
             if (!$success) {
-                MODXInstaller::quit('[[+ugm_could_not_write_progress]]: ' . $path);
+                MODXInstaller::quit('[[+ugm_could_not_write_progress]]: ' . $progressFilePath);
             }
 
             MODXInstaller::updateProgress($progressFilePath, '[[+ugm_downloading_files]]');
@@ -783,7 +783,7 @@ EOD;
                     MODXInstaller::quit('[[+ugm_file]]: ' . $source . ' ' . '[[+ugm_is_empty_download_failed]]');
                 }
             } else {
-                sleep(2);
+               sleep(2);
             }
 
             /* Make temp directory */
