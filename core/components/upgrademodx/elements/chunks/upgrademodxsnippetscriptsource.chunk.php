@@ -763,7 +763,8 @@ EOD;
             /* Initialize progress file */
             $progressFilePath = '[[+ugm_progress_path]]';
             $success = MODXInstaller::updateProgress($progressFilePath, '[[+ugm_starting_upgrade]]');
-            // sleep(2);
+            /* Necessary for first message to be read */
+            sleep(2);
 
             if (!$success) {
                 MODXInstaller::quit('[[+ugm_could_not_write_progress]]: ' . $progressFilePath);
