@@ -1,5 +1,26 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.0.0-pl
+---------------------------------
+Tell Setup where the core is, so it doesn't ask!
+Automatically select appropriate upgrade version
+Automatically extend version list to include current version (you can still change it)
+Indicate current version in version list
+Report progress during upgrade process
+3D animation for progress (except on f@$@|#% IE < Edge)
+Add lexicon strings for all text
+Restyle for Mobile
+Change Ajax method to post to conform with the HTML 2.0 spec
+Fix bug with missing versionlist error
+Fix bug with Manager link in error messages
+Make sure upgrade.php is deleted on errors
+Make sure downloaded file is closed
+Set MODX logo as favicon
+Get MODX files directly from AWS
+Update credits
+Other bug fixes and improvements
+
+
 UpgradeMODX 1.5.6-pl
 ---------------------------------
 Wrap rrmdir in if(function_exists)
