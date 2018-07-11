@@ -87,6 +87,6 @@ $_lang['ugm_choose_version'] = 'Wählen Sie die MODX Version für die Aktualisie
 $_lang['ugm_updating_modx_files'] = 'Aktualisiere MODX Dateien';
 $_lang['ugm_originally_created_by'] = 'Ursprünglich erstellt von';
 $_lang['ugm_modified_for_revolution_by'] = 'Modifiziert für Revolution einzig von';
-$_lang['ugm_modified_for_upgrade_by'] = 'Modifiziert für UpgradeModx mit Dashboard-Widget einzig von';
+$_lang['ugm_modified_for_upgrade_by'] = 'Modifiziert für upgrade-only mit Dashboard-Widget einzig von';
 $_lang['ugm_original_design_by'] = 'Ursprüngliches Design von';
 $_lang['ugm_back_to_manager'] = 'Zurück zum Manager';
