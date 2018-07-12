@@ -1,46 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
 @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
-html {
-  background: #f8f8f8 url("http://localhost/addons/assets/components/upgrademodx/images/base.png");
-}
-
-body {
-  background: #27ae60;
-  color: #111111;
-  font-family: "Lato", Arial, sans-serif;
-}
-
-.clearfix:before,
-.clearfix:after {
-  content: "";
-  display: table;
-}
-
-.clearfix:after {
-  clear: both;
-}
-
-a {
-  color: #148544;
-  text-decoration: none;
-  outline: none;
-}
-
-a:hover, a:focus {
-  color: #fff;
-}
-
-/*
-.wrapper {
-    text-align: center;
-    vertical-align: top;
-}
-*/
-@media screen and (max-width: 25em) {
-  .container > header {
-    font-size: 70%;
-  }
-}
 *, *:after, *::before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -74,7 +32,6 @@ span.content {
   letter-spacing: 3px;
   font-size: 1em;
   line-height: 4;
-  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .notransition {
@@ -220,6 +177,8 @@ article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, 
 }
 
 a {
+  text-decoration: none;
+  outline: none;
   margin: 0;
   padding: 0;
   font-size: 100%;
@@ -252,6 +211,7 @@ input[type=checkbox] {
 input[type=radio] {
   vertical-align: text-bottom;
   display: inline-block;
+  color: #555555 !important;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -260,10 +220,6 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 html {
   overflow-y: scroll;
-}
-
-button, input, select, textarea {
-  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
@@ -276,12 +232,13 @@ html {
 }
 
 body {
-  font-family: Georgia, Times, Times New Roman, serif;
-  color: #111111;
+  font: normal 13px/1.4 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
+  color: #555555;
   background: 0 0;
   text-align: left;
   font-size: 14px;
   line-height: 22px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .button, button {
@@ -298,6 +255,7 @@ body {
 h1 {
   font-family: "PT Serif", helvetica, arial, sans-serif;
   line-height: 32px;
+  text-align: left;
 }
 
 h1 {
@@ -341,7 +299,7 @@ h5 {
 }
 
 .header h1.main-heading {
-  color: #1778b6;
+  color: #8ab3d3;
   font-size: 32px;
   line-height: 40px;
 }
@@ -405,12 +363,11 @@ form button {
 }
 
 .column label {
-  font-family: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
   font-size: 140%;
   display: block;
   width: 100%;
   padding: 12px;
-  outline: 2px solid palegreen;
+  outline: 2px solid #cccccc;
   margin: 2px 0 0 0;
   background-color: #e5e5e5;
 }
@@ -427,7 +384,7 @@ label > input {
 }
 
 .footer a {
-  color: #03a9f4;
+  color: #d0f2e3;
   text-shadow: 1px 1px 1px #0c4d26;
 }
 
@@ -462,7 +419,6 @@ label > input {
   }
 
   .column label {
-    border: 1px solid #0c4d26;
     font-size: 200% !important;
     margin: 0;
     padding: 45px 5px;
@@ -483,9 +439,8 @@ label > input {
   }
 
   input[type=radio] {
-    background-color: #0c4d26;
     clear: left !important;
-    color: #ffffff;
+    color: #555555;
   }
 }
 /*********** BIG PHONES, TABLETS ***********/
@@ -508,6 +463,7 @@ label > input {
 
   .content_div h2 {
     margin: 0 auto;
+    padding: 0 10%;
   }
 
   div.column {
@@ -531,11 +487,11 @@ label > input {
     line-height: 35px;
     text-align: left;
     padding: 20px 0 0 24px;
+    width: 100%;
   }
 
   .column label {
     text-align: left;
-    border: 1px solid #0c4d26;
     font-size: 200% !important;
     margin: 0;
     width: 95%;
@@ -551,8 +507,7 @@ label > input {
   }
 
   label > input[type=checkbox] {
-    background-color: #0c4d26;
-    color: #ffffff;
+    color: #555555;
   }
 }
 /************ SMALL PHONES **************/
@@ -564,7 +519,6 @@ label > input {
 
   .column label {
     display: block;
-    border: 1px solid #0c4d26;
     font-size: 200% !important;
     margin: 0 5px;
     padding: 45px 15px;
@@ -584,6 +538,11 @@ label > input {
 
   label > input[type=radio] {
     display: none;
+  }
+
+  .footer a {
+    text-shadow: none;
+    color: #333333;
   }
 }
 

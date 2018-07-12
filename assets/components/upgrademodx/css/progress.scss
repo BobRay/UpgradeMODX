@@ -1,5 +1,3 @@
-@import "general.scss";
-
 $button-gradient-outer: #1d9650;
 $button-gradient-inner: #dddddd;
 $inner-progress-background: #0c4d26;
@@ -10,9 +8,8 @@ $button-active-text-color: #FF0000;
 $button-border-color: #0c4d26;
 $h2-color: #777777;
 $button-margin: 20px 0 12px 30px;
-$body-font: Georgia, Times, Times New Roman, serif;
-$body-color: #111111;
-$sans-font: Lato, Arial, "Helvetica Neue", Helvetica, sans-serif;
+$body-font: normal 13px/1.4 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
+$body-color:#555555;
 $footer-color: #777777;
 
 *, *:after, *::before {
@@ -49,7 +46,7 @@ span.content {
   letter-spacing: $button-letter_spacing;
   font-size: 1em;
   line-height: 4;
-  font-family: $sans-font;
+  // font-family: $sans-font;
 }
 
 .notransition {
@@ -206,6 +203,8 @@ article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, 
 }
 
 a {
+  text-decoration: none;
+  outline: none;
   margin: 0;
   padding: 0;
   font-size: 100%;
@@ -223,7 +222,6 @@ td, td img {
 }
 
 button, input, select, textarea {
-
   margin: 0;
   font-size: 100%;
 }
@@ -239,7 +237,7 @@ input[type=checkbox] {
 input[type=radio] {
   vertical-align: text-bottom;
   display:inline-block;
-
+  color: $body-color !important;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -251,7 +249,7 @@ html {
 }
 
 button, input, select, textarea {
-  font-family: $sans-font;
+  // font-family: $sans-font;
 }
 
 a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
@@ -265,12 +263,13 @@ html {
 }
 
 body {
-  font-family: $body-font;
+  font: $body-font;
   color: $body-color;
   background: 0 0;
   text-align:left;
   font-size: 14px;
   line-height: 22px;
+  -webkit-font-smoothing: antialiased;
 
 }
 
@@ -288,6 +287,7 @@ body {
 h1 {
   font-family: "PT Serif", helvetica, arial, sans-serif;
   line-height: 32px;
+  text-align:left;
 }
 
 h1 {
@@ -331,7 +331,7 @@ h5 {
 }
 
 .header h1.main-heading {
-  color: #1778b6;
+  color: #8ab3d3;
   font-size: 32px;
   line-height: 40px
 }
@@ -396,12 +396,11 @@ form button {
 }
 
 .column label {
-  font-family: $sans-font;
   font-size: 140%;
   display: block;
   width: 100%;
   padding: 12px;
-  outline: 2px solid palegreen;
+  outline: 2px solid #cccccc;
   margin: 2px 0 0 0;
     background-color: #e5e5e5;
 }
@@ -419,7 +418,7 @@ label > input {
 }
 
 .footer a {
-  color:#03a9f4;
+  color: #d0f2e3;
   text-shadow: 1px 1px 1px #0c4d26;
 }
 
@@ -454,7 +453,7 @@ label > input {
     padding-left:0;
   }
   .column label {
-    border: 1px solid $button-border-color;
+   // border: 1px solid $button-border-color;
     font-size: 200% !important;
     margin: 0;
     padding: 45px 5px;
@@ -474,9 +473,8 @@ label > input {
   }
 
   input[type=radio] {
-      background-color: $button-border-color;
-      clear: left !important;
-      color: #ffffff;
+    clear: left !important;
+    color: $body-color;
   }
 
 }
@@ -501,6 +499,7 @@ label > input {
 
   .content_div h2 {
     margin: 0 auto;
+    padding: 0 10%;
   }
 
   div.column {
@@ -524,14 +523,13 @@ label > input {
     line-height: 35px;
     text-align: left;
     padding: 20px 0 0 24px;
+    width: 100%;
   }
 
   .column label {
     text-align:left;
-    border: 1px solid $button-border-color;
     font-size: 200% !important;
     margin: 0;
-    // padding: 45px 5px;
     width: 95%;
     display: block;
   }
@@ -545,8 +543,8 @@ label > input {
 
 
   label > input[type=checkbox] {
-    background-color: $button-border-color;
-    color: #ffffff;
+   // background-color: $button-border-color;
+    color: $body-color;
   }
 
 }
@@ -560,7 +558,6 @@ label > input {
   }
   .column label {
     display:block;
-    border: 1px solid $button-border-color;
     font-size: 200% !important;
     margin: 0 5px;
     padding: 45px 15px;
@@ -580,4 +577,8 @@ label > input {
     display:none;
   }
 
+  .footer a {
+    text-shadow: none;
+    color: #333333;
+  }
 }
