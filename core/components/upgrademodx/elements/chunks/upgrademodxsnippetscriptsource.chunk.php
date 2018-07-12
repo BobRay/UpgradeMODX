@@ -368,13 +368,7 @@ class MODXInstaller {
         <label><input type="radio"{$selected} name="modx" value="$version">
             <span>{$itemInfo['name']} $current</span>
         </label>
-       
-       <!--  <br><input type="radio"{$selected} id="radio{$i}" name="modx" value="$version">
-        <label for = "radio{$i}"><span>{$itemInfo['name']} $current</span>
-        </label> -->
-
 EOD;
-                    // $i++;
                 } // end inner foreach loop
                 $output .= '</div>';
             } // end outer foreach loop
@@ -392,10 +386,10 @@ EOD;
         /* Do not touch the following comments! You have been warned!  */
         /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
         /** @var $forceFopen bool - force the use of PclZip instead of ZipArchive */
-
         /* [[+ForcePclZip]] */
         /* [[+ForceFopen]] */
         /* [[+InstallData]] */
+        /** @var $InstallData array */
 
         $method = 0;
         $output = '';
@@ -541,7 +535,7 @@ EOD;
                         }
                     } else {
                         setTimeout(function () {
-                            window.location.replace("http://localhost/addons/setup/index.php");
+                            window.location.replace("[[++base_url]]setup/index.php");
                         }, 4000);
                         
                     }
