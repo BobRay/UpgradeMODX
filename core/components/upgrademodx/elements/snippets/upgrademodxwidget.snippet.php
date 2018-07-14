@@ -77,8 +77,52 @@ if (! function_exists('rrmdir')) {
     }
 }
 
+function createVersionForm($InstallData, $submitted) {
+    $output = '';
+
+    $output .= "\n" . '<div id="upgrade_form">' . "\n";
 
 
+    $action = $submitted ? "[[+ugm_starting_upgrade]]" : "[[+ugm_begin_upgrade]]";
+    $disabled = $submitted ? true : false;
+    // $output .= MODXInstaller::getButtonCode($action, $disabled, $submitted);
+
+    /* If not submitted, add version list */
+
+    if (!$submitted) {
+        $ItemGrid = array();
+        foreach ($InstallData as $ver => $item) {
+            $ItemGrid[$item['tree']][$ver] = $item;
+        }
+        $output .= "<p>[[%ugm_get_major_versions]]</p>";
+        //  $i = 0;
+        foreach ($ItemGrid as $tree => $item) {
+            $output .= "\n" . '<form<div class="column">';;
+            /* "\n<h3>" . strtoupper($tree) . '</h3>';*/
+            foreach ($item as $version => $itemInfo) {
+                $selected = $itemInfo['selected'] ? ' checked' : '';
+                $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
+                $i = 0;
+                $output .= <<<EOD
+       <label><input type="radio"{$selected} name="modx" value="$version">
+            <span>{$itemInfo['name']} $current</span>
+        </label>
+EOD;
+            $i++;
+            } // end inner foreach loop
+            $output .= '<tbody></table>';
+        } // end outer foreach loop
+        $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
+    }
+    $output .= "\n" . '</div>' . "\n ";
+
+    return $output;
+}
+
+
+function render() {
+    // xxx
+}
 
 if (php_sapi_name() === 'cli') {
     /* This section for debugging during development. It won't execute in MODX */
@@ -116,13 +160,15 @@ if (php_sapi_name() === 'cli') {
 }
 
 $props = $scriptProperties;
-$corePath = $modx->getOption('ugm.core_path', $props, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
-
+$corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
+$assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
 require_once($corePath . 'model/upgrademodx.class.php');
 
 
 $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
+
+$modx->regClientCSS($assetsUrl . 'css/progress.css');
 
 /* See if user has submitted the form. If so, create the upgrade script and launch it */
 if (isset($_POST['UpgradeMODX'])) {
@@ -171,15 +217,17 @@ $fullVersionListPath = $versionListPath . 'versionlist';
 if (file_exists($fullVersionListPath)) {
     $v = file_get_contents($fullVersionListPath);
     if (! empty($v)) {
-        $versionListExists = true;
+        $versionListExists = false;
     }
 }
 
+$fullVersionList = array();
 $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 /* Perform check if no versionlist or latestVersion, or if it's time to check */
-if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
+if ((!$versionListExists ) || $timeToCheck || empty($latestVersion) || true) {
     $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $method);
     $latestVersion = $upgrade->getLatestVersion();
+    $fullVersionList = $upgrade->versionArray;
 } else {
     $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;;
 }
@@ -227,8 +275,24 @@ if ($upgradeAvailable) {
     $placeholders['[[+ugm_form]]'] = '<br/><br/>
         <form method="post" action="">
            <input class="x-btn x-btn-small x-btn-icon-small-left primary-button x-btn-noicon"
-                    type="submit" name="UpgradeMODX" value="' . $modx->lexicon('ugm_upgrade_modx') .  '">
-        </form>';
+                    type="submit" name="UpgradeMODX" value="' . $modx->lexicon('ugm_upgrade_modx') .  '"><br><br>' .
+                    createVersionForm($fullVersionList, false) . "</form>" . '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+                    
+                    <script>
+           var checkedBackground = \'#ffffff\';
+           var originalBackground = $(\'label\').css( "background-color" );
+
+           $(\'input[type="radio"]:checked\').parent().css("background",checkedBackground);
+                        
+           $("label > input").change(function() {
+               if ($(this).is(":checked")) {
+                   $(this).parent().css("background", checkedBackground);
+                   $(\'input[type="radio"]:not(:checked)\').parent().css("background",originalBackground);
+                   console.log("Value: " + $(\'input[type="radio"]:checked\').val()); 
+               } 
+           });
+</script>';
+
 
 } else {
     if ($hideWhenNoUpgrade) {
