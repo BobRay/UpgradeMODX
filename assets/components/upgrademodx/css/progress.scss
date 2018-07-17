@@ -238,6 +238,7 @@ input[type=radio] {
   vertical-align: text-bottom;
   display:inline-block;
   color: $body-color !important;
+  visibility:hidden;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -367,10 +368,10 @@ h5 {
 }
 
 #upgrade_form p {
-  margin: 20px 0 30px 0;
-  font-size: 2em;
-  width: 550px;
-  line-height: 35px;
+  // margin: 20px 0 30px 0;
+  // font-size: 2em;
+  // width: 550px;
+  // line-height: 35px;
 }
 
 #upgrade_form .column {
