@@ -77,28 +77,38 @@ if (! function_exists('rrmdir')) {
     }
 }
 
-function createVersionForm($InstallData, $submitted) {
+function createVersionForm($modx, $upgrade, $corePath, $method) {
+    /** @var $upgrade  UpgradeMODX */
+    /** @var $modx modX */
     $output = '';
 
-    $output .= "\n" . '<div id="upgrade_form">' . "\n";
+    $output .= "\n" . '<div id="upgrade_form">';
+    $output .= "\n" . $upgrade->getButtonCode();
+    $output .= "\n" . '<div class = "ugm_logout_note">'  .  $modx->lexicon('ugm_logout_note') . '</div >';
+    $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
+    // $versions = $upgrade->getJSONFromGitHub($method);
+    // $versions = $upgrade->finalizeVersionArray($versions);
 
-
-    $action = $submitted ? "[[+ugm_starting_upgrade]]" : "[[+ugm_begin_upgrade]]";
-    $disabled = $submitted ? true : false;
-    // $output .= MODXInstaller::getButtonCode($action, $disabled, $submitted);
+    // $disabled = $submitted ? true : false;
 
     /* If not submitted, add version list */
 
-    if (!$submitted) {
-        $ItemGrid = array();
-        foreach ($InstallData as $ver => $item) {
-            $ItemGrid[$item['tree']][$ver] = $item;
-        }
-        $output .= "<p>[[%ugm_get_major_versions]]</p>";
+    if (true) {
+       /* $ItemGrid = array();
+        foreach ($versions as $ver => $item) {
+            $versions[$item['tree']][$ver] = $item;
+        }*/
+        // $output .= "<p>[[%ugm_get_major_versions]]</p>";
+        // $output .= '<p>Calling Processor</p>';
+        // $output .= '<p>Path = ' . $corePath . 'processors/';
+        $config = array(
+            'processors_path' => $corePath . 'processors/', //xxx
+        );
+        $response = $modx->runProcessor('getversions', array(), $config);
+        $output .= $response->response['message'];
         //  $i = 0;
-        foreach ($ItemGrid as $tree => $item) {
+/*        foreach ($ItemGrid as $tree => $item) {
             $output .= "\n" . '<form<div class="column">';;
-            /* "\n<h3>" . strtoupper($tree) . '</h3>';*/
             foreach ($item as $version => $itemInfo) {
                 $selected = $itemInfo['selected'] ? ' checked' : '';
                 $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
@@ -110,9 +120,10 @@ function createVersionForm($InstallData, $submitted) {
 EOD;
             $i++;
             } // end inner foreach loop
-            $output .= '<tbody></table>';
-        } // end outer foreach loop
-        $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
+
+        } // end outer foreach loop  */
+        // $output .= '<tbody></table>';
+        // $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
     }
     $output .= "\n" . '</div>' . "\n ";
 
@@ -162,7 +173,7 @@ if (php_sapi_name() === 'cli') {
 $props = $scriptProperties;
 $corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
 $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
-require_once($corePath . 'model/upgrademodx.class.php');
+require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 
 
 $upgrade = new UpgradeMODX($modx);
@@ -189,7 +200,7 @@ if (isset($_POST['UpgradeMODX'])) {
         unlink(MODX_BASE_PATH . 'upgrade.php');
     }
 }
-
+$modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 /* Set the method */
 $forceFopen = $modx->getOption('forceFopen', $props, false, true);
 $method = null;
@@ -267,18 +278,17 @@ $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_ve
 
 /* See if there's a new version and if it's downloadable */
 if ($upgradeAvailable) {
+
     $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_upgrade_available');
     $placeholders['[[+ugm_notice_color]]'] = 'green';
-    $placeholders['[[+ugm_logout_note]]'] = '<br/><br/>(' .
+   /* $placeholders['[[+ugm_logout_note]]'] = '<br/><br/>(' .
         $modx->lexicon('ugm_logout_note')
-        . ')';
-    $placeholders['[[+ugm_form]]'] = '<br/><br/>
-        <form method="post" action="">
-           <input class="x-btn x-btn-small x-btn-icon-small-left primary-button x-btn-noicon"
-                    type="submit" name="UpgradeMODX" value="' . $modx->lexicon('ugm_upgrade_modx') .  '"><br><br>' .
-                    createVersionForm($fullVersionList, false) . "</form>" . '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        . ')';*/
+    $output .= ''; //yyy
+
+    $placeholders['[[+ugm_version_form]]'] = createVersionForm($modx, $upgrade, $corePath, $method) . // xx
                     
-                    <script>
+       '<script>
            var checkedBackground = \'#ffffff\';
            var originalBackground = $(\'label\').css( "background-color" );
 
