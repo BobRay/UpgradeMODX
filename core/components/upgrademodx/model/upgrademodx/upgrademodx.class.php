@@ -257,7 +257,7 @@ if (!class_exists('UpgradeMODX')) {
             $ie = $this->getIeVersion();
             $buttonCode = '';
             $buttonCode .= '<span class="progress_wrap">';
-            if ($ie) {
+            /*if ($ie) {
                 $buttonCode .= '
         <button type="submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="fill"
                 data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
@@ -265,7 +265,18 @@ if (!class_exists('UpgradeMODX')) {
                 $buttonCode = '
         <button type = "submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="rotate-angle-bottom" data-perspective
                 data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
+            }*/
+
+            if ($ie) {
+                $buttonCode .= '
+        <button type="submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="fill"
+                data-horizontal' . $disabled . '>' . $action . '</button>';
+            } else {
+                $buttonCode = '
+        <button type = "submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="rotate-angle-bottom" data-perspective
+                data-horizontal' . $disabled . '>' .  $action . '</button>';
             }
+
 
             $buttonCode .= '</span>';
             return $buttonCode;

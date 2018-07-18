@@ -83,7 +83,7 @@ function createVersionForm($modx, $upgrade, $corePath, $method) {
     $output = '';
 
     $output .= "\n" . '<div id="upgrade_form">';
-    $output .= "\n" . $upgrade->getButtonCode();
+    $output .= "\n" . $upgrade->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
     $output .= "\n" . '<div class = "ugm_logout_note">'  .  $modx->lexicon('ugm_logout_note') . '</div >';
     $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
     // $versions = $upgrade->getJSONFromGitHub($method);
@@ -173,6 +173,9 @@ if (php_sapi_name() === 'cli') {
 $props = $scriptProperties;
 $corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
 $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
+//$modx->log(modx::LOG_LEVEL_ERROR, "Assets URL: " . $assetsUrl);
+$placeholders = array();
+$placeholders['[[+ugm_assets_url]]'] = $assetsUrl;
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 
 
@@ -180,6 +183,9 @@ $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
 
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
+/*$modx->regClientScript($assetsUrl . 'js/classie.js');
+$modx->regClientScript($assetsUrl . 'js/progressButton.js');*/
+
 
 /* See if user has submitted the form. If so, create the upgrade script and launch it */
 if (isset($_POST['UpgradeMODX'])) {
@@ -190,7 +196,7 @@ if (isset($_POST['UpgradeMODX'])) {
         if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
             $flushed = false;
         } else {
-            $modx->user->endSession();
+            // $modx->user->endSession();
         }
     }
     $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
@@ -201,6 +207,7 @@ if (isset($_POST['UpgradeMODX'])) {
     }
 }
 $modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
+$modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
 /* Set the method */
 $forceFopen = $modx->getOption('forceFopen', $props, false, true);
 $method = null;
@@ -246,7 +253,7 @@ if ((!$versionListExists ) || $timeToCheck || empty($latestVersion) || true) {
 if ($devMode) {
     $upgradeAvailable = true;
 }
-$placeholders = array();
+
 $placeholders['[[+ugm_current_version]]'] = $currentVersion;
 $placeholders['[[+ugm_latest_version]]'] = $latestVersion;
 
@@ -284,7 +291,7 @@ if ($upgradeAvailable) {
    /* $placeholders['[[+ugm_logout_note]]'] = '<br/><br/>(' .
         $modx->lexicon('ugm_logout_note')
         . ')';*/
-    $output .= ''; //yyy
+    // $output .= ''; //yyy
 
     $placeholders['[[+ugm_version_form]]'] = createVersionForm($modx, $upgrade, $corePath, $method) . // xx
                     
@@ -301,7 +308,65 @@ if ($upgradeAvailable) {
                    console.log("Value: " + $(\'input[type="radio"]:checked\').val()); 
                } 
            });
-</script>';
+</script>' .  <<<EOD
+    <script src="{$assetsUrl}js/progressButton.js"></script>
+    <script>
+        
+        var bttn = document.getElementById('ugm_submit_button');
+        var old = '';
+        new ProgressButton( bttn, {
+                callback : function( instance ) {
+                    
+                    var progress = 0,
+                        interval = setInterval( function() {
+                            // console.log('Progress: ' + progress);
+                            var button_text = document.getElementById('button_content').textContent ||
+                                document.getElementById('button_content').innerText;
+                            if (button_text == '[[+ugm_downloading_files]]' && button_text != old) {
+                                progress = 0.1;
+                                old = button_text;
+                            } else if (button_text == '[[+ugm_unzipping_files]]' && button_text != old) {
+                                progress = 0.3;
+                                old = button_text;
+                            } else if (button_text == '[[+ugm_copying_files]]' && button_text != old) {
+                                progress = 0.6;
+                                old = button_text;
+                            } else if (button_text == '[[+ugm_preparing_setup]]' && button_text != old) {
+                                progress = 0.8;
+                                old = button_text;
+                            }  else if (button_text == '[[+ugm_finished]]') {
+                                progress = 1;
+                            }  else if (button_text == '[[+ugm_launching_setup]]') {
+                                progress = 1;
+                            }
+                            // progress = Math.min( progress + Math.random() * 0.1, 1 );
+                            progress = Math.min( progress, 1 );
+                            // console.log("Text " + button_text);
+                            if( progress === 1 ) {
+                                setTimeout(function () {
+                                    instance._stop(1);
+                                    clearInterval( interval );
+                                }, 1000);
+                            }
+                            instance._setProgress( progress );
+                            if( progress === 1 ) {
+                                setTimeout(function () {
+                                    instance._stop(1);
+                                    clearInterval( interval );
+                                }, 1000);
+                            }
+                        }, 1000 );
+                }
+            } );
+        
+        /* Simulate click on landing page to initiate action; button won't submit
+           because it's not in a form 
+         */
+        setTimeout(function () {
+           // bttn.click();
+        }, 1000);
+    </script>
+EOD;
 
 
 } else {
