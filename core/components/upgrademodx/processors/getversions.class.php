@@ -30,15 +30,18 @@ class GetVersionsProcessor extends modProcessor {
     public $classKey = 'modChunk';
     public $languageTopics = array('upgrademodx:default');
     public $corePath;
+    /** @var $upgrade UpgradeMODX */
+    public $upgrade; /* UpgradeMODX class */
+    public $method = 'curl';
     // public $defaultSortField = 'name';
     // public $defaultSortDirection = 'ASC';
     // public $ids;
 
     function initialize() {
         $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
-        require_once $corePath . 'model/upgrademodx.class.php';
+        require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
         $this->corePath = $corePath;
-        $ugm = new UpgradeMODX($this->modx);
+        $this->upgrade = new UpgradeMODX($this->modx);
         return true;
     }
 
@@ -46,15 +49,57 @@ class GetVersionsProcessor extends modProcessor {
        this method can be removed */
     public function process() {
 
+        $o = $this->createVersionList($this->method);
+
         /* perform action here */
 
-        $o = '<h3>Hello World</h3>';
+
+       //  $o = '<h3>Version List</h3>';
 
 
         return $this->success($o);
 
     }
 
+    public function checkPermissions() {
+
+        return (bool) $this->modx->user->isMember('Administrator');
+
+    }
+
+    public function createVersionList($method) {
+        $output = '';
+        $versions = $this->upgrade->getJSONFromGitHub($method);
+        $versions = $this->upgrade->finalizeVersionArray($versions);
+       //  return print_r($versions, true);
+        $itemGrid = array();
+        foreach ($versions as $ver => $item) {
+            $itemGrid[$item['tree']][$ver] = $item;
+        }
+        $i = 0;
+            foreach ($itemGrid as $tree => $item) {
+                $output .= "\n" . '<div class="column">';;
+                foreach ($item as $version => $itemInfo) {
+                    $selected = $itemInfo['selected'] ? ' checked' : '';
+                    $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
+                    $i = 0;
+                    $output .= <<<EOD
+                        <label><input type="radio"{$selected} name="modx" value="$version">
+                        <span>{$itemInfo['name']} $current</span>
+                        </label>
+EOD;
+                $i++;
+                } // end inner foreach loop
+
+            } // end outer foreach loop
+        // $output .= '<tbody></table>';
+        // $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
+        return $output;
+
+    }
+
 }
+
+
 
 return 'GetVersionsProcessor';
