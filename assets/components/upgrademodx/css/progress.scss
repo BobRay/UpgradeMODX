@@ -18,568 +18,567 @@ $footer-color: #777777;
   box-sizing: border-box;
 }
 
-/* General styles for all types of buttons */
-.progress-button {
+div#Upgrade_modx {
 
-  font-size: 24px;
-  position: relative;
-  display: block;
-  padding: 0; // 0 60px;
-  outline: none;
-  background: $progress-button-background;
-  letter-spacing: $button-letter_spacing;
-  line-height: 4;
-}
+  /* General styles for all types of buttons */
+  .progress-button {
 
-.progress-button[disabled],
-.progress-button[disabled].state-loading {
-  cursor: default;
-  color: $button-active-text-color;
-}
+    font-size: 24px;
+    position: relative;
+    display: block;
+    padding: 0; // 0 60px;
+    outline: none;
+    background: $progress-button-background;
+    letter-spacing: $button-letter_spacing;
+    line-height: 4;
+  }
 
-.progress-button .content {
-  position: relative;
-  display: block;
-}
+  .progress-button[disabled],
+  .progress-button[disabled].state-loading {
+    cursor: default;
+    color: $button-active-text-color;
+  }
 
-span.content {
-  letter-spacing: $button-letter_spacing;
-  font-size: 1em;
-  line-height: 4;
-  // font-family: $sans-font;
-}
+  .progress-button .content {
+    position: relative;
+    display: block;
+  }
 
-.notransition {
-  -webkit-transition: none !important;
-  transition: none !important;
-}
+  span.content {
+    letter-spacing: $button-letter_spacing;
+    font-size: 1em;
+    line-height: 4;
+    // font-family: $sans-font;
+  }
 
-.progress-button .progress {
-  background: #148544;
-}
+  .notransition {
+    -webkit-transition: none !important;
+    transition: none !important;
+  }
 
-.progress-button .progress-inner {
-  position: absolute;
-  left: 0;
-  background: $inner-progress-background// #0c4d26;
-}
+  .progress-button .progress {
+    background: #148544;
+  }
 
-.progress-button[data-horizontal] .progress-inner {
-  top: 0;
-  width: 0;
-  height: 100%;
-  -webkit-transition: width 0.3s, opacity 0.3s;
-  transition: width 0.3s, opacity 0.3s;
-}
+  .progress-button .progress-inner {
+    position: absolute;
+    left: 0;
+    background: $inner-progress-background // #0c4d26;
+  }
 
-/* CSS for IE */
+  .progress-button[data-horizontal] .progress-inner {
+    top: 0;
+    width: 0;
+    height: 100%;
+    -webkit-transition: width 0.3s, opacity 0.3s;
+    transition: width 0.3s, opacity 0.3s;
+  }
 
-/* Fill horizontal */
-/* ====================== */
+  /* CSS for IE */
 
-.progress-button[data-style="fill"][data-horizontal] {
-  border-collapse: separate;
-  border:none;
-  overflow: hidden;
-}
+  /* Fill horizontal */
+  /* ====================== */
 
-.progress-button[data-style="fill"][data-horizontal] .content {
-  z-index: 10;
-  -webkit-transition: -webkit-transform 0.3s;
-  transition: transform 0.3s;
+  .progress-button[data-style="fill"][data-horizontal] {
+    border-collapse: separate;
+    border: none;
+    overflow: hidden;
+  }
 
-}
-
-/* Necessary 3d styles for buttons with perspective */
-
-.progress-button[data-perspective] {
-  margin: $button-margin;
-  // position: relative;
-  display: inline-block;
-  padding: 0;
-  background: transparent;
-  -webkit-perspective: 900px;
-  perspective: 900px;
-}
-
-.progress-button[data-perspective] .content {
-  border: 1px solid $button-border-color;
-  border-radius: 3px !important;
-  padding: 0;
-  width:100%;
-
-  background: $button-gradient-outer;
-  background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-
-  background: -webkit-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: -moz-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: -o-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: linear-gradient(to bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-
-  -webkit-font-smoothing: antialiased;
-}
-
-.progress-button[data-perspective] .progress-wrap {
-  width:100%;
-  border:none;
-  display: block;
-  -webkit-transition: -webkit-transform 0.2s;
-  transition: transform 0.2s;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-}
-
-.progress-button[data-perspective] .content,
-.progress-button[data-perspective] .progress {
-   outline: 1px solid rgba(0,0,0,0); /* Smoothen jagged edges in FF */
-}
-
-/* Fill horizontal */
-/* ====================== */
-
-.progress-button[data-style="fill"][data-horizontal] {
-  margin: $button-margin;
-  border: 1px solid #0c4d26;
-  border-radius: 3px !important;
-  overflow: hidden;
-  background: $button-gradient-outer;
-  background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-
-  background: -webkit-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: -moz-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: -o-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  background: linear-gradient(to bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-  -webkit-font-smoothing: antialiased;
-}
-
-.progress-button[data-style="fill"][data-horizontal] .content {
+  .progress-button[data-style="fill"][data-horizontal] .content {
     z-index: 10;
-   -webkit-font-smoothing: antialiased;
-   -webkit-transition: -webkit-transform 0.3s;
-   transition: transform 0.3s;
-}
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
 
-/* Rotate bottom 3d */
-/* ====================== */
-
-.progress-button[data-style="rotate-angle-bottom"] .progress {
-  position: absolute;
-  top: 100%;
-  left: 2px;
-  width: 496px;
-  outline: 1px solid $button-border-color;
-  height: 35px;
-  box-shadow: 0 -1px 0 #148544; /* fix the blurriness that causes a gap */
-  -webkit-transform: rotateX(-90deg);
-  transform: rotateX(-90deg);
-  -webkit-transform-origin: 50% 0;
-  transform-origin: 50% 0;
-}
-
-.progress-button[data-style="rotate-angle-bottom"].state-loading .progress-wrap {
-  -webkit-transform: rotateX(45deg);
-  transform: rotateX(45deg);
-}
-
-/* UpgradeMODX page styles */
-/* ====================== */
-
-@import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
-article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
-  margin: 0;
-  padding: 0;
-  border: none;
-  outline: 0;
-  vertical-align: baseline;
-  background: 0 0;
-  font-size: 100%
-}
-
-.progress-button {
-  width: 500px;
-  height: 100px;
-}
-
-a {
-  text-decoration: none;
-  outline: none;
-  margin: 0;
-  padding: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  background: 0 0
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0
-}
-
-td, td img {
-  vertical-align: top
-}
-
-button, input, select, textarea {
-  margin: 0;
-  font-size: 100%;
-}
-
-input[type=password], input[type=text], textarea {
-  padding: 0
-}
-
-input[type=checkbox] {
-  vertical-align: bottom
-}
-
-input[type=radio] {
-  vertical-align: text-bottom;
-  display:inline-block;
-  color: $body-color !important;
-  visibility:hidden;
-}
-
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-  display: block
-}
-
-html {
-  overflow-y: scroll
-}
-
-button, input, select, textarea {
-  // font-family: $sans-font;
-}
-
-a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
-  cursor: pointer;
-}
-
-
-html {
-  position: relative;
-  background: #f8f8f8 url(base.png)
-}
-
-body {
-  font: $body-font;
-  color: $body-color;
-  background: 0 0;
-  text-align:left;
-  font-size: 14px;
-  line-height: 22px;
-  -webkit-font-smoothing: antialiased;
-
-}
-
-.button, button {
-  border:none;
-  color: #fff;
-  display: inline-block;
-  padding: 15px;
-  font-size: 20px;
-  text-decoration: none;
-  background-color: #67a749;
-  text-shadow: 2px 2px 1px #0c4d26;
-}
-
-h1 {
-  font-family: "PT Serif", helvetica, arial, sans-serif;
-  line-height: 32px;
-  text-align:left;
-}
-
-h1 {
-  font-size: 26px
-}
-
-h2 {
-  font-size: 32px
-}
-
-h3 {
-  font-size: 18px;
-  margin-top: 20px;
-  font-weight: normal;
-  font-style: italic;
-}
-
-h4 {
-  font-size: 16px
-}
-
-h5 {
-  font-size: 14px
-}
-
-.header {
-  -moz-box-sizing: border-box;
-  display:block;
-  width: 100%;
-  box-sizing: border-box;
-  background: #fff;
-  background: linear-gradient(to bottom, #fff, #f2f2f2);
-  padding: 36px 0 40px 61px;
-  border-bottom: 2px solid #fff
-}
-
-.header img {
-  float: left;
-  width: 180px;
-  margin: 0 5px 0 0
-}
-
-.header h1.main-heading {
-  color: #8ab3d3;
-  font-size: 32px;
-  line-height: 40px
-}
-
-.header-button-wrapper {
-  float: right
-}
-
-.main-heading > span {
-  display: none
-}
-
-.main-heading > sup {
-  color: #ccc;
-  font-weight: 400
-}
-
-.content_div {
-  display:block;
-  padding: 3% 0 0 8%;
-  margin:auto;
-}
-
-.content_div h2 {
-  margin: 0;
-  line-height: 35px;
-  color: $h2-color;
-}
-
-#upgrade_form {
-  margin: 10px 0 50px;
-  display:block;
-}
-
-#upgrade_form p {
-  // margin: 20px 0 30px 0;
-  // font-size: 2em;
-  // width: 550px;
-  // line-height: 35px;
-}
-
-#upgrade_form .column {
-  margin: 15px 0;
-  padding-left: 37px;
-  display:block;
-  box-sizing: border-box;
-  width: 500px;
-
-}
-
-.column h3 {
-  display: inline-block;
-  padding: 0 0 5px;
-  margin: 0 0 20px;
-  border-bottom: 2px solid #000
-}
-
-form button {
-  display: block;
-  width: 200px;
-  clear: both
-}
-
-.column label {
-  font-size: 140%;
-  display: block;
-  width: 100%;
-  padding: 12px;
-  outline: 2px solid #cccccc;
-  margin: 2px 0 0 0;
-    background-color: #e5e5e5;
-}
-
-
-label > input {
-  margin: 0 5px 5px 5px;
-}
-
-.footer {
-  margin: 1% 0 3% 8%;
-  display:block;
-  font-size: 16px;
-  color: $footer-color;
-}
-
-.footer a {
-  color: #d0f2e3;
-  text-shadow: 1px 1px 1px #0c4d26;
-}
-
-.footer a:hover {
-  text-shadow: 2px 1px 1px #0c4d26;
-  color: #ffffff;
-}
-
-.red {
-  color: $button-active-text-color;
-}
-
-/*************** BIG SCREENS below 1300 px ************* */
-@media only screen and (max-width: 1300px) {
-
-  .content_div {
-    margin: 0 auto;
-    padding: 3% 0 0 0;
   }
 
-  .content_div h2, h3 {
-    margin-left: 30px;
+  /* Necessary 3d styles for buttons with perspective */
+
+  .progress-button[data-perspective] {
+    margin: $button-margin;
+    // position: relative;
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+    -webkit-perspective: 900px;
+    perspective: 900px;
   }
 
-  #upgrade_form .column {
-    margin:0 auto;
+  .progress-button[data-perspective] .content {
+    border: 1px solid $button-border-color;
+    border-radius: 3px !important;
+    padding: 0;
     width: 100%;
+
+    background: $button-gradient-outer;
+    background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+
+    background: -webkit-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -moz-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -o-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: linear-gradient(to bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+
+    -webkit-font-smoothing: antialiased;
   }
 
-  #upgrade_form {
-    margin-left:0;
-    padding-left:0;
+  .progress-button[data-perspective] .progress-wrap {
+    width: 100%;
+    border: none;
+    display: block;
+    -webkit-transition: -webkit-transform 0.2s;
+    transition: transform 0.2s;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
   }
-  .column label {
-   // border: 1px solid $button-border-color;
-    font-size: 200% !important;
+
+  .progress-button[data-perspective] .content,
+  .progress-button[data-perspective] .progress {
+    outline: 1px solid rgba(0, 0, 0, 0); /* Smoothen jagged edges in FF */
+  }
+
+  /* Fill horizontal */
+  /* ====================== */
+
+  .progress-button[data-style="fill"][data-horizontal] {
+    margin: $button-margin;
+    border: 1px solid #0c4d26;
+    border-radius: 3px !important;
+    overflow: hidden;
+    background: $button-gradient-outer;
+    background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+
+    background: -webkit-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -moz-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -o-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: linear-gradient(to bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .progress-button[data-style="fill"][data-horizontal] .content {
+    z-index: 10;
+    -webkit-font-smoothing: antialiased;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+  }
+
+  /* Rotate bottom 3d */
+  /* ====================== */
+
+  .progress-button[data-style="rotate-angle-bottom"] .progress {
+    position: absolute;
+    top: 100%;
+    left: 2px;
+    width: 496px;
+    outline: 1px solid $button-border-color;
+    height: 35px;
+    box-shadow: 0 -1px 0 #148544; /* fix the blurriness that causes a gap */
+    -webkit-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+    -webkit-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+  }
+
+  .progress-button[data-style="rotate-angle-bottom"].state-loading .progress-wrap {
+    -webkit-transform: rotateX(45deg);
+    transform: rotateX(45deg);
+  }
+
+  /* UpgradeMODX page styles */
+  /* ====================== */
+
+  @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
+  article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
     margin: 0;
-    padding: 45px 5px;
-    width:90%;
-  }
-  label > input {
-    margin: 0 5px 0 5px;
-    border: 0;
-    width:60px;
-    height: 1em;
+    padding: 0;
+    border: none;
+    outline: 0;
+    vertical-align: baseline;
+    background: 0 0;
+    font-size: 100%
   }
 
-  #upgrade_form p {
-    font-size: 200% !important;
-    line-height: 35px;
-    margin: 20px 0 43px 30px;
+  .progress-button {
+    width: 500px;
+    height: 100px;
+  }
+
+  a {
+    text-decoration: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: 0 0
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0
+  }
+
+  td, td img {
+    vertical-align: top
+  }
+
+  button, input, select, textarea {
+    margin: 0;
+    font-size: 100%;
+  }
+
+  input[type=password], input[type=text], textarea {
+    padding: 0
+  }
+
+  input[type=checkbox] {
+    vertical-align: bottom
   }
 
   input[type=radio] {
-    clear: left !important;
-    color: $body-color;
+    vertical-align: text-bottom;
+    display: inline-block;
+    color: $body-color !important;
+    visibility: hidden;
   }
 
-}
+  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block
+  }
 
-/*********** BIG PHONES, TABLETS ***********/
-@media only screen and (max-width: 768px) {
+  html {
+    overflow-y: scroll
+  }
+
+  button, input, select, textarea {
+    // font-family: $sans-font;
+  }
+
+  a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
+    cursor: pointer;
+  }
+
+  html {
+    position: relative;
+    background: #f8f8f8 url(base.png)
+  }
+
   body {
-    text-align: center;
+    font: $body-font;
+    color: $body-color;
+    background: 0 0;
+    text-align: left;
+    font-size: 14px;
+    line-height: 22px;
+    -webkit-font-smoothing: antialiased;
+
   }
 
-  .footer {
+  .button, button {
+    border: none;
+    color: #fff;
+    display: inline-block;
+    padding: 15px;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: #67a749;
+    text-shadow: 2px 2px 1px #0c4d26;
+  }
+
+  h1 {
+    font-family: "PT Serif", helvetica, arial, sans-serif;
+    line-height: 32px;
     text-align: left;
   }
 
-  #upgrade_form .column {
-    margin: 15px auto;
-    padding-left: 37px;
+  h1 {
+    font-size: 26px
+  }
+
+  h2 {
+    font-size: 32px
+  }
+
+  h3 {
+    font-size: 18px;
+    margin-top: 20px;
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  h4 {
+    font-size: 16px
+  }
+
+  h5 {
+    font-size: 14px
+  }
+
+  .header {
+    -moz-box-sizing: border-box;
     display: block;
-    box-sizing: border-box;
     width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    background: linear-gradient(to bottom, #fff, #f2f2f2);
+    padding: 36px 0 40px 61px;
+    border-bottom: 2px solid #fff
+  }
+
+  .header img {
+    float: left;
+    width: 180px;
+    margin: 0 5px 0 0
+  }
+
+  .header h1.main-heading {
+    color: #8ab3d3;
+    font-size: 32px;
+    line-height: 40px
+  }
+
+  .header-button-wrapper {
+    float: right
+  }
+
+  .main-heading > span {
+    display: none
+  }
+
+  .main-heading > sup {
+    color: #ccc;
+    font-weight: 400
+  }
+
+  .content_div {
+    display: block;
+    padding: 3% 0 0 8%;
+    margin: auto;
   }
 
   .content_div h2 {
-    margin: 0 auto;
-    padding: 0 10%;
-  }
-
-  div.column {
-    margin: 0 auto;
-    padding: 1%;
-  }
-  .content_div {
-    margin-left: 0;
-    padding-left: 0;
+    margin: 0;
+    line-height: 35px;
+    color: $h2-color;
   }
 
   #upgrade_form {
-    margin-left: 0;
-    padding-left: 0;
-  }
-
-
-  #upgrade_form p {
-    margin: 0 auto;
-    font-size: 200% !important;
-    line-height: 35px;
-    text-align: left;
-    padding: 20px 0 0 24px;
-    width: 100%;
-  }
-
-  .column label {
-    text-align:left;
-    font-size: 200% !important;
-    margin: 0;
-    width: 95%;
+    margin: 10px 0 50px;
     display: block;
   }
-  label > input {
-    margin: 0 5px 0 5px;
-    border: 0;
-    width: 20px;
-    height: 1em;
-    display: inline;
-  }
-
-
-  label > input[type=checkbox] {
-   // background-color: $button-border-color;
-    color: $body-color;
-  }
-
-}
-
-/************ SMALL PHONES **************/
-@media only screen and (max-width: 421px) {
-
-  #upgrade_form .column {
-    margin:0;
-    padding:0;
-  }
-  .column label {
-    display:block;
-    font-size: 200% !important;
-    margin: 0 5px;
-    padding: 45px 15px;
-    width:98%;
-    line-height:30px;
-  }
-  .content_div h2 {
-    line-height: 32px;
-  }
 
   #upgrade_form p {
-    padding: 20px 0 25px 24px;
-    font-size: 200% !important;
-    line-height: 35px;
+    // margin: 20px 0 30px 0;
+    // font-size: 2em;
+    // width: 550px;
+    // line-height: 35px;
   }
-  label > input[type=radio] {
-    display:none;
+
+  #upgrade_form .column {
+    margin: 15px 0;
+    padding-left: 37px;
+    display: block;
+    box-sizing: border-box;
+    width: 500px;
+
+  }
+
+  .column h3 {
+    display: inline-block;
+    padding: 0 0 5px;
+    margin: 0 0 20px;
+    border-bottom: 2px solid #000
+  }
+
+  form button {
+    display: block;
+    width: 200px;
+    clear: both
+  }
+
+  .column label {
+    font-size: 140%;
+    display: block;
+    width: 100%;
+    padding: 12px;
+    outline: 2px solid #cccccc;
+    margin: 2px 0 0 0;
+    background-color: #e5e5e5;
+  }
+
+  label > input {
+    margin: 0 5px 5px 5px;
+  }
+
+  .footer {
+    margin: 1% 0 3% 8%;
+    display: block;
+    font-size: 16px;
+    color: $footer-color;
   }
 
   .footer a {
-    text-shadow: none;
-    color: #333333;
+    color: #d0f2e3;
+    text-shadow: 1px 1px 1px #0c4d26;
+  }
+
+  .footer a:hover {
+    text-shadow: 2px 1px 1px #0c4d26;
+    color: #ffffff;
+  }
+
+  .red {
+    color: $button-active-text-color;
+  }
+
+  /*************** BIG SCREENS below 1300 px ************* */
+  @media only screen and (max-width: 1300px) {
+
+    .content_div {
+      margin: 0 auto;
+      padding: 3% 0 0 0;
+    }
+
+    .content_div h2, h3 {
+      margin-left: 30px;
+    }
+
+    #upgrade_form .column {
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    #upgrade_form {
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .column label {
+      // border: 1px solid $button-border-color;
+      font-size: 200% !important;
+      margin: 0;
+      padding: 45px 5px;
+      width: 90%;
+    }
+    label > input {
+      margin: 0 5px 0 5px;
+      border: 0;
+      width: 60px;
+      height: 1em;
+    }
+
+    #upgrade_form p {
+      font-size: 200% !important;
+      line-height: 35px;
+      margin: 20px 0 43px 30px;
+    }
+
+    input[type=radio] {
+      clear: left !important;
+      color: $body-color;
+    }
+
+  }
+
+  /*********** BIG PHONES, TABLETS ***********/
+  @media only screen and (max-width: 768px) {
+    body {
+      text-align: center;
+    }
+
+    .footer {
+      text-align: left;
+    }
+
+    #upgrade_form .column {
+      margin: 15px auto;
+      padding-left: 37px;
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .content_div h2 {
+      margin: 0 auto;
+      padding: 0 10%;
+    }
+
+    div.column {
+      margin: 0 auto;
+      padding: 1%;
+    }
+    .content_div {
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    #upgrade_form {
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    #upgrade_form p {
+      margin: 0 auto;
+      font-size: 200% !important;
+      line-height: 35px;
+      text-align: left;
+      padding: 20px 0 0 24px;
+      width: 100%;
+    }
+
+    .column label {
+      text-align: left;
+      font-size: 200% !important;
+      margin: 0;
+      width: 95%;
+      display: block;
+    }
+    label > input {
+      margin: 0 5px 0 5px;
+      border: 0;
+      width: 20px;
+      height: 1em;
+      display: inline;
+    }
+
+    label > input[type=checkbox] {
+      // background-color: $button-border-color;
+      color: $body-color;
+    }
+
+  }
+
+  /************ SMALL PHONES **************/
+  @media only screen and (max-width: 421px) {
+
+    #upgrade_form .column {
+      margin: 0;
+      padding: 0;
+    }
+    .column label {
+      display: block;
+      font-size: 200% !important;
+      margin: 0 5px;
+      padding: 45px 15px;
+      width: 98%;
+      line-height: 30px;
+    }
+    .content_div h2 {
+      line-height: 32px;
+    }
+
+    #upgrade_form p {
+      padding: 20px 0 25px 24px;
+      font-size: 200% !important;
+      line-height: 35px;
+    }
+    label > input[type=radio] {
+      display: none;
+    }
+
+    .footer a {
+      text-shadow: none;
+      color: #333333;
+    }
   }
 }
