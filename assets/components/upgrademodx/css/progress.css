@@ -1,9 +1,3 @@
-*, *:after, *::before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 div#Upgrade_modx {
   /* General styles for all types of buttons */
   /* CSS for IE */
@@ -20,6 +14,11 @@ div#Upgrade_modx {
   /*************** BIG SCREENS below 1300 px ************* */
   /*********** BIG PHONES, TABLETS ***********/
   /************ SMALL PHONES **************/
+}
+div#Upgrade_modx *, div#Upgrade_modx *:after, div#Upgrade_modx *::before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 div#Upgrade_modx .progress-button {
   font-size: 24px;

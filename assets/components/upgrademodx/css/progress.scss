@@ -12,13 +12,14 @@ $body-font: normal 13px/1.4 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-ser
 $body-color:#555555;
 $footer-color: #777777;
 
-*, *:after, *::before {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
 div#Upgrade_modx {
+  *, *:after, *::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+
 
   /* General styles for all types of buttons */
   .progress-button {
