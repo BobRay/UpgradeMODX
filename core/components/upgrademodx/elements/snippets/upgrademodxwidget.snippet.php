@@ -293,7 +293,8 @@ if ($upgradeAvailable) {
         . ')';*/
     // $output .= ''; //yyy
 
-    $placeholders['[[+ugm_version_form]]'] = createVersionForm($modx, $upgrade, $corePath, $method) . // xx
+    $placeholders['[[+ugm_version_form]]'] = createVersionForm($modx, $upgrade, $corePath, $method);
+    $placeholders['[[+ugm_bottom_script]]'] =
                     
        '<script>
            var checkedBackground = \'#ffffff\';
@@ -309,7 +310,7 @@ if ($upgradeAvailable) {
                } 
            });
 </script>' .  <<<EOD
-    <script src="{$assetsUrl}js/progressButton.js"></script>
+    <script src="{$assetsUrl}js/progressbutton.js"></script>
     <script>
         
         var bttn = document.getElementById('ugm_submit_button');
