@@ -86,50 +86,9 @@ function createVersionForm($modx, $upgrade, $corePath, $method) {
     $output .= "\n" . $upgrade->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
     $output .= "\n" . '<div class = "ugm_logout_note">'  .  $modx->lexicon('ugm_logout_note') . '</div >';
     $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
-    // $versions = $upgrade->getJSONFromGitHub($method);
-    // $versions = $upgrade->finalizeVersionArray($versions);
-
-    // $disabled = $submitted ? true : false;
-
-    /* If not submitted, add version list */
-
-    if (true) {
-       /* $ItemGrid = array();
-        foreach ($versions as $ver => $item) {
-            $versions[$item['tree']][$ver] = $item;
-        }*/
-        // $output .= "<p>[[%ugm_get_major_versions]]</p>";
-        // $output .= '<p>Calling Processor</p>';
-        // $output .= '<p>Path = ' . $corePath . 'processors/';
-        $config = array(
-            'processors_path' => $corePath . 'processors/', //xxx
-        );
-        $response = $modx->runProcessor('getversions', array(), $config);
-        $output .= $response->response['message'];
-        //  $i = 0;
-/*        foreach ($ItemGrid as $tree => $item) {
-            $output .= "\n" . '<form<div class="column">';;
-            foreach ($item as $version => $itemInfo) {
-                $selected = $itemInfo['selected'] ? ' checked' : '';
-                $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
-                $i = 0;
-                $output .= <<<EOD
-       <label><input type="radio"{$selected} name="modx" value="$version">
-            <span>{$itemInfo['name']} $current</span>
-        </label>
-EOD;
-            $i++;
-            } // end inner foreach loop
-
-        } // end outer foreach loop  */
-        // $output .= '<tbody></table>';
-        // $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
-    }
     $output .= "\n" . '</div>' . "\n ";
-
     return $output;
 }
-
 
 function render() {
     // xxx
@@ -294,81 +253,6 @@ if ($upgradeAvailable) {
     // $output .= ''; //yyy
 
     $placeholders['[[+ugm_version_form]]'] = createVersionForm($modx, $upgrade, $corePath, $method);
-    $placeholders['[[+ugm_bottom_script]]'] =
-                    
-       '<script>
-           var checkedBackground = \'#ffffff\';
-           var originalBackground = $(\'label\').css( "background-color" );
-
-           $(\'input[type="radio"]:checked\').parent().css("background",checkedBackground);
-                        
-           $("label > input").change(function() {
-               if ($(this).is(":checked")) {
-                   $(this).parent().css("background", checkedBackground);
-                   $(\'input[type="radio"]:not(:checked)\').parent().css("background",originalBackground);
-                   console.log("Value: " + $(\'input[type="radio"]:checked\').val()); 
-               } 
-           });
-</script>' .  <<<EOD
-    <script src="{$assetsUrl}js/progressbutton.js"></script>
-    <script>
-        
-        var bttn = document.getElementById('ugm_submit_button');
-        var old = '';
-        new ProgressButton( bttn, {
-                callback : function( instance ) {
-                    
-                    var progress = 0,
-                        interval = setInterval( function() {
-                            // console.log('Progress: ' + progress);
-                            var button_text = document.getElementById('button_content').textContent ||
-                                document.getElementById('button_content').innerText;
-                            if (button_text == '[[+ugm_downloading_files]]' && button_text != old) {
-                                progress = 0.1;
-                                old = button_text;
-                            } else if (button_text == '[[+ugm_unzipping_files]]' && button_text != old) {
-                                progress = 0.3;
-                                old = button_text;
-                            } else if (button_text == '[[+ugm_copying_files]]' && button_text != old) {
-                                progress = 0.6;
-                                old = button_text;
-                            } else if (button_text == '[[+ugm_preparing_setup]]' && button_text != old) {
-                                progress = 0.8;
-                                old = button_text;
-                            }  else if (button_text == '[[+ugm_finished]]') {
-                                progress = 1;
-                            }  else if (button_text == '[[+ugm_launching_setup]]') {
-                                progress = 1;
-                            }
-                            // progress = Math.min( progress + Math.random() * 0.1, 1 );
-                            progress = Math.min( progress, 1 );
-                            // console.log("Text " + button_text);
-                            if( progress === 1 ) {
-                                setTimeout(function () {
-                                    instance._stop(1);
-                                    clearInterval( interval );
-                                }, 1000);
-                            }
-                            instance._setProgress( progress );
-                            if( progress === 1 ) {
-                                setTimeout(function () {
-                                    instance._stop(1);
-                                    clearInterval( interval );
-                                }, 1000);
-                            }
-                        }, 1000 );
-                }
-            } );
-        
-        /* Simulate click on landing page to initiate action; button won't submit
-           because it's not in a form 
-         */
-        setTimeout(function () {
-           // bttn.click();
-        }, 1000);
-    </script>
-EOD;
-
 
 } else {
     if ($hideWhenNoUpgrade) {
