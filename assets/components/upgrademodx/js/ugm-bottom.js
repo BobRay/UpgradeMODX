@@ -39,7 +39,7 @@ new ProgressButton(bttn, {
     callback: function (instance) {
 
         var progress = 0,
-            interval = setInterval(function () {
+            process = function () {
                 // console.log('Progress: ' + progress);
                 var button_text = document.getElementById('button_content').textContent ||
                     document.getElementById('button_content').innerText;
@@ -73,10 +73,10 @@ new ProgressButton(bttn, {
                 if (progress === 1) {
                     setTimeout(function () {
                         instance._stop(1);
-                        clearInterval(interval);
+                       // clearInterval(interval);
                     }, 1000);
                 }
-            }, 1000);
+            };
     }
 });
 
