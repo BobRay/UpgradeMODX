@@ -3,6 +3,7 @@
  * it default topic lexicon file for UpgradeMODX extra
  *
  * Copyright 2016 by FerX https://github.com/FerX
+ * 2018 Updates by Claudio (Mabol)
  * Created on 14/08/2016
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
@@ -50,40 +51,40 @@ $_lang['ugm_upgrade_modx'] = 'Aggiorna MODX';
 $_lang['ugm_json_decode_failed'] = 'Decodifica JSON non riuscita per i dati della versione da GitHub in upgradeAvailable()';
 $_lang['ugm_no_curl_no_fopen'] = 'I comandi allow_url_fopen e cURL non possono essere usati per controllare gli aggiornamenti';
 
-$_lang['ugm_no_version_list_from_github'] = 'Could not get version list from GitHub';
-$_lang['ugm_no_such_version'] = 'Requested version does not exist';
+$_lang['ugm_no_version_list_from_github'] = 'Impossibile ottenere l\'elenco delle versioni da GitHub';
+$_lang['ugm_no_such_version'] = 'La versione richiesta non esiste';
 
 /* Used in upgrademodx.class.php */
 $_lang['failed'] = 'fallito';
 
-$_lang['ugm_missing_versionlist'] = "Missing 'versionlist' file; try reloading the dashboard page";
-$_lang['ugm_cannot_read_directory'] = 'Unable to read directory contents or directory is empty';
-$_lang['ugm_unknown_error_reading_temp'] = 'Unknown error reading /temp directory';
-$_lang['no_method_enabled'] = 'Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.';
-$_lang['ugm_cannot_read_config_core_php'] = 'Could not read config.core.php';
-$_lang['ugm_cannot_read_main_config'] = 'Cannot Read main config file';
-$_lang['ugm_could_not_find_cacert'] = 'Could not find cacert.pem';
-$_lang['ugm_could_not_write_progress'] = 'Could not write to ugmprogress file';
+$_lang['ugm_missing_versionlist'] = "File 'versionlist' mancante; prova a ricaricare la pagina dashboard";
+$_lang['ugm_cannot_read_directory'] = 'Impossibile leggere il contenuto della directory o la directory &egrave; vuota';
+$_lang['ugm_unknown_error_reading_temp'] = 'Errore sconosciuto nella lettura della directory /temp';
+$_lang['no_method_enabled'] = 'Impossibile scaricare i files - sia cURL che allow_url_fopen non sono abilitati su questo server.';
+$_lang['ugm_cannot_read_config_core_php'] = 'Impossibile leggere config.core.php';
+$_lang['ugm_cannot_read_main_config'] = 'Impossibile leggere il file di configurazione principale';
+$_lang['ugm_could_not_find_cacert'] = 'Impossibile trovare cacert.pem';
+$_lang['ugm_could_not_write_progress'] = 'Impossibile scrivere nel file ugmprogress';
 $_lang['ugm_file'] = 'File';
-$_lang['ugm_is_empty_download_failed'] = 'is empty -- download failed';
-$_lang['ugm_unable_to_create_directory'] = 'Unable to create directory';
-$_lang['ugm_unable_to_read_ugmtemp'] = 'Unable to read from /ugmtemp directory';
-$_lang['ugm_file_copy_failed'] = 'File Copy Failed';
-$_lang['ugm_begin_upgrade'] = 'Begin Upgrade';
-$_lang['ugm_starting_upgrade'] = 'Starting Upgrade';
-$_lang['ugm_downloading_files'] = 'Downloading Files';
+$_lang['ugm_is_empty_download_failed'] = '&egrave; vuoto -- download fallito';
+$_lang['ugm_unable_to_create_directory'] = 'Impossibile creare directory';
+$_lang['ugm_unable_to_read_ugmtemp'] = 'Impossibile leggere dalla directory /ugmtemp';
+$_lang['ugm_file_copy_failed'] = 'Copia File Fallita';
+$_lang['ugm_begin_upgrade'] = 'Inizio Aggiornamento';
+$_lang['ugm_starting_upgrade'] = 'Avvio Aggiornamento';
+$_lang['ugm_downloading_files'] = 'Scaricamento Files';
 $_lang['ugm_unzipping_files'] = 'Unzipping Files';
-$_lang['ugm_copying_files'] = 'Copying Files';
-$_lang['ugm_preparing_setup'] = 'Preparing Setup';
-$_lang['ugm_launching_setup'] = 'Launching Setup';
-$_lang['ugm_finished'] = 'Finished';
-$_lang['ugm_get_major_versions'] = '<b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p>';
-$_lang['ugm_current_version_indicator'] = 'current version';
-$_lang['ugm_using'] = 'Using';
-$_lang['ugm_choose_version'] = 'Choose MODX Version for Upgrade';
-$_lang['ugm_updating_modx_files'] = 'Updating MODX Files';
-$_lang['ugm_originally_created_by'] = 'Originally created by';
-$_lang['ugm_modified_for_revolution_by'] = 'Modified for Revolution only by';
-$_lang['ugm_modified_for_upgrade_by'] = 'Modified for Upgrade only with dashboard widget by';
-$_lang['ugm_original_design_by'] = 'Original Design By';
-$_lang['ugm_back_to_manager'] = 'Back to Manager';
+$_lang['ugm_copying_files'] = 'Copiatura Files';
+$_lang['ugm_preparing_setup'] = 'Preparazione Setup';
+$_lang['ugm_launching_setup'] = 'Avvio Setup';
+$_lang['ugm_finished'] = 'Finito';
+$_lang['ugm_get_major_versions'] = '<b>Importante:</b> E\' <i>altamente</i> consigliato installare tutte le versioni che terminano in .0 tra la tua versione e quella corrente di MODX.';
+$_lang['ugm_current_version_indicator'] = 'versione corrente';
+$_lang['ugm_using'] = 'Utilizzando';
+$_lang['ugm_choose_version'] = 'Scegli la versione di MODX per l\'aggiornamento';
+$_lang['ugm_updating_modx_files'] = 'Aggiornamento Files MODX';
+$_lang['ugm_originally_created_by'] = 'Originariamente creato da';
+$_lang['ugm_modified_for_revolution_by'] = 'Modificato solo per Revolution da';
+$_lang['ugm_modified_for_upgrade_by'] = 'Modificato solo per Aggiornamento con dashboard widget da';
+$_lang['ugm_original_design_by'] = 'Design Originale Di';
+$_lang['ugm_back_to_manager'] = 'Torna al Manager';
