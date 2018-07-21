@@ -33,11 +33,10 @@ $upgrademodxCorePath = $modx->getOption('ugm.core_path', null, $modx->getOption(
 
 require_once $upgrademodxCorePath . 'model/upgrademodx/upgrademodx.class.php';
 $modx->upgrademodx = new UpgradeMODX($modx);
-
 $modx->lexicon->load('upgrademodx:default');
+$path = $upgrademodxCorePath . 'processors/';
 
 /* handle request */
-$path = $modx->getOption('processorsPath', $modx->upgrademodx->config, $upgrademodxCorePath . 'processors/');
 $_SERVER['HTTP_MODAUTH'] = $modx->user->getUserToken('mgr');
 
 $modx->request->handleRequest(array(

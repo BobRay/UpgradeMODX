@@ -152,6 +152,8 @@ if (!class_exists('UpgradeMODX')) {
             return $method;
         }
 
+
+
         public function createVersionForm($modx, $corePath, $method) {
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */

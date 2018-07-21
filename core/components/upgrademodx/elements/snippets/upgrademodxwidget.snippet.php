@@ -124,6 +124,7 @@ $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_u
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
+$modx->regClientStartupScript('<script>var ugmConnectorUrl = "' . $assetsUrl . 'connector.php";</script>');
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
 $modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
@@ -141,7 +142,6 @@ $plOnly = $modx->getOption('plOnly', $props);
 $versionsToShow = $modx->getOption('versionsToShow', $props, 5);
 $currentVersion = $modx->getOption('settings_version');
 $latestVersion = $modx->getOption('latestVersion', $props, '', true);
-// $versionListPath = $upgrade->getVersionListPath(); // ToDo: remove this
 
 /* Set Placeholders */
 $placeholders = array();

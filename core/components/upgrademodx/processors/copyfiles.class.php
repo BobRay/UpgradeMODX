@@ -28,9 +28,9 @@
 class UpgradeMODXCopyfilesProcessor extends modProcessor {
     public $classKey = 'mod';
     public $languageTopics = array('upgrademodx:default');
-    public $defaultSortField = 'name';
+  /*  public $defaultSortField = 'name';
     public $defaultSortDirection = 'ASC';
-    public $ids;
+    public $ids;*/
 
     function initialize() {
         /* Initialization here */
@@ -43,7 +43,7 @@ class UpgradeMODXCopyfilesProcessor extends modProcessor {
 
         /* perform action here */
 
-        return $this->success();
+        return $this->success($this->modx->lexicon('ugm_preparing_setup'));
 
     }
 }

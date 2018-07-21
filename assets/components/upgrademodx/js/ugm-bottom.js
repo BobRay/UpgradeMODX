@@ -33,18 +33,134 @@ $("label > input").change(function () {
     }
 });
 
+$(document).ajaxError(function (event, request, settings) {
+    $(alert("Error requesting page " + settings.url));
+});
+
 var bttn = document.getElementById('ugm_submit_button');
 var old = '';
 new ProgressButton(bttn, {
     callback: function (instance) {
 
-        var progress = 0,
-            process = function () {
+        //alert("Clicked");
+        var button_text = document.getElementById('button_content');
+        var progress = 0;
+        var updateText = function (button_text, msg) {
+            if ('textContent' in button_text) {
+                button_text.textContent = msg;
+            } else {
+                button_text.innerText = msg;
+            }
+        };
+        var  process = function () {
                 // console.log('Progress: ' + progress);
-                var button_text = document.getElementById('button_content').textContent ||
-                    document.getElementById('button_content').innerText;
-                if (button_text == '[[+ugm_downloading_files]]' && button_text != old) {
-                    progress = 0.1;
+                //alert("In Process");
+               /* var button_text = document.getElementById('button_content').textContent ||
+                     document.getElementById('button_content').innerText;*/
+            //var button_text = document.getElementById('button_content');
+
+            if (progress === 0) {
+                // console.log("progress is zero");
+                updateText(button_text, 'Downloading Files');
+                progress = 0.1;
+                instance._setProgress(progress);
+
+                $.ajax({
+                    type: 'GET',
+                    // url: 'http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/connector.php',
+                    url: ugmConnectorUrl,
+                    data: {
+                        'action': 'downloadfiles'
+                    },
+                    success: function (data) {
+                        if (data.success === true) {
+                            updateText(button_text, data.message);
+                            alert("Got success return from downloadfiles");
+                            progress = 0.3;
+                            instance._setProgress(progress);
+
+                            /* Run next processor */
+                            $.ajax({
+                                type: 'GET',
+                                url: ugmConnectorUrl,
+                                data: {
+                                    'action': 'unzipfiles'
+                                },
+                                success: function (data) {
+                                    if (data.success === true) {
+                                        updateText(button_text, data.message);
+                                        alert("Got success return from unzipfiles");
+                                        progress = 0.6;
+                                        instance._setProgress(progress);
+                                        /* Run next processor */
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: ugmConnectorUrl,
+                                            data: {
+                                                'action': 'copyfiles'
+                                            },
+                                            success: function (data) {
+                                                if (data.success === true) {
+                                                    updateText(button_text, data.message);
+                                                    alert("Got success return from copyfiles");
+                                                    progress = 0.9;
+                                                    instance._setProgress(progress);
+                                                    /* Run next processor */
+                                                    $.ajax({
+                                                        type: 'GET',
+                                                        url: ugmConnectorUrl,
+                                                        data: {
+                                                            'action': 'preparesetup'
+                                                        },
+                                                        success: function (data) {
+                                                            if (data.success === true) {
+                                                                updateText(button_text, data.message);
+                                                                alert("Got success return from preparesetup");
+                                                                progress = 1;
+                                                                instance._setProgress(progress);
+                                                                instance._stop(1);
+                                                                /* Run next processor */
+
+                                                            } else {
+                                                                alert('data.message');
+                                                            }
+                                                            // console.log(data.message);
+                                                        },
+                                                        dataType: 'json'
+                                                    });
+
+                                                } else {
+                                                    alert('data.message');
+                                                }
+                                                // console.log(data.message);
+                                            },
+                                            dataType: 'json'
+                                        });
+
+                                    } else {
+                                        alert('data.message');
+                                    }
+                                    //console.log(data.message);
+                                },
+                                dataType: 'json'
+                            });
+
+
+                        } else {
+                            alert('data.message');
+                        }
+                        // console.log(data.message);
+                    },
+                    dataType: 'json'
+                });
+
+
+            }
+
+
+
+                /*else if(button_text == '[[+ugm_downloading_files]]' && button_text != old) {
+                    // progress = 0.1;
                     old = button_text;
                 } else if (button_text == '[[+ugm_unzipping_files]]' && button_text != old) {
                     progress = 0.3;
@@ -59,7 +175,7 @@ new ProgressButton(bttn, {
                     progress = 1;
                 } else if (button_text == '[[+ugm_launching_setup]]') {
                     progress = 1;
-                }
+                }*/
                 // progress = Math.min( progress + Math.random() * 0.1, 1 );
                 progress = Math.min(progress, 1);
                 // console.log("Text " + button_text);
@@ -77,6 +193,7 @@ new ProgressButton(bttn, {
                     }, 1000);
                 }
             };
+        process();
     }
 });
 

@@ -28,22 +28,24 @@
 class UpgradeMODXDownloadfilesProcessor extends modProcessor {
     public $classKey = 'mod';
     public $languageTopics = array('upgrademodx:default');
-    public $defaultSortField = 'name';
+    /*public $defaultSortField = 'name';
     public $defaultSortDirection = 'ASC';
-    public $ids;
+    public $ids;*/
 
     function initialize() {
         /* Initialization here */
         return true;
     }
 
-    /* For built-in processors (create, update, duplicate, remove),
-       this method can be removed */
+    public function checkPermissions() {
+        return (bool)$this->modx->user->isMember('Administrator');
+    }
+
     public function process() {
 
         /* perform action here */
 
-        return $this->success();
+        return $this->success($this->modx->lexicon('ugm_unzipping_files'));
 
     }
 }

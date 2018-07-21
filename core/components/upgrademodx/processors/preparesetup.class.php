@@ -43,7 +43,7 @@ class UpgradeMODXPreparesetupProcessor extends modProcessor {
 
         /* perform action here */
 
-        return $this->success();
+        return $this->success($this->modx->lexicon('ugm_launching_setup'));
 
     }
 }
