@@ -87,6 +87,12 @@ function createVersionForm($modx, $upgrade, $corePath, $method) {
     $output .= "\n" . '<div class = "ugm_logout_note">'  .  $modx->lexicon('ugm_logout_note') . '</div >';
     $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
     $output .= "\n" . '</div>' . "\n ";
+
+    $config = array(
+        'processors_path' => $corePath . 'processors/', //xxx
+    );
+    $response = $modx->runProcessor('getversions', array(), $config);
+    $output .= $response->response['message'];
     return $output;
 }
 
@@ -142,9 +148,6 @@ $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
 
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
-/*$modx->regClientScript($assetsUrl . 'js/classie.js');
-$modx->regClientScript($assetsUrl . 'js/progressButton.js');*/
-
 
 /* See if user has submitted the form. If so, create the upgrade script and launch it */
 if (isset($_POST['UpgradeMODX'])) {
