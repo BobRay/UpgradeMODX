@@ -190,7 +190,6 @@ div#Upgrade_modx input[type=radio] {
   vertical-align: text-bottom;
   display: inline-block;
   color: #555555 !important;
-  visibility: hidden;
 }
 div#Upgrade_modx article, div#Upgrade_modx aside, div#Upgrade_modx details, div#Upgrade_modx figcaption, div#Upgrade_modx figure, div#Upgrade_modx footer, div#Upgrade_modx header, div#Upgrade_modx hgroup, div#Upgrade_modx menu, div#Upgrade_modx nav, div#Upgrade_modx section {
   display: block;
