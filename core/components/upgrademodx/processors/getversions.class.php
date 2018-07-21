@@ -77,29 +77,22 @@ class GetVersionsProcessor extends modProcessor {
             $itemGrid[$item['tree']][$ver] = $item;
         }
         $i = 0;
-            foreach ($itemGrid as $tree => $item) {
-                $output .= "\n" . '<div class="column">';;
-                foreach ($item as $version => $itemInfo) {
-                    $selected = $itemInfo['selected'] ? ' checked' : '';
-                    $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
-                    $i = 0;
-                    $output .= <<<EOD
-                        <label><input type="radio"{$selected} name="modx" value="$version">
-                        <span>{$itemInfo['name']} $current</span>
-                        </label>
+        foreach ($itemGrid as $tree => $item) {
+            $output .= "\n" . '<div class="column">';;
+            foreach ($item as $version => $itemInfo) {
+                $selected = $itemInfo['selected'] ? ' checked' : '';
+                $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
+                $i = 0;
+                $output .= <<<EOD
+                    <label><input type="radio"{$selected} name="modx" value="$version">
+                    <span>{$itemInfo['name']} $current</span>
+                    </label>
 EOD;
-                $i++;
-                } // end inner foreach loop
-
-            } // end outer foreach loop
-        // $output .= '<tbody></table>';
-        // $output .= "\n    " . '<input type="hidden" name="userId" value="[[+modx.user.id]]">';
-        return $output;
-
+            $i++;
+            } // end inner foreach loop
+        } // end outer foreach loop
+        return $output . "\n</div>" ;
     }
-
 }
-
-
 
 return 'GetVersionsProcessor';

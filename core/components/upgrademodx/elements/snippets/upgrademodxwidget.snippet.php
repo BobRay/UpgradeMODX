@@ -77,32 +77,13 @@ if (! function_exists('rrmdir')) {
     }
 }
 
-function createVersionForm($modx, $upgrade, $corePath, $method) {
-    /** @var $upgrade  UpgradeMODX */
-    /** @var $modx modX */
-    $output = '';
-
-    $output .= "\n" . '<div id="upgrade_form">';
-    $output .= "\n" . $upgrade->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
-    $output .= "\n" . '<div class = "ugm_logout_note">'  .  $modx->lexicon('ugm_logout_note') . '</div >';
-    $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
-    $output .= "\n" . '</div>' . "\n ";
-
-    $config = array(
-        'processors_path' => $corePath . 'processors/', //xxx
-    );
-    $response = $modx->runProcessor('getversions', array(), $config);
-    $output .= $response->response['message'];
-    return $output;
-}
-
 function render() {
     // xxx
 }
 
 if (php_sapi_name() === 'cli') {
     /* This section for debugging during development. It won't execute in MODX */
-    include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
+/*    include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
     $snippet =
     $scriptProperties = array(
         'versionsToShow' => 5,
@@ -116,44 +97,66 @@ if (php_sapi_name() === 'cli') {
         'currentVersion' => $modx->getOption('settings_version'),
         'latestVersion' => '2.4.3-pl',
         'githubTimeout' => 6,
-        'modTimeout' => 6,
+        'modxTimeout' => 6,
         'tries' => 2,
-    );
+    );*/
 
-} else {
-    /* This will execute when in MODX */
-    $language = $modx->getOption('language', $scriptProperties, 'en', true);
-    $modx->lexicon->load($language . ':upgrademodx:default');
-    /* Return empty string if user shouldn't see widget */
-    $devMode = $modx->getOption('ugm.devMode',  null, false, true);
-    $groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
-    if (strpos($groups, ',') !== false) {
-        $groups = explode(',', $groups);
-    }
-    if (! $modx->user->isMember($groups)) {
-        return '';
-    }
 }
 
+/* Initialize */
+/* This will execute when in MODX */
+$language = $modx->getOption('language', $scriptProperties, 'en', true);
 $props = $scriptProperties;
+$modx->lexicon->load($language . ':upgrademodx:default');
+/* Return empty string if user shouldn't see widget */
+$devMode = $modx->getOption('ugm.devMode',  null, false, true);
+$groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
+if (strpos($groups, ',') !== false) {
+    $groups = explode(',', $groups);
+}
+if (! $modx->user->isMember($groups)) {
+    return '';
+}
+
 $corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
 $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
 //$modx->log(modx::LOG_LEVEL_ERROR, "Assets URL: " . $assetsUrl);
-$placeholders = array();
-$placeholders['[[+ugm_assets_url]]'] = $assetsUrl;
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
-
-
 $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
-
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
+$modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
+$modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
+/* Set the method */
 
-/* See if user has submitted the form. If so, create the upgrade script and launch it */
-if (isset($_POST['UpgradeMODX'])) {
-    $upgrade->writeScriptFile();
-    /* Log out all users before launching the form */
-    if (! $devMode) {
+$method = $upgrade->getMethod();
+if ($method === null) {
+    $upgrade->setError($modx->lexicon('ugm_no_curl_no_fopen'));
+}
+
+$lastCheck = $modx->getOption('lastCheck', $props, '2015-08-17 00:00:004', true);
+$interval = $modx->getOption('interval', $props, '+1 day', true);
+$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props, false, true);
+$plOnly = $modx->getOption('plOnly', $props);
+$versionsToShow = $modx->getOption('versionsToShow', $props, 5);
+$currentVersion = $modx->getOption('settings_version');
+$latestVersion = $modx->getOption('latestVersion', $props, '', true);
+// $versionListPath = $upgrade->getVersionListPath(); // ToDo: remove this
+
+/* Set Placeholders */
+$placeholders = array();
+$placeholders['[[+ugm_assets_url]]'] = $assetsUrl;
+$placeholders['[[+ugm_current_version]]'] = $currentVersion;
+$placeholders['[[+ugm_latest_version]]'] = $latestVersion;
+$placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
+$placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
+
+$versionListExists = true; // ToDo: remove this later
+
+
+/* ToDo: Move this to prepare setup processor */
+    /* Log out all users before launching the setup */
+    if (false) { //(if (! $devModx)) {
         $sessionTable = $modx->getTableName('modSession');
         if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
             $flushed = false;
@@ -161,49 +164,11 @@ if (isset($_POST['UpgradeMODX'])) {
             // $modx->user->endSession();
         }
     }
-    $modx->sendRedirect(MODX_BASE_URL . 'upgrade.php');
-} else {
-    /* Just in case */
-    if (file_exists(MODX_BASE_PATH . 'upgrade.php')) {
-        unlink(MODX_BASE_PATH . 'upgrade.php');
-    }
-}
-$modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
-$modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
-/* Set the method */
-$forceFopen = $modx->getOption('forceFopen', $props, false, true);
-$method = null;
-if (extension_loaded('curl') && (!$forceFopen)) {
-    $method = 'curl';
-} elseif (ini_get('allow_url_fopen')) {
-    $method = 'fopen';
-} else {
-    die($this->modx->lexicon('ugm_no_curl_no_fopen'));
-}
-
-$lastCheck = $modx->getOption('lastCheck', $props, '2015-08-17 00:00:004', true);
-$interval = $modx->getOption('interval', $props, '+1 week', true);
-$interval = '+1 week';
-$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props, false, true);
-$plOnly = $modx->getOption('plOnly', $props);
-$versionsToShow = $modx->getOption('versionsToShow', $props, 5);
-$currentVersion = $modx->getOption('settings_version');
-$latestVersion = $modx->getOption('latestVersion', $props, '', true);
-$versionListPath = $upgrade->getVersionListPath();
-
-$versionListExists = false;
-
-$fullVersionListPath = $versionListPath . 'versionlist';
-if (file_exists($fullVersionListPath)) {
-    $v = file_get_contents($fullVersionListPath);
-    if (! empty($v)) {
-        $versionListExists = false;
-    }
-}
 
 $fullVersionList = array();
 $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
-/* Perform check if no versionlist or latestVersion, or if it's time to check */
+
+/* Perform check if no latestVersion, or if it's time to check */
 if ((!$versionListExists ) || $timeToCheck || empty($latestVersion) || true) {
     $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $method);
     $latestVersion = $upgrade->getLatestVersion();
@@ -216,9 +181,6 @@ if ($devMode) {
     $upgradeAvailable = true;
 }
 
-$placeholders['[[+ugm_current_version]]'] = $currentVersion;
-$placeholders['[[+ugm_latest_version]]'] = $latestVersion;
-
 $errors = $upgrade->getErrors();
 
 if (!empty($errors)) {
@@ -228,6 +190,7 @@ if (!empty($errors)) {
             ': ' . $error . '</span>';
     }
 
+    /* ToDo: Move this to prepare setup processor */
     /* attempt to delete any files created */
     rrmdir(MODX_BASE_PATH . 'ugmtemp');
 
@@ -238,25 +201,16 @@ if (!empty($errors)) {
         @unlink(MODX_BASE_PATH . 'upgrade.php');
     }
 
-
     return $msg;
 }
 
-$placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
-$placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
+/* Process */
 
 /* See if there's a new version and if it's downloadable */
 if ($upgradeAvailable) {
-
     $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_upgrade_available');
     $placeholders['[[+ugm_notice_color]]'] = 'green';
-   /* $placeholders['[[+ugm_logout_note]]'] = '<br/><br/>(' .
-        $modx->lexicon('ugm_logout_note')
-        . ')';*/
-    // $output .= ''; //yyy
-
-    $placeholders['[[+ugm_version_form]]'] = createVersionForm($modx, $upgrade, $corePath, $method);
-
+    $placeholders['[[+ugm_version_form]]'] = $upgrade->createVersionForm($modx, $corePath, $method);
 } else {
     if ($hideWhenNoUpgrade) {
         return '';
@@ -265,16 +219,14 @@ if ($upgradeAvailable) {
         $placeholders['[[+ugm_notice_color]]'] = 'gray';
     }
 }
-
 /* Get Tpl */
-
 $tpl = $modx->getChunk('UpgradeMODXTpl');
 
 /* Do the replacements */
 $tpl = str_replace(array_keys($placeholders), array_values($placeholders), $tpl);
 
-if (php_sapi_name() === 'cli') {
+/*if (php_sapi_name() === 'cli') {
     echo $tpl;
-}
+}*/
 
 return $tpl;

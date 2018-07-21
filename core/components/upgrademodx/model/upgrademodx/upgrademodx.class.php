@@ -53,7 +53,6 @@
 if (!class_exists('UpgradeMODX')) {
     class UpgradeMODX {
 
-
         /** @var $versionArray string - array of versions to display if upgrade is available as a string
          *  to inject into upgrade script */
         public $versionArray = '';
@@ -143,6 +142,34 @@ if (!class_exists('UpgradeMODX')) {
                 $this->modx->getOption('github_token', null), true);
         }
 
+        public function getMethod() {
+            $method = null;
+            if (extension_loaded('curl') && (!$this->forceFopen)) {
+                $method = 'curl';
+            } elseif (ini_get('allow_url_fopen')) {
+                $method = 'fopen';
+            }
+            return $method;
+        }
+
+        public function createVersionForm($modx, $corePath, $method) {
+            /** @var $upgrade  UpgradeMODX */
+            /** @var $modx modX */
+            $output = '';
+
+            $output .= "\n" . '<div id="upgrade_form">';
+            $output .= "\n" . $this->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
+            $output .= "\n" . '<div class = "ugm_logout_note">' . $modx->lexicon('ugm_logout_note') . '</div >';
+            $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
+            $output .= "\n" . '</div>' . "\n ";
+            $output .= "\n" . '<h3>' . $this->modx->lexicon('ugm_choose_version') . '</h3>';
+            $config = array(
+                'processors_path' => $corePath . 'processors/', //xxx
+            );
+            $response = $modx->runProcessor('getversions', array(), $config);
+            $output .= $response->response['message'];
+            return $output;
+        }
         public function writeScriptFile($useFile = false) {
             /** @var  $InstallData array */
 
@@ -257,15 +284,6 @@ if (!class_exists('UpgradeMODX')) {
             $ie = $this->getIeVersion();
             $buttonCode = '';
             $buttonCode .= '<span class="progress_wrap">';
-            /*if ($ie) {
-                $buttonCode .= '
-        <button type="submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="fill"
-                data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
-            } else {
-                $buttonCode = '
-        <button type = "submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="rotate-angle-bottom" data-perspective
-                data-horizontal' . $disabled . '><span id="button_content" class="content">' . $action . '</span></button>';
-            }*/
 
             if ($ie) {
                 $buttonCode .= '
@@ -433,26 +451,6 @@ if (!class_exists('UpgradeMODX')) {
                 $snippet->save();
             }
 
-        }
-        public function updateVersionListFile() {
-            $path = $this->versionListPath;
-            $this->mmkDir($path);
-            $versionList = var_export($this->versionArray, true);
-
-            $fp = @fopen($this->versionListPath . 'versionlist', 'w');
-            if ($fp) {
-                fwrite($fp, '<' . '?p' . "hp\n" . '$InstallData = ' . $versionList . ';');
-                fclose($fp);
-            } else {
-                $this->setError($this->modx->lexicon('ugm_could_not_open') .
-                    ' ' . $path . 'versionlist ' . ' ' .
-                    $this->modx->lexicon('ugm_for_writing'));
-            }
-
-        }
-
-        public function getVersionListPath() {
-            return $this->versionListPath;
         }
 
         public function curlGetData($url, $returnData = false, $timeout = 6, $tries = 6 ) {
