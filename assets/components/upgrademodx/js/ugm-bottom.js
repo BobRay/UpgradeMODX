@@ -70,7 +70,8 @@ new ProgressButton(bttn, {
                     // url: 'http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/connector.php',
                     url: ugmConnectorUrl,
                     data: {
-                        'action': 'downloadfiles'
+                        'action': 'downloadfiles',
+                        'props': ugm_config
                     },
                     success: function (data) {
                         if (data.success === true) {
@@ -84,7 +85,8 @@ new ProgressButton(bttn, {
                                 type: 'GET',
                                 url: ugmConnectorUrl,
                                 data: {
-                                    'action': 'unzipfiles'
+                                    'action': 'unzipfiles',
+                                    'props': ugm_config
                                 },
                                 success: function (data) {
                                     if (data.success === true) {
@@ -97,7 +99,8 @@ new ProgressButton(bttn, {
                                             type: 'GET',
                                             url: ugmConnectorUrl,
                                             data: {
-                                                'action': 'copyfiles'
+                                                'action': 'copyfiles',
+                                                'props': ugm_config
                                             },
                                             success: function (data) {
                                                 if (data.success === true) {
@@ -110,7 +113,8 @@ new ProgressButton(bttn, {
                                                         type: 'GET',
                                                         url: ugmConnectorUrl,
                                                         data: {
-                                                            'action': 'preparesetup'
+                                                            'action': 'preparesetup',
+                                                            'props': ugm_config
                                                         },
                                                         success: function (data) {
                                                             if (data.success === true) {

@@ -24,21 +24,18 @@
 
 /* @var $modx modX */
 
+include 'ugmprocessor.class.php';
 
-class UpgradeMODXPreparesetupProcessor extends modProcessor {
-    public $classKey = 'mod';
+class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
+
     public $languageTopics = array('upgrademodx:default');
-    public $defaultSortField = 'name';
-    public $defaultSortDirection = 'ASC';
-    public $ids;
 
     function initialize() {
         /* Initialization here */
+        parent::initialize();
         return true;
     }
 
-    /* For built-in processors (create, update, duplicate, remove),
-       this method can be removed */
     public function process() {
 
         /* perform action here */

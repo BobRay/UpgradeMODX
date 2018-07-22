@@ -24,21 +24,18 @@
 
 /* @var $modx modX */
 
+include 'ugmprocessor.class.php';
 
-class UpgradeMODXDownloadfilesProcessor extends modProcessor {
-    public $classKey = 'mod';
-    public $languageTopics = array('upgrademodx:default');
-    /*public $defaultSortField = 'name';
-    public $defaultSortDirection = 'ASC';
-    public $ids;*/
+class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
+//    public $languageTopics = array('upgrademodx:default');
 
     function initialize() {
+        /** @var $scriptProperties array */
         /* Initialization here */
+        parent::initialize();
+        $props = $this->props;
+       // $this->modx->log('modX::LOG_LEVEL_ERROR', "PROPS: " . print_r($props, true));
         return true;
-    }
-
-    public function checkPermissions() {
-        return (bool)$this->modx->user->isMember('Administrator');
     }
 
     public function process() {

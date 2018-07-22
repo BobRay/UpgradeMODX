@@ -27,17 +27,14 @@
 
 class GetVersionsProcessor extends modProcessor {
 
-    public $classKey = 'modChunk';
     public $languageTopics = array('upgrademodx:default');
     public $corePath;
     /** @var $upgrade UpgradeMODX */
     public $upgrade; /* UpgradeMODX class */
     public $method = 'curl';
-    // public $defaultSortField = 'name';
-    // public $defaultSortDirection = 'ASC';
-    // public $ids;
 
     function initialize() {
+        parent::initialize();
         $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
         require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
         $this->corePath = $corePath;
@@ -45,8 +42,6 @@ class GetVersionsProcessor extends modProcessor {
         return true;
     }
 
-    /* For built-in processors (create, update, duplicate, remove),
-       this method can be removed */
     public function process() {
 
         $o = $this->createVersionList($this->method);
@@ -61,11 +56,6 @@ class GetVersionsProcessor extends modProcessor {
 
     }
 
-    public function checkPermissions() {
-
-        return (bool) $this->modx->user->isMember('Administrator');
-
-    }
 
     public function createVersionList($method) {
         $output = '';

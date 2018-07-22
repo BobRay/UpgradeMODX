@@ -124,7 +124,12 @@ $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_u
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
-$modx->regClientStartupScript('<script>var ugmConnectorUrl = "' . $assetsUrl . 'connector.php";</script>');
+unset($props['controller']); // remove trash from scriptProperties
+$modx->regClientStartupScript('<script>
+var ugmConnectorUrl = "' . $assetsUrl . 'connector.php";
+var ugm_config = ' . $modx->toJSON($props)  . ';
+</script>'
+);
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
 $modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');

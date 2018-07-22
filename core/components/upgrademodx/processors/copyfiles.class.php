@@ -23,22 +23,15 @@
  */
 
 /* @var $modx modX */
+include 'ugmprocessor.class.php';
 
-
-class UpgradeMODXCopyfilesProcessor extends modProcessor {
-    public $classKey = 'mod';
-    public $languageTopics = array('upgrademodx:default');
-  /*  public $defaultSortField = 'name';
-    public $defaultSortDirection = 'ASC';
-    public $ids;*/
+class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
 
     function initialize() {
         /* Initialization here */
-        return true;
+        return parent::initialize();
     }
 
-    /* For built-in processors (create, update, duplicate, remove),
-       this method can be removed */
     public function process() {
 
         /* perform action here */
