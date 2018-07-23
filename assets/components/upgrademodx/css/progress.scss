@@ -1,16 +1,30 @@
-$button-gradient-outer: #1d9650;
-$button-gradient-inner: #dddddd;
-$inner-progress-background: #0c4d26;
+/*
+
+background-color: #32AB9A;
+background-image:linear-gradient(#32AB9A, #00948E);
+ */
+$button-width: 300px;
+$progress-width: calc(#{$button-width} - 3px);
+$button-gradient-outer: #32AB9A;
+// $button-gradient-inner: #00948E;
+$button-gradient-inner: #00bfb9;
+// $button-gradient-outer: #1d9650;
+// $button-gradient-inner: #dddddd;
+$progress-background: #00948E;//new
+// $inner-progress-background: #0c4d26;
+$inner-progress-background: #00605a;
 $progress-button-background: #1d9650;
 $progress-button-color: #ffffff;
 $button-letter_spacing: 3px;
-$button-active-text-color: #FF0000;
+// $button-active-text-color: #FF0000;
+$button-active-text-color: #dddddd;
 $button-border-color: #0c4d26;
 $h2-color: #777777;
 $button-margin: 20px 0 12px 30px;
 $body-font: normal 13px/1.4 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
 $body-color:#555555;
 $footer-color: #777777;
+
 
 div#Upgrade_modx {
   *, *:after, *::before {
@@ -24,14 +38,14 @@ div#Upgrade_modx {
   /* General styles for all types of buttons */
   .progress-button {
 
-    font-size: 24px;
+    font-size: 16px;
     position: relative;
     display: block;
     padding: 0; // 0 60px;
     outline: none;
     background: $progress-button-background;
     letter-spacing: $button-letter_spacing;
-    line-height: 4;
+    //line-height: 4;
   }
 
   .progress-button[disabled],
@@ -48,7 +62,8 @@ div#Upgrade_modx {
   span.content {
     letter-spacing: $button-letter_spacing;
     font-size: 1em;
-    line-height: 4;
+    line-height: 2.9em;
+    // height:70px;
     // font-family: $sans-font;
   }
 
@@ -58,7 +73,7 @@ div#Upgrade_modx {
   }
 
   .progress-button .progress {
-    background: #148544;
+    background: $progress-background;
   }
 
   .progress-button .progress-inner {
@@ -170,10 +185,12 @@ div#Upgrade_modx {
   .progress-button[data-style="rotate-angle-bottom"] .progress {
     position: absolute;
     top: 100%;
-    left: 2px;
-    width: 496px;
+    left: 1.5px;
+    // width: 496px;
+    // width: 297px;
+    width: $progress-width;
     outline: 1px solid $button-border-color;
-    height: 35px;
+    height: 30px;
     box-shadow: 0 -1px 0 #148544; /* fix the blurriness that causes a gap */
     -webkit-transform: rotateX(-90deg);
     transform: rotateX(-90deg);
@@ -201,7 +218,7 @@ div#Upgrade_modx {
   }
 
   .progress-button {
-    width: 500px;
+    width: $button-width;
     height: 100px;
   }
 

@@ -1,3 +1,8 @@
+/*
+
+background-color: #32AB9A;
+background-image:linear-gradient(#32AB9A, #00948E);
+ */
 div#Upgrade_modx {
   /* General styles for all types of buttons */
   /* CSS for IE */
@@ -21,19 +26,18 @@ div#Upgrade_modx *, div#Upgrade_modx *:after, div#Upgrade_modx *::before {
   box-sizing: border-box;
 }
 div#Upgrade_modx .progress-button {
-  font-size: 24px;
+  font-size: 16px;
   position: relative;
   display: block;
   padding: 0;
   outline: none;
   background: #1d9650;
   letter-spacing: 3px;
-  line-height: 4;
 }
 div#Upgrade_modx .progress-button[disabled],
 div#Upgrade_modx .progress-button[disabled].state-loading {
   cursor: default;
-  color: #FF0000;
+  color: #dddddd;
 }
 div#Upgrade_modx .progress-button .content {
   position: relative;
@@ -42,19 +46,19 @@ div#Upgrade_modx .progress-button .content {
 div#Upgrade_modx span.content {
   letter-spacing: 3px;
   font-size: 1em;
-  line-height: 4;
+  line-height: 2.9em;
 }
 div#Upgrade_modx .notransition {
   -webkit-transition: none !important;
   transition: none !important;
 }
 div#Upgrade_modx .progress-button .progress {
-  background: #148544;
+  background: #00948E;
 }
 div#Upgrade_modx .progress-button .progress-inner {
   position: absolute;
   left: 0;
-  background: #0c4d26;
+  background: #00605a;
 }
 div#Upgrade_modx .progress-button[data-horizontal] .progress-inner {
   top: 0;
@@ -86,13 +90,13 @@ div#Upgrade_modx .progress-button[data-perspective] .content {
   border-radius: 3px !important;
   padding: 0;
   width: 100%;
-  background: #1d9650;
-  background: linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -ms-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -webkit-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -moz-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -o-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: linear-gradient(to bottom, #1d9650, #dddddd, #1d9650);
+  background: #32AB9A;
+  background: linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -ms-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -webkit-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -moz-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -o-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: linear-gradient(to bottom, #32AB9A, #00bfb9, #32AB9A);
   -webkit-font-smoothing: antialiased;
 }
 div#Upgrade_modx .progress-button[data-perspective] .progress-wrap {
@@ -114,13 +118,13 @@ div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] {
   border: 1px solid #0c4d26;
   border-radius: 3px !important;
   overflow: hidden;
-  background: #1d9650;
-  background: linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -ms-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -webkit-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -moz-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: -o-linear-gradient(bottom, #1d9650, #dddddd, #1d9650);
-  background: linear-gradient(to bottom, #1d9650, #dddddd, #1d9650);
+  background: #32AB9A;
+  background: linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -ms-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -webkit-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -moz-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: -o-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: linear-gradient(to bottom, #32AB9A, #00bfb9, #32AB9A);
   -webkit-font-smoothing: antialiased;
 }
 div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] .content {
@@ -132,10 +136,10 @@ div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] .content {
 div#Upgrade_modx .progress-button[data-style=rotate-angle-bottom] .progress {
   position: absolute;
   top: 100%;
-  left: 2px;
-  width: 496px;
+  left: 1.5px;
+  width: calc(300px - 3px);
   outline: 1px solid #0c4d26;
-  height: 35px;
+  height: 30px;
   box-shadow: 0 -1px 0 #148544;
   /* fix the blurriness that causes a gap */
   -webkit-transform: rotateX(-90deg);
@@ -157,7 +161,7 @@ div#Upgrade_modx article, div#Upgrade_modx aside, div#Upgrade_modx audio, div#Up
   font-size: 100%;
 }
 div#Upgrade_modx .progress-button {
-  width: 500px;
+  width: 300px;
   height: 100px;
 }
 div#Upgrade_modx a {
@@ -334,7 +338,7 @@ div#Upgrade_modx .footer a:hover {
   color: #ffffff;
 }
 div#Upgrade_modx .red {
-  color: #FF0000;
+  color: #dddddd;
 }
 @media only screen and (max-width: 1300px) {
   div#Upgrade_modx .content_div {
