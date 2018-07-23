@@ -285,7 +285,6 @@ if (!class_exists('UpgradeMODX')) {
             $red = $submitted ? ' red' : '';
             $ie = $this->getIeVersion();
             $buttonCode = '';
-            $buttonCode .= '<span class="progress_wrap">';
 
             if ($ie) {
                 $buttonCode .= '
@@ -297,8 +296,6 @@ if (!class_exists('UpgradeMODX')) {
                 data-horizontal' . $disabled . '>' .  $action . '</button>';
             }
 
-
-            $buttonCode .= '</span>';
             return $buttonCode;
         }
 
