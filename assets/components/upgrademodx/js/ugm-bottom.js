@@ -76,7 +76,7 @@ new ProgressButton(bttn, {
                     success: function (data) {
                         if (data.success === true) {
                             updateText(button_text, data.message);
-                            alert("Got success return from downloadfiles");
+                            // alert("Got success return from downloadfiles");
                             progress = 0.3;
                             instance._setProgress(progress);
 
@@ -91,7 +91,7 @@ new ProgressButton(bttn, {
                                 success: function (data) {
                                     if (data.success === true) {
                                         updateText(button_text, data.message);
-                                        alert("Got success return from unzipfiles");
+                                       // alert("Got success return from unzipfiles");
                                         progress = 0.6;
                                         instance._setProgress(progress);
                                         /* Run next processor */
@@ -105,7 +105,7 @@ new ProgressButton(bttn, {
                                             success: function (data) {
                                                 if (data.success === true) {
                                                     updateText(button_text, data.message);
-                                                    alert("Got success return from copyfiles");
+                                                   // alert("Got success return from copyfiles");
                                                     progress = 0.9;
                                                     instance._setProgress(progress);
                                                     /* Run next processor */
@@ -119,10 +119,10 @@ new ProgressButton(bttn, {
                                                         success: function (data) {
                                                             if (data.success === true) {
                                                                 updateText(button_text, data.message);
-                                                                alert("Got success return from preparesetup");
-                                                                progress = 1;
+                                                              //  alert("Got success return from preparesetup");
+                                                               // progress = 1; // ToDo: restore this
                                                                 instance._setProgress(progress);
-                                                                instance._stop(1);
+                                                               // instance._stop(1); // ToDo: restore this
                                                                 /* Run next processor */
 
                                                             } else {
