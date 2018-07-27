@@ -4,6 +4,7 @@ background-color: #32AB9A;
 background-image:linear-gradient(#32AB9A, #00948E);
  */
 $button-width: 300px;
+$button-height: 55px;
 $progress-width: calc(#{$button-width} - 3px);
 $button-gradient-outer: #32AB9A;
 // $button-gradient-inner: #00948E;
@@ -41,6 +42,8 @@ div#Upgrade_modx {
     font-size: 16px;
     position: relative;
     display: block;
+    height: $button-height;
+    width: $button-width;
     padding: 0; // 0 60px;
     outline: none;
     background: $progress-button-background;
@@ -105,6 +108,7 @@ div#Upgrade_modx {
     z-index: 10;
     -webkit-transition: -webkit-transform 0.3s;
     transition: transform 0.3s;
+
 
   }
 
@@ -217,10 +221,10 @@ div#Upgrade_modx {
     font-size: 100%
   }
 
-  .progress-button {
+/*  .progress-button {
     width: $button-width;
     height: 100px;
-  }
+  }*/
 
   a {
     text-decoration: none;
