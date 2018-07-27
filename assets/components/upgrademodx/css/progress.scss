@@ -5,20 +5,22 @@ background-image:linear-gradient(#32AB9A, #00948E);
  */
 $button-width: 300px;
 $button-height: 55px;
-$progress-width: calc(#{$button-width} - 3px);
-$button-gradient-outer: #32AB9A;
+$button-font: 400 13.333px/1 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
+
+$button-gradient-first: #32AB9A;
 // $button-gradient-inner: #00948E;
-$button-gradient-inner: #00bfb9;
+$button-gradient-second: #00948E;
 // $button-gradient-outer: #1d9650;
 // $button-gradient-inner: #dddddd;
-$progress-background: #00948E;//new
+$progress-width: calc(#{$button-width} - 3px);
+$progress-background: #32AB9A;//new
 // $inner-progress-background: #0c4d26;
 $inner-progress-background: #00605a;
 $progress-button-background: #1d9650;
 $progress-button-color: #ffffff;
-$button-letter_spacing: 3px;
+$button-letter_spacing: 2px;
 // $button-active-text-color: #FF0000;
-$button-active-text-color: #dddddd;
+$button-active-text-color: #fffff;
 $button-border-color: #0c4d26;
 $h2-color: #777777;
 $button-margin: 20px 0 12px 30px;
@@ -47,7 +49,7 @@ div#Upgrade_modx {
     padding: 0; // 0 60px;
     outline: none;
     background: $progress-button-background;
-    letter-spacing: $button-letter_spacing;
+    // letter-spacing: $button-letter_spacing;
     //line-height: 4;
   }
 
@@ -64,6 +66,7 @@ div#Upgrade_modx {
 
   span.content {
     letter-spacing: $button-letter_spacing;
+    font: $button-font;
     font-size: 1em;
     line-height: 2.9em;
     // height:70px;
@@ -131,14 +134,14 @@ div#Upgrade_modx {
     padding: 0;
     width: 100%;
 
-    background: $button-gradient-outer;
-    background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: $button-gradient-first;
+    background: linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: -ms-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
 
-    background: -webkit-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: -moz-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: -o-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: linear-gradient(to bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -webkit-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: -moz-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: -o-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: linear-gradient(to bottom, $button-gradient-first, $button-gradient-second);
 
     -webkit-font-smoothing: antialiased;
   }
@@ -166,14 +169,14 @@ div#Upgrade_modx {
     border: 1px solid #0c4d26;
     border-radius: 3px !important;
     overflow: hidden;
-    background: $button-gradient-outer;
-    background: linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: -ms-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: $button-gradient-first;
+    background: linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: -ms-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
 
-    background: -webkit-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: -moz-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: -o-linear-gradient(bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
-    background: linear-gradient(to bottom, $button-gradient-outer, $button-gradient-inner, $button-gradient-outer);
+    background: -webkit-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: -moz-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: -o-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
+    background: linear-gradient(to bottom, $button-gradient-first, $button-gradient-second);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -213,7 +216,7 @@ div#Upgrade_modx {
   /* UpgradeMODX page styles */
   /* ====================== */
 
-  @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
+  /*@import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
   article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
     margin: 0;
     padding: 0;
@@ -222,7 +225,7 @@ div#Upgrade_modx {
     vertical-align: baseline;
     background: 0 0;
     font-size: 100%
-  }
+  }*/
 
 /*  .progress-button {
     width: $button-width;
@@ -312,7 +315,8 @@ div#Upgrade_modx {
   }
 
   h1 {
-    font-family: "PT Serif", helvetica, arial, sans-serif;
+    /*font-family: "PT Serif", helvetica, arial, sans-serif;*/
+    font-family: helvetica, arial, sans-serif;
     line-height: 32px;
     text-align: left;
   }

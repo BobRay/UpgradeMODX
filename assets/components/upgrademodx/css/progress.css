@@ -15,7 +15,16 @@ div#Upgrade_modx {
   /* ====================== */
   /* UpgradeMODX page styles */
   /* ====================== */
-  @import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
+  /*@import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
+  article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: 0;
+    vertical-align: baseline;
+    background: 0 0;
+    font-size: 100%
+  }*/
   /*  .progress-button {
       width: $button-width;
       height: 100px;
@@ -38,19 +47,19 @@ div#Upgrade_modx .progress-button {
   padding: 0;
   outline: none;
   background: #1d9650;
-  letter-spacing: 3px;
 }
 div#Upgrade_modx .progress-button[disabled],
 div#Upgrade_modx .progress-button[disabled].state-loading {
   cursor: default;
-  color: #dddddd;
+  color: #fffff;
 }
 div#Upgrade_modx .progress-button .content {
   position: relative;
   display: block;
 }
 div#Upgrade_modx span.content {
-  letter-spacing: 3px;
+  letter-spacing: 2px;
+  font: 400 13.333px/1 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
   font-size: 1em;
   line-height: 2.9em;
 }
@@ -59,7 +68,7 @@ div#Upgrade_modx .notransition {
   transition: none !important;
 }
 div#Upgrade_modx .progress-button .progress {
-  background: #00948E;
+  background: #32AB9A;
 }
 div#Upgrade_modx .progress-button .progress-inner {
   position: absolute;
@@ -98,12 +107,12 @@ div#Upgrade_modx .progress-button[data-perspective] .content {
   padding: 0;
   width: 100%;
   background: #32AB9A;
-  background: linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -ms-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -webkit-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -moz-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -o-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: linear-gradient(to bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: linear-gradient(bottom, #32AB9A, #00948E);
+  background: -ms-linear-gradient(bottom, #32AB9A, #00948E);
+  background: -webkit-linear-gradient(bottom, #32AB9A, #00948E);
+  background: -moz-linear-gradient(bottom, #32AB9A, #00948E);
+  background: -o-linear-gradient(bottom, #32AB9A, #00948E);
+  background: linear-gradient(to bottom, #32AB9A, #00948E);
   -webkit-font-smoothing: antialiased;
 }
 div#Upgrade_modx .progress-button[data-perspective] .progress-wrap {
@@ -126,12 +135,12 @@ div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] {
   border-radius: 3px !important;
   overflow: hidden;
   background: #32AB9A;
-  background: linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -ms-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -webkit-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -moz-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: -o-linear-gradient(bottom, #32AB9A, #00bfb9, #32AB9A);
-  background: linear-gradient(to bottom, #32AB9A, #00bfb9, #32AB9A);
+  background: linear-gradient(bottom, #32AB9A, #00948E);
+  background: -ms-linear-gradient(bottom, #32AB9A, #00948E);
+  background: -webkit-linear-gradient(bottom, #32AB9A, #00948E);
+  background: -moz-linear-gradient(bottom, #32AB9A, #00948E);
+  background: -o-linear-gradient(bottom, #32AB9A, #00948E);
+  background: linear-gradient(to bottom, #32AB9A, #00948E);
   -webkit-font-smoothing: antialiased;
 }
 div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] .content {
@@ -159,15 +168,6 @@ div#Upgrade_modx .progress-button[data-style=rotate-angle-bottom].state-loading 
   -webkit-transform: rotateX(45deg);
   transform: rotateX(45deg);
   border-bottom: none;
-}
-div#Upgrade_modx article, div#Upgrade_modx aside, div#Upgrade_modx audio, div#Upgrade_modx b, div#Upgrade_modx body, div#Upgrade_modx canvas, div#Upgrade_modx dd, div#Upgrade_modx details, div#Upgrade_modx div, div#Upgrade_modx dl, div#Upgrade_modx dt, div#Upgrade_modx em, div#Upgrade_modx fieldset, div#Upgrade_modx figcaption, div#Upgrade_modx figure, div#Upgrade_modx footer, div#Upgrade_modx form, div#Upgrade_modx h1, div#Upgrade_modx h2, div#Upgrade_modx h3, div#Upgrade_modx h4, div#Upgrade_modx h5, div#Upgrade_modx h6, div#Upgrade_modx header, div#Upgrade_modx hgroup, div#Upgrade_modx html, div#Upgrade_modx i, div#Upgrade_modx img, div#Upgrade_modx label, div#Upgrade_modx li, div#Upgrade_modx mark, div#Upgrade_modx menu, div#Upgrade_modx nav, div#Upgrade_modx ol, div#Upgrade_modx p, div#Upgrade_modx section, div#Upgrade_modx span, div#Upgrade_modx strong, div#Upgrade_modx summary, div#Upgrade_modx table, div#Upgrade_modx tbody, div#Upgrade_modx td, div#Upgrade_modx tfoot, div#Upgrade_modx th, div#Upgrade_modx thead, div#Upgrade_modx time, div#Upgrade_modx tr, div#Upgrade_modx u, div#Upgrade_modx ul, div#Upgrade_modx video {
-  margin: 0;
-  padding: 0;
-  border: none;
-  outline: 0;
-  vertical-align: baseline;
-  background: 0 0;
-  font-size: 100%;
 }
 div#Upgrade_modx a {
   text-decoration: none;
@@ -233,7 +233,8 @@ div#Upgrade_modx .button, div#Upgrade_modx button {
   text-shadow: 2px 2px 1px #0c4d26;
 }
 div#Upgrade_modx h1 {
-  font-family: "PT Serif", helvetica, arial, sans-serif;
+  /*font-family: "PT Serif", helvetica, arial, sans-serif;*/
+  font-family: helvetica, arial, sans-serif;
   line-height: 32px;
   text-align: left;
 }
@@ -343,7 +344,7 @@ div#Upgrade_modx .footer a:hover {
   color: #ffffff;
 }
 div#Upgrade_modx .red {
-  color: #dddddd;
+  color: #fffff;
 }
 @media only screen and (max-width: 1300px) {
   div#Upgrade_modx .content_div {
