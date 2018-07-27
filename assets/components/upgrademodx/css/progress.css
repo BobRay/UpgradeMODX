@@ -93,6 +93,7 @@ div#Upgrade_modx .progress-button[data-perspective] {
 }
 div#Upgrade_modx .progress-button[data-perspective] .content {
   border: 1px solid #0c4d26;
+  border-top: none;
   border-radius: 3px !important;
   padding: 0;
   width: 100%;
@@ -143,6 +144,7 @@ div#Upgrade_modx .progress-button[data-style=rotate-angle-bottom] .progress {
   position: absolute;
   top: 100%;
   left: 1.5px;
+  border-bottom: none;
   width: calc(300px - 3px);
   outline: 1px solid #0c4d26;
   height: 30px;
@@ -156,6 +158,7 @@ div#Upgrade_modx .progress-button[data-style=rotate-angle-bottom] .progress {
 div#Upgrade_modx .progress-button[data-style=rotate-angle-bottom].state-loading .progress-wrap {
   -webkit-transform: rotateX(45deg);
   transform: rotateX(45deg);
+  border-bottom: none;
 }
 div#Upgrade_modx article, div#Upgrade_modx aside, div#Upgrade_modx audio, div#Upgrade_modx b, div#Upgrade_modx body, div#Upgrade_modx canvas, div#Upgrade_modx dd, div#Upgrade_modx details, div#Upgrade_modx div, div#Upgrade_modx dl, div#Upgrade_modx dt, div#Upgrade_modx em, div#Upgrade_modx fieldset, div#Upgrade_modx figcaption, div#Upgrade_modx figure, div#Upgrade_modx footer, div#Upgrade_modx form, div#Upgrade_modx h1, div#Upgrade_modx h2, div#Upgrade_modx h3, div#Upgrade_modx h4, div#Upgrade_modx h5, div#Upgrade_modx h6, div#Upgrade_modx header, div#Upgrade_modx hgroup, div#Upgrade_modx html, div#Upgrade_modx i, div#Upgrade_modx img, div#Upgrade_modx label, div#Upgrade_modx li, div#Upgrade_modx mark, div#Upgrade_modx menu, div#Upgrade_modx nav, div#Upgrade_modx ol, div#Upgrade_modx p, div#Upgrade_modx section, div#Upgrade_modx span, div#Upgrade_modx strong, div#Upgrade_modx summary, div#Upgrade_modx table, div#Upgrade_modx tbody, div#Upgrade_modx td, div#Upgrade_modx tfoot, div#Upgrade_modx th, div#Upgrade_modx thead, div#Upgrade_modx time, div#Upgrade_modx tr, div#Upgrade_modx u, div#Upgrade_modx ul, div#Upgrade_modx video {
   margin: 0;
