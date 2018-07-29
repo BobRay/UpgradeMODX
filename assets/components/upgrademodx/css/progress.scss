@@ -1,26 +1,34 @@
-/*
+@mixin linearGradient($top, $bottom) {
+    background-color: $top; /* Old browsers */
 
-background-color: #32AB9A;
-background-image:linear-gradient(#32AB9A, #00948E);
- */
+//  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top), color-stop(100%, $bottom)); /* Chrome,Safari4+ */
+//  background-image: -webkit-linear-gradient(top, $top 0%, $bottom 100%); /* Chrome10+,Safari5.1+ */
+//  background-image: -o-linear-gradient(top, $top 0%, $bottom 100%); /* Opera 11.10+ */
+//  background-image: -ms-linear-gradient(top, $top 0%, $bottom 100%); /* IE10+ */
+//    background-image: linear-gradient(to bottom, $top 0%, $bottom 100%); /* W3C */
+//  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0); /* IE6-9 */
+    background-image: -moz-linear-gradient(top, $top 0%, $bottom 100%); /* FF3.6+ */
+    background-image: linear-gradient($top, $bottom);
+}
+
 $button-width: 300px;
 $button-height: 55px;
 $button-font: 400 13.333px/1 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
 
+
 $button-gradient-first: #32AB9A;
-// $button-gradient-inner: #00948E;
 $button-gradient-second: #00948E;
-// $button-gradient-outer: #1d9650;
-// $button-gradient-inner: #dddddd;
+$button-background-hover: #2b9385;
+$button-gradient-hover-first: #2b9385;
+$button-gradient-hover-second: #007571;
+
 $progress-width: calc(#{$button-width} - 3px);
 $progress-background: #32AB9A;//new
-// $inner-progress-background: #0c4d26;
 $inner-progress-background: #00605a;
 $progress-button-background: #1d9650;
 $progress-button-color: #ffffff;
 $button-letter_spacing: 2px;
-// $button-active-text-color: #FF0000;
-$button-active-text-color: #fffff;
+$button-active-text-color: #ffffff;
 $button-border-color: #0c4d26;
 $h2-color: #777777;
 $button-margin: 20px 0 12px 30px;
@@ -29,7 +37,7 @@ $body-color:#555555;
 $footer-color: #777777;
 
 
-div#Upgrade_modx {
+// div#Upgrade_modx {
   *, *:after, *::before {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -44,13 +52,10 @@ div#Upgrade_modx {
     font-size: 16px;
     position: relative;
     display: block;
-    height: $button-height;
+    height: auto;
     width: $button-width;
     padding: 0; // 0 60px;
     outline: none;
-    background: $progress-button-background;
-    // letter-spacing: $button-letter_spacing;
-    //line-height: 4;
   }
 
   .progress-button[disabled],
@@ -64,13 +69,22 @@ div#Upgrade_modx {
     display: block;
   }
 
-  span.content {
+  span#button_content.content {
     letter-spacing: $button-letter_spacing;
     font: $button-font;
     font-size: 1em;
     line-height: 2.9em;
-    // height:70px;
-    // font-family: $sans-font;
+    @include linearGradient($button-gradient-first, $button-gradient-second);
+  }
+
+.progress-button:hover span#button_content.content {
+     // transition: all 0.25s;
+     @include linearGradient($button-gradient-hover-first, $button-gradient-hover-second);
+    color: #ffffff;
+  }
+
+  .progress-button:hover {
+    cursor: pointer;
   }
 
   .notransition {
@@ -111,15 +125,12 @@ div#Upgrade_modx {
     z-index: 10;
     -webkit-transition: -webkit-transform 0.3s;
     transition: transform 0.3s;
-
-
   }
 
   /* Necessary 3d styles for buttons with perspective */
 
   .progress-button[data-perspective] {
     margin: $button-margin;
-    // position: relative;
     display: inline-block;
     padding: 0;
     background: transparent;
@@ -129,20 +140,9 @@ div#Upgrade_modx {
 
   .progress-button[data-perspective] .content {
     border: 1px solid $button-border-color;
-    border-top: none;
     border-radius: 3px !important;
     padding: 0;
     width: 100%;
-
-    background: $button-gradient-first;
-    background: linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: -ms-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-
-    background: -webkit-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: -moz-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: -o-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: linear-gradient(to bottom, $button-gradient-first, $button-gradient-second);
-
     -webkit-font-smoothing: antialiased;
   }
 
@@ -169,14 +169,6 @@ div#Upgrade_modx {
     border: 1px solid #0c4d26;
     border-radius: 3px !important;
     overflow: hidden;
-    background: $button-gradient-first;
-    background: linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: -ms-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-
-    background: -webkit-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: -moz-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: -o-linear-gradient(bottom, $button-gradient-first, $button-gradient-second);
-    background: linear-gradient(to bottom, $button-gradient-first, $button-gradient-second);
     -webkit-font-smoothing: antialiased;
   }
 
@@ -195,8 +187,6 @@ div#Upgrade_modx {
     top: 100%;
     left: 1.5px;
     border-bottom: none;
-    // width: 496px;
-    // width: 297px;
     width: $progress-width;
     outline: 1px solid $button-border-color;
     height: 30px;
@@ -215,22 +205,6 @@ div#Upgrade_modx {
 
   /* UpgradeMODX page styles */
   /* ====================== */
-
-  /*@import url("https://fonts.googleapis.com/css?family=PT+Serif:400,700&subset=latin,cyrillic");
-  article, aside, audio, b, body, canvas, dd, details, div, dl, dt, em, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, img, label, li, mark, menu, nav, ol, p, section, span, strong, summary, table, tbody, td, tfoot, th, thead, time, tr, u, ul, video {
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: 0;
-    vertical-align: baseline;
-    background: 0 0;
-    font-size: 100%
-  }*/
-
-/*  .progress-button {
-    width: $button-width;
-    height: 100px;
-  }*/
 
   a {
     text-decoration: none;
@@ -279,10 +253,6 @@ div#Upgrade_modx {
     overflow-y: scroll
   }
 
-  button, input, select, textarea {
-    // font-family: $sans-font;
-  }
-
   a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
     cursor: pointer;
   }
@@ -315,7 +285,6 @@ div#Upgrade_modx {
   }
 
   h1 {
-    /*font-family: "PT Serif", helvetica, arial, sans-serif;*/
     font-family: helvetica, arial, sans-serif;
     line-height: 32px;
     text-align: left;
@@ -333,7 +302,6 @@ div#Upgrade_modx {
     font-size: 18px;
     margin-top: 20px;
     font-weight: normal;
-    // font-style: italic;
   }
 
   h4 {
@@ -455,10 +423,6 @@ div#Upgrade_modx {
   .footer a:hover {
     text-shadow: 2px 1px 1px #0c4d26;
     color: #ffffff;
-  }
-
-  .red {
-    color: $button-active-text-color;
   }
 
   /*************** BIG SCREENS below 1300 px ************* */
@@ -610,4 +574,4 @@ div#Upgrade_modx {
       color: #333333;
     }
   }
-}
+// }
