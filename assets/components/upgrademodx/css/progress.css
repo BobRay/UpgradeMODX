@@ -92,19 +92,24 @@ div#Upgrade_modx .progress-button[data-horizontal] .progress-inner {
 }
 div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] {
   border-collapse: separate;
-  margin: 20px 0 12px 30px;
-  padding-bottom: 70px;
+  margin: 0;
+  padding: 0;
   border: 1px solid #0c4d26;
   border-radius: 3px !important;
   overflow: hidden;
   background: #32AB9A;
   -webkit-font-smoothing: antialiased;
 }
+div#Upgrade_modx .progress-button[data-style=fill][data-horizontal][disabled], div#Upgrade_modx .progress-button[data-style=fill][data-horizontal].state-loading {
+  transition: padding 0.25s;
+  padding-bottom: 70px;
+}
 div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] .content {
   z-index: 10;
   -webkit-font-smoothing: antialiased;
   -webkit-transition: -webkit-transform 0.3s;
   transition: transform 0.3s;
+  line-height: 3.4em !important;
 }
 div#Upgrade_modx .progress-button[data-perspective] {
   margin: 20px 0 12px 30px;

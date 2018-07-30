@@ -23,7 +23,7 @@ $button-gradient-hover-first: #2b9385;
 $button-gradient-hover-second: #007571;
 
 $progress-width: calc(#{$button-width} - 3px);
-$progress-background: #32AB9A;//new
+$progress-background: #32AB9A;
 $inner-progress-background: #00605a;
 $progress-button-background: #1d9650;
 $progress-button-color: #ffffff;
@@ -120,8 +120,8 @@ div#Upgrade_modx {
 
   .progress-button[data-style="fill"][data-horizontal] {
     border-collapse: separate;
-    margin: $button-margin;
-    padding-bottom: 70px;
+    margin: 0;
+    padding: 0;
     border: 1px solid #0c4d26;
     border-radius: 3px !important;
     overflow: hidden;
@@ -129,12 +129,17 @@ div#Upgrade_modx {
     -webkit-font-smoothing: antialiased;
   }
 
+  .progress-button[data-style="fill"][data-horizontal][disabled], .progress-button[data-style="fill"][data-horizontal].state-loading {
+    transition: padding  0.25s;
+    padding-bottom: 70px;
+  }
+
   .progress-button[data-style="fill"][data-horizontal] .content {
-    // margin-bottom: 50px;
     z-index: 10;
     -webkit-font-smoothing: antialiased;
     -webkit-transition: -webkit-transform 0.3s;
     transition: transform 0.3s;
+    line-height: 3.4em !important;
   }
 
    /* Necessary 3d styles for buttons with perspective */
