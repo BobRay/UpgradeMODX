@@ -161,10 +161,10 @@ if (!class_exists('UpgradeMODX')) {
 
             $output .= "\n" . '<div id="upgrade_form">';
             $output .= "\n" . $this->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
-            $output .= "\n" . '<div class = "ugm_logout_note">' . $modx->lexicon('ugm_logout_note') . '</div >';
+            $output .= "\n" . '<div class = "ugm_logout_note"><p>' . $modx->lexicon('ugm_logout_note') . '</p></div >';
             $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
             $output .= "\n" . '</div>' . "\n ";
-            $output .= "\n" . '<h3>' . $this->modx->lexicon('ugm_choose_version') . '</h3>';
+           // $output .= "\n" . '<h3>' . $this->modx->lexicon('ugm_choose_version') . '</h3>';
             $config = array(
                 'processors_path' => $corePath . 'processors/', //xxx
             );

@@ -20,8 +20,9 @@
  */
 
 /* Set background color of selected version */
-var checkedBackground = '#ffffff';
-var originalBackground = $('label').css("background-color");
+var checkedBackground = '#f0f0f0';
+// var originalBackground = $('label').css("background-color");
+var originalBackground = 'transparent';
 
 $('input[type="radio"]:checked').parent().css("background", checkedBackground);
 

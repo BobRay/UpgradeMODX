@@ -1,3 +1,7 @@
+/*
+$body-color:#555555;
+$footer-color: #777777;
+*/
 div#Upgrade_modx {
   /* General styles for all types of buttons */
   /* CSS for IE < Edge */
@@ -8,6 +12,86 @@ div#Upgrade_modx {
   /* ====================== */
   /* UpgradeMODX page styles */
   /* ====================== */
+  /*html {
+      position: relative;
+      background: #f8f8f8 url(base.png)
+    }
+
+    body {
+      font: $body-font;
+      color: $body-color;
+      background: 0 0;
+      text-align: left;
+      font-size: 14px;
+      line-height: 22px;
+      -webkit-font-smoothing: antialiased;
+
+    }
+  */
+  /* h1 {
+     // font-family: helvetica, arial, sans-serif;
+     line-height: 32px;
+     text-align: left;
+   }*/
+  /*  h4 {
+      font-size: 16px
+    }
+
+    h5 {
+      font-size: 14px
+    }*/
+  /*.header {
+    -moz-box-sizing: border-box;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+   // background: #fff;
+    background: linear-gradient(to bottom, #fff, #f2f2f2);
+    padding: 36px 0 40px 61px;
+    border-bottom: 2px solid #fff
+  }*/
+  /*.header img {
+      float: left;
+      width: 180px;
+      margin: 0 5px 0 0
+    }
+
+    .header h1.main-heading {
+      color: #8ab3d3;
+      font-size: 32px;
+      line-height: 40px
+    }
+
+    .header-button-wrapper {
+      float: right
+    }
+
+    .main-heading > span {
+      display: none
+    }
+
+    .main-heading > sup {
+      color: #ccc;
+      font-weight: 400
+    }
+  */
+  /*.footer {
+      margin: 1% 0 3% 8%;
+      display: block;
+      font-size: 16px;
+      color: $footer-color;
+    }
+
+    .footer a {
+      color: #d0f2e3;
+      text-shadow: 1px 1px 1px #0c4d26;
+    }
+
+    .footer a:hover {
+      text-shadow: 2px 1px 1px #0c4d26;
+      color: #ffffff;
+    }
+  */
   /*************** BIG SCREENS below 1300 px ************* */
   /*********** BIG PHONES, TABLETS ***********/
   /************ SMALL PHONES **************/
@@ -16,6 +100,7 @@ div#Upgrade_modx *, div#Upgrade_modx *:after, div#Upgrade_modx *::before {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  background-color: transparent;
 }
 div#Upgrade_modx .progress-button {
   font-size: 16px;
@@ -187,9 +272,8 @@ div#Upgrade_modx input[type=checkbox] {
   vertical-align: bottom;
 }
 div#Upgrade_modx input[type=radio] {
-  vertical-align: text-bottom;
+  vertical-align: middle;
   display: inline-block;
-  color: #555555 !important;
 }
 div#Upgrade_modx article, div#Upgrade_modx aside, div#Upgrade_modx details, div#Upgrade_modx figcaption, div#Upgrade_modx figure, div#Upgrade_modx footer, div#Upgrade_modx header, div#Upgrade_modx hgroup, div#Upgrade_modx menu, div#Upgrade_modx nav, div#Upgrade_modx section {
   display: block;
@@ -199,19 +283,6 @@ div#Upgrade_modx html {
 }
 div#Upgrade_modx a, div#Upgrade_modx a:active, div#Upgrade_modx a:focus, div#Upgrade_modx a:hover, div#Upgrade_modx a:visited, div#Upgrade_modx button, div#Upgrade_modx input[type=button], div#Upgrade_modx input[type=submit], div#Upgrade_modx label {
   cursor: pointer;
-}
-div#Upgrade_modx html {
-  position: relative;
-  background: #f8f8f8 url(base.png);
-}
-div#Upgrade_modx body {
-  font: normal 13px/1.4 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
-  color: #555555;
-  background: 0 0;
-  text-align: left;
-  font-size: 14px;
-  line-height: 22px;
-  -webkit-font-smoothing: antialiased;
 }
 div#Upgrade_modx .button, div#Upgrade_modx button {
   border: none;
@@ -223,57 +294,9 @@ div#Upgrade_modx .button, div#Upgrade_modx button {
   background-color: #67a749;
   text-shadow: 2px 2px 1px #0c4d26;
 }
-div#Upgrade_modx h1 {
-  font-family: helvetica, arial, sans-serif;
-  line-height: 32px;
-  text-align: left;
-}
-div#Upgrade_modx h1 {
-  font-size: 26px;
-}
-div#Upgrade_modx h2 {
-  font-size: 32px;
-}
 div#Upgrade_modx h3 {
-  font-size: 18px;
   margin-top: 20px;
   font-weight: normal;
-}
-div#Upgrade_modx h4 {
-  font-size: 16px;
-}
-div#Upgrade_modx h5 {
-  font-size: 14px;
-}
-div#Upgrade_modx .header {
-  -moz-box-sizing: border-box;
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  background: #fff;
-  background: linear-gradient(to bottom, #fff, #f2f2f2);
-  padding: 36px 0 40px 61px;
-  border-bottom: 2px solid #fff;
-}
-div#Upgrade_modx .header img {
-  float: left;
-  width: 180px;
-  margin: 0 5px 0 0;
-}
-div#Upgrade_modx .header h1.main-heading {
-  color: #8ab3d3;
-  font-size: 32px;
-  line-height: 40px;
-}
-div#Upgrade_modx .header-button-wrapper {
-  float: right;
-}
-div#Upgrade_modx .main-heading > span {
-  display: none;
-}
-div#Upgrade_modx .main-heading > sup {
-  color: #ccc;
-  font-weight: 400;
 }
 div#Upgrade_modx .content_div {
   display: block;
@@ -286,8 +309,11 @@ div#Upgrade_modx .content_div h2 {
   color: #777777;
 }
 div#Upgrade_modx #upgrade_form {
-  margin: 10px 0 50px;
+  margin: 10px 0 18px;
   display: block;
+}
+div#Upgrade_modx #upgrade_form p {
+  margin-top: 15px;
 }
 div#Upgrade_modx #upgrade_form .column {
   margin: 15px 0;
@@ -308,30 +334,24 @@ div#Upgrade_modx form button {
   clear: both;
 }
 div#Upgrade_modx .column label {
-  font-size: 140%;
   display: block;
   width: 100%;
   padding: 12px;
-  outline: 2px solid #cccccc;
-  margin: 2px 0 0 0;
-  background-color: #e5e5e5;
+  border: 0;
+  box-shadow: 0 0 0 1px #E4E4E4;
+  margin: 0;
+  border-collapse: collapse;
+  background-color: transparent;
+}
+div#Upgrade_modx .column label:last-of-type {
+  border-radius: 0 0 3px 3px;
+}
+div#Upgrade_modx .column label.ugm_version_header {
+  background-color: #E4E9EE;
+  border-radius: 3px 3px 0 0;
 }
 div#Upgrade_modx label > input {
-  margin: 0 5px 5px 5px;
-}
-div#Upgrade_modx .footer {
-  margin: 1% 0 3% 8%;
-  display: block;
-  font-size: 16px;
-  color: #777777;
-}
-div#Upgrade_modx .footer a {
-  color: #d0f2e3;
-  text-shadow: 1px 1px 1px #0c4d26;
-}
-div#Upgrade_modx .footer a:hover {
-  text-shadow: 2px 1px 1px #0c4d26;
-  color: #ffffff;
+  margin: 3px 5px 5px 5px;
 }
 @media only screen and (max-width: 1300px) {
   div#Upgrade_modx .content_div {
@@ -368,7 +388,6 @@ div#Upgrade_modx .footer a:hover {
   }
   div#Upgrade_modx input[type=radio] {
     clear: left !important;
-    color: #555555;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -422,9 +441,6 @@ div#Upgrade_modx .footer a:hover {
     width: 20px;
     height: 1em;
     display: inline;
-  }
-  div#Upgrade_modx label > input[type=checkbox] {
-    color: #555555;
   }
 }
 @media only screen and (max-width: 421px) {
