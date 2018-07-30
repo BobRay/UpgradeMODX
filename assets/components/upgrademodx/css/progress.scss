@@ -6,7 +6,7 @@
 //  background-image: -o-linear-gradient(top, $top 0%, $bottom 100%); /* Opera 11.10+ */
 //  background-image: -ms-linear-gradient(top, $top 0%, $bottom 100%); /* IE10+ */
 //    background-image: linear-gradient(to bottom, $top 0%, $bottom 100%); /* W3C */
-//  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0); /* IE6-9 */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0); /* IE6-9 */
     background-image: -moz-linear-gradient(top, $top 0%, $bottom 100%); /* FF3.6+ */
     background-image: linear-gradient($top, $bottom);
 }
@@ -37,7 +37,7 @@ $body-color:#555555;
 $footer-color: #777777;
 
 
-// div#Upgrade_modx {
+div#Upgrade_modx {
   *, *:after, *::before {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -52,16 +52,15 @@ $footer-color: #777777;
     font-size: 16px;
     position: relative;
     display: block;
-    height: auto;
+    height: $button-height;
     width: $button-width;
-    padding: 0; // 0 60px;
+    padding: 0;
     outline: none;
   }
 
   .progress-button[disabled],
   .progress-button[disabled].state-loading {
     cursor: default;
-    color: $button-active-text-color;
   }
 
   .progress-button .content {
@@ -78,11 +77,15 @@ $footer-color: #777777;
   }
 
 .progress-button:hover span#button_content.content {
-     // transition: all 0.25s;
+     transition: background-image 0.25s ease;
      @include linearGradient($button-gradient-hover-first, $button-gradient-hover-second);
     color: #ffffff;
   }
 
+  .progress-button.state-loading span#button_content.content {
+    transition: background-image 0.25s ease;
+    @include linearGradient($button-gradient-first, $button-gradient-second);
+  }
   .progress-button:hover {
     cursor: pointer;
   }
@@ -93,13 +96,14 @@ $footer-color: #777777;
   }
 
   .progress-button .progress {
-    background: $progress-background;
+    background: $button-gradient-second;
+
   }
 
   .progress-button .progress-inner {
     position: absolute;
     left: 0;
-    background: $inner-progress-background // #0c4d26;
+    background: $inner-progress-background;
   }
 
   .progress-button[data-horizontal] .progress-inner {
@@ -110,24 +114,30 @@ $footer-color: #777777;
     transition: width 0.3s, opacity 0.3s;
   }
 
-  /* CSS for IE */
-
+  /* CSS for IE < Edge */
   /* Fill horizontal */
   /* ====================== */
 
   .progress-button[data-style="fill"][data-horizontal] {
     border-collapse: separate;
-    border: none;
+    margin: $button-margin;
+    padding-bottom: 70px;
+    border: 1px solid #0c4d26;
+    border-radius: 3px !important;
     overflow: hidden;
+    background: $button-gradient-first;
+    -webkit-font-smoothing: antialiased;
   }
 
   .progress-button[data-style="fill"][data-horizontal] .content {
+    // margin-bottom: 50px;
     z-index: 10;
+    -webkit-font-smoothing: antialiased;
     -webkit-transition: -webkit-transform 0.3s;
     transition: transform 0.3s;
   }
 
-  /* Necessary 3d styles for buttons with perspective */
+   /* Necessary 3d styles for buttons with perspective */
 
   .progress-button[data-perspective] {
     margin: $button-margin;
@@ -159,24 +169,6 @@ $footer-color: #777777;
   .progress-button[data-perspective] .content,
   .progress-button[data-perspective] .progress {
     outline: 1px solid rgba(0, 0, 0, 0); /* Smoothen jagged edges in FF */
-  }
-
-  /* Fill horizontal */
-  /* ====================== */
-
-  .progress-button[data-style="fill"][data-horizontal] {
-    margin: $button-margin;
-    border: 1px solid #0c4d26;
-    border-radius: 3px !important;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  .progress-button[data-style="fill"][data-horizontal] .content {
-    z-index: 10;
-    -webkit-font-smoothing: antialiased;
-    -webkit-transition: -webkit-transform 0.3s;
-    transition: transform 0.3s;
   }
 
   /* Rotate bottom 3d */
@@ -242,7 +234,6 @@ $footer-color: #777777;
     vertical-align: text-bottom;
     display: inline-block;
     color: $body-color !important;
-    // visibility: hidden;
   }
 
   article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -574,4 +565,4 @@ $footer-color: #777777;
       color: #333333;
     }
   }
-// }
+}
