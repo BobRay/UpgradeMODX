@@ -1,11 +1,10 @@
 @mixin linearGradient($top, $bottom) {
     background-color: $top; /* Old browsers */
-
-//  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top), color-stop(100%, $bottom)); /* Chrome,Safari4+ */
-//  background-image: -webkit-linear-gradient(top, $top 0%, $bottom 100%); /* Chrome10+,Safari5.1+ */
-//  background-image: -o-linear-gradient(top, $top 0%, $bottom 100%); /* Opera 11.10+ */
-//  background-image: -ms-linear-gradient(top, $top 0%, $bottom 100%); /* IE10+ */
-//    background-image: linear-gradient(to bottom, $top 0%, $bottom 100%); /* W3C */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top), color-stop(100%, $bottom)); /* Chrome,Safari4+ */
+    background-image: -webkit-linear-gradient(top, $top 0%, $bottom 100%); /* Chrome10+,Safari5.1+ */
+    background-image: -o-linear-gradient(top, $top 0%, $bottom 100%); /* Opera 11.10+ */
+    background-image: -ms-linear-gradient(top, $top 0%, $bottom 100%); /* IE10+ */
+    background-image: linear-gradient(to bottom, $top 0%, $bottom 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0); /* IE6-9 */
     background-image: -moz-linear-gradient(top, $top 0%, $bottom 100%); /* FF3.6+ */
     background-image: linear-gradient($top, $bottom);
@@ -32,12 +31,6 @@ $button-active-text-color: #ffffff;
 $button-border-color: #0c4d26;
 $h2-color: #777777;
 $button-margin: 20px 0 12px 30px;
-// $body-font: normal 13px/1.4 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
-/*
-$body-color:#555555;
-$footer-color: #777777;
-*/
-
 
 div#Upgrade_modx {
   *, *:after, *::before {
@@ -47,12 +40,10 @@ div#Upgrade_modx {
     background-color: transparent;
   }
 
-
-
   /* General styles for all types of buttons */
   .progress-button {
-
     font-size: 16px;
+    margin: $button-margin;
     position: relative;
     display: block;
     height: $button-height;
@@ -122,9 +113,6 @@ div#Upgrade_modx {
   /* ====================== */
 
   .progress-button[data-style="fill"][data-horizontal] {
-    border-collapse: separate;
-    margin: 0;
-    padding: 0;
     border: 1px solid #0c4d26;
     border-radius: 3px !important;
     overflow: hidden;
@@ -148,7 +136,6 @@ div#Upgrade_modx {
    /* Necessary 3d styles for buttons with perspective */
 
   .progress-button[data-perspective] {
-    margin: $button-margin;
     display: inline-block;
     padding: 0;
     background: transparent;
@@ -176,7 +163,7 @@ div#Upgrade_modx {
 
   .progress-button[data-perspective] .content,
   .progress-button[data-perspective] .progress {
-    outline: 1px solid rgba(0, 0, 0, 0); /* Smoothen jagged edges in FF */
+    outline: 1px solid rgba(0, 0, 0, 0); /* Smooth jagged edges in FF */
   }
 
   /* Rotate bottom 3d */
@@ -241,7 +228,6 @@ div#Upgrade_modx {
   input[type=radio] {
     vertical-align: middle;
     display: inline-block;
-    // color: $body-color !important;
   }
 
   article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -256,22 +242,6 @@ div#Upgrade_modx {
     cursor: pointer;
   }
 
-  /*html {
-    position: relative;
-    background: #f8f8f8 url(base.png)
-  }
-
-  body {
-    font: $body-font;
-    color: $body-color;
-    background: 0 0;
-    text-align: left;
-    font-size: 14px;
-    line-height: 22px;
-    -webkit-font-smoothing: antialiased;
-
-  }
-*/
   .button, button {
     border: none;
     color: #fff;
@@ -283,72 +253,9 @@ div#Upgrade_modx {
     text-shadow: 2px 2px 1px #0c4d26;
   }
 
- /* h1 {
-    // font-family: helvetica, arial, sans-serif;
-    line-height: 32px;
-    text-align: left;
-  }*/
-
   h3 {
-    // xxx
     margin-top: 20px;
     font-weight: normal;
-  }
-
-/*  h4 {
-    font-size: 16px
-  }
-
-  h5 {
-    font-size: 14px
-  }*/
-
-  /*.header {
-    -moz-box-sizing: border-box;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-   // background: #fff;
-    background: linear-gradient(to bottom, #fff, #f2f2f2);
-    padding: 36px 0 40px 61px;
-    border-bottom: 2px solid #fff
-  }*/
-
-  /*.header img {
-    float: left;
-    width: 180px;
-    margin: 0 5px 0 0
-  }
-
-  .header h1.main-heading {
-    color: #8ab3d3;
-    font-size: 32px;
-    line-height: 40px
-  }
-
-  .header-button-wrapper {
-    float: right
-  }
-
-  .main-heading > span {
-    display: none
-  }
-
-  .main-heading > sup {
-    color: #ccc;
-    font-weight: 400
-  }
-*/
-  .content_div {
-    display: block;
-    padding: 3% 0 0 8%;
-    margin: auto;
-  }
-
-  .content_div h2 {
-    margin: 0;
-    line-height: 35px;
-    color: $h2-color;
   }
 
   #upgrade_form {
@@ -358,9 +265,6 @@ div#Upgrade_modx {
 
   #upgrade_form p {
     margin-top: 15px;
-    // font-size: 2em;
-    // width: 550px;
-    // line-height: 35px;
   }
 
   #upgrade_form .column {
@@ -379,22 +283,14 @@ div#Upgrade_modx {
     border-bottom: 2px solid #000
   }
 
-  form button {
-    display: block;
-    width: 200px;
-    clear: both
-  }
-
   .column label {
     display: block;
     width: 100%;
     padding: 12px;
-    // border: 0.5px solid grey;
     border: 0;
     box-shadow: 0 0 0 1px #E4E4E4;
     margin: 0;
     border-collapse: collapse;
-    // background-color: #e5e5e5 !important;
     background-color: transparent;
   }
 
@@ -402,35 +298,15 @@ div#Upgrade_modx {
      border-radius: 0 0 3px 3px;
   }
 
-
   .column label.ugm_version_header {
     background-color: #E4E9EE;
     border-radius: 3px 3px 0 0;
   }
 
-
   label > input {
     margin: 3px 5px 5px 5px;
   }
 
-
-  /*.footer {
-    margin: 1% 0 3% 8%;
-    display: block;
-    font-size: 16px;
-    color: $footer-color;
-  }
-
-  .footer a {
-    color: #d0f2e3;
-    text-shadow: 1px 1px 1px #0c4d26;
-  }
-
-  .footer a:hover {
-    text-shadow: 2px 1px 1px #0c4d26;
-    color: #ffffff;
-  }
-*/
   /*************** BIG SCREENS below 1300 px ************* */
   @media only screen and (max-width: 1300px) {
 
@@ -467,14 +343,13 @@ div#Upgrade_modx {
     }
 
     #upgrade_form p {
-      font-size: 200% !important;
+     // font-size: 200% !important;
       line-height: 35px;
       margin: 20px 0 43px 30px;
     }
 
     input[type=radio] {
       clear: left !important;
-      // color: $body-color;
     }
 
   }
@@ -540,11 +415,6 @@ div#Upgrade_modx {
       display: inline;
     }
 
-    label > input[type=checkbox] {
-      // background-color: $button-border-color;
-      // color: $body-color;
-    }
-
   }
 
   /************ SMALL PHONES **************/
@@ -580,4 +450,4 @@ div#Upgrade_modx {
       color: #333333;
     }
   }
-}
+} // end div#Upgrade_modx
