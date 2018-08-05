@@ -16,7 +16,7 @@ $properties = array (
   'attempts' => 
   array (
     'name' => 'attempts',
-    'desc' => 'ubm_attempts_desc',
+    'desc' => 'ugm_attempts_desc',
     'type' => 'textfield',
     'options' => 
     array (
@@ -189,7 +189,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2018-07-12 00:54:46',
+    'value' => '2018-08-02 00:01:05',
     'lexicon' => 'upgrademodx:properties',
     'area' => 'Widget',
   ),
@@ -201,7 +201,7 @@ $properties = array (
     'options' => 
     array (
     ),
-    'value' => '2.6.4-pl',
+    'value' => '2.6.5-pl',
     'lexicon' => 'upgrademodx:properties',
     'area' => 'Widget',
   ),

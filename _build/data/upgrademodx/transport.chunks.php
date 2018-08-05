@@ -43,7 +43,9 @@ $chunks[2]->fromArray(array (
   'property_preprocess' => false,
   'name' => 'UpgradeMODXTpl',
   'description' => 'Tpl chunk for alert widget',
-  'properties' => NULL,
+  'properties' => 
+  array (
+  ),
 ), '', true, true);
 $chunks[2]->setContent(file_get_contents($sources['source_core'] . '/elements/chunks/upgrademodxtpl.chunk.html'));
 

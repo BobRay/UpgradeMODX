@@ -92,3 +92,22 @@ $_lang['ugm_modified_for_revolution_by'] = 'Modifié pour Revolution seulement p
 $_lang['ugm_modified_for_upgrade_by'] = 'Modifié pour mise à jour seulement avec le gadget de tableau de bord par';
 $_lang['ugm_original_design_by'] = 'Design original de';
 $_lang['ugm_back_to_manager'] = 'Retour au Manager';
+
+/* Used in System Settings */
+$_lang['setting_ugm.github_token_desc'] = 'Jeton Github - disponible depuis votre profil GitHub';
+$_lang['setting_ugm.github_username_desc'] = 'Votre nom d\'utilisateur GitHub';
+$_lang['setting_ugm.version_list_path_desc'] = 'Chemin vers le fichier versionlist (signe moins sur le fichier -- doit se terminer avec un slash); Défaut: {core_path}cache/upgrademodx/';
+$_lang['setting_ugm.attempts_desc'] = 'Nombre d\'essais pour atteindre les données depuis Github ou MODX; défaut: 2';
+$_lang['setting_ugm.github_timeout_desc'] = 'Délai en secondes pour vérifer Github; défaut: 6';
+$_lang['setting_ugm.modx_timeout_desc'] = 'Délai en secondes pour vérifer le statut de téléchargement de MODX; défaut: 6';
+$_lang['setting_ugm.groups_desc'] = 'groupe, ou liste séparée par des virgules de groupes, qui verront le gadget';
+$_lang['setting_ugm.hideWhenNoUpgrade_desc'] = 'Chacher le gadget quand aucune mise à jour n\'est disponble: défaut: Non';
+$_lang['setting_ugm.interval_desc'] = 'Intervale entre les vérifications  -- Exmples: 1 semaine, 3 jours, 6 heures; défaut: 1 jour';
+$_lang['setting_ugm.lastCheck_desc'] = 'Date et heure de la dernière vérification -- définie automatiquement';
+$_lang['setting_ugm.latestVersion_desc'] = 'Version la plus récente (à la dernière vérification) -- définie automatiquement';
+$_lang['setting_ugm.plOnly_desc'] = 'Montrer seulement les versions stables (pl); défaut: oui';
+$_lang['setting_ugm.versionsToShow_desc'] = 'Nombre de versions à montrer dans le formulaire de mise à jour; défaut: 5';
+$_lang['setting_ugm.language_desc'] = 'Code de la langue a utiliser en deux lettres; défaut: en';
+$_lang['setting_ugm.forcePclZip_desc'] = 'Forcer l\'usage de PclZip à la place de ZipArchive';
+$_lang['setting_ugm.forceFopen_desc'] = 'Forcer l\'usage de fopen à la place de cURL pour le téléchargment';
+$_lang['setting_ugm.ssl_verify_peer_desc'] = 'Par sécurité, demander à cURL de vérifier l\'identité du serveur';

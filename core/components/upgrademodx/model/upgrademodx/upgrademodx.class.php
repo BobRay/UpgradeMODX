@@ -113,33 +113,31 @@ if (!class_exists('UpgradeMODX')) {
 
         public function init($props) {
             /** @var $InstallData array */
-            $language = $this->modx->getOption('language', $props, $this->modx->getOption('manager_language'), true);
-            $language = empty($language) || $language == 'manager_language'? 'en': $language;
+            $language = $this->modx->getOption('ugm.language', null, $this->modx->getOption('manager_language'), true);
+            $language = empty($language) ? 'en': $language;
             $this->modx->lexicon->load($language . ':upgrademodx:default');
-            $this->forcePclZip = $this->modx->getOption('forcePclZip', $props, false);
-            $this->forceFopen = $this->modx->getOption('forceFopen', $props, false);
-            $this->plOnly = $this->modx->getOption('plOnly', $props);
-            $this->gitHubTimeout = $this->modx->getOption('githubTimeout', $props, 6, true);
-            $this->modxTimeout = $this->modx->getOption('modxTimeout', $props, 6, true);
-            $this->attempts = $this->modx->getOption('attempts', $props, 2, true);
+            $this->forcePclZip = $this->modx->getOption('ugm.forcePclZip', null, false, true);
+            $this->forceFopen = $this->modx->getOption('ugm.forceFopen', null, false, true);
+            $this->plOnly = $this->modx->getOption('ugm.plOnly', null, true, true);
+            $this->gitHubTimeout = $this->modx->getOption('ugm.githubTimeout', null, 6, true);
+            $this->modxTimeout = $this->modx->getOption('ugm.modxTimeout', null, 6, true);
+            $this->attempts = $this->modx->getOption('ugm.attempts', null, 2, true);
             $this->errors = array();
-            $this->latestVersion = $this->modx->getOption('latestVersion', $props, '', true);
-            $path = $this->modx->getOption('versionListPath', $props, MODX_CORE_PATH . 'cache/upgrademodx/', true);
+            $this->latestVersion = $this->modx->getOption('ugm.latestVersion', null, '', true);
+            $path = $this->modx->getOption('ugm.versionListPath', null, MODX_CORE_PATH . 'cache/upgrademodx/', true);
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
-            $this->verifyPeer = $this->modx->getOption('ssl_verify_peer', $props, true);
-            $this->devMode = (bool) $this->modx->getOption('ugm.devMode', $props, false, true);
+            $this->verifyPeer = $this->modx->getOption('ugm.ssl_verify_peer', null, true);
+            $this->devMode = (bool) $this->modx->getOption('ugm.devMode', null, false, true);
             $this->progressFilePath = MODX_ASSETS_PATH . 'components/upgrademodx/ugmprogress.txt';
             $this->mmkDir(MODX_ASSETS_PATH . 'components/upgrademodx');
             $this->progressFileURL = MODX_ASSETS_URL . 'components/upgrademodx/ugmprogress.txt';
             file_put_contents($this->progressFilePath, 'Starting Upgrade');
-            $this->versionsToShow = $this->modx->getOption('versionsToShow', $props, 5, true);
+            $this->versionsToShow = $this->modx->getOption('ugm.versionsToShow', null, 5, true);
 
             /* These use System Setting if property is empty */
-            $this->github_username = $this->modx->getOption('github_username',
-                $props, $this->modx->getOption('github_username', null), true);
-            $this->github_token = $this->modx->getOption('github_token', $props,
-                $this->modx->getOption('github_token', null), true);
+            $this->github_username = $this->modx->getOption('ugm.github_username', null, null, true);
+            $this->github_token = $this->modx->getOption('ugm.github_token', null, null, true);
         }
 
         public function getMethod() {
@@ -507,7 +505,9 @@ if (!class_exists('UpgradeMODX')) {
 
         public function fopenGetData($url, $returnData = false, $timeout = 6, $tries = 6) {
             $username = $this->modx->getOption('github_username');
+            $username = empty($username) ? $this->modx->getOption('ugm.github_username') : $username;
             $token = $this->modx->getOption('github_token');
+            $token = empty($token)? $this->modx->getOption('ugm.github_token') : $token;
             $errorMsg = '(' . $url . ' - fopen) ' . $this->modx->lexicon('failed');
             $retVal = false;
             $opts = array(
@@ -580,7 +580,7 @@ if (!class_exists('UpgradeMODX')) {
          * @param $interval - interval between checks
          * @return bool true if time to check, false if not
          */
-        public function timeToCheck($lastCheck, $interval = '+1 week') {
+        public function timeToCheck($lastCheck, $interval = '+1 day') {
             if (empty($lastCheck)) {
                 $retVal = true;
             } else {

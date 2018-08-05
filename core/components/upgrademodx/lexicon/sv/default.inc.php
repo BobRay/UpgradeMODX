@@ -88,3 +88,22 @@ $_lang['ugm_modified_for_revolution_by'] = 'Modified for Revolution only by';
 $_lang['ugm_modified_for_upgrade_by'] = 'Modified for Upgrade only with dashboard widget by';
 $_lang['ugm_original_design_by'] = 'Original Design By';
 $_lang['ugm_back_to_manager'] = 'Back to Manager';
+
+/* Used in System Settings */
+$_lang['setting_ugm.github_token_desc'] = 'Github token - tillängligt från din profil på GitHub';
+$_lang['setting_ugm.github_username_desc'] = 'Ditt användarnamn på GitHub';
+$_lang['setting_ugm.version_list_path_desc'] = 'Sökväg till filen med versionshistorik (minus filnamnet -- avslutad med ett slash); Default: {core_path}cache/upgrademodx/';
+$_lang['setting_ugm.attempts_desc'] = 'Antal försök som ska göras för att komma åt data från GitHub eller MODX; default: 2';
+$_lang['setting_ugm.github_timeout_desc'] = 'Timeout i sekunder för kontroll mot Github; default: 6';
+$_lang['setting_ugm.modx_timeout_desc'] = 'Timeout i sekunder för att kontrollera status mot MODX; default: 6';
+$_lang['setting_ugm.groups_desc'] = 'grupp, eller kommaseparerad lista av grupper, som kommer att se widgeten';
+$_lang['setting_ugm.hideWhenNoUpgrade_desc'] = 'Dölj widgeten när det inte finns några tillgängliga uppdateringar: default: Nej';
+$_lang['setting_ugm.interval_desc'] = 'Intervall mellan kontroller -- Exempelvis: 1 vecka, 3 dagar, 6 timmar; default: 1 dag';
+$_lang['setting_ugm.lastCheck_desc'] = 'Datum och tid för senaste kontrollen -- sätts automatiskt';
+$_lang['setting_ugm.latestVersion_desc'] = 'Senaste version (vid senaste kontrollen) -- sätts automatiskt';
+$_lang['setting_ugm.plOnly_desc'] = 'Visa enbart pl (stabila) versioner; default: Ja';
+$_lang['setting_ugm.versionsToShow_desc'] = 'Antal versioner som ska visas i uppgraderingsformuläret; default: 5';
+$_lang['setting_ugm.language_desc'] = 'Tvåbokstavskod för språk som ska användas; default: en';
+$_lang['setting_ugm.forcePclZip_desc'] = 'Tvinga användande av PclZip istället för ZipArchive';
+$_lang['setting_ugm.forceFopen_desc'] = 'Tvinga användande av fopen istället cURL för nedladdningen';
+$_lang['setting_ugm.ssl_verify_peer_desc'] = 'Av säkerhetsskäl, låt cURL verifiera serverns identitet';

@@ -90,3 +90,22 @@ $_lang['ugm_modified_for_revolution_by'] = 'Modified for Revolution only by';
 $_lang['ugm_modified_for_upgrade_by'] = 'Modified for upgrade-only with dashboard widget by';
 $_lang['ugm_original_design_by'] = 'Original design By';
 $_lang['ugm_back_to_manager'] = 'Back to Manager';
+
+/* System Settings */
+$_lang['setting_ugm.github_token_desc'] = 'Github token - available from your GitHub profile';
+$_lang['setting_ugm.github_username_desc'] = 'Your username at GitHub';
+$_lang['setting_ugm.versionListPath_desc'] = 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/';
+$_lang['setting_ugm.attempts_desc'] = 'Number of tries to get data from GitHub or MODX; default: 2';
+$_lang['setting_ugm.githubTimeout_desc'] = 'Timeout in seconds for checking Github; default: 6';
+$_lang['setting_ugm.modxTimeout_desc'] = 'Timeout in seconds for checking download status from MODX; default: 6';
+$_lang['setting_ugm.groups_desc'] = 'group, or comma-separated list of groups, who will see the widget';
+$_lang['setting_ugm.hideWhenNoUpgrade_desc'] = 'Hide widget when no upgrade is available: default: No';
+$_lang['setting_ugm.interval_desc'] = 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 day';
+$_lang['setting_ugm.lastCheck_desc'] = 'Date and time of last check -- set automatically';
+$_lang['setting_ugm.latestVersion_desc'] = 'Latest version (at last check) -- set automatically';
+$_lang['setting_ugm.plOnly_desc'] = 'Show only pl (stable) versions; default: yes';
+$_lang['setting_ugm.versionsToShow_desc'] = 'Number of versions to show in upgrade form; default: 5';
+$_lang['setting_ugm.language_desc'] = 'Two-letter language code for language to use; default: en';
+$_lang['setting_ugm.forcePclZip_desc'] = 'Force the use of PclZip instead of ZipArchive';
+$_lang['setting_ugm.forceFopen_desc'] = 'Force the use of fopen instead of cURL for the download';
+$_lang['setting_ugm.ssl_verify_peer_desc'] = 'For security, have cURL verify the identity of the server';

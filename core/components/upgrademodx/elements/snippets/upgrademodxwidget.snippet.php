@@ -105,12 +105,13 @@ if (php_sapi_name() === 'cli') {
 
 /* Initialize */
 /* This will execute when in MODX */
-$language = $modx->getOption('language', $scriptProperties, 'en', true);
+$language = $modx->getOption('ugm.language', null, $modx->getOption('manager_language'), true);
+$language = empty($language) ? 'en' : $language;
 $props = $scriptProperties;
 $modx->lexicon->load($language . ':upgrademodx:default');
 /* Return empty string if user shouldn't see widget */
-$devMode = $modx->getOption('ugm.devMode',  null, false, true);
-$groups = $modx->getOption('groups', $scriptProperties, 'Administrator', true);
+$devMode = $modx->getOption('ugm.devMode', null, false, true);
+$groups = $modx->getOption('ugm.groups', null, 'Administrator', true);
 if (strpos($groups, ',') !== false) {
     $groups = explode(',', $groups);
 }
@@ -140,13 +141,13 @@ if ($method === null) {
     $upgrade->setError($modx->lexicon('ugm_no_curl_no_fopen'));
 }
 
-$lastCheck = $modx->getOption('lastCheck', $props, '2015-08-17 00:00:004', true);
-$interval = $modx->getOption('interval', $props, '+1 day', true);
-$hideWhenNoUpgrade = $modx->getOption('hideWhenNoUpgrade', $props, false, true);
-$plOnly = $modx->getOption('plOnly', $props);
-$versionsToShow = $modx->getOption('versionsToShow', $props, 5);
+$lastCheck = $modx->getOption('ugm.lastCheck', null, '2015-08-17 00:00:004', true);
+$interval = $modx->getOption('ugm.interval', null, '+1 day', true);
+$hideWhenNoUpgrade = $modx->getOption('ugm.hideWhenNoUpgrade', null, false, true);
+$plOnly = $modx->getOption('ugm.plOnly', null, true, true);
+$versionsToShow = $modx->getOption('ugm.versionsToShow', null, 5, true);
 $currentVersion = $modx->getOption('settings_version');
-$latestVersion = $modx->getOption('latestVersion', $props, '', true);
+$latestVersion = $modx->getOption('ugm.latestVersion', null, '', true);
 
 /* Set Placeholders */
 $placeholders = array();
