@@ -1,4 +1,7 @@
 <?php
+
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 /**
  * Processor file for Example extra
  *
@@ -32,36 +35,43 @@ class GetVersionsProcessor extends modProcessor {
     /** @var $upgrade UpgradeMODX */
     public $upgrade; /* UpgradeMODX class */
     public $method = 'curl';
+    protected $username = '';
+    protected $token = '';
+    protected $client = null;
 
     function initialize() {
         parent::initialize();
+        $this->username = $this->modx->getOption('github_username');
+        $this->token = $this->modx->getOption('github_token');
+
         $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
         require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
+        require_once $corePath . 'vendor/autoload.php';
+        $this->client = new Client([
+            'base_uri' => 'https://api.github.com',
+        ]);
         $this->corePath = $corePath;
         $this->upgrade = new UpgradeMODX($this->modx);
         return true;
     }
 
-    public function process() {
-
-        $o = $this->createVersionList($this->method);
-
-        /* perform action here */
-
-
-       //  $o = '<h3>Version List</h3>';
-
-
-        return $this->success($o);
-
+    public function getJSONFromGitHub($method) {
+        // $header = "Authorization: Basic " . base64_encode($username . ':' . $token);
+        if ( (! empty($this->username)) && (!empty($this->token)) ) {
+            $header = array('auth' => array($this->username, $this->token));
+            $response = $this->client->request('GET', 'repos/modxcms/revolution/tags', $header);
+        } else {
+            $response = $this->client->request('GET', 'repos/modxcms/revolution/tags');
+        }
+        return $response->getBody();
     }
 
 
     public function createVersionList($method) {
         $output = '';
-        $versions = $this->upgrade->getJSONFromGitHub($method);
+        $versions = $this->getJSONFromGitHub($method);
         $versions = $this->upgrade->finalizeVersionArray($versions);
-       //  return print_r($versions, true);
+
         $itemGrid = array();
         foreach ($versions as $ver => $item) {
             $itemGrid[$item['tree']][$ver] = $item;
@@ -86,6 +96,19 @@ EOD;
             } // end inner foreach loop
         } // end outer foreach loop
         return $output . "\n</div>" ;
+    }
+
+    public function process() {
+
+        $o = $this->createVersionList($this->method);
+
+        /* perform action here */
+
+        //  $o = '<h3>Version List</h3>';
+
+
+        return $this->success($o);
+
     }
 }
 
