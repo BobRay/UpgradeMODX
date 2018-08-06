@@ -46,6 +46,8 @@ new ProgressButton(bttn, {
         //alert("Clicked");
         var button_text = document.getElementById('button_content');
         var progress = 0;
+        var checked = $("input:radio[name='modx']:checked").val();
+
         var updateText = function (button_text, msg) {
             if ('textContent' in button_text) {
                 button_text.textContent = msg;
@@ -72,7 +74,8 @@ new ProgressButton(bttn, {
                     url: ugmConnectorUrl,
                     data: {
                         'action': 'downloadfiles',
-                        'props': ugm_config
+                        'props': ugm_config,
+                        'version' : checked
                     },
                     success: function (data) {
                         if (data.success === true) {
@@ -82,6 +85,7 @@ new ProgressButton(bttn, {
                             instance._setProgress(progress);
 
                             /* Run next processor */
+                           //  console.log(ugm_config);
                             $.ajax({
                                 type: 'GET',
                                 url: ugmConnectorUrl,
@@ -162,8 +166,6 @@ new ProgressButton(bttn, {
 
             }
 
-
-
                 /*else if(button_text == '[[+ugm_downloading_files]]' && button_text != old) {
                     // progress = 0.1;
                     old = button_text;
@@ -183,7 +185,7 @@ new ProgressButton(bttn, {
                 }*/
                 // progress = Math.min( progress + Math.random() * 0.1, 1 );
                 progress = Math.min(progress, 1);
-                // console.log("Text " + button_text);
+
                 if (progress === 1) {
                     setTimeout(function () {
                         instance._stop(1);
