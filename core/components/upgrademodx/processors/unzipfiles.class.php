@@ -28,24 +28,115 @@ include 'ugmprocessor.class.php';
 class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
 
     public $languageTopics = array('upgrademodx:default');
+    public $source;
+    public $destination;
+    public $forcePclZip = false;
 
 
     function initialize() {
         /* Initialization here */
         parent::initialize();
+        $this->forcePclZip = $this->modx->getOption('force_pcl_zip', null ,false, true);
         $this->name = 'Unzip Files Processor';
+        if ($this->devMode) {
+            $this->source = 'c:/dummy/downloaded_file.zip';
+            $this->destination = 'c:/dummy/temp';
+        }
         return true;
     }
 
-    public function unzip() {
+    public function unZip($forcePclZip = false) {
+        $source = $this->source;
+        $destination = $this->destination;
+        if (! file_exists($source)) {
+            $this->addError('Could not find downloaded file: ' . $source);
+            return false;
+        }
 
+        if (! is_dir($destination)) {
+            @$this->mmkDir($destination);
+        }
+
+        if (!is_dir($destination)) {
+            $this->addError('Could not create directory: ' . $destination);
+            return false;
+        } else if (!is_writable($destination)) {
+            $this->addError('Directory is not writable: ' . $destination);
+            return false;
+        }
+
+
+        $corePath = $this->corePath;
+        $status = true;
+        if ((!$forcePclZip) && class_exists('ZipArchive', false)) {
+            $zip = new ZipArchive;
+            if ($zip instanceof ZipArchive) {
+                $open = $zip->open($source, ZipArchive::CHECKCONS);
+
+                if ($open == true) {
+                    $result = $zip->extractTo($destination);
+                    if ($result === false) {
+                        /* Yes, this is fucking nuts, but it's necessary on some platforms */
+                        $result = $zip->extractTo($destination);
+                        if ($result === false) {
+                            $msg = $zip->getStatusString();
+                            MODXInstaller::quit($msg);
+                        }
+                    }
+                    $zip->close();
+                } else {
+                    $status = 'Could not open ZipArchive ' . $source . ' ' . $zip->getStatusString();
+                }
+
+            } else {
+                $status = 'Could not instantiate ZipArchive';
+            }
+        } else {
+            $zipClass = $corePath . 'xpdo/compression/pclzip.lib.php';
+            if (file_exists($zipClass)) {
+                include $corePath . 'xpdo/compression/pclzip.lib.php';
+                $archive = new PclZip($source);
+                if ($archive->extract(PCLZIP_OPT_PATH, $destination) == 0) {
+                    $status = 'Extraction with PclZip failed - Error : ' . $archive->errorInfo(true);
+                }
+            } else {
+                $status = 'Neither ZipArchive, nor PclZip were available to unzip the archive';
+            }
+        }
+        return $status;
+    }
+
+    function mmkDir($folder, $perm = 0755) {
+        $success = true;
+        if (!is_dir($folder)) {
+            $oldumask = umask(0);
+            try {
+                @mkdir($folder, $perm, true);
+            } catch (Exception $e) {
+                $this->addError($e->getMessage());
+                $success = false;
+            }
+            umask($oldumask);
+        }
+
+        return $success;
     }
 
     public function process() {
+        $retVal = true;
+        if (!is_dir($this->destination)) {
+            $retVal = $this->mmkDir($this->destination);
+        }
 
-       $this->unzip();
+        if ($retVal) {
+            try {
+                $this->unZip($this->forcePclZip);
+            } catch (Exception $e) {
+                $this->addError($e->getMessage());
+            }
+        }
 
-        return $this->success($this->modx->lexicon('ugm_copying_files'));
+        return $this->prepareResponse($this->modx->lexicon('ugm_copying_files'));
 
     }
 }
