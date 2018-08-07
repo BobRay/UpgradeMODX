@@ -50,7 +50,7 @@ class GetVersionsProcessor extends UgmProcessor {
         require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
         require_once $corePath . 'vendor/autoload.php';
         $this->client = new Client([
-            'base_uri' => 'https://api.github.com',
+            'base_uri' => '//api.github.com',
         ]);
         $this->corePath = $corePath;
         $this->upgrade = new UpgradeMODX($this->modx);
