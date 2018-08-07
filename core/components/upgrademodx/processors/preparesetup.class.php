@@ -33,6 +33,7 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
     function initialize() {
         /* Initialization here */
         parent::initialize();
+        $this->name = 'Prepare Setup Processor';
         return true;
     }
 

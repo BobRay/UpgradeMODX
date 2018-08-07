@@ -29,7 +29,9 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
 
     function initialize() {
         /* Initialization here */
-        return parent::initialize();
+        parent::initialize();
+        $this->name = 'Copy Files Processor';
+        return true;
     }
 
     public function process() {

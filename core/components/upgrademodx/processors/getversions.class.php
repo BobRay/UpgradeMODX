@@ -43,28 +43,28 @@ class GetVersionsProcessor extends UgmProcessor {
 
     function initialize() {
         parent::initialize();
+        $this->name = 'Get Versions Processor';
         $this->username = $this->modx->getOption('github_username');
         $this->token = $this->modx->getOption('github_token');
 
         $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
         require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
         require_once $corePath . 'vendor/autoload.php';
-        $this->client = new Client([
-            'base_uri' => '//api.github.com',
-        ]);
+        $this->client = new Client();
         $this->corePath = $corePath;
         $this->upgrade = new UpgradeMODX($this->modx);
         return true;
     }
 
-    public function getJSONFromGitHub($method) {
-
+    public function getVersions() {
+        /* ToDo: Get this from System Setting */
+        $url = '//api.github.com/repos/modxcms/revolution/tags';
         try {
             if ((!empty($this->username)) && (!empty($this->token))) { // use token if set
                 $header = array('auth' => array($this->username, $this->token));
-                $response = $this->client->request('GET', 'repos/modxcms/revolution/tags', $header);
+                $response = $this->client->request('GET', $url, $header);
             } else { // no token
-                $response = $this->client->request('GET', 'repos/modxcms/revolution/tags');
+                $response = $this->client->request('GET', $url);
             }
         } catch (Exception $e) {
             $msg = $this->modx->lexicon('ugm_no_version_list_from_github') . ' &mdash; ' . $e->getMessage();
@@ -75,9 +75,9 @@ class GetVersionsProcessor extends UgmProcessor {
     }
 
 
-    public function createVersionList($method) {
+    public function createVersionList() {
         $output = '';
-        $versions = $this->getJSONFromGitHub($method);
+        $versions = $this->getVersions();
         if ($versions === false) {
             $output = false;
         } else {
@@ -114,11 +114,14 @@ EOD;
     public function process() {
         /** @var $o GuzzleHttp\Psr7\request */
         $o = $this->createVersionList($this->method);
-        if ($o !== false) {
+
+        return $this->prepareResponse($o);
+
+        /*if ($o !== false) {
             return $this->success($o);
         } else {
             return $this->failure('<p style="color:red">' . implode("<br>", $this->getErrors()) . '</p>');
-        }
+        }*/
 
     }
 }

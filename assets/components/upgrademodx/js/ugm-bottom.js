@@ -56,12 +56,6 @@ new ProgressButton(bttn, {
             }
         };
         var  process = function () {
-                // console.log('Progress: ' + progress);
-                //alert("In Process");
-               /* var button_text = document.getElementById('button_content').textContent ||
-                     document.getElementById('button_content').innerText;*/
-            //var button_text = document.getElementById('button_content');
-
             if (progress === 0) {
                 // console.log("progress is zero");
                 updateText(button_text, 'Downloading Files');
@@ -131,7 +125,7 @@ new ProgressButton(bttn, {
                                                                 /* Run next processor */
 
                                                             } else {
-                                                                alert('data.message');
+                                                                displayError('data.message');
                                                             }
                                                             // console.log(data.message);
                                                         },
@@ -139,7 +133,7 @@ new ProgressButton(bttn, {
                                                     });
 
                                                 } else {
-                                                    alert('data.message');
+                                                    displayError('data.message');
                                                 }
                                                 // console.log(data.message);
                                             },
@@ -147,7 +141,7 @@ new ProgressButton(bttn, {
                                         });
 
                                     } else {
-                                        alert('data.message');
+                                        displayError('data.message');
                                     }
                                     //console.log(data.message);
                                 },
@@ -156,7 +150,8 @@ new ProgressButton(bttn, {
 
 
                         } else {
-                            alert('data.message');
+                            displayError(data.message);
+                            console.log(data.message);
                         }
                         // console.log(data.message);
                     },
@@ -203,5 +198,13 @@ new ProgressButton(bttn, {
         process();
     }
 });
+
+function displayError($msg) {
+    $("#ugm_submit_button").fadeOut(400, function () {
+        $(this).html($msg).fadeIn();
+    });
+
+    // bttn.innerHTML = $msg;
+}
 
 

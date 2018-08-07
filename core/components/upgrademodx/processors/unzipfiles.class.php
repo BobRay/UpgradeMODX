@@ -33,14 +33,17 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
     function initialize() {
         /* Initialization here */
         parent::initialize();
-
-
+        $this->name = 'Unzip Files Processor';
         return true;
+    }
+
+    public function unzip() {
+
     }
 
     public function process() {
 
-        /* perform action here */
+       $this->unzip();
 
         return $this->success($this->modx->lexicon('ugm_copying_files'));
 

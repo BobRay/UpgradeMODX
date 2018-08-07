@@ -30,6 +30,7 @@ abstract class UgmProcessor extends modProcessor {
    public $languageTopics = array('upgrademodx:default');
    public $devMode = false;
    public $errors = array();
+   public $name = '';
 
     public function initialize() {
         /** @var $props array() */
@@ -58,6 +59,16 @@ abstract class UgmProcessor extends modProcessor {
     /* Remove Guzzle Documentation link in Exception error messages */
     public function removeDoc($msg) {
         return preg_replace('#,\s*"documentation_url": "https://developer.github.com/v3"#', '', $msg);
+    }
+
+    public function prepareResponse($msg) {
+        if ($this->hasErrors()) {
+            $msg = '<p style="color:red;text-shadow:none;text-align:left;"> [' .
+                $this->name . '] Error: ' . implode("<br>", $this->getErrors()) . '</p>';
+            return $this->failure($msg);
+        } else {
+            return $this->success($msg);
+        }
     }
 }
 
