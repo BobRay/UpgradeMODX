@@ -125,7 +125,7 @@ new ProgressButton(bttn, {
                                                                 /* Run next processor */
 
                                                             } else {
-                                                                displayError('data.message');
+                                                                displayError(data.message);
                                                             }
                                                             // console.log(data.message);
                                                         },
@@ -133,7 +133,7 @@ new ProgressButton(bttn, {
                                                     });
 
                                                 } else {
-                                                    displayError('data.message');
+                                                    displayError(data.message);
                                                 }
                                                 // console.log(data.message);
                                             },
@@ -141,7 +141,7 @@ new ProgressButton(bttn, {
                                         });
 
                                     } else {
-                                        displayError('data.message');
+                                        displayError(data.message);
                                     }
                                     //console.log(data.message);
                                 },
