@@ -168,7 +168,9 @@ if (!class_exists('UpgradeMODX')) {
             );
             $response = $modx->runProcessor('getversions', array(), $config);
             $output .= $response->response['message'];
-            $output .= "\n" . $this->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
+            if (strpos($output, 'error') === false) {
+                $output .= "\n" . $this->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
+            }
             return $output;
         }
         public function writeScriptFile($useFile = false) {
