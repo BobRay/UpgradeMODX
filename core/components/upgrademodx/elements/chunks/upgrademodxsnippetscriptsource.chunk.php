@@ -783,7 +783,7 @@ EOD;
 
             /* Make temp directory */
             $tempDir = realpath(dirname(__FILE__)) . '/ugmtemp';
-            MODXInstaller::mmkdir($tempDir);
+            MODXInstaller::mmkDir($tempDir);
             clearstatcache();
 
             $destination = $tempDir;
