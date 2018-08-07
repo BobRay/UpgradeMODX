@@ -43,7 +43,8 @@ abstract class UgmProcessor extends modProcessor {
     }
 
     public function addError($message) {
-        $this->errors[] = $message;
+        // $this->modx->log(modX::LOG_LEVEL_ERROR, print_r($message, true));
+        $this->errors[] = $this->removeDoc($message);
     }
 
     public function hasErrors() {
@@ -52,6 +53,11 @@ abstract class UgmProcessor extends modProcessor {
 
     public function getErrors() {
         return $this->errors;
+    }
+
+    /* Remove Guzzle Documentation link in Exception error messages */
+    public function removeDoc($msg) {
+        return preg_replace('#,\s*"documentation_url": "https://developer.github.com/v3"#', '', $msg);
     }
 }
 
