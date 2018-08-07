@@ -32,10 +32,8 @@ include_once ('ugmprocessor.class.php');
 class GetVersionsProcessor extends UgmProcessor {
 
     public $languageTopics = array('upgrademodx:default');
-    public $corePath;
     /** @var $upgrade UpgradeMODX */
     public $upgrade; /* UpgradeMODX class */
-    public $method = 'curl';
     protected $username = '';
     protected $token = '';
     /** @var $client GuzzleHttp\Client */
@@ -44,14 +42,13 @@ class GetVersionsProcessor extends UgmProcessor {
     function initialize() {
         parent::initialize();
         $this->name = 'Get Versions Processor';
-        $this->username = $this->modx->getOption('github_username');
-        $this->token = $this->modx->getOption('github_token');
+        $this->username = $this->modx->getOption('github_username', null, '', true);
+        $this->token = $this->modx->getOption('github_token', null, '', true);
 
-        $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
+        $corePath = $this->corePath;
         require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
         require_once $corePath . 'vendor/autoload.php';
         $this->client = new Client();
-        $this->corePath = $corePath;
         $this->upgrade = new UpgradeMODX($this->modx);
         return true;
     }

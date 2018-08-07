@@ -42,7 +42,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $this->name = 'Download Files Processor';
         $props = $this->props;
        // $this->modx->log(modX::LOG_LEVEL_ERROR, print_r($this->props, true));
-        $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
+        $corePath = $this->corePath;
         require_once $corePath . 'vendor/autoload.php';
         $version = $this->getProperty('version', null);
         $shortVersion = strtok($version, '-');
