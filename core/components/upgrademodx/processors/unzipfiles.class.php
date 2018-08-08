@@ -55,7 +55,7 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
     public function validate($source, $destination) {
         clearstatcache();
         if (!file_exists($source)) {
-            throw new Exception($this->modx->lexicon('ugm_no_downloaded_file~~Could not find downloaded file') . ': ' . $source);
+            throw new Exception($this->modx->lexicon('ugm_no_downloaded_file') . ': ' . $source);
         }
 
         if (!is_dir($destination)) {
@@ -63,10 +63,10 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
         }
 
         if (!is_dir($destination)) {
-            throw new Exception($this->modx->lexicon('ugm_could_not_create_directory~~Could not create directory') . ': ' . $destination);
+            throw new Exception($this->modx->lexicon('ugm_could_not_create_directory') . ': ' . $destination);
         } else {
             if (!is_writable($destination)) {
-                throw new Exception($this->modx->lexicon('ugm_directory_not_writable~~Directory is not writable') . ': ' . $destination);
+                throw new Exception($this->modx->lexicon('ugm_directory_not_writable') . ': ' . $destination);
             }
         }
 

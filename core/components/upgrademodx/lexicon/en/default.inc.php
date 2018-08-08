@@ -109,3 +109,9 @@ $_lang['setting_ugm.language_desc'] = 'Two-letter language code for language to 
 $_lang['setting_ugm.forcePclZip_desc'] = 'Force the use of PclZip instead of ZipArchive';
 $_lang['setting_ugm.forceFopen_desc'] = 'Force the use of fopen instead of cURL for the download';
 $_lang['setting_ugm.ssl_verify_peer_desc'] = 'For security, have cURL verify the identity of the server';
+
+/* Used in unzipfiles.class.php */
+$_lang['ugm_no_downloaded_file'] = 'Could not find downloaded file';
+$_lang['ugm_could_not_create_directory'] = 'Could not create directory';
+$_lang['ugm_directory_not_writable'] = 'Directory is not writable';
+
