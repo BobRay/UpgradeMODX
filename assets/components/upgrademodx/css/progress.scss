@@ -192,6 +192,18 @@ div#Upgrade_modx {
 
   /* UpgradeMODX page styles */
   /* ====================== */
+  p.ugm_error {
+    width:400px;
+    color:red;
+    padding: 17px;
+    text-shadow:none;
+    text-align:left;
+    border: 1px solid $button-border-color;
+    background: #f4fffc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
 
   a {
     text-decoration: none;

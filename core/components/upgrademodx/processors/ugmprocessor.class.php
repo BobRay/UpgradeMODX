@@ -23,6 +23,9 @@
  */
 
 /* @var $modx modX */
+/* For lexicon helper:
+$this->modx->lexicon->load('upgrademodx:default');
+*/
 
 abstract class UgmProcessor extends modProcessor {
 
@@ -65,7 +68,7 @@ abstract class UgmProcessor extends modProcessor {
 
     public function prepareResponse($msg) {
         if ($this->hasErrors()) {
-            $msg = '<p style="color:red;text-shadow:none;text-align:left;"> [' .
+            $msg = '<p class="ugm_error"> [' .
                 $this->name . '] Error: ' . implode("<br>", $this->getErrors()) . '</p>';
             return $this->failure($msg);
         } else {
