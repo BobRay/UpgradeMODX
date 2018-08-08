@@ -54,8 +54,7 @@ class GetVersionsProcessor extends UgmProcessor {
     }
 
     public function getVersions() {
-        /* ToDo: Get this from System Setting */
-        $url = '//api.github.com/repos/modxcms/revolution/tags';
+        $url = $this->modx->getOption('ugm.versionListPath', null, '//api.github.com/repos/modxcms/revolution/tags', true);
         try {
             if ((!empty($this->username)) && (!empty($this->token))) { // use token if set
                 $header = array('auth' => array($this->username, $this->token));
