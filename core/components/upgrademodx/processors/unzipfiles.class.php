@@ -23,6 +23,7 @@
  */
 
 /* @var $modx modX */
+
 include 'ugmprocessor.class.php';
 
 class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
@@ -45,26 +46,42 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
         return true;
     }
 
-    public function unZip($forcePclZip = false) {
-        $source = $this->source;
-        $destination = $this->destination;
-        if (! file_exists($source)) {
-            $this->addError('Could not find downloaded file: ' . $source);
-            return false;
+    /** Make sure $source and $destination are usable
+     * @throws Exception
+     *  @var $source string
+     * @var $destination string
+     */
+
+    public function validate($source, $destination) {
+        clearstatcache();
+        if (!file_exists($source)) {
+            throw new Exception($this->modx->lexicon('ugm_no_downloaded_file~~Could not find downloaded file') . ': ' . $source);
         }
 
-        if (! is_dir($destination)) {
+        if (!is_dir($destination)) {
             @$this->mmkDir($destination);
         }
 
         if (!is_dir($destination)) {
-            $this->addError('Could not create directory: ' . $destination);
-            return false;
-        } else if (!is_writable($destination)) {
-            $this->addError('Directory is not writable: ' . $destination);
-            return false;
+            throw new Exception($this->modx->lexicon('ugm_could_not_create_directory~~Could not create directory') . ': ' . $destination);
+        } else {
+            if (!is_writable($destination)) {
+                throw new Exception($this->modx->lexicon('ugm_directory_not_writable~~Directory is not writable') . ': ' . $destination);
+            }
         }
 
+    }
+
+    public function unZip($forcePclZip = false) {
+        $source = $this->source;
+        $destination = $this->destination;
+
+        try {
+            $this->validate($source, $destination);
+        } catch (Exception$e) {
+            $this->addError($e->getMessage());
+            return false;
+        }
 
         $corePath = $this->corePath;
         $status = true;
@@ -104,22 +121,6 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
             }
         }
         return $status;
-    }
-
-    function mmkDir($folder, $perm = 0755) {
-        $success = true;
-        if (!is_dir($folder)) {
-            $oldumask = umask(0);
-            try {
-                @mkdir($folder, $perm, true);
-            } catch (Exception $e) {
-                $this->addError($e->getMessage());
-                $success = false;
-            }
-            umask($oldumask);
-        }
-
-        return $success;
     }
 
     public function process() {
