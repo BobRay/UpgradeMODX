@@ -66,6 +66,14 @@ abstract class UgmProcessor extends modProcessor {
         return preg_replace('#,\s*"documentation_url": "https://developer.github.com/v3"#', '', $msg);
     }
 
+    public function mmkDir($folder, $perm = 0755) {
+        if (!is_dir($folder)) {
+            $oldumask = umask(0);
+            @mkdir($folder, $perm, true);
+            umask($oldumask);
+        }
+    }
+
     public function prepareResponse($msg) {
         if ($this->hasErrors()) {
             $msg = '<p class="ugm_error"> [' .
