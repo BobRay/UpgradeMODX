@@ -434,23 +434,39 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function updateLatestVersion($versionArray) {
-            if ($this->devMode) {
+            /*if ($this->devMode) {
                 return;
-            }
+            }*/
             $latest = reset($versionArray);
-            $this->latestVersion = substr($latest['name'], 16);
+            $version = substr($latest['name'], 16);
+            if ($version !== $this->latestVersion) {
+                $this->latestVersion = $version;
+                $this->updateSettings(time(), $version);
+            }
         }
 
-        public function updateSnippetProperties($lastCheck, $latestVersion ) {
-            $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
-            if ($snippet) {
-                $properties = $snippet->get('properties');
-                $properties['lastCheck']['value'] = strftime('%Y-%m-%d %H:%M:%S', $lastCheck);
-                $properties['latestVersion']['value'] = $latestVersion;
-                $snippet->setProperties($properties);
-                $snippet->save();
-            }
+        public function updateSettings($lastCheck, $latestVersion ) {
+            $settings = array(
+               'ugm.lastCheck' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
+               'ugm.latestVersion' => $latestVersion,
+            );
+            foreach($settings as $key => $value) {
+                $setting = $this->modx->getObject('modSystemSetting', array('key' => $key));
+                $success = true;
+                if ($setting) {
+                    $setting->set('value', $value);
+                    if (!$setting->save()) {
+                        $success = false;
+                    }
+                } else {
+                    $success = false;
+                }
 
+                if (!$success) {
+                    $msg = '[UpdateMODX.class.php] ' . $this->modx->lexicon('Could not update System Setting: ' . $key);
+                    $this->setError($msg);
+                }
+            }
         }
 
         public function curlGetData($url, $returnData = false, $timeout = 6, $tries = 6 ) {
@@ -617,7 +633,7 @@ if (!class_exists('UpgradeMODX')) {
                 $retVal = $this->finalizeVersionArray($retVal, $plOnly, $versionsToShow);
                 if ($retVal !== false) {
                     $this->updateLatestVersion($retVal);
-                    $this->updateSnippetProperties(time(), $this->latestVersion);
+                    $this->updateSettings(time(), $this->latestVersion);
                     // $this->updateVersionListFile();
                 }
             }

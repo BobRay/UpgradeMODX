@@ -55,7 +55,7 @@ $components = array(
      * and export them with exportObjects. If you do that, be sure to set
      * their namespace to the lowercase package name of your extra */
 
-    'newSystemSettings' => array(
+    /*'newSystemSettings' => array(
         'attempts' =>
             array(
                 'key' => 'ugm.attempts',
@@ -226,7 +226,7 @@ $components = array(
                 'area' => 'Widget',
                 'description' => 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/',
             ),
-    ),
+    ),*/
 
     /* ************************ NEW SYSTEM EVENTS ************************* */
 

@@ -38,7 +38,7 @@ $systemSettings[1]->fromArray(array (
 $systemSettings[2] = $modx->newObject('modSystemSetting');
 $systemSettings[2]->fromArray(array (
   'key' => 'ugm.lastCheck',
-  'value' => '2018-07-12 00:54:46',
+  'value' => '2018-08-09 18:05:58',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -48,7 +48,7 @@ $systemSettings[2]->fromArray(array (
 $systemSettings[3] = $modx->newObject('modSystemSetting');
 $systemSettings[3]->fromArray(array (
   'key' => 'ugm.latestVersion',
-  'value' => '2.6.4-pl',
+  'value' => '2.6.5-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -194,5 +194,25 @@ $systemSettings[17]->fromArray(array (
   'area' => 'Download',
   'name' => 'forceFopen',
   'description' => 'Force the use of fopen instead of cURL for the download',
+), '', true, true);
+$systemSettings[18] = $modx->newObject('modSystemSetting');
+$systemSettings[18]->fromArray(array (
+  'key' => 'ugm.VersionListApiURL',
+  'value' => '//api.github.com/repos/modxcms/revolution/tags',
+  'xtype' => 'textfield',
+  'namespace' => 'upgrademodx',
+  'area' => 'Widget',
+  'name' => 'Version List API URL',
+  'description' => 'URL of API to get version list from',
+), '', true, true);
+$systemSettings[19] = $modx->newObject('modSystemSetting');
+$systemSettings[19]->fromArray(array (
+  'key' => 'ugm_temp_dir',
+  'value' => '{base_path}ugmtemp/',
+  'xtype' => 'textfield',
+  'namespace' => 'upgrademodx',
+  'area' => 'Widget',
+  'name' => 'UpgradeMODX Temp Directory',
+  'description' => 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/',
 ), '', true, true);
 return $systemSettings;

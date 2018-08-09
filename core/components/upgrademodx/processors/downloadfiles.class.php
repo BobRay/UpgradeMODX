@@ -47,12 +47,17 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $version = $this->getProperty('version', null);
         $shortVersion = strtok($version, '-');
         $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
-        $this->destinationPath = 'c:/dummy/mymodx.zip'; // ToDo: get this from System Setting
+        $this->destinationPath = $this->modx->getOption('ugm.tempFilePath', null, MODX_BASE_PATH . 'ugmtemp', true);
+        $this->destinationPath = $this->destinationPath . '/' . 'modx.zip';
+        if (! is_dir($this->destinationPath)) {
+            $this->mmkDir($this->destinationPath);
+        }
+       // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Destination: ' . $this->destinationPath);
         $this->client = new Client();
 
         if ($this->devMode) {
             $this->sourceUrl = 'http://localhost/addons/sitecheck.zip';
-            $this->destinationPath = 'c:/dummy/downloaded_file.zip';
+            $this->destinationPath = 'c:/dummy/modx.zip';
         }
         return true;
     }

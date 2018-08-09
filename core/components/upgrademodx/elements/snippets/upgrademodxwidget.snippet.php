@@ -54,6 +54,7 @@
 /** recursive remove dir function.
  *  Removes a directory and all its children */
 
+/* ToDo: Move this - Check "this"*/
 if (! function_exists('rrmdir')) {
     function rrmdir($dir) {
         if (is_dir($dir)) {
@@ -62,7 +63,7 @@ if (! function_exists('rrmdir')) {
                 if ($object != "." && $object != "..") {
                     if (filetype($dir . "/" . $object) == "dir") {
                         $prefix = substr($object, 0, 4);
-                        $this->rrmdir($dir . "/" . $object);
+                        rrmdir($dir . "/" . $object); /* ToDo: Fix this */
                     } else {
                         $prefix = substr($object, 0, 4);
                         if ($prefix != '.git' && $prefix != '.svn') {
@@ -196,16 +197,16 @@ if (!empty($errors)) {
             ': ' . $error . '</span>';
     }
 
-    /* ToDo: Move this to prepare setup processor */
+    /* ToDo: Fix this to use System Settings */
     /* attempt to delete any files created */
-    rrmdir(MODX_BASE_PATH . 'ugmtemp');
+  /*  rrmdir(MODX_BASE_PATH . 'ugmtemp');
 
     if (file_exists(MODX_BASE_PATH . 'modx.zip')) {
         @unlink(MODX_BASE_PATH . 'modx.zip');
     }
     if (file_exists(MODX_BASE_PATH . 'upgrade.php')) {
         @unlink(MODX_BASE_PATH . 'upgrade.php');
-    }
+    }*/
 
     return $msg;
 }

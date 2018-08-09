@@ -39,8 +39,10 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
         parent::initialize();
         $this->forcePclZip = $this->modx->getOption('force_pcl_zip', null ,false, true);
         $this->name = 'Unzip Files Processor';
+        $this->source = $this->modx->getOption('ugm.tempFilePath', null, MODX_BASE_PATH . 'ugmtemp/modx.zip', true);
+
         if ($this->devMode) {
-            $this->source = 'c:/dummy/downloaded_file.zip';
+            $this->source = 'c:/dummy/modx.zip';
             $this->destination = 'c:/dummy/temp';
         }
         return true;
@@ -90,7 +92,7 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
             if ($zip instanceof ZipArchive) {
                 $open = $zip->open($source, ZipArchive::CHECKCONS);
 
-                if ($open == true) {
+                if ($open === true) {
                     $result = $zip->extractTo($destination);
                     if ($result === false) {
                         /* Yes, this is fucking nuts, but it's necessary on some platforms */
@@ -124,22 +126,19 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
     }
 
     public function process() {
-        $retVal = true;
-        if (!is_dir($this->destination)) {
-            $retVal = $this->mmkDir($this->destination);
+        try {
+            $this->unZip($this->forcePclZip);
+        } catch (Exception $e) {
+            $this->addError($e->getMessage());
         }
-
-        if ($retVal) {
-            try {
-                $this->unZip($this->forcePclZip);
-            } catch (Exception $e) {
-                $this->addError($e->getMessage());
-            }
-        }
-
         return $this->prepareResponse($this->modx->lexicon('ugm_copying_files'));
 
     }
 }
 
+
 return 'UpgradeMODXUnzipfilesProcessor';
+
+
+
+
