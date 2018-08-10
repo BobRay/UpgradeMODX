@@ -46,6 +46,7 @@ abstract class UgmProcessor extends modProcessor {
         $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
         if ($this->devMode) {
             $this->tempDir = 'c:/dummy/ugmtemp/';
+            $this->mmkDir('c:/dummy/ugmtemp/test');
         }
         $this->unzippedDir = $this->tempDir . 'unzipped';
         if (!is_dir($this->tempDir)) {
