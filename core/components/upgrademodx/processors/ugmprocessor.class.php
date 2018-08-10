@@ -34,13 +34,23 @@ abstract class UgmProcessor extends modProcessor {
    public $devMode = false;
    public $errors = array();
    public $name = '';
-   public $corePath;
+   public $corePath ='';
+   public $tempDir = '';
+   public $unzippedDir = '';
 
     public function initialize() {
         /** @var $props array() */
         $this->props = $this->getProperty('props');
         $this->devMode = $this->modx->getOption('ugm.devMode', null, false, true);
         $this->corePath = $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
+        $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
+        if ($this->devMode) {
+            $this->tempDir = 'c:/dummy/ugmtemp/';
+        }
+        $this->unzippedDir = $this->tempDir . 'unzipped';
+        if (!is_dir($this->tempDir)) {
+            $this->mmkDir($this->unzippedDir);
+        }
         return parent::initialize();
     }
 

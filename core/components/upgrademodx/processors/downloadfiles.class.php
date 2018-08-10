@@ -47,26 +47,35 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $version = $this->getProperty('version', null);
         $shortVersion = strtok($version, '-');
         $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
-        $this->destinationPath = $this->modx->getOption('ugm.tempFilePath', null, MODX_BASE_PATH . 'ugmtemp', true);
-        $this->destinationPath = $this->destinationPath . '/' . 'modx.zip';
-        if (! is_dir($this->destinationPath)) {
-            $this->mmkDir($this->destinationPath);
+        if ($this->devMode) {
+            $this->sourceUrl = 'http://localhost/addons/sitecheck.zip';
         }
+
+        $this->destinationPath = $this->tempDir . 'modx.zip';
+        /*if (! is_dir($this->destinationPath)) {
+            $this->mmkDir($this->destinationPath);
+        }*/
        // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Destination: ' . $this->destinationPath);
         $this->client = new Client();
 
-        if ($this->devMode) {
-            $this->sourceUrl = 'http://localhost/addons/sitecheck.zip';
-            $this->destinationPath = 'c:/dummy/modx.zip';
-        }
+
         return true;
     }
 
+    /** @throws Exception */
     public function download() {
         $client = new Client();
-        $destFile = fopen($this->destinationPath, 'wb');
+            $destFile = fopen($this->destinationPath, 'w');
+            if (! $destFile) {
+                $msg = '[Download Files Processor] ' .
+                    $this->modx->lexicon('ugm_could_not_open') . ' ' .
+                    $this->destinationPath . ' ' . $this->modx->lexicon('ugm_for_writing');
+                throw new Exception($msg);
+
+            }
+
         set_time_limit(0);
-        try {
+
             $response = $client->request('GET', $this->sourceUrl, [
                 'headers' => array(
                     'Cache-Control' => 'no-cache',
@@ -75,13 +84,15 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
                 'sink' => $destFile,
             ]);
 
-        } catch (Exception $e) {
-            $this->addError($e->getMessage());
-        }
+
     }
 
     public function process() {
-        $this->download();
+        try {
+            $this->download();
+        } catch (Exception $e) {
+            $this->addError($e->getMessage());
+        }
         /* message for next processor */
         return $this->prepareResponse($this->modx->lexicon('ugm_unzipping_files'));
 

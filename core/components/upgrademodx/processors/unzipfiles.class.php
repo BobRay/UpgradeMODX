@@ -39,12 +39,9 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
         parent::initialize();
         $this->forcePclZip = $this->modx->getOption('force_pcl_zip', null ,false, true);
         $this->name = 'Unzip Files Processor';
-        $this->source = $this->modx->getOption('ugm.tempFilePath', null, MODX_BASE_PATH . 'ugmtemp/modx.zip', true);
+        $this->source = $this->tempDir . 'modx.zip';
+        $this->destination = $this->tempDir . 'unzipped';
 
-        if ($this->devMode) {
-            $this->source = 'c:/dummy/modx.zip';
-            $this->destination = 'c:/dummy/temp';
-        }
         return true;
     }
 
