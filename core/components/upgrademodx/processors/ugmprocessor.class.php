@@ -79,9 +79,7 @@ abstract class UgmProcessor extends modProcessor {
     public function mmkDir($folder, $perm = 0755) {
         $success = true;
         if (!is_dir($folder)) {
-            $oldumask = umask(0);
             @mkdir($folder, $perm, true);
-            umask($oldumask);
         }
         if (!is_dir($folder)) {
             $success = false;

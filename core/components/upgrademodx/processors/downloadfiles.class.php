@@ -52,13 +52,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         }
 
         $this->destinationPath = $this->tempDir . 'modx.zip';
-        /*if (! is_dir($this->destinationPath)) {
-            $this->mmkDir($this->destinationPath);
-        }*/
-       // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Destination: ' . $this->destinationPath);
         $this->client = new Client();
-
-
         return true;
     }
 
