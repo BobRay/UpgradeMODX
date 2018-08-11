@@ -48,8 +48,10 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $shortVersion = strtok($version, '-');
         $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
         if ($this->devMode) {
-            $this->sourceUrl = 'http://localhost/addons/sitecheck.zip';
+            // $this->sourceUrl = 'http://localhost/addons/sitecheck.zip';
         }
+
+        $_SESSION['ugm_version'] = '/modx-' . $version;
 
         $this->destinationPath = $this->tempDir . 'modx.zip';
         $this->client = new Client();
