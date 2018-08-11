@@ -37,6 +37,7 @@ abstract class UgmProcessor extends modProcessor {
    public $corePath ='';
    public $tempDir = '';
    public $unzippedDir = '';
+   public $testDir = null;
 
     public function initialize() {
         /** @var $props array() */
@@ -47,6 +48,7 @@ abstract class UgmProcessor extends modProcessor {
         if ($this->devMode) {
             $this->tempDir = 'c:/dummy/ugmtemp/';
             $this->mmkDir('c:/dummy/ugmtemp/test');
+            $this->testDir = 'c:/dummy/ugmtemp/test/';
         }
         $this->unzippedDir = $this->tempDir . 'unzipped';
         if (!is_dir($this->tempDir)) {
