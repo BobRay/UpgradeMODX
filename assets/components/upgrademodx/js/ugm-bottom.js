@@ -61,6 +61,18 @@ new ProgressButton(bttn, {
                 updateText(button_text, 'Downloading Files');
                 progress = 0.1;
                 instance._setProgress(progress);
+                var maxProgress = 0.3;
+                var progressInterval = setInterval(function () {
+                    if (progress < 1.0  && progress < maxProgress) {
+                        progress += 0.01;
+                        instance._setProgress(progress);
+                        if (progress >= 1) {
+                            clearInterval(progressInterval);
+                        }
+                    }
+
+
+                }, 1000);
 
                 $.ajax({
                     type: 'GET',
@@ -76,6 +88,7 @@ new ProgressButton(bttn, {
                             updateText(button_text, data.message);
                             // alert("Got success return from downloadfiles");
                             progress = 0.3;
+                            maxProgress = 0.6;
                             instance._setProgress(progress);
 
                             /* Run next processor */
@@ -92,6 +105,7 @@ new ProgressButton(bttn, {
                                         updateText(button_text, data.message);
                                        // alert("Got success return from unzipfiles");
                                         progress = 0.6;
+                                        maxProgress = 0.9;
                                         instance._setProgress(progress);
                                         /* Run next processor */
                                         $.ajax({
@@ -106,6 +120,7 @@ new ProgressButton(bttn, {
                                                     updateText(button_text, data.message);
                                                    // alert("Got success return from copyfiles");
                                                     progress = 0.9;
+                                                    maxProgress = 1;
                                                     instance._setProgress(progress);
                                                     /* Run next processor */
                                                     $.ajax({
@@ -119,14 +134,15 @@ new ProgressButton(bttn, {
                                                             if (data.success === true) {
                                                                 updateText(button_text, data.message);
                                                               //  alert("Got success return from preparesetup");
-                                                               // progress = 1; // ToDo: restore this
+                                                                progress = 1;
                                                                 instance._setProgress(progress);
-                                                               // instance._stop(1); // ToDo: restore this
+                                                                instance._stop(1);
                                                                 /* Run next processor */
 
                                                             } else {
                                                                 displayError(data.message);
                                                             }
+                                                            clearInterval(progressInterval);
                                                             // console.log(data.message);
                                                         },
                                                         dataType: 'json'
