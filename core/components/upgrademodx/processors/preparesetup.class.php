@@ -38,14 +38,47 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
         return true;
     }
 
-    public function process() {
+    /**
+     * Copy root config.core.php to setup/includes
+     * after adding setup key
+     * @throws Exception
+     */
+    public function prepareSetup() {
+        $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
+        $success = true;
+        if (file_exists($rootCoreConfig)) {
+            $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
+            $content = file_get_contents($rootCoreConfig);
+            if (strpos($content, 'MODX_SETUP_KEY') === false) {
+                if (strpos($content, '?>') !== false) {
+                    $content = str_replace('?>', $newStr, $content);
+                } else {
+                    $content .= "\n" . $newStr;
+                }
+                if (!file_put_contents(MODX_BASE_PATH . 'setup/includes/config.core.php', $content)) {
+                    throw new Exception($this->modx->lexicon('ugm_could_not_write') . ' ' . $this->modx->lexicon('ugm_to' .
+                       'setup/includes/config.core.php'));
 
-        /* perform action here */
+                }
+            }
+        } else {
+            throw new Exception($this->modx->lexicon('ugm_no_root_config_core~~Could not find root config.core.php'));
+        }
+
+    }
+
+    public function process() {
+        try{
+            $this->prepareSetup();
+        } catch (Exception $e) {
+            $this->addError($e->getMessage());
+        }
+
         if (! $this->hasErrors()) {
             $this->log($this->modx->lexicon('ugm_setup_prepared'));
             $this->log($this->modx->lexicon('ugm_launching_setup'));
         }
-        return $this->success($this->modx->lexicon('ugm_launching_setup'));
+        return $this->prepareResponse($this->modx->lexicon('ugm_launching_setup'));
 
     }
 }
