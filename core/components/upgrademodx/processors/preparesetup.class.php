@@ -42,7 +42,7 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
 
         /* perform action here */
         if (! $this->hasErrors()) {
-            $this->log($this->modx->lexicon('ugm_setup_prepared~~Setup prepared'));
+            $this->log($this->modx->lexicon('ugm_setup_prepared'));
             $this->log($this->modx->lexicon('ugm_launching_setup'));
         }
         return $this->success($this->modx->lexicon('ugm_launching_setup'));

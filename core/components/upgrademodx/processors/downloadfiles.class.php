@@ -47,7 +47,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
             fwrite($fp, 'UpgradeMODX Log -- ' . strftime('%A %B %C, %G %I:%M %p'));
             fclose($fp);
         } else {
-            $this->addError('Could not open ' . $this->logFilePath);
+            $this->addError($this->modx->lexicon('ugm_could_not_open') . ' ' . $this->logFilePath);
         }
         $this->log($this->modx->lexicon('ugm_downloading_files'));
 
@@ -56,9 +56,6 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $version = $this->getProperty('version', null);
         $shortVersion = strtok($version, '-');
         $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
-        if ($this->devMode) {
-            // $this->sourceUrl = 'http://localhost/addons/sitecheck.zip';
-        }
 
         $_SESSION['ugm_version'] = '/modx-' . $version;
 
@@ -69,6 +66,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
 
     /** @throws Exception */
     public function download() {
+
         $client = new Client();
             $destFile = fopen($this->destinationPath, 'w');
             if (! $destFile) {
@@ -77,8 +75,6 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
                     $this->destinationPath . ' ' . $this->modx->lexicon('ugm_for_writing');
                 throw new Exception($msg);
 
-            } else if (file_exists($this->destinationPath) && $this->devMode) {
-                return;
             }
 
         set_time_limit(0);
@@ -90,7 +86,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
                 ),
                 'sink' => $destFile,
             ]);
-            $msg = $this->modx->lexicon('ugm_downloaded~~Downloaded'  . ' ' . $_SESSION['ugm_version'] . ' (-> ' . $this->destinationPath . ')');
+            $msg = $this->modx->lexicon('ugm_downloaded')  . ' ' . $_SESSION['ugm_version'] . ' -> ' . $this->destinationPath;
             $this->log($msg);
 
     }

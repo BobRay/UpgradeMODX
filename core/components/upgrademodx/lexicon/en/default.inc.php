@@ -75,7 +75,7 @@ $_lang['ugm_file_copy_failed'] = 'File Copy Failed';
 $_lang['ugm_begin_upgrade'] = 'Begin Upgrade';
 $_lang['ugm_starting_upgrade'] = 'Starting Upgrade';
 $_lang['ugm_downloading_files'] = 'Downloading Files';
-$_lang['ugm_unzipping_files'] = 'Unzipping Files';
+$_lang['ugm_unzipping_files'] = 'Unzipping files';
 $_lang['ugm_copying_files'] = 'Copying Files';
 $_lang['ugm_preparing_setup'] = 'Preparing Setup';
 $_lang['ugm_launching_setup'] = 'Launching Setup';
@@ -92,6 +92,11 @@ $_lang['ugm_original_design_by'] = 'Original design By';
 $_lang['ugm_back_to_manager'] = 'Back to Manager';
 
 /* Used in unzipfiles.class.php */
+$_lang['ugm_unzipped\') . \' \' . \'modx.zip\' . \' (-> \' . $destination . '] = '';
+$_lang['ugm_files_to_extract'] = 'objects to extract';
+$_lang['ugm_destination'] = 'Destination';
+$_lang['ugm_source'] = 'Source';
+$_lang['ugm_unzipped'] = 'Unzipped';
 $_lang['ugm_no_downloaded_file'] = 'Could not find downloaded file';
 $_lang['ugm_could_not_create_directory'] = 'Could not create directory';
 $_lang['ugm_directory_not_writable'] = 'Directory is not writable';
@@ -137,3 +142,15 @@ $_lang['setting_ugm.attempts'] = 'attempts';
 $_lang['setting_ugm.attempts_desc'] = 'Number of tries to get data from GitHub or MODX; default: 2';
 $_lang['setting_ugm.forceFopen'] = 'forceFopen';
 $_lang['setting_ugm.forceFopen_desc'] = 'Force the use of fopen instead of cURL for the download';
+
+
+/* Used in copyfiles.class.php */
+$_lang['ugm_copied'] = 'Copied';
+$_lang['ugm_to'] = 'to';
+$_lang['ugm_files_copied'] = 'Objects copied';
+
+/* Used in downloadfiles.class.php */
+$_lang['ugm_downloaded'] = 'Downloaded';
+
+/* Used in preparesetup.class.php */
+$_lang['ugm_setup_prepared'] = 'Setup prepared';

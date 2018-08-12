@@ -121,8 +121,8 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
             $this->mmkDir($target);
             set_time_limit(0);
             $this->recurse_copy($sourceDir . '/' . $source, $target);
-            $this->log('    ' . $this->modx->lexicon($this->modx->lexicon('ugm_copied~~Copied') . ' ' .
-                    $source . ' ' . $this->modx->lexicon('ugm_to~~to') . ' ' . $target));
+            $this->log('    ' . $this->modx->lexicon($this->modx->lexicon('ugm_copied') . ' ' .
+                    $source . ' ' . $this->modx->lexicon('ugm_to') . ' ' . $target));
         }
 
     }
@@ -148,6 +148,7 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
 
         // Check for symlinks
         if (is_link($source)) {
+            $this->fileCount++;
             return symlink(readlink($source), $dest);
         }
         // Simple copy for a file
@@ -156,9 +157,11 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
             return copy($source, $dest);
         }
 
+        if (is_dir($source)) {
+            $this->fileCount++;
+        }
         // Make destination directory
         if (!is_dir($dest)) {
-            $this->fileCount++;
             mkdir($dest);
         }
 
@@ -181,7 +184,7 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
     public function process() {
 
         $version = $_SESSION['ugm_version'];
-       //  $this->modx->log(modX::LOG_LEVEL_ERROR, 'SourceDir ' . $this->unzippedDir . $version);
+
         /* Get directories for file copy */
         $directories = $this->getDirectories();
         $directories = $this->normalize($directories);
@@ -213,7 +216,7 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         $output .= "\n" . 'Copy Time' .
             ': ' . $totalTime;
 
-        $output .= ' -- ' . $this->modx->lexicon('ugm_files_copied~~Files copied') . ' ' . $this->fileCount;
+        $output .= ' -- ' . $this->modx->lexicon('ugm_files_copied') . ' ' . $this->fileCount;
         $this->log($output);
         return $this->prepareResponse($this->modx->lexicon('ugm_preparing_setup'));
 
