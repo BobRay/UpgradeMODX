@@ -34,13 +34,17 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
         /* Initialization here */
         parent::initialize();
         $this->name = 'Prepare Setup Processor';
+        $this->log($this->modx->lexicon('ugm_preparing_setup'));
         return true;
     }
 
     public function process() {
 
         /* perform action here */
-
+        if (! $this->hasErrors()) {
+            $this->log($this->modx->lexicon('ugm_setup_prepared~~Setup prepared'));
+            $this->log($this->modx->lexicon('ugm_launching_setup'));
+        }
         return $this->success($this->modx->lexicon('ugm_launching_setup'));
 
     }

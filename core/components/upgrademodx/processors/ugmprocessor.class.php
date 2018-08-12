@@ -38,18 +38,21 @@ abstract class UgmProcessor extends modProcessor {
    public $tempDir = '';
    public $unzippedDir = '';
    public $testDir = null;
+   public $logFilePath = MODX_CORE_PATH . 'cache/logs/upgrademodx.log';
 
     public function initialize() {
         /** @var $props array() */
         $this->props = $this->getProperty('props');
         $this->devMode = $this->modx->getOption('ugm.devMode', null, false, true);
-        $this->corePath = $corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
+        $this->corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
         $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
         if ($this->devMode) {
             $this->tempDir = 'c:/dummy/ugmtemp/';
             $this->mmkDir('c:/dummy/ugmtemp/test');
             $this->testDir = 'c:/dummy/ugmtemp/test/';
+            $this->logFilePath = 'C:/dummy/ugmtemp/upgrademodx.log';
         }
+
         $this->unzippedDir = $this->tempDir . 'unzipped';
         if (!is_dir($this->tempDir)) {
             $this->mmkDir($this->unzippedDir);
@@ -90,15 +93,28 @@ abstract class UgmProcessor extends modProcessor {
         return $success;
     }
 
+    public function log($msg, $suppressLineFeed = false) {
+        $fp = fopen($this->logFilePath, 'a');
+        $lf = $suppressLineFeed ? '' : PHP_EOL;
+        if ($fp) {
+            fwrite($fp, $lf . $msg);
+            fclose($fp);
+        }
+    }
+
     public function prepareResponse($msg) {
         if ($this->hasErrors()) {
+            $this->log(implode(', ' , $this->getErrors()));
             $msg = '<p class="ugm_error"> [' .
                 $this->name . '] Error: ' . implode("<br>", $this->getErrors()) . '</p>';
+
             return $this->failure($msg);
         } else {
             return $this->success($msg);
         }
     }
+
+
 }
 
 return 'UgmProcessor';

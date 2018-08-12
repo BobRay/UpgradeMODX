@@ -26,11 +26,13 @@
 include 'ugmprocessor.class.php';
 
 class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
+    var $fileCount = 0;
 
     function initialize() {
         /* Initialization here */
         parent::initialize();
         $this->name = 'Copy Files Processor';
+        $this->log($this->modx->lexicon('ugm_copying_files'));
         return true;
     }
 
@@ -99,68 +101,82 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         return $directories;
     }
 
+    /** @throws Exception */
     public function copyFiles($sourceDir, $directories) {
 
         /* Normalize directory paths */
         $this->normalize($directories);
         $this->normalize($sourceDir);
 
+
         /* Copy directories */
+         /*
+         * @var  $source string
+         * @var  $target string
+         */
         foreach ($directories as $source => $target) {
             if (empty($target)) {
                 throw new Exception('EMPTY1: ' . $source. ' => ' . $target);
             }
-
             $this->mmkDir($target);
             set_time_limit(0);
-            $this->copyFolder($sourceDir . '/' . $source, $target);
+            $this->recurse_copy($sourceDir . '/' . $source, $target);
+            $this->log('    ' . $this->modx->lexicon($this->modx->lexicon('ugm_copied~~Copied') . ' ' .
+                    $source . ' ' . $this->modx->lexicon('ugm_to~~to') . ' ' . $target));
         }
 
     }
 
-    public function copyFolder($src, $dest) {
 
-        $fp = fopen ($this->tempDir . 'log.txt', 'w');
+    /**
+     * @param $source string
+     * @param $dest string
+     * @return bool
+     * @throws Exception
+     */
+    public function recurse_copy($source, $dest) {
 
-        $path = realpath($src);
-        $dest = realpath($dest);
-        if (empty($path)) {
-            throw new Exception('Path is empty -- Dest = ' . $dest);
+        if (empty($source)) {
+            throw new Exception('[Copy Files Processor] Source path is empty -- Source = ' . $source);
         }
         if (empty($dest)) {
-            throw new Exception('Dest is empty -- Path = ' . $path);
+            throw new Exception('[Copy Files Processor] Destination path is empty -- Path = ' . $dest);
         }
-        $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path), RecursiveIteratorIterator::SELF_FIRST);
-        foreach ($objects as $name => $object) {
-            $startsAt = substr(dirname($name), strlen($path));
-            if (empty($dest . $startsAt)) {
-                throw new Exception('EMPTY2: ' . $name . ' => ' . $startsAt);
-            }
-            $this->mmkDir($dest . $startsAt, true);
-            if ($object->isDir()) {
-                if (empty($dest . substr($name, strlen($path)))) {
-                    throw new Exception('EMPTY3');
-                }
-                $this->mmkDir($dest . substr($name, strlen($path)));
-            }
-            if (is_writable($dest . $startsAt) and $object->isFile()) {
-                $success = copy((string)$name, $dest . $startsAt . DIRECTORY_SEPARATOR . basename($name));
-                if (! $success)  {
-                    fwrite($fp, 'Could not copy ' . $dest . $startsAt . DIRECTORY_SEPARATOR . basename($name));
-                }
-            } else {
-                $success = false;
-                //die("Not a File or not writable");
-            }
-            if (! $success) {
 
-               // $this->modx->log(modX::LOG_LEVEL_ERROR, $this->modx->lexicon('ugm_could_not_copy~~Could not copy'), ' ' .
-                   // (string)$name, $dest . $startsAt . DIRECTORY_SEPARATOR . basename($name));
-               //  die('Not a success');
-            }
+        /* Skip these (setup/includes/config.core.php copied elsewhere) */
+        $configCore = 'config.core.php';
+
+        // Check for symlinks
+        if (is_link($source)) {
+            return symlink(readlink($source), $dest);
         }
-        fclose($fp);
+        // Simple copy for a file
+        if (is_file($source)) {
+            $this->fileCount++;
+            return copy($source, $dest);
+        }
+
+        // Make destination directory
+        if (!is_dir($dest)) {
+            $this->fileCount++;
+            mkdir($dest);
+        }
+
+        // Loop through the folder
+        $dir = dir($source);
+        while (false !== ($entry = $dir->read())) {
+            // Skip pointers and config files
+            if ($entry == '.' || $entry == '..' || $entry == $configCore) {
+                continue;
+            }
+            // Deep copy directories
+            $this->recurse_copy("{$source}/{$entry}", "{$dest}/{$entry}");
+        }
+        // Clean up
+        $dir->close();
+        return true;
     }
+
 
     public function process() {
 
@@ -169,12 +185,36 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         /* Get directories for file copy */
         $directories = $this->getDirectories();
         $directories = $this->normalize($directories);
+        /* set start time */
+        $mtime = microtime();
+        $mtime = explode(" ", $mtime);
+        $mtime = $mtime[1] + $mtime[0];
+        $tstart = $mtime;
+        set_time_limit(0);
+        $source = $this->unzippedDir . $version;
+        $dest = $this->devMode ? $this->testDir : MODX_BASE_PATH;
         try {
-            $this->copyFiles($this->unzippedDir . $version, $directories);
+            copy($source . '/ht.access', $dest . 'ht.access');
+            copy($source . '/index.php', $dest . 'index.php');
+            $this->copyFiles($source, $directories);
+            /* We do need this one */
+            copy($source . '/setup/includes/config.core.php', $dest . '/setup/includes/config.core.php');
         } catch (Exception $e) {
             $this->addError($e->getMessage());
         }
+        /* report how long it took */
+        $output = '';
+        $mtime = microtime();
+        $mtime = explode(" ", $mtime);
+        $mtime = $mtime[1] + $mtime[0];
+        $tend = $mtime;
+        $totalTime = ($tend - $tstart);
+        $totalTime = sprintf("%2.4f s", $totalTime);
+        $output .= "\n" . 'Copy Time' .
+            ': ' . $totalTime;
 
+        $output .= ' -- ' . $this->modx->lexicon('ugm_files_copied~~Files copied') . ' ' . $this->fileCount;
+        $this->log($output);
         return $this->prepareResponse($this->modx->lexicon('ugm_preparing_setup'));
 
     }

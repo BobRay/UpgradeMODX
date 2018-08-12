@@ -40,8 +40,17 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         /** @var $scriptProperties array */
         parent::initialize();
         $this->name = 'Download Files Processor';
-        $props = $this->props;
-       // $this->modx->log(modX::LOG_LEVEL_ERROR, print_r($this->props, true));
+
+        /* Write directly because we want to truncate the file */
+        $fp = fopen($this->logFilePath, 'w');
+        if ($fp) {
+            fwrite($fp, 'UpgradeMODX Log -- ' . strftime('%A %B %C, %G %I:%M %p'));
+            fclose($fp);
+        } else {
+            $this->addError('Could not open ' . $this->logFilePath);
+        }
+        $this->log($this->modx->lexicon('ugm_downloading_files'));
+
         $corePath = $this->corePath;
         require_once $corePath . 'vendor/autoload.php';
         $version = $this->getProperty('version', null);
@@ -68,6 +77,8 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
                     $this->destinationPath . ' ' . $this->modx->lexicon('ugm_for_writing');
                 throw new Exception($msg);
 
+            } else if (file_exists($this->destinationPath) && $this->devMode) {
+                return;
             }
 
         set_time_limit(0);
@@ -79,7 +90,8 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
                 ),
                 'sink' => $destFile,
             ]);
-
+            $msg = $this->modx->lexicon('ugm_downloaded~~Downloaded'  . ' ' . $_SESSION['ugm_version'] . ' (-> ' . $this->destinationPath . ')');
+            $this->log($msg);
 
     }
 

@@ -37,6 +37,7 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
     function initialize() {
         /* Initialization here */
         parent::initialize();
+        $this->log($this->modx->lexicon('ugm_unzipping_files~~Unzipping files'));
         $this->forcePclZip = $this->modx->getOption('force_pcl_zip', null ,false, true);
         $this->name = 'Unzip Files Processor';
         $this->source = $this->tempDir . 'modx.zip';
@@ -88,20 +89,23 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
             $zip = new ZipArchive;
             if ($zip instanceof ZipArchive) {
                 $open = $zip->open($source, ZipArchive::CHECKCONS);
-
-                if ($open === true) {
-                    $result = $zip->extractTo($destination);
-                    if ($result === false) {
-                        /* Yes, this is fucking nuts, but it's necessary on some platforms */
+                $fileCount = (int) ($zip->numFiles);
+               // $this->log('    ' . $this->modx->lexicon('ugm_files_to_extract~~objects to extract') . ' ' . $fileCount);
+                if (!is_dir($destination) && $this->devMode) {
+                    if ($open === true) {
                         $result = $zip->extractTo($destination);
                         if ($result === false) {
-                            $msg = $zip->getStatusString();
-                            MODXInstaller::quit($msg);
+                            /* Yes, this is fucking nuts, but it's necessary on some platforms */
+                            $result = $zip->extractTo($destination);
+                            if ($result === false) {
+                                $msg = $zip->getStatusString();
+                                MODXInstaller::quit($msg);
+                            }
                         }
+                        $zip->close();
+                    } else {
+                        $status = 'Could not open ZipArchive ' . $source . ' ' . $zip->getStatusString();
                     }
-                    $zip->close();
-                } else {
-                    $status = 'Could not open ZipArchive ' . $source . ' ' . $zip->getStatusString();
                 }
 
             } else {
@@ -119,6 +123,11 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
                 $status = 'Neither ZipArchive, nor PclZip were available to unzip the archive';
             }
         }
+        if ($status === true) {
+            $msg = $this->modx->lexicon('ugm_Unzipped~~Unzipped' . ' ' . 'modx.zip' . ' (-> ' . $destination . ')');
+            $this->log($msg);
+        }
+
         return $status;
     }
 
