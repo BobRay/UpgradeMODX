@@ -121,8 +121,9 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
             $this->mmkDir($target);
             set_time_limit(0);
             $this->recurse_copy($sourceDir . '/' . $source, $target);
-            $this->log('    ' . $this->modx->lexicon($this->modx->lexicon('ugm_copied') . ' ' .
-                    $source . ' ' . $this->modx->lexicon('ugm_to') . ' ' . $target));
+            $this->log('    ' . $this->modx->lexicon($this->modx->lexicon('ugm_copied') .
+                    ' ' . $source . ' ' .
+                    $this->modx->lexicon('ugm_to') . ' ' . $target));
         }
 
     }
@@ -183,7 +184,7 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
 
     public function process() {
 
-        $version = $_SESSION['ugm_version'];
+        $version = str_replace('.zip', '' , $this->zipFileName);
 
         /* Get directories for file copy */
         $directories = $this->getDirectories();
@@ -194,7 +195,7 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         $mtime = $mtime[1] + $mtime[0];
         $tstart = $mtime;
         set_time_limit(0);
-        $source = $this->unzippedDir . $version;
+        $source = $this->unzippedDir . '/' . $version;
         $dest = $this->devMode ? $this->testDir : MODX_BASE_PATH;
         try {
             copy($source . '/ht.access', $dest . 'ht.access');

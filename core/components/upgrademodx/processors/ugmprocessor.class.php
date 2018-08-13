@@ -39,6 +39,7 @@ abstract class UgmProcessor extends modProcessor {
    public $unzippedDir = '';
    public $testDir = null;
    public $logFilePath = MODX_CORE_PATH . 'cache/logs/upgrademodx.log';
+   public $zipFileName = '';
 
     public function initialize() {
         /** @var $props array() */
@@ -52,7 +53,7 @@ abstract class UgmProcessor extends modProcessor {
             $this->testDir = 'c:/dummy/ugmtemp/test/';
             $this->logFilePath = 'C:/dummy/ugmtemp/upgrademodx.log';
         }
-
+        $this->zipFileName = $this->getProperty('version');
         $this->unzippedDir = $this->tempDir . 'unzipped';
         if (!is_dir($this->tempDir)) {
             $this->mmkDir($this->unzippedDir);

@@ -92,7 +92,6 @@ $_lang['ugm_original_design_by'] = 'Original design By';
 $_lang['ugm_back_to_manager'] = 'Back to Manager';
 
 /* Used in unzipfiles.class.php */
-$_lang['ugm_unzipped\') . \' \' . \'modx.zip\' . \' (-> \' . $destination . '] = '';
 $_lang['ugm_files_to_extract'] = 'objects to extract';
 $_lang['ugm_destination'] = 'Destination';
 $_lang['ugm_source'] = 'Source';
@@ -153,4 +152,6 @@ $_lang['ugm_files_copied'] = 'Objects copied';
 $_lang['ugm_downloaded'] = 'Downloaded';
 
 /* Used in preparesetup.class.php */
+$_lang['ugm_no_root_config_core'] = 'Could not find root config.core.php';
 $_lang['ugm_setup_prepared'] = 'Setup prepared';
+$_lang['ugm_could_not_write'] = 'Could not write';

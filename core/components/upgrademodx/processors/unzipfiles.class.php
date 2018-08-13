@@ -40,7 +40,7 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
         $this->log($this->modx->lexicon('ugm_unzipping_files'));
         $this->forcePclZip = $this->modx->getOption('force_pcl_zip', null ,false, true);
         $this->name = 'Unzip Files Processor';
-        $this->source = $this->tempDir . 'modx.zip';
+        $this->source = $this->tempDir . $this->zipFileName;
         $this->destination = $this->tempDir . 'unzipped';
 
         return true;
@@ -75,6 +75,8 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
     public function unZip($forcePclZip = false) {
         $source = $this->source;
         $destination = $this->destination;
+        $this->log('Zip File Name ' . $this->zipFileName);
+        $base = str_replace('.zip', '', $this->zipFileName);
 
         try {
             $this->validate($source, $destination);
@@ -94,6 +96,9 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
                 $this->log('    ' . $this->modx->lexicon('ugm_files_to_extract') . ' ' . $fileCount);
                 $this->log($this->modx->lexicon('ugm_destination') . ': ' . $destination);
                 $this->log($this->modx->lexicon('ugm_source') . ': ' . $source);
+
+                // throw new Exception('Aborting');
+
                 if ($open === true) {
                     $result = $zip->extractTo($destination);
                     if ($result === false) {
@@ -124,7 +129,8 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
             }
         }
         if ($status === true) {
-            $msg = $this->modx->lexicon('ugm_unzipped') . ' ' . 'modx.zip' . ' -> ' . $destination;
+            $msg = $this->modx->lexicon('ugm_unzipped') .
+                ' ' . 'modx.zip' . ' -> ' . $destination;
             $this->log($msg);
         }
 

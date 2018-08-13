@@ -53,13 +53,15 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
 
         $corePath = $this->corePath;
         require_once $corePath . 'vendor/autoload.php';
-        $version = $this->getProperty('version', null);
-        $shortVersion = strtok($version, '-');
-        $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
-
-        $_SESSION['ugm_version'] = '/modx-' . $version;
-
-        $this->destinationPath = $this->tempDir . 'modx.zip';
+        $version = $this->zipFileName;
+        $this->log("Version: " . $version);
+        $v = explode('-', $version);
+        $shortVersion = $v[1];
+        // Example: https://modx.s3.amazonaws.com/releases/2.6.5/modx-2.6.5-pl.zip
+        $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/' .$version;
+        $this->log("URL" . $this->sourceUrl);
+        // return;
+        $this->destinationPath = $this->tempDir . $this->zipFileName;
         $this->client = new Client();
         return true;
     }
@@ -86,18 +88,22 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
                 ),
                 'sink' => $destFile,
             ]);
-            $msg = $this->modx->lexicon('ugm_downloaded')  . ' ' . $_SESSION['ugm_version'] . ' -> ' . $this->destinationPath;
+            $msg = $this->modx->lexicon('ugm_downloaded')  . ' ' . $_SESSION['ugm_version'] .
+                ' -> ' . $this->destinationPath;
             $this->log($msg);
 
     }
 
     public function process() {
-        try {
-            $this->download();
-        } catch (Exception $e) {
-            $this->addError($e->getMessage());
+        if ( (! $this->devMode) || (! file_exists($this->tempDir . $this->zipFileName)) ) {
+            try {
+                $this->download();
+            } catch (Exception $e) {
+                $this->addError($e->getMessage());
+            }
         }
         /* message for next processor */
+
         return $this->prepareResponse($this->modx->lexicon('ugm_unzipping_files'));
 
     }

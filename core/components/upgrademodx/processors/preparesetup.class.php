@@ -55,14 +55,16 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
                 } else {
                     $content .= "\n" . $newStr;
                 }
-                if (!file_put_contents(MODX_BASE_PATH . 'setup/includes/config.core.php', $content)) {
-                    throw new Exception($this->modx->lexicon('ugm_could_not_write') . ' ' . $this->modx->lexicon('ugm_to' .
-                       'setup/includes/config.core.php'));
-
+                $setup = 'setup/includes/config.core.php';
+                $target = $this->devMode ? $this->tempDir .  'test/' . $setup : MODX_BASE_PATH . $setup;
+                if (!file_put_contents($target, $content)) {
+                    throw new Exception($this->modx->lexicon('ugm_could_not_write') . ' ' .
+                        $this->modx->lexicon('ugm_to') .
+                       ' ' . $target);
                 }
             }
         } else {
-            throw new Exception($this->modx->lexicon('ugm_no_root_config_core~~Could not find root config.core.php'));
+            throw new Exception($this->modx->lexicon('ugm_no_root_config_core'));
         }
 
     }
