@@ -46,8 +46,7 @@ new ProgressButton(bttn, {
         //alert("Clicked");
         var button_text = document.getElementById('button_content');
         var progress = 0;
-        var checked = $("input:radio[name='modx']:checked").val();
-
+        var selectedVersion = 'modx-' + $("input:radio[name='modx']:checked").val() + '.zip';
         var updateText = function (button_text, msg) {
             if ('textContent' in button_text) {
                 button_text.textContent = msg;
@@ -55,6 +54,7 @@ new ProgressButton(bttn, {
                 button_text.innerText = msg;
             }
         };
+
         var  process = function () {
             if (progress === 0) {
                 // console.log("progress is zero");
@@ -81,7 +81,7 @@ new ProgressButton(bttn, {
                     data: {
                         'action': 'downloadfiles',
                         'props': ugm_config,
-                        'version' : checked
+                        'version' : selectedVersion
                     },
                     success: function (data) {
                         if (data.success === true) {
@@ -98,7 +98,8 @@ new ProgressButton(bttn, {
                                 url: ugmConnectorUrl,
                                 data: {
                                     'action': 'unzipfiles',
-                                    'props': ugm_config
+                                    'props': ugm_config,
+                                    'version': selectedVersion
                                 },
                                 success: function (data) {
                                     if (data.success === true) {
@@ -113,7 +114,8 @@ new ProgressButton(bttn, {
                                             url: ugmConnectorUrl,
                                             data: {
                                                 'action': 'copyfiles',
-                                                'props': ugm_config
+                                                'props': ugm_config,
+                                                'version': selectedVersion
                                             },
                                             success: function (data) {
                                                 if (data.success === true) {
@@ -128,7 +130,8 @@ new ProgressButton(bttn, {
                                                         url: ugmConnectorUrl,
                                                         data: {
                                                             'action': 'preparesetup',
-                                                            'props': ugm_config
+                                                            'props': ugm_config,
+                                                            'version': selectedVersion
                                                         },
                                                         success: function (data) {
                                                             if (data.success === true) {
