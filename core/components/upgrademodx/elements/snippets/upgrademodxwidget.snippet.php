@@ -94,7 +94,6 @@ if (php_sapi_name() === 'cli') {
         'plOnly' => false,
         'language' => 'en',
         'forcePclZip' => false,
-        'forceFopen' => false,
         'currentVersion' => $modx->getOption('settings_version'),
         'latestVersion' => '2.4.3-pl',
         'githubTimeout' => 6,

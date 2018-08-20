@@ -105,7 +105,6 @@ $_lang['setting_ugm_pl_only_desc'] = 'Visa enbart pl (stabila) versioner; defaul
 $_lang['setting_ugm_versions_to_show_desc'] = 'Antal versioner som ska visas i uppgraderingsformuläret; default: 5';
 $_lang['setting_ugm_language_desc'] = 'Tvåbokstavskod för språk som ska användas; default: en';
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Tvinga användande av PclZip istället för ZipArchive';
-$_lang['setting_ugm_forceFopen_desc'] = 'Tvinga användande av fopen istället cURL för nedladdningen';
 $_lang['setting_ugm_ssl_verify_peer_desc'] = 'Av säkerhetsskäl, låt cURL verifiera serverns identitet';
 
 $_lang['setting_ugm_version_list_path'] = 'Versionlist path';

@@ -109,7 +109,6 @@ $_lang['setting_ugm_pl_only_desc'] = 'Montrer seulement les versions stables (pl
 $_lang['setting_ugm_versions_to_show_desc'] = 'Nombre de versions à montrer dans le formulaire de mise à jour; défaut: 5';
 $_lang['setting_ugm_language_desc'] = 'Code de la langue a utiliser en deux lettres; défaut: en';
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Forcer l\'usage de PclZip à la place de ZipArchive';
-$_lang['setting_ugm_forceFopen_desc'] = 'Forcer l\'usage de fopen à la place de cURL pour le téléchargment';
 $_lang['setting_ugm_ssl_verify_peer_desc'] = 'Par sécurité, demander à cURL de vérifier l\'identité du serveur';
 
 $_lang['setting_ugm_version_list_path'] = 'Versionlist path';

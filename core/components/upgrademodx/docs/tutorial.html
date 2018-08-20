@@ -38,7 +38,6 @@
     <li>Uses PclZip if ZipArchive is not available</li>
     <li>Uses fopen if cURL is not available</li>
     <li>Adds the <code>ugm_force_pcl_zip</code> setting to bypass ZipArchive</li>
-    <li>Adds the <code>ugm_forceFopen</code> setting to bypass cURL for the download</li>
     <li>Logs upgrades to the MODX Manager Actions log</li>
     <li>Adds a System Setting to control cURL SSL_VERIFY_PEER option</li>
 </ul>
@@ -112,10 +111,7 @@
 
 <p>If you get frequent timeouts, you can increase the <code>ugm_github_timeout</code> or <code>ugm_modx_timeout</code> System Settings. They set how long the program will wait for a response. The default is 6 seconds.</p>
 
-<p>UpgradeMODX now uses Guzzle (which uses cURL by default) to check for and download files and ZipArchive to unzip them. If cURL isn't working
-    for you, you can set the <code>ugm_forceFopen</code> System Setting to <code>Yes</code> to avoid using cURL altogether.
-    Similarly, you can set the <code>ugm_force_pcl_zip</code> SystemSetting to <code>Yes</code> to avoid using ZipArchive to unzip
-    the downloaded MODX file. </p>
+<p>UpgradeMODX now uses Guzzle (which uses cURL by default) to check for and download files and ZipArchive to unzip them. If cURL isn't installed, Guzzle uses streams to get remote files. You can set the <code>ugm_force_pcl_zip</code> SystemSetting to <code>Yes</code> to avoid using ZipArchive to unzip the downloaded MODX file. </p>
 
 <br />
 
@@ -137,11 +133,6 @@
         <td>ugm_attempts</td>
         <td>Number of tries to get date from MODX or GitHub</td>
         <td>2</td>
-    </tr>
-    <tr>
-        <td>ugm_forceFopen</td>
-        <td>Force the use of fopen instead of cURL for the download</td>
-        <td>No</td>
     </tr>
 
     <tr>

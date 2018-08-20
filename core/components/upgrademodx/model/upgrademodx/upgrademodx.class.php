@@ -72,9 +72,6 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $forcePclZip boolean */
         public $forcePclZip = false;
 
-        /** @var $forceFopen boolean */
-        public $forceFopen = false;
-
         /** @var $githubTimeout int */
         public $gitHubTimeout = 6;
 
@@ -117,7 +114,6 @@ if (!class_exists('UpgradeMODX')) {
             $language = empty($language) ? 'en': $language;
             $this->modx->lexicon->load($language . ':upgrademodx:default');
             $this->forcePclZip = $this->modx->getOption('ugm_force_pcl_zip', null, false, true);
-            $this->forceFopen = $this->modx->getOption('ugm_forceFopen', null, false, true);
             $this->plOnly = $this->modx->getOption('ugm_pl_only', null, true, true);
             $this->gitHubTimeout = $this->modx->getOption('ugm_github_timeout', null, 6, true);
             $this->modxTimeout = $this->modx->getOption('ugm_modx_timeout', null, 6, true);
@@ -141,13 +137,7 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function getMethod() {
-            $method = null;
-            if (extension_loaded('curl') && (!$this->forceFopen)) {
-                $method = 'curl';
-            } elseif (ini_get('allow_url_fopen')) {
-                $method = 'fopen';
-            }
-            return $method;
+            return 'curl';
         }
 
 
@@ -197,17 +187,12 @@ if (!class_exists('UpgradeMODX')) {
                     $forcePclZipString .= $this->forcePclZip ? 'true' : 'false';
                     $forcePclZipString .= ';';
 
-                    $forceFopenString = '$forceFopen = ';
-                    $forceFopenString .= $this->forceFopen ? 'true' : 'false';
-                    $forceFopenString .= ';';
-
                     $devModeString = '$devMode = ';
                     $devModeString .= $this->devMode ? 'true' : 'false';
                     $devModeString .= ';';
                     $assetsUrl = $this->modx->getOption('ugm.assets_url', null, $this->modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
                     $fields = array(
                         '/* [[+ForcePclZip]] */' => $forcePclZipString,
-                        '/* [[+ForceFopen]] */' => $forceFopenString,
                         '/* [[+InstallData]] */' => $versionList,
                         '/* [[+devMode]] */' => $devModeString,
                         '[[+ugm_progress_path]]' => $this->progressFilePath,

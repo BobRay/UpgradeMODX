@@ -66,16 +66,7 @@ $components = array(
                 'area' => 'Download',
                 'description' => 'Number of tries to get data from GitHub or MODX; default: 2',
             ),
-        'forceFopen' =>
-            array(
-                'key' => 'ugm.forceFopen',
-                'namespace' => 'upgrademodx',
-                'name' => 'forceFopen',
-                'xtype' => 'combo-boolean',
-                'value' => false,
-                'area' => 'Download',
-                'description' => 'Force the use of fopen instead of cURL for the download',
-            ),
+        
         'forcePclZip' =>
             array(
                 'key' => 'ugm.forcePclZip',

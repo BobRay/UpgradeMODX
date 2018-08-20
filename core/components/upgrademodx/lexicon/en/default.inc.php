@@ -139,9 +139,6 @@ $_lang['setting_ugm_force_pcl_zip'] = 'forcePclZip';
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Force the use of PclZip instead of ZipArchive';
 $_lang['setting_ugm_attempts'] = 'attempts';
 $_lang['setting_ugm_attempts_desc'] = 'Number of tries to get data from GitHub or MODX; default: 2';
-$_lang['setting_ugm_forceFopen'] = 'forceFopen';
-$_lang['setting_ugm_forceFopen_desc'] = 'Force the use of fopen instead of cURL for the download';
-
 
 /* Used in copyfiles.class.php */
 $_lang['ugm_copied'] = 'Copied';

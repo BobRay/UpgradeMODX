@@ -106,9 +106,9 @@ $_lang['setting_ugm_pl_only_desc'] = 'Anzeigen nur von "pl" (stabile) Versionen;
 $_lang['setting_ugm_versions_to_show_desc'] = 'Anzahl der anzuzeigenden Version im Update-Formular; Standard: 5';
 $_lang['setting_ugm_language_desc'] = 'Zwei-Zeichen Sprachcode (ISO 639-1) für die zu verwendete Sprache; Standard: en';
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Erzwingen der Nutzung von PclZip anstatt von ZipArchive';
-$_lang['setting_ugm_forceFopen_desc'] = 'Erzwingen der Nutzung von fopen anstatt von cURL für das Herunterladen';
 $_lang['setting_ugm_ssl_verify_peer_desc'] = 'Zur Sicherheit, cURL die Identität des Servers verifizieren lassen';
 
+$_lang['setting_ugm_force_pcl_zip'] = 'Force PclZip';
 $_lang['setting_ugm_version_list_path'] = 'Versionlist path';
 $_lang['setting_ugm_github_timeout'] = 'GitHub Timeout';
 $_lang['setting_ugm_modx_timeout'] = 'MODX Timeout';
