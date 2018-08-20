@@ -27,7 +27,7 @@ $systemSettings = array();
 
 $systemSettings[1] = $modx->newObject('modSystemSetting');
 $systemSettings[1]->fromArray(array (
-  'key' => 'ugm.versionListPath',
+  'key' => 'ugm_version_list_path',
   'value' => '{core_path}cache/upgrademodx/',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -37,7 +37,7 @@ $systemSettings[1]->fromArray(array (
 ), '', true, true);
 $systemSettings[2] = $modx->newObject('modSystemSetting');
 $systemSettings[2]->fromArray(array (
-  'key' => 'ugm.lastCheck',
+  'key' => 'ugm_last_check',
   'value' => '2018-08-09 18:05:58',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -47,7 +47,7 @@ $systemSettings[2]->fromArray(array (
 ), '', true, true);
 $systemSettings[3] = $modx->newObject('modSystemSetting');
 $systemSettings[3]->fromArray(array (
-  'key' => 'ugm.latestVersion',
+  'key' => 'ugm_latest_version',
   'value' => '2.6.5-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -57,7 +57,7 @@ $systemSettings[3]->fromArray(array (
 ), '', true, true);
 $systemSettings[4] = $modx->newObject('modSystemSetting');
 $systemSettings[4]->fromArray(array (
-  'key' => 'ugm.hideWhenNoUpgrade',
+  'key' => 'ugm_hide_when_no_upgrade',
   'value' => '0',
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
@@ -67,7 +67,7 @@ $systemSettings[4]->fromArray(array (
 ), '', true, true);
 $systemSettings[5] = $modx->newObject('modSystemSetting');
 $systemSettings[5]->fromArray(array (
-  'key' => 'ugm.interval',
+  'key' => 'ugm_interval',
   'value' => '1 day',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -77,7 +77,7 @@ $systemSettings[5]->fromArray(array (
 ), '', true, true);
 $systemSettings[6] = $modx->newObject('modSystemSetting');
 $systemSettings[6]->fromArray(array (
-  'key' => 'ugm.groups',
+  'key' => 'ugm_groups',
   'value' => 'Administrator',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -87,7 +87,7 @@ $systemSettings[6]->fromArray(array (
 ), '', true, true);
 $systemSettings[7] = $modx->newObject('modSystemSetting');
 $systemSettings[7]->fromArray(array (
-  'key' => 'ugm.versionsToShow',
+  'key' => 'ugm_versions_to_show',
   'value' => '5',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -97,7 +97,7 @@ $systemSettings[7]->fromArray(array (
 ), '', true, true);
 $systemSettings[8] = $modx->newObject('modSystemSetting');
 $systemSettings[8]->fromArray(array (
-  'key' => 'ugm.githubTimeout',
+  'key' => 'ugm_github_timeout',
   'value' => '6',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -107,7 +107,7 @@ $systemSettings[8]->fromArray(array (
 ), '', true, true);
 $systemSettings[9] = $modx->newObject('modSystemSetting');
 $systemSettings[9]->fromArray(array (
-  'key' => 'ugm.github_token',
+  'key' => 'ugm_github_token',
   'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -117,7 +117,7 @@ $systemSettings[9]->fromArray(array (
 ), '', true, true);
 $systemSettings[10] = $modx->newObject('modSystemSetting');
 $systemSettings[10]->fromArray(array (
-  'key' => 'ugm.github_username',
+  'key' => 'ugm_github_username',
   'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -127,7 +127,7 @@ $systemSettings[10]->fromArray(array (
 ), '', true, true);
 $systemSettings[11] = $modx->newObject('modSystemSetting');
 $systemSettings[11]->fromArray(array (
-  'key' => 'ugm.plOnly',
+  'key' => 'ugm_pl_only',
   'value' => '1',
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
@@ -137,7 +137,7 @@ $systemSettings[11]->fromArray(array (
 ), '', true, true);
 $systemSettings[12] = $modx->newObject('modSystemSetting');
 $systemSettings[12]->fromArray(array (
-  'key' => 'ugm.language',
+  'key' => 'ugm_language',
   'value' => 'en',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -147,7 +147,7 @@ $systemSettings[12]->fromArray(array (
 ), '', true, true);
 $systemSettings[13] = $modx->newObject('modSystemSetting');
 $systemSettings[13]->fromArray(array (
-  'key' => 'ugm.ssl_verify_peer',
+  'key' => 'ugm_ssl_verify_peer',
   'value' => '1',
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
@@ -157,7 +157,7 @@ $systemSettings[13]->fromArray(array (
 ), '', true, true);
 $systemSettings[14] = $modx->newObject('modSystemSetting');
 $systemSettings[14]->fromArray(array (
-  'key' => 'ugm.modxTimeout',
+  'key' => 'ugm_modx_timeout',
   'value' => '6',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -167,7 +167,7 @@ $systemSettings[14]->fromArray(array (
 ), '', true, true);
 $systemSettings[15] = $modx->newObject('modSystemSetting');
 $systemSettings[15]->fromArray(array (
-  'key' => 'ugm.forcePclZip',
+  'key' => 'ugm_force_pcl_zip',
   'value' => '0',
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
@@ -177,7 +177,7 @@ $systemSettings[15]->fromArray(array (
 ), '', true, true);
 $systemSettings[16] = $modx->newObject('modSystemSetting');
 $systemSettings[16]->fromArray(array (
-  'key' => 'ugm.attempts',
+  'key' => 'ugm_attempts',
   'value' => '2',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
@@ -187,7 +187,7 @@ $systemSettings[16]->fromArray(array (
 ), '', true, true);
 $systemSettings[17] = $modx->newObject('modSystemSetting');
 $systemSettings[17]->fromArray(array (
-  'key' => 'ugm.forceFopen',
+  'key' => 'ugm_forceFopen',
   'value' => '0',
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
@@ -197,7 +197,7 @@ $systemSettings[17]->fromArray(array (
 ), '', true, true);
 $systemSettings[18] = $modx->newObject('modSystemSetting');
 $systemSettings[18]->fromArray(array (
-  'key' => 'ugm.VersionListApiURL',
+  'key' => 'ugm_versionlist_api_url',
   'value' => '//api.github.com/repos/modxcms/revolution/tags',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
