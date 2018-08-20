@@ -106,13 +106,13 @@ if (php_sapi_name() === 'cli') {
 
 /* Initialize */
 /* This will execute when in MODX */
-$language = $modx->getOption('ugm.language', null, $modx->getOption('manager_language'), true);
+$language = $modx->getOption('ugm_language', null, $modx->getOption('manager_language'), true);
 $language = empty($language) ? 'en' : $language;
 $props = $scriptProperties;
 $modx->lexicon->load($language . ':upgrademodx:default');
 /* Return empty string if user shouldn't see widget */
 $devMode = $modx->getOption('ugm.devMode', null, false, true);
-$groups = $modx->getOption('ugm.groups', null, 'Administrator', true);
+$groups = $modx->getOption('ugm_groups', null, 'Administrator', true);
 if (strpos($groups, ',') !== false) {
     $groups = explode(',', $groups);
 }
@@ -120,8 +120,8 @@ if (! $modx->user->isMember($groups)) {
     return '';
 }
 
-$corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
-$assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
+$corePath = $modx->getOption('ugm_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
+$assetsUrl = $modx->getOption('ugm_assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
 //$modx->log(modx::LOG_LEVEL_ERROR, "Assets URL: " . $assetsUrl);
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
@@ -142,13 +142,13 @@ if ($method === null) {
     $upgrade->setError($modx->lexicon('ugm_no_curl_no_fopen'));
 }
 
-$lastCheck = $modx->getOption('ugm.lastCheck', null, '2015-08-17 00:00:004', true);
-$interval = $modx->getOption('ugm.interval', null, '+1 day', true);
-$hideWhenNoUpgrade = $modx->getOption('ugm.hideWhenNoUpgrade', null, false, true);
-$plOnly = $modx->getOption('ugm.plOnly', null, true, true);
-$versionsToShow = $modx->getOption('ugm.versionsToShow', null, 5, true);
+$lastCheck = $modx->getOption('ugm_last_check', null, '2015-08-17 00:00:004', true);
+$interval = $modx->getOption('ugm_interval', null, '+1 day', true);
+$hideWhenNoUpgrade = $modx->getOption('ugm_hide_when_no_upgrade', null, false, true);
+$plOnly = $modx->getOption('ugm_pl_only', null, true, true);
+$versionsToShow = $modx->getOption('ugm_versions_to_show', null, 5, true);
 $currentVersion = $modx->getOption('settings_version');
-$latestVersion = $modx->getOption('ugm.latestVersion', null, '', true);
+$latestVersion = $modx->getOption('ugm_latest_version', null, '', true);
 
 /* Set Placeholders */
 $placeholders = array();
