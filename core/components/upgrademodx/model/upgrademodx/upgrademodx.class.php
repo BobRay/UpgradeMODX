@@ -78,9 +78,6 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $modxTimeout int */
         public $modxTimeout = 6;
 
-        /** @var $attempts int */
-        public $attempts = 2;
-
         /** @var $verifyPeer int */
         public $verifyPeer = true;
 
@@ -117,7 +114,6 @@ if (!class_exists('UpgradeMODX')) {
             $this->plOnly = $this->modx->getOption('ugm_pl_only', null, true, true);
             $this->gitHubTimeout = $this->modx->getOption('ugm_github_timeout', null, 6, true);
             $this->modxTimeout = $this->modx->getOption('ugm_modx_timeout', null, 6, true);
-            $this->attempts = $this->modx->getOption('ugm_attempts', null, 2, true);
             $this->errors = array();
             $this->latestVersion = $this->modx->getOption('ugm_latestVersion', null, '', true);
             $path = $this->modx->getOption('ugm_version_list_path', null, MODX_CORE_PATH . 'cache/upgrademodx/', true);
@@ -558,6 +554,7 @@ if (!class_exists('UpgradeMODX')) {
     }
 
 
+        /* ToDo: Move this to processor */
         public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
             if ($this->devMode) {
                return true;
@@ -610,7 +607,7 @@ if (!class_exists('UpgradeMODX')) {
 
         public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5, $method = 'curl') {
 
-            $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout, $this->attempts);
+            $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout);
 
             if ($retVal !== false) {
                 $retVal = $this->finalizeVersionArray($retVal, $plOnly, $versionsToShow);
@@ -633,7 +630,7 @@ if (!class_exists('UpgradeMODX')) {
 
                 /* See if the latest version is newer than the current version */
                 $newVersion = version_compare($currentVersion, $latestVersion) < 0;
-                $downloadable = $this->downloadable($latestVersion, $method, $this->modxTimeout, $this->attempts);
+                $downloadable = $this->downloadable($latestVersion, $method, $this->modxTimeout);
                 $upgradeAvailable = $newVersion && $downloadable;
             }
 

@@ -56,17 +56,7 @@ $components = array(
      * their namespace to the lowercase package name of your extra */
 
     /*'newSystemSettings' => array(
-        'attempts' =>
-            array(
-                'key' => 'ugm.attempts',
-                'namespace' => 'upgrademodx',
-                'name' => 'attempts',
-                'xtype' => 'textfield',
-                'value' => '2',
-                'area' => 'Download',
-                'description' => 'Number of tries to get data from GitHub or MODX; default: 2',
-            ),
-        
+
         'forcePclZip' =>
             array(
                 'key' => 'ugm.forcePclZip',

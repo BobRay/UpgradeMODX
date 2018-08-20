@@ -168,7 +168,7 @@ $systemSettings[14]->fromArray(array (
 $systemSettings[15] = $modx->newObject('modSystemSetting');
 $systemSettings[15]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2018-08-20 15:33:09',
+  'value' => '2018-08-20 15:45:32',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',

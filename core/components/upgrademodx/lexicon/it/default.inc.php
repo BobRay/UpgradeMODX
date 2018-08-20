@@ -92,7 +92,6 @@ $_lang['ugm_back_to_manager'] = 'Back to Manager';
 $_lang['setting_ugm_github_token_desc'] = 'Github token - disponibile nel tuo profilo GitHub';
 $_lang['setting_ugm_github_username_desc'] = 'Il tuo username di GitHub';
 $_lang['setting_ugm_version_list_path_desc'] = 'Percorso a versionlist file (senza il nome del file -- deve terminare con la barra); Default: {core_path}cache/upgrademodx/';
-$_lang['setting_ugm_attempts_desc'] = 'Numero di tentativi per prendere le informazioni da GitHub o da MODX; default: 2';
 $_lang['setting_ugm_github_timeout_desc'] = 'Timeout in secondi per il controllo in Github; default: 6';
 $_lang['setting_ugm_modx_timeout_desc'] = 'Timeout in secondi per il controllo del download da MODX; default: 6';
 $_lang['setting_ugm_groups_desc'] = 'gruppo, o lista separata da virgola di gruppi, che possono vedere il widget';

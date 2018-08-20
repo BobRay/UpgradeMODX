@@ -94,7 +94,6 @@ $_lang['ugm_back_to_manager'] = 'Back to Manager';
 $_lang['setting_ugm_github_token_desc'] = 'Github token - verfügbar von ihrem GitHub Profil';
 $_lang['setting_ugm_github_username_desc'] = 'Ihr Benutzername auf GitHub';
 $_lang['setting_ugm_version_list_path_desc'] = 'Pfad zur Versionslistendatei (ohne Dateiname -- sollte mit einem Schrägstrich enden); Standard: {core_path}cache/upgrademodx/';
-$_lang['setting_ugm_attempts_desc'] = 'Anzahl der Versuche um Daten von Github oder MODX zu empfangen; Standard: 2';
 $_lang['setting_ugm_github_timeout_desc'] = 'Zeitüberschreitung in Sekunden für die Überprüfung von Github; Standard: 6';
 $_lang['setting_ugm_modx_timeout_desc'] = 'Zeitüberschreitung in Sekunden für die Überprüfung des Downloadstatus von MODX; Standard: 6';
 $_lang['setting_ugm_groups_desc'] = 'Gruppe, oder komma-separierte Liste von Gruppen, welche das Widget sehen dürfen';

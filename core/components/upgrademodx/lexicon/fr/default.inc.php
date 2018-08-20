@@ -97,7 +97,6 @@ $_lang['ugm_back_to_manager'] = 'Retour au Manager';
 $_lang['setting_ugm_github_token_desc'] = 'Jeton Github - disponible depuis votre profil GitHub';
 $_lang['setting_ugm_github_username_desc'] = 'Votre nom d\'utilisateur GitHub';
 $_lang['setting_ugm_version_list_path_desc'] = 'Chemin vers le fichier versionlist (signe moins sur le fichier -- doit se terminer avec un slash); Défaut: {core_path}cache/upgrademodx/';
-$_lang['setting_ugm_attempts_desc'] = 'Nombre d\'essais pour atteindre les données depuis Github ou MODX; défaut: 2';
 $_lang['setting_ugm_github_timeout_desc'] = 'Délai en secondes pour vérifer Github; défaut: 6';
 $_lang['setting_ugm_modx_timeout_desc'] = 'Délai en secondes pour vérifer le statut de téléchargement de MODX; défaut: 6';
 $_lang['setting_ugm_groups_desc'] = 'groupe, ou liste séparée par des virgules de groupes, qui verront le gadget';

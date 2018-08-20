@@ -93,7 +93,6 @@ $_lang['ugm_back_to_manager'] = 'Back to Manager';
 $_lang['setting_ugm_github_token_desc'] = 'Github token - tillängligt från din profil på GitHub';
 $_lang['setting_ugm_github_username_desc'] = 'Ditt användarnamn på GitHub';
 $_lang['setting_ugm_version_list_path_desc'] = 'Sökväg till filen med versionshistorik (minus filnamnet -- avslutad med ett slash); Default: {core_path}cache/upgrademodx/';
-$_lang['setting_ugm_attempts_desc'] = 'Antal försök som ska göras för att komma åt data från GitHub eller MODX; default: 2';
 $_lang['setting_ugm_github_timeout_desc'] = 'Timeout i sekunder för kontroll mot Github; default: 6';
 $_lang['setting_ugm_modx_timeout_desc'] = 'Timeout i sekunder för att kontrollera status mot MODX; default: 6';
 $_lang['setting_ugm_groups_desc'] = 'grupp, eller kommaseparerad lista av grupper, som kommer att se widgeten';
