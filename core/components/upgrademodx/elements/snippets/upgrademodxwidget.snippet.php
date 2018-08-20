@@ -120,8 +120,8 @@ if (! $modx->user->isMember($groups)) {
     return '';
 }
 
-$corePath = $modx->getOption('ugm_core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
-$assetsUrl = $modx->getOption('ugm_assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
+$corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
+$assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
 //$modx->log(modx::LOG_LEVEL_ERROR, "Assets URL: " . $assetsUrl);
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
