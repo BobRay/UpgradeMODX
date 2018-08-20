@@ -108,3 +108,11 @@ $_lang['setting_ugm.language_desc'] = 'Zwei-Zeichen Sprachcode (ISO 639-1) für 
 $_lang['setting_ugm.forcePclZip_desc'] = 'Erzwingen der Nutzung von PclZip anstatt von ZipArchive';
 $_lang['setting_ugm.forceFopen_desc'] = 'Erzwingen der Nutzung von fopen anstatt von cURL für das Herunterladen';
 $_lang['setting_ugm.ssl_verify_peer_desc'] = 'Zur Sicherheit, cURL die Identität des Servers verifizieren lassen';
+
+$_lang['setting_ugm.versionListPath'] = 'Versionlist path';
+$_lang['setting_ugm.githubTimeout'] = 'GitHub Timeout';
+$_lang['setting_ugm.modxTimeout'] = 'MODX Timeout';
+$_lang['setting_ugm.VersionListApiURL'] = 'Version List API URL';
+$_lang['setting_ugm.VersionListApiURL_desc'] = 'URL of API to get version list from; default: //api.github.com/repos/modxcms/revolution/tags';
+$_lang['setting_ugm_temp_dir'] = 'Temp directory';
+$_lang['setting_ugm_temp_dir_desc'] = 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/';
