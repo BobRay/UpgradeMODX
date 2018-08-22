@@ -103,15 +103,15 @@ abstract class UgmProcessor extends modProcessor {
         }
     }
 
-    public function prepareResponse($msg) {
+    public function prepareResponse($msg, $object = null) {
         if ($this->hasErrors()) {
             $this->log(implode(', ' , $this->getErrors()));
             $msg = '<p class="ugm_error"> [' .
                 $this->name . '] Error: ' . implode("<br>", $this->getErrors()) . '</p>';
 
-            return $this->failure($msg);
+            return $this->failure($msg, $object);
         } else {
-            return $this->success($msg);
+            return $this->success($msg, $object);
         }
     }
 
