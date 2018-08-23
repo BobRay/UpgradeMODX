@@ -53,9 +53,12 @@
 if (!class_exists('UpgradeMODX')) {
     class UpgradeMODX {
 
-        /** @var $versionArray string - array of versions to display if upgrade is available as a string
+        /** @var $versionArray array - array of versions to display if upgrade is available as a string
          *  to inject into upgrade script */
         public $versionArray = '';
+
+        /** @var $renderedVersionList string - Rendered version list to use in createVersionForm */
+        public $renderedVersionList = '';
 
         /** @var $versionListPath string - location of versionlist file */
         public $versionListPath;
@@ -132,13 +135,13 @@ if (!class_exists('UpgradeMODX')) {
             $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
         }
 
-        public function getMethod() {
+        /*public function getMethod() {
             return 'curl';
-        }
+        }*/
 
 
 
-        public function createVersionForm($modx, $corePath, $method) {
+        public function createVersionForm($modx) {
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */
             $output = '';
@@ -149,11 +152,14 @@ if (!class_exists('UpgradeMODX')) {
             $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
             $output .= "\n" . '</div>' . "\n ";
            // $output .= "\n" . '<h3>' . $this->modx->lexicon('ugm_choose_version') . '</h3>';
-            $config = array(
-                'processors_path' => $corePath . 'processors/', //xxx
+           /* $config = array(
+                'processors_path' => $corePath . 'processors/',
             );
             $response = $modx->runProcessor('getversions', array(), $config);
-            $output .= $response->response['message'];
+            $versionArray = $response->response['object'];*/
+            // $this->modx->log(modX::LOG_LEVEL_ERROR, "VERSIONS: " . print_r($versionArray, true));
+            $output .= $this->renderedVersionList;
+            // $output .= $response->response['message'];
             if (stripos($output, 'Error') === false) {
                 $output .= "\n" . $this->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
             }
@@ -554,7 +560,7 @@ if (!class_exists('UpgradeMODX')) {
     }
 
 
-        /* ToDo: Move this to processor */
+        /* ToDo: Move this to download processor */
         public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
             if ($this->devMode) {
                return true;
@@ -605,11 +611,26 @@ if (!class_exists('UpgradeMODX')) {
         }
 
 
-        public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5, $method = 'curl') {
+        public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5, $corePath) {
+            // xxx
+            $output = '';
+            $config = array(
+                'processors_path' => $corePath . 'processors/', //xxx
+            );
+            $response = $this->modx->runProcessor('getversions', array(), $config);
 
-            $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout);
+            if (! $response->response['success']) {
+                $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
+            } else {
+                $this->versionArray = $response->response['object'];
+                // $this->modx->log(modX::LOG_LEVEL_ERROR, "Processor Response: " . print_r($response->response, true));
+                // $this->modx->log(modX::LOG_LEVEL_ERROR, "VERSIONS: " . print_r($versionArray, true));
+                $this->renderedVersionList = $response->response['message'];
+            }
+            // $output .= $response->response['message'];
+            // $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout);
 
-            if ($retVal !== false) {
+            /*if ($retVal !== false) {
                 $retVal = $this->finalizeVersionArray($retVal, $plOnly, $versionsToShow);
                 if ($retVal !== false) {
                     $this->updateLatestVersion($retVal);
@@ -620,7 +641,7 @@ if (!class_exists('UpgradeMODX')) {
 
             if ($retVal === false) {
                 $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
-            }
+            } */
 
             $latestVersion = $this->latestVersion;
 
@@ -630,13 +651,30 @@ if (!class_exists('UpgradeMODX')) {
 
                 /* See if the latest version is newer than the current version */
                 $newVersion = version_compare($currentVersion, $latestVersion) < 0;
-                $downloadable = $this->downloadable($latestVersion, $method, $this->modxTimeout);
+                $downloadable = true;
+                // $downloadable = $this->downloadable($latestVersion, $method, $this->modxTimeout);
                 $upgradeAvailable = $newVersion && $downloadable;
             }
 
             return $upgradeAvailable;
         }
 
+        public function updateVersionListFile() {
+            $path = $this->versionListPath;
+            $this->mmkDir($path);
+            $versionList = var_export($this->versionArray, true);
+
+            $fp = @fopen($this->versionListPath . 'versionlist', 'w');
+            if ($fp) {
+                fwrite($fp, '<' . '?p' . "hp\n" . '$InstallData = ' . $versionList . ';');
+                fclose($fp);
+            } else {
+                $this->setError($this->modx->lexicon('ugm_could_not_open') .
+                    ' ' . $path . 'versionlist ' . ' ' .
+                    $this->modx->lexicon('ugm_for_writing'));
+            }
+
+        }
 
         public function mmkDir($folder, $perm = 0755) {
             if (!is_dir($folder)) {

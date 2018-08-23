@@ -136,10 +136,10 @@ $modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jque
 $modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
 /* Set the method */
 
-$method = $upgrade->getMethod();
+/*$method = $upgrade->getMethod();
 if ($method === null) {
     $upgrade->setError($modx->lexicon('ugm_no_curl_no_fopen'));
-}
+}*/
 
 $lastCheck = $modx->getOption('ugm_last_check', null, '2015-08-17 00:00:004', true);
 $interval = $modx->getOption('ugm_interval', null, '+1 day', true);
@@ -175,8 +175,10 @@ $fullVersionList = array();
 $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 
 /* Perform check if no latestVersion, or if it's time to check */
+
+/* ToDo: Remove final argument */
 if ((!$versionListExists ) || $timeToCheck || empty($latestVersion) || true) {
-    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $method);
+    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $corePath);
     $latestVersion = $upgrade->getLatestVersion();
     $fullVersionList = $upgrade->versionArray;
 } else {
@@ -216,7 +218,7 @@ if (!empty($errors)) {
 if ($upgradeAvailable) {
     $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_upgrade_available');
     $placeholders['[[+ugm_notice_color]]'] = 'green';
-    $placeholders['[[+ugm_version_form]]'] = $upgrade->createVersionForm($modx, $corePath, $method);
+    $placeholders['[[+ugm_version_form]]'] = $upgrade->createVersionForm($modx);
 } else {
     if ($hideWhenNoUpgrade) {
         return '';

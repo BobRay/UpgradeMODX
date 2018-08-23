@@ -39,6 +39,8 @@ class GetVersionsProcessor extends UgmProcessor {
     /** @var $client GuzzleHttp\Client */
     protected $client = null;
 
+    protected $versionArray = array();
+
     function initialize() {
         parent::initialize();
         $this->name = 'Get Versions Processor';
@@ -78,7 +80,7 @@ class GetVersionsProcessor extends UgmProcessor {
             $output = false;
         } else {
             $versions = $this->upgrade->finalizeVersionArray($versions->getBody());
-
+            $this->versionArray = $versions;
             $itemGrid = array();
             foreach ($versions as $ver => $item) {
                 $itemGrid[$item['tree']][$ver] = $item;
@@ -111,7 +113,7 @@ EOD;
         /** @var $o GuzzleHttp\Psr7\request */
         $o = $this->createVersionList($this->method);
 
-        return $this->prepareResponse($o);
+        return $this->prepareResponse($o, $this->versionArray);
 
         /*if ($o !== false) {
             return $this->success($o);

@@ -105,7 +105,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         set_time_limit(0);
 
         try{
-            $response = $client->request('GET', $this->sourceUrl . 'x', [
+            $response = $client->request('GET', $this->sourceUrl, [
                 'headers' => array(
                     'Cache-Control' => 'no-cache',
                     'Accept' => 'application/zip'
