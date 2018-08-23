@@ -134,13 +134,6 @@ var ugm_config = ' . $modx->toJSON($props)  . ';
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
 $modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
-/* Set the method */
-
-/*$method = $upgrade->getMethod();
-if ($method === null) {
-    $upgrade->setError($modx->lexicon('ugm_no_curl_no_fopen'));
-}*/
-
 $lastCheck = $modx->getOption('ugm_last_check', null, '2015-08-17 00:00:004', true);
 $interval = $modx->getOption('ugm_interval', null, '+1 day', true);
 $hideWhenNoUpgrade = $modx->getOption('ugm_hide_when_no_upgrade', null, false, true);

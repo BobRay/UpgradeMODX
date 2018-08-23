@@ -135,122 +135,18 @@ if (!class_exists('UpgradeMODX')) {
             $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
         }
 
-        /*public function getMethod() {
-            return 'curl';
-        }*/
-
-
-
         public function createVersionForm($modx) {
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */
             $output = '';
-
             $output .= "\n" . '<div id="upgrade_form">';
-
-          //  $output .= "\n" . '<div class = "ugm_logout_note"><p>' . $modx->lexicon('ugm_logout_note') . '</p></div >';
             $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
             $output .= "\n" . '</div>' . "\n ";
-           // $output .= "\n" . '<h3>' . $this->modx->lexicon('ugm_choose_version') . '</h3>';
-           /* $config = array(
-                'processors_path' => $corePath . 'processors/',
-            );
-            $response = $modx->runProcessor('getversions', array(), $config);
-            $versionArray = $response->response['object'];*/
-            // $this->modx->log(modX::LOG_LEVEL_ERROR, "VERSIONS: " . print_r($versionArray, true));
             $output .= $this->renderedVersionList;
-            // $output .= $response->response['message'];
             if (stripos($output, 'Error') === false) {
                 $output .= "\n" . $this->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
             }
             return $output;
-        }
-        public function writeScriptFile($useFile = false) {
-            /** @var  $InstallData array */
-
-            $fp = @fopen(MODX_BASE_PATH . 'upgrade.php', 'w');
-
-            if ($fp) {
-                @include $this->versionListPath . 'versionlist';
-                if (! isset($InstallData)) {
-                    $msg = $this->modx->lexicon('ugm_missing_versionlist');
-                    $begin = '<div style="margin:auto;margin-top:100px;width:40%;height:auto;padding:30px 30px 0;color:red;border:3px solid darkgray;text-align:center;background-color:rgba(160, 233, 174, 0.42);border-radius:15px;box-shadow: 10px 10px 5px #888888;"><p style="font-size: 14pt;">';
-                    $end = '</p><p style="margin-bottom:120px;"><a href="' . $this->modx->getOption('manager_url') . '">' . $this->modx->lexicon('ugm_back_to_manager') . '</a></p></div>';
-                    die($begin . $msg . $end);
-                }
-                $versionArray = $InstallData;
-
-                if (! is_array($versionArray) || empty($versionArray)) {
-                    $this->setError($this->modx->lexicon('ugm_no_version_list') . '@ ' . $this->versionListPath);
-                } else {
-                    $versionList = '$InstallData = ' .  var_export($versionArray, true) . ';';
-
-                    $forcePclZipString = '$forcePclZip = ';
-                    $forcePclZipString .= $this->forcePclZip ? 'true' : 'false';
-                    $forcePclZipString .= ';';
-
-                    $devModeString = '$devMode = ';
-                    $devModeString .= $this->devMode ? 'true' : 'false';
-                    $devModeString .= ';';
-                    $assetsUrl = $this->modx->getOption('ugm.assets_url', null, $this->modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
-                    $fields = array(
-                        '/* [[+ForcePclZip]] */' => $forcePclZipString,
-                        '/* [[+InstallData]] */' => $versionList,
-                        '/* [[+devMode]] */' => $devModeString,
-                        '[[+ugm_progress_path]]' => $this->progressFilePath,
-                        '[[+ugm_progress_url]]' => $this->progressFileURL,
-                        '[[+ugm_assets_url]]' => $assetsUrl,
-                        '[[+manager_url]]' => MODX_MANAGER_URL,
-                        '[[+ugm_begin_upgrade]]' => $this->modx->lexicon('ugm_begin_upgrade'),
-                        '[[+ugm_starting_upgrade]]' => $this->modx->lexicon('ugm_starting_upgrade'),
-                        '[[+ugm_downloading_files]]' => $this->modx->lexicon('ugm_downloading_files'),
-                        '[[+ugm_unzipping_files]]' => $this->modx->lexicon('ugm_unzipping_files'),
-                        '[[+ugm_copying_files]]' => $this->modx->lexicon('ugm_copying_files'),
-                        '[[+ugm_preparing_setup]]' => $this->modx->lexicon('ugm_preparing_setup'),
-                        '[[+ugm_launching_setup]]' => $this->modx->lexicon('ugm_launching_setup'),
-                        '[[+ugm_finished]]' => $this->modx->lexicon('ugm_finished'),
-                        '[[+ugm_get_major_versions]]' => $this->modx->lexicon('ugm_get_major_versions'),
-                        '[[+ugm_current_version_indicator]]' => $this->modx->lexicon('ugm_current_version_indicator'),
-                        '[[+ugm_cannot_read_directory]]' => $this->modx->lexicon('ugm_cannot_read_directory'),
-                        '[[+ugm_unknown_error_reading_temp]]' => $this->modx->lexicon('ugm_unknown_error_reading_temp'),
-                        '[[+ugm_no_method_enabled]]' => $this->modx->lexicon('no_method_enabled'),
-                        '[[+ugm_cannot_read_config_core_php]]' => $this->modx->lexicon('ugm_cannot_read_config_core_php'),
-                        '[[+ugm_cannot_read_main_config]]' => $this->modx->lexicon('ugm_cannot_read_main_config'),
-                        '[[+ugm_could_not_find_cacert]]' => $this->modx->lexicon('ugm_could_not_find_cacert'),
-                        '[[+ugm_could_not_write_progress]]' => $this->modx->lexicon('ugm_could_not_write_progress'),
-                        '[[+ugm_file]]' => $this->modx->lexicon('ugm_file'),
-                        '[[+ugm_is_empty_download_failed]]' => $this->modx->lexicon('ugm_is_empty_download_failed'),
-                        '[[+ugm_unable_to_create_directory]]' => $this->modx->lexicon('ugm_unable_to_create_directory'),
-                        '[[+ugm_unable_to_read_ugmtemp]]' => $this->modx->lexicon('ugm_unable_to_read_ugmtemp'),
-                        '[[+ugm_file_copy_failed]]' => $this->modx->lexicon('ugm_file_copy_failed'),
-                        '[[+ugm_using]]' => $this->modx->lexicon('ugm_using'),
-                        '[[+ugm_manager_language]]' => $this->modx->getOption('manager_language'),
-                        '[[+ugm_choose_version]]' => $this->modx->lexicon('ugm_choose_version'),
-                        '[[+ugm_updating_modx_files]]' => $this->modx->lexicon('ugm_updating_modx_files'),
-                        '[[+ugm_originally_created_by]]' => $this->modx->lexicon('ugm_originally_created_by'),
-                        '[[+ugm_modified_for_revolution_by]]' => $this->modx->lexicon('ugm_modified_for_revolution_by'),
-                        '[[+ugm_modified_for_upgrade_by]]' => $this->modx->lexicon('ugm_modified_for_upgrade_by'),
-                        '[[+ugm_original_design_by]]' => $this->modx->lexicon('ugm_original_design_by'),
-                    );
-                    if ($useFile) {
-                        $fileContent = file_get_contents(dirname(dirname(__FILE__)) . '/elements/chunks/upgrademodxsnippetscriptsource.chunk.php');
-                        $fields['[[+modx.user.id]]'] = 1;
-
-                    } else {
-                        $fileContent = $this->modx->getChunk('UpgradeMODXSnippetScriptSource');
-                    }
-                    $fileContent = str_replace(array_keys($fields), array_values($fields), $fileContent);
-
-                    if (fwrite($fp, $fileContent) === false) {
-                        $this->modx->log(modX::LOG_LEVEL_ERROR, 'fwrite Failed in upgrademodx.class.php');
-                    }
-                    fclose($fp);
-                }
-            } else {
-                $this->setError($this->modx->lexicon('ugm_could_not_open') . ' ' . MODX_BASE_PATH . 'upgrade.php' .
-                ' ' .
-                $this->modx->lexicon('ugm_for_writing'));
-            }
         }
 
         public static function getIeVersion() {
@@ -287,25 +183,6 @@ if (!class_exists('UpgradeMODX')) {
             return $buttonCode;
         }
 
-        public function getJSONFromGitHub($method, $timeout = 6, $tries = 2) {
-            $this->clearErrors();
-            $data = '';
-            $url = 'https://api.github.com/repos/modxcms/revolution/tags';
-            // ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
-            if ($method == 'curl') {
-                $data =  $this->curlGetData($url, true, $timeout, $tries);
-            } else {
-                $data =  $this->fopenGetData($url, true, $timeout, $tries);
-            }
-
-            $pos = strpos($data, 'API rate limit exceeded for');
-            if ($pos !== false) {
-                $this->setError('(GitHub -- ' . $method . ') ' . substr($data, $pos, 38));
-                $data = false;
-            }
-            return $data === false? false : strip_tags($data);
-        }
-
         /* Final arg is there for unit tests */
         public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5, $currentVersion = '') {
             $currentVersion = empty($currentVersion) ? $this->modx->getOption('settings_version', null) : $currentVersion;
@@ -318,17 +195,17 @@ if (!class_exists('UpgradeMODX')) {
 
 
              /* remove non-pl version objects if plOnly is set, and remove MODX 2.5.3 */
-                foreach ($contents as $key => $content) {
-                    $name = substr($content['name'], 1);
-                    if ($plOnly && strpos($name, 'pl') === false) {
-                        unset($contents[$key]);
-                        continue;
-                    }
-                    if (strpos($name, '2.5.3-pl') !== false) {
-                        unset($contents[$key]);
-                    }
+            foreach ($contents as $key => $content) {
+                $name = substr($content['name'], 1);
+                if ($plOnly && strpos($name, 'pl') === false) {
+                    unset($contents[$key]);
+                    continue;
                 }
-                $contents = array_values($contents); // 'reindex' array
+                if (strpos($name, '2.5.3-pl') !== false) {
+                    unset($contents[$key]);
+                }
+            }
+            $contents = array_values($contents); // 'reindex' array
 
 
             /* GitHub won't necessarily have them in the correct order.
@@ -421,9 +298,6 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function updateLatestVersion($versionArray) {
-            /*if ($this->devMode) {
-                return;
-            }*/
             $latest = reset($versionArray);
             $version = substr($latest['name'], 16);
             if ($version !== $this->latestVersion) {
@@ -455,109 +329,6 @@ if (!class_exists('UpgradeMODX')) {
                 }
             }
         }
-
-        public function curlGetData($url, $returnData = false, $timeout = 6, $tries = 6 ) {
-            $username = $this->github_username;
-            $token = $this->github_token;
-            $retVal = false;
-            $errorMsg = '(' . $url . ' - curl) ' . $this->modx->lexicon('failed');
-            $ch = curl_init();
-            if ($this->verifyPeer) {
-                $certPath = MODX_CORE_PATH . 'components/upgrademodx/cacert.pem';
-                curl_setopt($ch, CURLOPT_CAINFO, $certPath);
-            }
-            curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-            curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 6.0)");
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, $this->verifyPeer);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, $returnData);
-            curl_setopt($ch, CURLOPT_HEADER, false);
-            curl_setopt($ch, CURLOPT_NOBODY, !$returnData);
-            if (strpos($url, 'github') !== false) {
-
-                if (!empty($username) && !empty($token)) {
-                    curl_setopt($ch, CURLOPT_USERPWD, $username . ':' . $token);
-                }
-            }
-
-            $i = $tries;
-
-            while ($i--) {
-                $retVal = @curl_exec($ch);
-                if (!empty($retVal)) {
-                    break;
-                }
-            }
-
-            if (empty($retVal) || ($retVal === false)) {
-                $e = curl_error($ch);
-                if (!empty($e)) {
-                    $errorMsg = $e;
-                }
-                $this->setError($errorMsg);
-            } elseif (! $returnData) { /* Just checking for existence */
-                $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                $retVal = $statusCode === 200;
-                if (! $retVal) {
-                    $this->setError($this->modx->lexicon('ugm_no_such_version'));
-                }
-            }
-            curl_close($ch);
-            return $retVal;
-        }
-
-        public function fopenGetData($url, $returnData = false, $timeout = 6, $tries = 6) {
-            $username = $this->modx->getOption('ugm_github_username', null, '', true);
-            $token = $this->modx->getOption('github_token', null, "", true);
-            $errorMsg = '(' . $url . ' - fopen) ' . $this->modx->lexicon('failed');
-            $retVal = false;
-            $opts = array(
-                'http' => array(
-                    'method' => 'GET',
-                    'timeout' => $timeout,
-                    'max_redirects' => 1,
-                    'ignore_errors' => true,
-                    'user_agent' => 'Mozilla/4.0 (compatible; MSIE 6.0)',
-
-                )
-            );
-
-            if (!empty($username) && !empty($token)) {
-                $opts['http']['header'] = "Authorization: Basic " . base64_encode($username . ':' . $token);
-            }
-            $ctx = stream_context_create($opts);
-
-            $i = $tries;
-
-            $old = @ini_set('default_socket_timeout', $timeout);
-
-            while ($i--) {
-                if (!$returnData) {
-                    $retVal = @fopen($url, 'r');
-                    // $x = $http_response_header;
-                    if ($retVal) {
-                        @fclose($retVal);
-                        $retVal = true;
-                        break;
-                    } else {
-                        $timeout += 2;
-                        ini_set('default_socket_timeout', $timeout);
-                    }
-                } else {
-                    $retVal = @file_get_contents($url, false, $ctx);
-                    // $x = $http_response_header;
-                }
-            }
-
-            @ini_set('default_socket_timeout', $old);
-
-        if (!$retVal) {
-            $this->setError($errorMsg);
-        }
-        return $retVal;
-    }
 
 
         /* ToDo: Move this to download processor */
@@ -623,25 +394,8 @@ if (!class_exists('UpgradeMODX')) {
                 $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
             } else {
                 $this->versionArray = $response->response['object'];
-                // $this->modx->log(modX::LOG_LEVEL_ERROR, "Processor Response: " . print_r($response->response, true));
-                // $this->modx->log(modX::LOG_LEVEL_ERROR, "VERSIONS: " . print_r($versionArray, true));
                 $this->renderedVersionList = $response->response['message'];
             }
-            // $output .= $response->response['message'];
-            // $retVal = $this->getJSONFromGitHub($method, $this->gitHubTimeout);
-
-            /*if ($retVal !== false) {
-                $retVal = $this->finalizeVersionArray($retVal, $plOnly, $versionsToShow);
-                if ($retVal !== false) {
-                    $this->updateLatestVersion($retVal);
-                    $this->updateSettings(time(), $this->latestVersion);
-                    // $this->updateVersionListFile();
-                }
-            }
-
-            if ($retVal === false) {
-                $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
-            } */
 
             $latestVersion = $this->latestVersion;
 
