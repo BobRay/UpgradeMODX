@@ -31,6 +31,8 @@ include 'ugmprocessor.class.php';
 
 class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
 //    public $languageTopics = array('upgrademodx:default');
+
+      /** @var $client GuzzleHttp\Client */
       public $client = null;
       public $sourceUrl = '';
       public $destinationPath = '';
@@ -68,6 +70,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
 
 
     function remoteFilexists() {
+        /** @var $client GuzzleHttp\Client */
         $client = $this->client;
 
         try {
@@ -77,7 +80,11 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
             return false;
         }
     }
-    /** @throws Exception */
+
+    /** @throws Exception
+     * @throws GuzzleException
+     */
+
     public function download() {
 
         /* See if the file is available for download */
@@ -95,23 +102,34 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
 
         }
 
-
-
         set_time_limit(0);
 
-            $response = $client->request('GET', $this->sourceUrl, [
+        try{
+            $response = $client->request('GET', $this->sourceUrl . 'x', [
                 'headers' => array(
                     'Cache-Control' => 'no-cache',
                     'Accept' => 'application/zip'
                 ),
                 'sink' => $destFile,
             ]);
-            $msg = $this->modx->lexicon('ugm_downloaded')  . ' ' . $_SESSION['ugm_version'] .
-                ' -> ' . $this->destinationPath;
-            $this->log($msg);
+        } catch (Exception $e) {
+            fclose($destFile);
+            unlink($this->destinationPath);
+            throw new exception($this->modx->lexicon('ugm_download_failed'));
+        }
+
+
+
+        $msg = $this->modx->lexicon('ugm_downloaded')  . ' ' . $_SESSION['ugm_version'] .
+            ' -> ' . $this->destinationPath;
+        $this->log($msg);
 
     }
 
+    /**
+     * @return array|mixed|string
+     * @throws GuzzleException
+     */
     public function process() {
         if ( (! $this->devMode) || (! file_exists($this->tempDir . $this->zipFileName)) ) {
             try {

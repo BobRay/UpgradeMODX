@@ -115,3 +115,4 @@ $_lang['setting_ugm_versionlist_api_url'] = 'Version List API URL';
 $_lang['setting_ugm_versionlist_api_url_desc'] = 'URL of API to get version list from; default: //api.github.com/repos/modxcms/revolution/tags';
 $_lang['setting_ugm_temp_dir'] = 'Temp directory';
 $_lang['setting_ugm_temp_dir_desc'] = 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/';
+$_lang['ugm_download_failed'] = 'Download failed';

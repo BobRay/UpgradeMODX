@@ -145,6 +145,7 @@ $_lang['ugm_files_copied'] = 'Objects copied';
 
 /* Used in downloadfiles.class.php */
 $_lang['ugm_downloaded'] = 'Downloaded';
+$_lang['ugm_download_failed'] = 'Download failed';
 
 /* Used in preparesetup.class.php */
 $_lang['ugm_no_root_config_core'] = 'Could not find root config.core.php';
