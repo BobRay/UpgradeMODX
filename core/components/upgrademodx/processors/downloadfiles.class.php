@@ -66,18 +66,36 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         return true;
     }
 
+
+    function remoteFilexists() {
+        $client = $this->client;
+
+        try {
+            $client->head($this->sourceUrl);
+            return true;
+        } catch (GuzzleHttp\Exception\ClientException $e) {
+            return false;
+        }
+    }
     /** @throws Exception */
     public function download() {
 
-        $client = new Client();
-            $destFile = fopen($this->destinationPath, 'w');
-            if (! $destFile) {
-                $msg = '[Download Files Processor] ' .
-                    $this->modx->lexicon('ugm_could_not_open') . ' ' .
-                    $this->destinationPath . ' ' . $this->modx->lexicon('ugm_for_writing');
-                throw new Exception($msg);
+        /* See if the file is available for download */
+        if (! $this->remoteFilexists()) {
+           throw new Exception($this->modx->lexicon('ugm_no_such_version'));
+        }
 
-            }
+        $client = $this->client;
+        $destFile = fopen($this->destinationPath, 'w');
+        if (! $destFile) {
+            $msg = '[Download Files Processor] ' .
+                $this->modx->lexicon('ugm_could_not_open') . ' ' .
+                $this->destinationPath . ' ' . $this->modx->lexicon('ugm_for_writing');
+            throw new Exception($msg);
+
+        }
+
+
 
         set_time_limit(0);
 
