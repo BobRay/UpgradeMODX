@@ -111,7 +111,7 @@ EOD;
 
     public function process() {
         /** @var $o GuzzleHttp\Psr7\request */
-        $o = $this->createVersionList($this->method);
+        $o = $this->createVersionList();
 
         return $this->prepareResponse($o, $this->versionArray);
 

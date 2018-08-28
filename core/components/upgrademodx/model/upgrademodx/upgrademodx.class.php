@@ -298,12 +298,10 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function updateLatestVersion($versionArray) {
-            $latest = reset($versionArray);
-            $version = substr($latest['name'], 16);
-            if ($version !== $this->latestVersion) {
-                $this->latestVersion = $version;
-                $this->updateSettings(time(), $version);
-            }
+            reset($versionArray);
+            $version = key($versionArray);
+            // $this->modx->log(modX::LOG_LEVEL_ERROR, "LATEST: ".  print_r($version, true));
+            $this->latestVersion = $version;
         }
 
         public function updateSettings($lastCheck, $latestVersion ) {
@@ -393,8 +391,24 @@ if (!class_exists('UpgradeMODX')) {
             if (! $response->response['success']) {
                 $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
             } else {
-                $this->versionArray = $response->response['object'];
+                /* processor calls finalize */
+                $versions = $response->response['object'];
+                $this->versionArray = $versions;
+                $this->modx->log(modX::LOG_LEVEL_ERROR, 'OBJECT: ' . print_r($versions, true));
                 $this->renderedVersionList = $response->response['message'];
+
+                if (!empty($versions)) {
+                    /* Set $this->latestVersion */
+                    $this->updateLatestVersion($versions);
+
+                    /* Update settings */
+                    $this->updateSettings(time(), $this->latestVersion);
+
+                    /* Update versionlist file  */
+                    $this->updateVersionListFile();
+                } else {
+                    $this->setError('Versions Empty');
+                }
             }
 
             $latestVersion = $this->latestVersion;
