@@ -435,8 +435,8 @@ EOD;
             $url = $this->modx->getOption('ugm_versionlist_api_url',
                 null, '//api.github.com/repos/modxcms/revolution/tags', true);
             try {
-                if ((!empty($this->username)) && (!empty($this->token))) { // use token if set
-                    $header = array('auth' => array($this->username, $this->token));
+                if ((!empty($this->github_username)) && (!empty($this->github_token))) { // use token if set
+                    $header = array('auth' => array($this->github_username, $this->github_token));
                     $response = $this->client->request('GET', $url, $header);
                 } else { // no token
                     $response = $this->client->request('GET', $url);

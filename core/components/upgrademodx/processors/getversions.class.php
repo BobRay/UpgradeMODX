@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Processor file for Example extra
  *
@@ -42,35 +41,14 @@ class GetVersionsProcessor extends UgmProcessor {
     function initialize() {
         parent::initialize();
         $this->name = 'Get Versions Processor';
-        $this->username = $this->modx->getOption('github_username', null, '', true);
-        $this->token = $this->modx->getOption('github_token', null, '', true);
-
-        $corePath = $this->corePath;
-        require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
-        require_once $corePath . 'vendor/autoload.php';
-
         $this->upgrade = new UpgradeMODX($this->modx);
         $this->upgrade->init($this->props);
         return true;
     }
 
-
-
-
-
-
     public function process() {
-        /** @var $o GuzzleHttp\Psr7\request */
         $o = $this->upgrade->createVersionList();
-
         return $this->prepareResponse($o, $this->upgrade->getVersionArray());
-
-        /*if ($o !== false) {
-            return $this->success($o);
-        } else {
-            return $this->failure('<p style="color:red">' . implode("<br>", $this->getErrors()) . '</p>');
-        }*/
-
     }
 }
 
