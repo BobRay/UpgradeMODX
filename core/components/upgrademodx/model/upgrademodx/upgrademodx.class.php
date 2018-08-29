@@ -432,6 +432,7 @@ EOD;
         }
 
         public function getVersions() {
+            // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Version list from GitHub');
             $url = $this->modx->getOption('ugm_versionlist_api_url',
                 null, '//api.github.com/repos/modxcms/revolution/tags', true);
             try {
@@ -467,7 +468,7 @@ EOD;
         }
 
 
-        public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5, $corePath) {
+        public function upgradeAvailable($currentVersion) {
             $output = '';
             $config = array(
                 'processors_path' => $this->corePath . 'processors/', //xxx

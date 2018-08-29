@@ -170,7 +170,7 @@ $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 
 /* ToDo: Remove final argument */
 if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
-    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $corePath);
+    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion);
     $latestVersion = $upgrade->getLatestVersion();
 } else {
     $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;
