@@ -388,8 +388,49 @@ if (!class_exists('UpgradeMODX')) {
             return $retVal;
         }
 
+        public function getVersionArray() {
+            return $this->versionArray;
+        }
+
+        public function createVersionList() {
+            $output = '';
+            $versions = $this->getVersions();
+            if ($versions === false) {
+                $output = false;
+            } else {
+                $versions = $this->finalizeVersionArray($versions);
+                $this->versionArray = $versions;
+                $itemGrid = array();
+                foreach ($versions as $ver => $item) {
+                    $itemGrid[$item['tree']][$ver] = $item;
+                }
+                $i = 0;
+                $header = $this->modx->lexicon('ugm_choose_version');
+                foreach ($itemGrid as $tree => $item) {
+                    $output .= "\n" . '<div class="column">';
+
+                    $output .= "\n" . '<label class="ugm_version_header"><span>' . $header . '</span></label>';
+
+                    foreach ($item as $version => $itemInfo) {
+                        $selected = $itemInfo['selected'] ? ' checked' : '';
+                        $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
+                        $i = 0;
+                        $output .= <<<EOD
+                    \n<label><input type="radio"{$selected} name="modx" value="$version">
+                    <span>{$itemInfo['name']} $current</span>
+                    </label>
+EOD;
+                        $i++;
+                    } // end inner foreach loop
+                } // end outer foreach loop
+                $output .= "\n</div>";
+            }
+            return $output;
+        }
+
         public function getVersions() {
-            $url = $this->modx->getOption('ugm_versionlist_api_url', null, '//api.github.com/repos/modxcms/revolution/tags', true);
+            $url = $this->modx->getOption('ugm_versionlist_api_url',
+                null, '//api.github.com/repos/modxcms/revolution/tags', true);
             try {
                 if ((!empty($this->username)) && (!empty($this->token))) { // use token if set
                     $header = array('auth' => array($this->username, $this->token));
