@@ -1,4 +1,6 @@
 <?php
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 /**
  * UpgradeMODX class file for UpgradeMODX Widget snippet for  extra
  *
@@ -50,6 +52,9 @@
  * @property &versionsToShow textfield -- Number of versions to show in upgrade form (not widget); Default: 5.
 
  */
+
+
+
 if (!class_exists('UpgradeMODX')) {
     class UpgradeMODX {
 
@@ -102,6 +107,13 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $progressFileURL string */
         protected $progressFileURL = '';
 
+        /** @var $client GuzzleHttp\Client */
+        protected $client = null;
+
+        protected $corePath = '';
+
+        protected $plOnly = false;
+
 
         public function __construct($modx) {
             /** @var $modx modX */
@@ -130,12 +142,25 @@ if (!class_exists('UpgradeMODX')) {
             file_put_contents($this->progressFilePath, 'Starting Upgrade');
             $this->versionsToShow = $this->modx->getOption('ugm_versions_to_show', null, 5, true);
 
+            $this->corePath = $this->modx->getOption('ugm.core_path', null,
+                $this->modx->getOption('core_path') . 'components/upgrademodx/');
+            require_once $this->corePath . 'vendor/autoload.php';
             /* These use System Setting if property is empty */
             $this->github_username = $this->modx->getOption('ugm_github_username', null, null, true);
             $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
+            $this->client = new Client();
+        }
+
+        public function versionListExists() {
+            return file_exists($this->versionListPath . 'versionlist');
         }
 
         public function createVersionForm($modx) {
+            /** @var $InstallData array*/
+            if (empty($this->renderedVersionList)) {
+                include $this->versionListPath . 'versionlist';
+                $this->renderedVersionList = $InstallData;
+            }
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */
             $output = '';
@@ -363,6 +388,24 @@ if (!class_exists('UpgradeMODX')) {
             return $retVal;
         }
 
+        public function getVersions() {
+            $url = $this->modx->getOption('ugm_versionlist_api_url', null, '//api.github.com/repos/modxcms/revolution/tags', true);
+            try {
+                if ((!empty($this->username)) && (!empty($this->token))) { // use token if set
+                    $header = array('auth' => array($this->username, $this->token));
+                    $response = $this->client->request('GET', $url, $header);
+                } else { // no token
+                    $response = $this->client->request('GET', $url);
+                }
+                $retVal = $response->getBody();
+            } catch (Exception $e) {
+                $msg = $this->modx->lexicon('ugm_no_version_list_from_github') . ' &mdash; ' . $e->getMessage();
+                $this->setError($msg);
+                $retVal = false;
+            }
+            return $retVal;
+        }
+
         public function clearErrors() {
             $this->errors = array();
         }
@@ -394,7 +437,7 @@ if (!class_exists('UpgradeMODX')) {
                 /* processor calls finalize */
                 $versions = $response->response['object'];
                 $this->versionArray = $versions;
-                $this->modx->log(modX::LOG_LEVEL_ERROR, 'OBJECT: ' . print_r($versions, true));
+                // $this->modx->log(modX::LOG_LEVEL_ERROR, 'OBJECT: ' . print_r($versions, true));
                 $this->renderedVersionList = $response->response['message'];
 
                 if (!empty($versions)) {

@@ -150,7 +150,7 @@ $placeholders['[[+ugm_latest_version]]'] = $latestVersion;
 $placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
 $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
 
-$versionListExists = true; // ToDo: remove this later
+$versionListExists = $upgrade->versionListExists(); // ToDo: remove this later
 
 
 /* ToDo: Move this to prepare setup processor */
@@ -170,12 +170,12 @@ $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 /* Perform check if no latestVersion, or if it's time to check */
 
 /* ToDo: Remove final argument */
-if ((!$versionListExists ) || $timeToCheck || empty($latestVersion) || true) {
+if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
     $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $corePath);
     $latestVersion = $upgrade->getLatestVersion();
     $fullVersionList = $upgrade->versionArray;
 } else {
-    $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;;
+    $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;
 }
 
 if ($devMode) {

@@ -1,7 +1,6 @@
 <?php
 
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Client;
+
 /**
  * Processor file for Example extra
  *
@@ -36,8 +35,7 @@ class GetVersionsProcessor extends UgmProcessor {
     public $upgrade; /* UpgradeMODX class */
     protected $username = '';
     protected $token = '';
-    /** @var $client GuzzleHttp\Client */
-    protected $client = null;
+
 
     protected $versionArray = array();
 
@@ -50,36 +48,22 @@ class GetVersionsProcessor extends UgmProcessor {
         $corePath = $this->corePath;
         require_once $corePath . 'model/upgrademodx/upgrademodx.class.php';
         require_once $corePath . 'vendor/autoload.php';
-        $this->client = new Client();
+
         $this->upgrade = new UpgradeMODX($this->modx);
+        $this->upgrade->init($this->props);
         return true;
     }
 
-    public function getVersions() {
-        $url = $this->modx->getOption('ugm_versionlist_api_url', null, '//api.github.com/repos/modxcms/revolution/tags', true);
-        try {
-            if ((!empty($this->username)) && (!empty($this->token))) { // use token if set
-                $header = array('auth' => array($this->username, $this->token));
-                $response = $this->client->request('GET', $url, $header);
-            } else { // no token
-                $response = $this->client->request('GET', $url);
-            }
-        } catch (Exception $e) {
-            $msg = $this->modx->lexicon('ugm_no_version_list_from_github') . ' &mdash; ' . $e->getMessage();
-            $this->addError($msg);
-            $response = false;
-        }
-        return $response;
-    }
+
 
 
     public function createVersionList() {
         $output = '';
-        $versions = $this->getVersions();
+        $versions = $this->upgrade->getVersions();
         if ($versions === false) {
             $output = false;
         } else {
-            $versions = $this->upgrade->finalizeVersionArray($versions->getBody());
+            $versions = $this->upgrade->finalizeVersionArray($versions);
             $this->versionArray = $versions;
             $itemGrid = array();
             foreach ($versions as $ver => $item) {

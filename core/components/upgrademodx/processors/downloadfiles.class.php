@@ -61,7 +61,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $shortVersion = $v[1];
         // Example: https://modx.s3.amazonaws.com/releases/2.6.5/modx-2.6.5-pl.zip
         $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/' .$version;
-        $this->log("URL" . $this->sourceUrl);
+        $this->log("URL: " . $this->sourceUrl);
         // return;
         $this->destinationPath = $this->tempDir . $this->zipFileName;
         $this->client = new Client();
