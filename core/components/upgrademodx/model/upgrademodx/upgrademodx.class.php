@@ -122,7 +122,8 @@ if (!class_exists('UpgradeMODX')) {
 
         public function init($props) {
             /** @var $InstallData array */
-            $language = $this->modx->getOption('ugm_language', null, $this->modx->getOption('manager_language'), true);
+            $language = $this->modx->getOption('ugm_language',
+                null, $this->modx->getOption('manager_language'), true);
             $language = empty($language) ? 'en': $language;
             $this->modx->lexicon->load($language . ':upgrademodx:default');
             $this->forcePclZip = $this->modx->getOption('ugm_force_pcl_zip', null, false, true);
@@ -131,7 +132,8 @@ if (!class_exists('UpgradeMODX')) {
             $this->modxTimeout = $this->modx->getOption('ugm_modx_timeout', null, 6, true);
             $this->errors = array();
             $this->latestVersion = $this->modx->getOption('ugm_latestVersion', null, '', true);
-            $path = $this->modx->getOption('ugm_version_list_path', null, MODX_CORE_PATH . 'cache/upgrademodx/', true);
+            $path = $this->modx->getOption('ugm_version_list_path',
+                null, MODX_CORE_PATH . 'cache/upgrademodx/', true);
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
             $this->verifyPeer = $this->modx->getOption('ugm_ssl_verify_peer', null, true);
@@ -156,10 +158,9 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function createVersionForm($modx) {
-            /** @var $InstallData array*/
             if (empty($this->renderedVersionList)) {
-                include $this->versionListPath . 'versionlist';
-                $this->renderedVersionList = $InstallData;
+                // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
+                $this->renderedVersionList = file_get_contents($this->versionListPath . 'versionlist');
             }
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */
@@ -210,7 +211,9 @@ if (!class_exists('UpgradeMODX')) {
 
         /* Final arg is there for unit tests */
         public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5, $currentVersion = '') {
-            $currentVersion = empty($currentVersion) ? $this->modx->getOption('settings_version', null) : $currentVersion;
+            $currentVersion = empty($currentVersion)
+                ? $this->modx->getOption('settings_version', null)
+                : $currentVersion;
             $contents = utf8_encode($contents);
             $contents = $this->modx->fromJSON($contents);
             if (empty($contents)) {
@@ -289,7 +292,6 @@ if (!class_exists('UpgradeMODX')) {
                 $i++;
             }
 
-
             /* Select oldest X.X.0 version newer than current version or
               latest if there isn't one. */
             reset($versionArray);
@@ -347,7 +349,8 @@ if (!class_exists('UpgradeMODX')) {
                 }
 
                 if (!$success) {
-                    $msg = '[UpdateMODX.class.php] ' . $this->modx->lexicon('Could not update System Setting: ' . $key);
+                    $msg = '[UpdateMODX.class.php] ' .
+                        $this->modx->lexicon('Could not update System Setting: ' . $key);
                     $this->setError($msg);
                 }
             }
@@ -465,10 +468,9 @@ EOD;
 
 
         public function upgradeAvailable($currentVersion, $plOnly = false, $versionsToShow = 5, $corePath) {
-            // xxx
             $output = '';
             $config = array(
-                'processors_path' => $corePath . 'processors/', //xxx
+                'processors_path' => $this->corePath . 'processors/', //xxx
             );
             $response = $this->modx->runProcessor('getversions', array(), $config);
 
@@ -489,7 +491,7 @@ EOD;
                     $this->updateSettings(time(), $this->latestVersion);
 
                     /* Update versionlist file  */
-                    $this->updateVersionListFile();
+                    $this->updateVersionListFile($this->renderedVersionList);
                 } else {
                     $this->setError('Versions Empty');
                 }
@@ -511,14 +513,15 @@ EOD;
             return $upgradeAvailable;
         }
 
-        public function updateVersionListFile() {
+        public function updateVersionListFile($renderedVersionList) {
             $path = $this->versionListPath;
             $this->mmkDir($path);
             $versionList = var_export($this->versionArray, true);
 
             $fp = @fopen($this->versionListPath . 'versionlist', 'w');
             if ($fp) {
-                fwrite($fp, '<' . '?p' . "hp\n" . '$InstallData = ' . $versionList . ';');
+                /* fwrite($fp, '<' . '?p' . "hp\n" . '$InstallData = ' . $versionList . ';'); */
+                fwrite($fp, $renderedVersionList);
                 fclose($fp);
             } else {
                 $this->setError($this->modx->lexicon('ugm_could_not_open') .

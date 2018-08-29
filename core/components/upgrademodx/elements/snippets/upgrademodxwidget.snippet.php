@@ -164,7 +164,6 @@ $versionListExists = $upgrade->versionListExists(); // ToDo: remove this later
         }
     }
 
-$fullVersionList = array();
 $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 
 /* Perform check if no latestVersion, or if it's time to check */
@@ -173,7 +172,6 @@ $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
     $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion, $plOnly, $versionsToShow, $corePath);
     $latestVersion = $upgrade->getLatestVersion();
-    $fullVersionList = $upgrade->versionArray;
 } else {
     $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;
 }
