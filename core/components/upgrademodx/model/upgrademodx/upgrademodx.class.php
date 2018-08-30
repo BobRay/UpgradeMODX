@@ -114,6 +114,8 @@ if (!class_exists('UpgradeMODX')) {
 
         protected $plOnly = false;
 
+        protected $certPath = '';
+
 
         public function __construct($modx) {
             /** @var $modx modX */
@@ -136,7 +138,8 @@ if (!class_exists('UpgradeMODX')) {
                 null, MODX_CORE_PATH . 'cache/upgrademodx/', true);
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
             $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
-            $this->verifyPeer = $this->modx->getOption('ugm_ssl_verify_peer', null, true);
+            $this->verifyPeer = (bool) $this->modx->getOption('ugm_ssl_verify_peer', null, true);
+            $this->certPath = $this->modx->getOption('ugm_cert_path', null, '', true);
             $this->devMode = (bool) $this->modx->getOption('ugm.devMode', null, false, true);
             $this->progressFilePath = MODX_ASSETS_PATH . 'components/upgrademodx/ugmprogress.txt';
             $this->mmkDir(MODX_ASSETS_PATH . 'components/upgrademodx');
@@ -435,13 +438,27 @@ EOD;
             // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Version list from GitHub');
             $url = $this->modx->getOption('ugm_versionlist_api_url',
                 null, '//api.github.com/repos/modxcms/revolution/tags', true);
+            $options = array();
+            if ((!empty($this->github_username)) && (!empty($this->github_token))) { // use token if set
+                $options['auth'] = array($this->github_username, $this->github_token);
+            }
+            $options['header'] = array (
+                'Cache-Control' => 'no-cache',
+                'Accept' => 'application/json',
+            );
+            if (!empty ($this->certPath))  {
+                $options['cert'] = $this->certPath;
+            }
+
+            $options['timeout'] = $this->gitHubTimeout;
+
+            if ($this->verifyPeer !== true) {
+                $options['verify'] = false;
+            }
+
+
             try {
-                if ((!empty($this->github_username)) && (!empty($this->github_token))) { // use token if set
-                    $header = array('auth' => array($this->github_username, $this->github_token));
-                    $response = $this->client->request('GET', $url, $header);
-                } else { // no token
-                    $response = $this->client->request('GET', $url);
-                }
+                $response = $this->client->request('GET', $url, $options);
                 $retVal = $response->getBody();
             } catch (Exception $e) {
                 $msg = $this->modx->lexicon('ugm_no_version_list_from_github') . ' &mdash; ' . $e->getMessage();

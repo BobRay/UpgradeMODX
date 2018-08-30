@@ -138,6 +138,9 @@ $_lang['setting_ugm_modx_timeout_desc'] = 'Timeout in seconds for checking downl
 $_lang['setting_ugm_force_pcl_zip'] = 'forcePclZip';
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Force the use of PclZip instead of ZipArchive';
 
+$_lang['setting_ugm_cert_path'] = 'Cert Path';
+$_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
+
 /* Used in copyfiles.class.php */
 $_lang['ugm_copied'] = 'Copied';
 $_lang['ugm_to'] = 'to';

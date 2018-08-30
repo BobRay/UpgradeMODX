@@ -47,13 +47,13 @@ $systemSettings[2]->fromArray(array (
 ), '', true, true);
 $systemSettings[3] = $modx->newObject('modSystemSetting');
 $systemSettings[3]->fromArray(array (
-  'key' => 'ugm_attempts',
-  'value' => '2',
+  'key' => 'ugm_cert_path',
+  'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
-  'area' => 'Download',
-  'name' => 'attempts',
-  'description' => 'Number of tries to get data from GitHub or MODX; default: 2',
+  'area' => 'GitHub',
+  'name' => 'Cert Path',
+  'description' => 'Path to SSL cert file in .pem format; rarely necessary',
 ), '', true, true);
 $systemSettings[4] = $modx->newObject('modSystemSetting');
 $systemSettings[4]->fromArray(array (
@@ -168,7 +168,7 @@ $systemSettings[14]->fromArray(array (
 $systemSettings[15] = $modx->newObject('modSystemSetting');
 $systemSettings[15]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2018-08-20 15:45:32',
+  'value' => '2018-08-30 00:04:22',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
