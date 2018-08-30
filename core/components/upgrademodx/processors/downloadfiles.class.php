@@ -36,13 +36,14 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
       public $client = null;
       public $sourceUrl = '';
       public $destinationPath = '';
+      public $modxTimeout = 5;
 
 
     function initialize() {
         /** @var $scriptProperties array */
         parent::initialize();
         $this->name = 'Download Files Processor';
-
+        $this->modxTimeout = $this->modx->getOption('ugm_modx_timeout', null, 6, true);
         /* Write directly because we want to truncate the file */
         $fp = fopen($this->logFilePath, 'w');
         if ($fp) {
@@ -103,16 +104,15 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         }
 
         set_time_limit(0);
+        $options = array();
+        $options['headers'] = array(
+            'Cache-Control' => 'no-cache',
+            'Accept' => 'application/zip'
+        );
+        $options['timeout'] = $this->modxTimeout;
 
         try{
-            $response = $client->request('GET', $this->sourceUrl, array(
-                'headers' => array(
-                    'Cache-Control' => 'no-cache',
-                    'Accept' => 'application/zip'
-                ),
-                'sink' => $destFile,
-
-            ));
+            $response = $client->request('GET', $this->sourceUrl, $options);
         } catch (Exception $e) {
             fclose($destFile);
             unlink($this->destinationPath);
