@@ -105,13 +105,14 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         set_time_limit(0);
 
         try{
-            $response = $client->request('GET', $this->sourceUrl, [
+            $response = $client->request('GET', $this->sourceUrl, array(
                 'headers' => array(
                     'Cache-Control' => 'no-cache',
                     'Accept' => 'application/zip'
                 ),
                 'sink' => $destFile,
-            ]);
+
+            ));
         } catch (Exception $e) {
             fclose($destFile);
             unlink($this->destinationPath);
