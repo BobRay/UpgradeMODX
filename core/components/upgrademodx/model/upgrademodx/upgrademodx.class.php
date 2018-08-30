@@ -163,7 +163,12 @@ if (!class_exists('UpgradeMODX')) {
         public function createVersionForm($modx) {
             if (empty($this->renderedVersionList)) {
                 // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
-                $this->renderedVersionList = file_get_contents($this->versionListPath . 'versionlist');
+                $path = $this->versionListPath . 'versionlist';
+                if (! file_exists($path)) {
+                    $this->setError($this->modx->lexicon('ugm_no_version_list'));
+                    return false;
+                }
+                $this->renderedVersionList = file_get_contents($path);
             }
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */

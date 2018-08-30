@@ -180,6 +180,10 @@ if ($devMode) {
     $upgradeAvailable = true;
 }
 
+if ($upgradeAvailable) {
+    $versionForm = $upgrade->createVersionForm($modx);
+}
+
 $errors = $upgrade->getErrors();
 
 if (!empty($errors)) {
@@ -209,7 +213,7 @@ if (!empty($errors)) {
 if ($upgradeAvailable) {
     $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_upgrade_available');
     $placeholders['[[+ugm_notice_color]]'] = 'green';
-    $placeholders['[[+ugm_version_form]]'] = $upgrade->createVersionForm($modx);
+    $placeholders['[[+ugm_version_form]]'] = $versionForm;
 } else {
     if ($hideWhenNoUpgrade) {
         return '';
