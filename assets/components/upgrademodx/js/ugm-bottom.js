@@ -30,7 +30,7 @@ $("label > input").change(function () {
     if ($(this).is(":checked")) {
         $(this).parent().css("background", checkedBackground);
         $('input[type="radio"]:not(:checked)').parent().css("background", originalBackground);
-        console.log("Value: " + $('input[type="radio"]:checked').val());
+        // console.log("Value: " + $('input[type="radio"]:checked').val());
     }
 });
 
@@ -141,12 +141,16 @@ new ProgressButton(bttn, {
                                                                 instance._setProgress(progress);
                                                                 instance._stop(1);
                                                                 /* Run next processor */
+                                                                // console.log(ugm_config);
+                                                               //  alert("Finished: " + ugm_config.devMode);
 
                                                             } else {
                                                                 displayError(data.message);
                                                             }
                                                             clearInterval(progressInterval);
-                                                            // console.log(data.message);
+                                                            console.log("redirecting");
+                                                            window.location.replace("http://localhost/addons/setup/index.php");
+
                                                         },
                                                         dataType: 'json'
                                                     });
