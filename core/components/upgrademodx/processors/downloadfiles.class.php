@@ -59,14 +59,15 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $corePath = $this->corePath;
         require_once $corePath . 'vendor/autoload.php';
         $version = $this->zipFileName;
-        $this->log("Version: " . $version);
+        $this->log("    Version: " . $version);
         $v = explode('-', $version);
         $shortVersion = $v[1];
         // Example: https://modx.s3.amazonaws.com/releases/2.6.5/modx-2.6.5-pl.zip
         $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/' .$version;
-        $this->log("URL: " . $this->sourceUrl);
+        $this->log("    URL: " . $this->sourceUrl);
         // return;
         $this->destinationPath = $this->tempDir . $this->zipFileName;
+        $this->log("    Destination: " . $this->destinationPath);
         $this->client = new Client();
         return true;
     }

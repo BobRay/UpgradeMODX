@@ -97,8 +97,8 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
                 $fileCount = (int) ($zip->numFiles);
                 $fileCount -= 7;
                 $this->log('    ' . $this->modx->lexicon('ugm_files_to_extract') . ' ' . $fileCount);
-                $this->log($this->modx->lexicon('ugm_destination') . ': ' . $destination);
-                $this->log($this->modx->lexicon('ugm_source') . ': ' . $source);
+                $this->log('    ' . $this->modx->lexicon('ugm_destination') . ': ' . $destination);
+                $this->log('    ' . $this->modx->lexicon('ugm_source') . ': ' . $source);
 
                 // throw new Exception('Aborting');
 
