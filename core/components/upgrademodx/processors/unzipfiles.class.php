@@ -42,7 +42,8 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
         $this->name = 'Unzip Files Processor';
         $this->source = $this->tempDir . $this->zipFileName;
         $this->destination = $this->tempDir . 'unzipped';
-
+        $this->log("    Source: " . $this->source);
+        $this->log("    Destination: " . $this->destination);
         return true;
     }
 
@@ -72,10 +73,12 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
 
     }
 
+    /** @throws Exception
+     */
     public function unZip($forcePclZip = false) {
         $source = $this->source;
         $destination = $this->destination;
-        $this->log('Zip File Name ' . $this->zipFileName);
+        $this->log('    Zip File Name ' . $this->zipFileName);
         $base = str_replace('.zip', '', $this->zipFileName);
 
         try {
@@ -106,7 +109,7 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
                         $result = $zip->extractTo($destination);
                         if ($result === false) {
                             $msg = $zip->getStatusString();
-                            MODXInstaller::quit($msg);
+                            throw new Exception($msg);
                         }
                     }
                     $zip->close();
