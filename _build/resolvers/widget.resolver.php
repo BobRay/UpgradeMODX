@@ -57,7 +57,7 @@ if ($object->xpdo) {
                 0 =>  array (
                   'widget' => 'Upgrade MODX',
                   'dashboard' => 1,
-                  'rank' => 1,
+                  'rank' => 0,
                 ),
             );
 

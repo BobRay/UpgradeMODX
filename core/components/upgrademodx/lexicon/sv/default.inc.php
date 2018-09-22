@@ -89,3 +89,32 @@ $_lang['ugm_modified_for_revolution_by'] = 'Modifierad för "Revolution only" av
 $_lang['ugm_modified_for_upgrade_by'] = 'Modifierad för "Upgrade only with dashboard widget" av';
 $_lang['ugm_original_design_by'] = 'Original Design Av';
 $_lang['ugm_back_to_manager'] = 'Tillbaka till MODX Manager';
+
+/* Used in System Settings */
+$_lang['setting_ugm_github_token_desc'] = 'Github token - tillängligt från din profil på GitHub';
+$_lang['setting_ugm_github_username_desc'] = 'Ditt användarnamn på GitHub';
+$_lang['setting_ugm_version_list_path_desc'] = 'Sökväg till filen med versionshistorik (minus filnamnet -- avslutad med ett slash); Default: {core_path}cache/upgrademodx/';
+$_lang['setting_ugm_github_timeout_desc'] = 'Timeout i sekunder för kontroll mot Github; default: 6';
+$_lang['setting_ugm_modx_timeout_desc'] = 'Timeout i sekunder för att kontrollera status mot MODX; default: 6';
+$_lang['setting_ugm_groups_desc'] = 'grupp, eller kommaseparerad lista av grupper, som kommer att se widgeten';
+$_lang['setting_ugm_hide_when_no_upgrade_desc'] = 'Dölj widgeten när det inte finns några tillgängliga uppdateringar: default: Nej';
+$_lang['setting_ugm_interval_desc'] = 'Intervall mellan kontroller -- Exempelvis: 1 vecka, 3 dagar, 6 timmar; default: 1 dag';
+$_lang['setting_ugm_last_check_desc'] = 'Datum och tid för senaste kontrollen -- sätts automatiskt';
+$_lang['setting_ugm_latest_version_desc'] = 'Senaste version (vid senaste kontrollen) -- sätts automatiskt';
+$_lang['setting_ugm_pl_only_desc'] = 'Visa enbart pl (stabila) versioner; default: Ja';
+$_lang['setting_ugm_versions_to_show_desc'] = 'Antal versioner som ska visas i uppgraderingsformuläret; default: 5';
+$_lang['setting_ugm_language_desc'] = 'Tvåbokstavskod för språk som ska användas; default: en';
+$_lang['setting_ugm_force_pcl_zip_desc'] = 'Tvinga användande av PclZip istället för ZipArchive';
+$_lang['setting_ugm_ssl_verify_peer_desc'] = 'Av säkerhetsskäl, låt cURL verifiera serverns identitet';
+
+$_lang['setting_ugm_version_list_path'] = 'Versionlist path';
+$_lang['setting_ugm_github_timeout'] = 'GitHub Timeout';
+$_lang['setting_ugm_modx_timeout'] = 'MODX Timeout';
+$_lang['setting_ugm_versionlist_api_url'] = 'Version List API URL';
+$_lang['setting_ugm_versionlist_api_url_desc'] = 'URL of API to get version list from; default: //api.github.com/repos/modxcms/revolution/tags';
+$_lang['setting_ugm_temp_dir'] = 'Temp directory';
+$_lang['setting_ugm_temp_dir_desc'] = 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/';
+$_lang['ugm_download_failed'] = 'Download failed';
+$_lang['setting_ugm_cert_path'] = 'Cert Path';
+$_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
+

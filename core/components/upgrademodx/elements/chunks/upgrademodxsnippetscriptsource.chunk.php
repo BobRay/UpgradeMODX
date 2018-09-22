@@ -385,9 +385,7 @@ EOD;
     public static function process() {
         /* Do not touch the following comments! You have been warned!  */
         /** @var $forcePclZip bool - force the use of PclZip instead of ZipArchive */
-        /** @var $forceFopen bool - force the use of PclZip instead of ZipArchive */
         /* [[+ForcePclZip]] */
-        /* [[+ForceFopen]] */
         /* [[+InstallData]] */
         /** @var $InstallData array */
 
@@ -408,12 +406,6 @@ EOD;
                 die ('Invalid User ID');
             }
 
-        }
-
-        if (extension_loaded('curl') && (!$forceFopen)) {
-            $method = 'curl';
-        } elseif (ini_get('allow_url_fopen')) {
-            $method = 'fopen';
         }
 
         $output .= <<<EOD
@@ -783,7 +775,7 @@ EOD;
 
             /* Make temp directory */
             $tempDir = realpath(dirname(__FILE__)) . '/ugmtemp';
-            MODXInstaller::mmkdir($tempDir);
+            MODXInstaller::mmkDir($tempDir);
             clearstatcache();
 
             $destination = $tempDir;

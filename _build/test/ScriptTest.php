@@ -27,9 +27,6 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
     /** @var $forcePclZip boolean */
     protected $forcePclZip = false;
 
-    /** @var $forceFopen boolean */
-    protected $forceFopen = false;
-
     /** @var $plOnly boolean */
     protected $plOnly = true;
 
@@ -108,7 +105,6 @@ class UpgradeMODXTest extends PHPUnit_Framework_TestCase {
         'plOnly' => true,
         'language' => 'en',
         'forcePclZip' => false,
-        'forceFopen' => false,
     );*/
 
     /** @var  $ugm MODXInstaller */

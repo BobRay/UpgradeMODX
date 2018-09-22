@@ -31,12 +31,10 @@ $snippets[1]->fromArray(array (
   'property_preprocess' => false,
   'name' => 'UpgradeMODXWidget',
   'description' => 'Upgrade MODX Dashboard widget',
+  'properties' => 
+  array (
+  ),
 ), '', true, true);
 $snippets[1]->setContent(file_get_contents($sources['source_core'] . '/elements/snippets/upgrademodxwidget.snippet.php'));
-
-
-$properties = include $sources['data'].'properties/properties.upgrademodxwidget.snippet.php';
-$snippets[1]->setProperties($properties);
-unset($properties);
 
 return $snippets;
