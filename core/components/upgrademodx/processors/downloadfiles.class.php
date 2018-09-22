@@ -2,6 +2,8 @@
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\RequestOptions;
 /**
  * Processor file for UpgradeMODX extra
  *
@@ -104,7 +106,13 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         }
 
         set_time_limit(0);
-        $options = array();
+        $stream = stream_for($destFile);
+        $options = [
+            RequestOptions::SINK => $stream, // the body of a response
+            RequestOptions::CONNECT_TIMEOUT => 10.0,    // request
+            RequestOptions::TIMEOUT => 60.0,    // response
+        ];
+        // $options = array();
         $options['headers'] = array(
             'Cache-Control' => 'no-cache',
             'Accept' => 'application/zip'
@@ -119,11 +127,17 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
             throw new exception($this->modx->lexicon('ugm_download_failed'));
         }
 
+        $stream->close();
+        fclose($destFile);
 
+        if (filesize($this->destinationPath) === 0) {
+            throw new exception($this->modx->lexicon('ugm_download_failed') . ' Filesize: 0');
+        } else {
+            $msg = $this->modx->lexicon('ugm_downloaded') . ' ' . $_SESSION['ugm_version'] .
+                ' -> ' . $this->destinationPath;
+            $this->log($msg);
+        }
 
-        $msg = $this->modx->lexicon('ugm_downloaded')  . ' ' . $_SESSION['ugm_version'] .
-            ' -> ' . $this->destinationPath;
-        $this->log($msg);
 
     }
 
