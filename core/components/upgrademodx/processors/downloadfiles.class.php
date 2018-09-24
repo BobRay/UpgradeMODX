@@ -2,8 +2,8 @@
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
-use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\RequestOptions;
+
 /**
  * Processor file for UpgradeMODX extra
  *
@@ -34,11 +34,11 @@ include 'ugmprocessor.class.php';
 class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
 //    public $languageTopics = array('upgrademodx:default');
 
-      /** @var $client GuzzleHttp\Client */
-      public $client = null;
-      public $sourceUrl = '';
-      public $destinationPath = '';
-      public $modxTimeout = 5;
+    /** @var $client GuzzleHttp\Client */
+    public $client = null;
+    public $sourceUrl = '';
+    public $destinationPath = '';
+    public $modxTimeout = 5;
 
 
     function initialize() {
@@ -59,15 +59,14 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $corePath = $this->corePath;
         require_once $corePath . 'vendor/autoload.php';
         $version = $this->zipFileName;
-        $this->log("    Version: " . $version);
+        $this->log("Version: " . $version);
         $v = explode('-', $version);
         $shortVersion = $v[1];
         // Example: https://modx.s3.amazonaws.com/releases/2.6.5/modx-2.6.5-pl.zip
-        $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/' .$version;
-        $this->log("    URL: " . $this->sourceUrl);
+        $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/' . $version;
+        $this->log("URL: " . $this->sourceUrl);
         // return;
         $this->destinationPath = $this->tempDir . $this->zipFileName;
-        $this->log("    Destination: " . $this->destinationPath);
         $this->client = new Client();
         return true;
     }
@@ -92,13 +91,13 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
     public function download() {
 
         /* See if the file is available for download */
-        if (! $this->remoteFilexists()) {
-           throw new Exception($this->modx->lexicon('ugm_no_such_version'));
+        if (!$this->remoteFilexists()) {
+            throw new Exception($this->modx->lexicon('ugm_no_such_version'));
         }
 
         $client = $this->client;
         $destFile = fopen($this->destinationPath, 'w');
-        if (! $destFile) {
+        if (!$destFile) {
             $msg = '[Download Files Processor] ' .
                 $this->modx->lexicon('ugm_could_not_open') . ' ' .
                 $this->destinationPath . ' ' . $this->modx->lexicon('ugm_for_writing');
@@ -107,11 +106,10 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         }
 
         set_time_limit(0);
-        $stream = stream_for($destFile);
         $options = [
-            RequestOptions::SINK => $stream, // the body of a response
-            RequestOptions::CONNECT_TIMEOUT => 10.0,    // request
-            RequestOptions::TIMEOUT => 60.0,    // response
+            RequestOptions::SINK => $destFile, // the body of a response
+            RequestOptions::CONNECT_TIMEOUT => $this->modxTimeout,    // request
+           // RequestOptions::TIMEOUT => 0.0,    // response
         ];
         // $options = array();
         $options['headers'] = array(
@@ -120,15 +118,14 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         );
         $options['timeout'] = $this->modxTimeout;
 
-        try{
+        try {
             $response = $client->request('GET', $this->sourceUrl, $options);
         } catch (Exception $e) {
             fclose($destFile);
             unlink($this->destinationPath);
-            throw new exception($this->modx->lexicon('ugm_download_failed'));
+            throw new exception($this->modx->lexicon('ugm_download_failed -- ' . $e->getMessage()));
         }
 
-        $stream->close();
         fclose($destFile);
 
         if (filesize($this->destinationPath) === 0) {
@@ -147,7 +144,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
      * @throws GuzzleException
      */
     public function process() {
-        if ( (! $this->devMode) || (! file_exists($this->tempDir . $this->zipFileName)) ) {
+        if ((!$this->devMode) || (!file_exists($this->tempDir . $this->zipFileName))) {
             try {
                 $this->download();
             } catch (Exception $e) {
