@@ -140,13 +140,8 @@ new ProgressButton(bttn, {
                                                                 progress = 1;
                                                                 instance._setProgress(progress);
                                                                 instance._stop(1);
-                                                                /* Run next processor */
-                                                                // console.log(ugm_config);
-                                                               //  alert("Finished: " + ugm_config.devMode);
-
                                                             } else {
-                                                                clearInterval(progressInterval);
-                                                                displayError(data.message);
+                                                                displayError(data.message, progressInterval, instance);
                                                             }
                                                             clearInterval(progressInterval);
                                                             window.location.replace(ugm_setup_url);
@@ -155,8 +150,7 @@ new ProgressButton(bttn, {
                                                     });
 
                                                 } else {
-                                                    clearInterval(progressInterval);
-                                                    displayError(data.message);
+                                                    displayError(data.message, progressInterval, instance);
                                                 }
                                                 // console.log(data.message);
                                             },
@@ -164,8 +158,8 @@ new ProgressButton(bttn, {
                                         });
 
                                     } else {
-                                        clearInterval(progressInterval);
-                                        displayError(data.message);
+
+                                        displayError(data.message, progressInterval, instance);
                                     }
                                     //console.log(data.message);
                                 },
@@ -174,8 +168,7 @@ new ProgressButton(bttn, {
 
 
                         } else {
-                            clearInterval(progressInterval);
-                            displayError(data.message);
+                            displayError(data.message, progressInterval, instance);
                             console.log(data.message);
                         }
                         // console.log(data.message);
@@ -185,46 +178,29 @@ new ProgressButton(bttn, {
 
 
             }
+            progress = Math.min(progress, 1);
 
-                /*else if(button_text == '[[+ugm_downloading_files]]' && button_text != old) {
-                    // progress = 0.1;
-                    old = button_text;
-                } else if (button_text == '[[+ugm_unzipping_files]]' && button_text != old) {
-                    progress = 0.3;
-                    old = button_text;
-                } else if (button_text == '[[+ugm_copying_files]]' && button_text != old) {
-                    progress = 0.6;
-                    old = button_text;
-                } else if (button_text == '[[+ugm_preparing_setup]]' && button_text != old) {
-                    progress = 0.8;
-                    old = button_text;
-                } else if (button_text == '[[+ugm_finished]]') {
-                    progress = 1;
-                } else if (button_text == '[[+ugm_launching_setup]]') {
-                    progress = 1;
-                }*/
-                // progress = Math.min( progress + Math.random() * 0.1, 1 );
-                progress = Math.min(progress, 1);
-
-                if (progress === 1) {
-                    setTimeout(function () {
-                        instance._stop(1);
-                        clearInterval(interval);
-                    }, 1000);
-                }
-                instance._setProgress(progress);
-                if (progress === 1) {
-                    setTimeout(function () {
-                        instance._stop(1);
-                       // clearInterval(interval);
-                    }, 1000);
-                }
-            };
+            if (progress === 1) {
+                setTimeout(function () {
+                    instance._stop(1);
+                    clearInterval(interval);
+                }, 1000);
+            }
+            instance._setProgress(progress);
+            if (progress === 1) {
+                setTimeout(function () {
+                    instance._stop(1);
+                   // clearInterval(interval);
+                }, 1000);
+            }
+        };
         process();
     }
 });
 
-function displayError($msg) {
+function displayError($msg, progressInterval, instance) {
+    clearInterval(progressInterval);
+    instance._stop(1);
     $("#ugm_submit_button").fadeOut(400, function () {
         $(this).html($msg).fadeIn();
     });
