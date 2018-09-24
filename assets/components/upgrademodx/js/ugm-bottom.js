@@ -145,17 +145,17 @@ new ProgressButton(bttn, {
                                                                //  alert("Finished: " + ugm_config.devMode);
 
                                                             } else {
+                                                                clearInterval(progressInterval);
                                                                 displayError(data.message);
                                                             }
                                                             clearInterval(progressInterval);
-                                                            console.log("redirecting");
-                                                            window.location.replace("http://localhost/addons/setup/index.php");
-
+                                                            window.location.replace(ugm_setup_url);
                                                         },
                                                         dataType: 'json'
                                                     });
 
                                                 } else {
+                                                    clearInterval(progressInterval);
                                                     displayError(data.message);
                                                 }
                                                 // console.log(data.message);
@@ -164,6 +164,7 @@ new ProgressButton(bttn, {
                                         });
 
                                     } else {
+                                        clearInterval(progressInterval);
                                         displayError(data.message);
                                     }
                                     //console.log(data.message);
@@ -173,6 +174,7 @@ new ProgressButton(bttn, {
 
 
                         } else {
+                            clearInterval(progressInterval);
                             displayError(data.message);
                             console.log(data.message);
                         }

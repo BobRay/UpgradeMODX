@@ -125,10 +125,12 @@ $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_u
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
+$props['ugm_setup_url'] = MODX_SITE_URL . 'setup/index.php';
 unset($props['controller']); // remove trash from scriptProperties
 $modx->regClientStartupScript('<script>
 var ugmConnectorUrl = "' . $assetsUrl . 'connector.php";
 var ugm_config = ' . $modx->toJSON($props)  . ';
+var ugm_setup_url = "' . MODX_SITE_URL . 'setup/index.php";
 </script>'
 );
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
