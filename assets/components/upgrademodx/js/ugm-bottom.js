@@ -75,6 +75,7 @@ new ProgressButton(bttn, {
                 }, 1000);
 
                 $.ajax({
+                    cache: false,
                     type: 'GET',
                     // url: 'http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/connector.php',
                     url: ugmConnectorUrl,
