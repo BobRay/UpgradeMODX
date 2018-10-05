@@ -26,6 +26,16 @@
 
 /* @var array $options */
 
+$resourceContent = '<script>
+var ugmConnectorUrl = "[[++assets_url]]components/upgrademodx/connector.php";
+var ugm_config = {"ugm_setup_url":"[[++site_url]]setup\/index.php"};
+var ugm_setup_url = "[[++site_url]]setup/index.php";
+</script>
+<link rel="stylesheet" href="[[++assets_url]]components/upgrademodx/css/progress.css" type="text/css" />
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js?v=263pl"></script>
+<script type="text/javascript" src="[[++assets_url]]components/upgrademodx/js/modernizr.custom.js?v=263pl"></script>
+[[!UpgradeMODXWidget]]';
+
 if ($object->xpdo) {
     $modx =& $object->xpdo;
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
@@ -46,7 +56,9 @@ if ($object->xpdo) {
                         'pagetitle' => 'UpgradeMODX',
                         'alias' => 'upgrade-modx',
                         'description' => 'View this resource to check for upgrades if your MODX version shows no widget',
-                        'content' => '[[!UpgradeMODXWidget]]',
+                        'content' => $resourceContent,
+                        'published' => false,
+                        'hidemenu' => true,
                     ), '', false, true );
                     $doc->save();
 
