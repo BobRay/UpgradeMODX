@@ -62,7 +62,7 @@ $systemSettings[4]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Download',
-  'name' => 'forcePclZip',
+  'name' => 'Force PclZip',
   'description' => 'Force the use of PclZip instead of ZipArchive',
 ), '', true, true);
 $systemSettings[5] = $modx->newObject('modSystemSetting');
@@ -72,7 +72,7 @@ $systemSettings[5]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Download',
-  'name' => 'modxTimeout',
+  'name' => 'MODX Timeout',
   'description' => 'Timeout in seconds for checking download status from MODX; default: 6',
 ), '', true, true);
 $systemSettings[6] = $modx->newObject('modSystemSetting');
@@ -82,7 +82,7 @@ $systemSettings[6]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Download',
-  'name' => 'ssl_verify_peer',
+  'name' => 'SSL Verify Peer',
   'description' => 'For security, have cURL verify the identity of the server',
 ), '', true, true);
 $systemSettings[7] = $modx->newObject('modSystemSetting');
@@ -92,7 +92,7 @@ $systemSettings[7]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'language',
+  'name' => 'Language',
   'description' => 'Two-letter language code for language to use; default: en',
 ), '', true, true);
 $systemSettings[8] = $modx->newObject('modSystemSetting');
@@ -102,7 +102,7 @@ $systemSettings[8]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'plOnly',
+  'name' => 'pl Versions Only',
   'description' => 'Show only pl (stable) versions; default: yes',
 ), '', true, true);
 $systemSettings[9] = $modx->newObject('modSystemSetting');
@@ -112,7 +112,7 @@ $systemSettings[9]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'github_username',
+  'name' => 'GitHub Username',
   'description' => 'Your username at GitHub',
 ), '', true, true);
 $systemSettings[10] = $modx->newObject('modSystemSetting');
@@ -122,7 +122,7 @@ $systemSettings[10]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'github_token',
+  'name' => 'GitHub Token',
   'description' => 'Github token - available from your GitHub profile',
 ), '', true, true);
 $systemSettings[11] = $modx->newObject('modSystemSetting');
@@ -132,7 +132,7 @@ $systemSettings[11]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'githubTimeout',
+  'name' => 'GitHub Timeout',
   'description' => 'Timeout in seconds for checking Github; default: 6',
 ), '', true, true);
 $systemSettings[12] = $modx->newObject('modSystemSetting');
@@ -142,7 +142,7 @@ $systemSettings[12]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'versionsToShow',
+  'name' => 'Versions To Show',
   'description' => 'Number of versions to show in upgrade form; default: 5',
 ), '', true, true);
 $systemSettings[13] = $modx->newObject('modSystemSetting');
@@ -162,17 +162,17 @@ $systemSettings[14]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'interval',
+  'name' => 'Interval',
   'description' => 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 day',
 ), '', true, true);
 $systemSettings[15] = $modx->newObject('modSystemSetting');
 $systemSettings[15]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2018-08-30 00:04:22',
+  'value' => '2018-10-04 21:32:21',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'lastCheck',
+  'name' => 'Last Check',
   'description' => 'Date and time of last check -- set automatically',
 ), '', true, true);
 $systemSettings[16] = $modx->newObject('modSystemSetting');
@@ -182,7 +182,7 @@ $systemSettings[16]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'latestVersion',
+  'name' => 'Latest Version',
   'description' => 'Latest version (at last check) -- set automatically',
 ), '', true, true);
 $systemSettings[17] = $modx->newObject('modSystemSetting');
@@ -192,7 +192,7 @@ $systemSettings[17]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'hideWhenNoUpgrade',
+  'name' => 'Hide When No Upgrade',
   'description' => 'Hide widget when no upgrade is available: default: No',
 ), '', true, true);
 $systemSettings[18] = $modx->newObject('modSystemSetting');
@@ -202,7 +202,7 @@ $systemSettings[18]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'versionListPath',
+  'name' => 'Versionlist Path',
   'description' => 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/',
 ), '', true, true);
 return $systemSettings;
