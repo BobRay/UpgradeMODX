@@ -345,12 +345,6 @@ $components = array(
                 'category' => 'UpgradeMODX',
                 'description' => 'Tpl chunk for alert widget',
             ),
-            'UpgradeMODXSnippetScriptSource' => array(
-                'category' => 'UpgradeMODX',
-                'description' => 'Source for MODX Upgrade script. Used internally',
-                'static' => false,
-                'filename' => 'upgrademodxsnippetscriptsource.chunk.php'
-            ),
         ),
         'templates' => array(
         ),
