@@ -516,7 +516,7 @@ EOD;
                     /* Update versionlist file  */
                     $this->updateVersionListFile($this->renderedVersionList);
                 } else {
-                    $this->setError('Versions Empty');
+                    $this->setError('Versions Empty - check github_username and github_token System Settings');
                 }
             }
 
