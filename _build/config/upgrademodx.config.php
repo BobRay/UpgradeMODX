@@ -446,7 +446,7 @@ $components = array(
      *  named after the package suffix 'validator.php' will be added */
 
     'validators' => array(
-
+        'default',
     ),
 
     /* (optional) install.options is needed if you will interact
