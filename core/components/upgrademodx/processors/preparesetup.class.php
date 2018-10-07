@@ -80,6 +80,7 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
 
     public function process() {
         try{
+            sleep(1);
             $this->prepareSetup();
         } catch (Exception $e) {
             $this->addError($e->getMessage());
