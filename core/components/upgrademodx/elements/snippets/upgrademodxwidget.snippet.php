@@ -154,23 +154,9 @@ $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_ve
 
 $versionListExists = $upgrade->versionListExists(); // ToDo: remove this later
 
-
-/* ToDo: Move this to prepare setup processor */
-    /* Log out all users before launching the setup */
-    if (false) { //(if (! $devModx)) {
-        $sessionTable = $modx->getTableName('modSession');
-        if ($modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
-            $flushed = false;
-        } else {
-            // $modx->user->endSession();
-        }
-    }
-
 $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 
 /* Perform check if no latestVersion, or if it's time to check */
-
-/* ToDo: Remove final argument */
 if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
     $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion);
     $latestVersion = $upgrade->getLatestVersion();
@@ -195,23 +181,12 @@ if (!empty($errors)) {
             ': ' . $error . '</span>';
     }
 
-    /* ToDo: Fix this to use System Settings */
-    /* attempt to delete any files created */
-  /*  rrmdir(MODX_BASE_PATH . 'ugmtemp');
-
-    if (file_exists(MODX_BASE_PATH . 'modx.zip')) {
-        @unlink(MODX_BASE_PATH . 'modx.zip');
-    }
-    if (file_exists(MODX_BASE_PATH . 'upgrade.php')) {
-        @unlink(MODX_BASE_PATH . 'upgrade.php');
-    }*/
-
     return $msg;
 }
 
 /* Process */
 
-/* See if there's a new version and if it's downloadable */
+/* See if there's a new version */
 if ($upgradeAvailable) {
     $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_upgrade_available');
     $placeholders['[[+ugm_notice_color]]'] = 'green';

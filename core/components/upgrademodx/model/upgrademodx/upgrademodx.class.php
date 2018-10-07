@@ -364,26 +364,6 @@ if (!class_exists('UpgradeMODX')) {
             }
         }
 
-
-        /* ToDo: Move this to download processor */
-        public function downloadable($version, $method = 'curl', $timeout = 6, $tries = 2) {
-            if ($this->devMode) {
-               return true;
-            }
-            $this->clearErrors();
-            $shortVersion = strtok($version, '-');
-            $downloadUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/modx-' . $version . '.zip';
-            // $downloadUrl = 'https://modx.com/download/direct/modx-' . $version . '.zip';
-            if ($method == 'curl') {
-                $downloadable = $this->curlGetData($downloadUrl, false, $timeout, $tries);
-            } else {
-                $downloadable =  $this->fopenGetData($downloadUrl, false, $timeout, $tries);
-            }
-
-            return $downloadable;
-        }
-
-
         /**
          * @param $lastCheck string = time of previous check
          * @param $interval - interval between checks
@@ -528,9 +508,7 @@ EOD;
 
                 /* See if the latest version is newer than the current version */
                 $newVersion = version_compare($currentVersion, $latestVersion) < 0;
-                $downloadable = true;
-                // $downloadable = $this->downloadable($latestVersion, $method, $this->modxTimeout);
-                $upgradeAvailable = $newVersion && $downloadable;
+                $upgradeAvailable = $newVersion;
             }
 
             return $upgradeAvailable;

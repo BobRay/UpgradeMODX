@@ -63,6 +63,15 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
                        ' ' . $target);
                 }
             }
+            /* Log out all users before launching the setup - code left in case it's necessary */
+            /*if (false) { //(if (! $devModx)) {
+                $sessionTable = $this->modx->getTableName('modSession');
+                if ($this->modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
+                    $flushed = false;
+                } else {
+                    // $modx->user->endSession();
+                }
+            }*/
         } else {
             throw new Exception($this->modx->lexicon('ugm_no_root_config_core'));
         }

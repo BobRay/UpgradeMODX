@@ -535,7 +535,6 @@ EOD;
                 
                 error : function (x, d, e) {
                   if (x.status === -5) {
-                      /* ToDo: Make these dialogs */
                       alert("You are offline!! Please Check Your Network.");
                   } else {
                       if (x.status === 404) {
