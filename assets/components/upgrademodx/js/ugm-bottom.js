@@ -107,7 +107,7 @@ new ProgressButton(bttn, {
                                         updateText(button_text, data.message);
                                        // alert("Got success return from unzipfiles");
                                         progress = 0.6;
-                                        maxProgress = 0.9;
+                                        maxProgress = 0.7;
                                         instance._setProgress(progress);
                                         /* Run next processor */
                                         $.ajax({
@@ -122,7 +122,7 @@ new ProgressButton(bttn, {
                                                 if (data.success === true) {
                                                     updateText(button_text, data.message);
                                                    // alert("Got success return from copyfiles");
-                                                    progress = 0.9;
+                                                    progress = 0.7;
                                                     maxProgress = 1;
                                                     instance._setProgress(progress);
                                                     /* Run next processor */

@@ -63,6 +63,7 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
                        ' ' . $target);
                 }
             }
+
             /* Log out all users before launching the setup - code left in case it's necessary */
             /*if (false) { //(if (! $devModx)) {
                 $sessionTable = $this->modx->getTableName('modSession');
@@ -78,9 +79,28 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
 
     }
 
+    /** Recursive remove dir function.
+     *  Removes a directory and all its children */
+    public function rrmdir($dir) {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir . "/" . $object) == "dir") {
+                        $prefix = substr($object, 0, 4);
+                        $this->rrmdir($dir . "/" . $object);
+                    } else {
+                        @unlink($dir . "/" . $object);
+                    }
+                }
+            }
+            reset($objects);
+            $success = @rmdir($dir);
+        }
+    }
+
     public function process() {
         try{
-            sleep(1);
             $this->prepareSetup();
         } catch (Exception $e) {
             $this->addError($e->getMessage());
@@ -89,6 +109,9 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
         if (! $this->hasErrors()) {
             $this->log($this->modx->lexicon('ugm_setup_prepared'));
             $this->log($this->modx->lexicon('ugm_launching_setup'));
+            if (! $this->devMode) {
+                $this->rrmdir($this->tempDir);
+            }
         }
         return $this->prepareResponse($this->modx->lexicon('ugm_launching_setup'));
 

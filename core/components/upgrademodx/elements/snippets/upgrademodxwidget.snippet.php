@@ -51,37 +51,6 @@
 
  */
 
-/** recursive remove dir function.
- *  Removes a directory and all its children */
-
-/* ToDo: Move this - Check "this"*/
-if (! function_exists('rrmdir')) {
-    function rrmdir($dir) {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir") {
-                        $prefix = substr($object, 0, 4);
-                        rrmdir($dir . "/" . $object); /* ToDo: Fix this */
-                    } else {
-                        $prefix = substr($object, 0, 4);
-                        if ($prefix != '.git' && $prefix != '.svn') {
-                            @unlink($dir . "/" . $object);
-                        }
-                    }
-                }
-            }
-            reset($objects);
-            $success = @rmdir($dir);
-        }
-    }
-}
-
-function render() {
-    // xxx
-}
-
 if (php_sapi_name() === 'cli') {
     /* This section for debugging during development. It won't execute in MODX */
 /*    include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
@@ -98,7 +67,6 @@ if (php_sapi_name() === 'cli') {
         'latestVersion' => '2.4.3-pl',
         'githubTimeout' => 6,
         'modxTimeout' => 6,
-        'tries' => 2,
     );*/
 
 }
@@ -121,7 +89,6 @@ if (! $modx->user->isMember($groups)) {
 
 $corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
 $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
-//$modx->log(modx::LOG_LEVEL_ERROR, "Assets URL: " . $assetsUrl);
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
 $upgrade->init($props);
