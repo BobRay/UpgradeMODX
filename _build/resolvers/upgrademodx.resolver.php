@@ -73,54 +73,48 @@ if ($object->xpdo) {
                 }
             }
 
-            /* Update Setting Values from Snippet Properties */
-        $modx->log(modX::LOG_LEVEL_INFO, 'Updating Setting Values from Snippet Properties');
-        $widgetSnippet = $modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
-
+            /* Update Setting Values from Snippet Properties  if snippet has properties*/
 
         /* Move snippet-property values to System-Setting-key values
          * Key is property key, value is setting key.
          * Do nothing if there's no Widget */
 
 
-        if ($widgetSnippet) {
-            $settings = array(
-                'versionListPath' => 'ugm_version_list_path', //ok
-                'lastCheck' => 'ugm_last_check', //ok
-                'latestVersion' => 'ugm_latest_version', //ok
-                'hideWhenNoUpgrade' => 'ugm_hide_when_no_upgrade', //ok
-                // 'interval' => 'ugm_interval', //ok  CHANGED TO '1 day' in install
-                'groups' => 'ugm_groups', //ok
-                'versionsToShow' => 'ugm_versions_to_show', //ok
-                'githubTimeout' => 'ugm_github_timeout', //ok
-                'github_token' => 'ugm_github_token', //ok
-                'github_username' => 'ugm_github_username', //ok
-                'plOnly' => 'ugm_pl_only', //ok
-                'language' => 'ugm_language', //ok
-                'ssl_verify_peer' => 'ugm_ssl_verify_peer', //ok
-                'modxTimeout' => 'ugm_modx_timeout', //ok
-                'forcePclZip' => 'ugm_force_pcl_zip', //ok
-                // 'ugm.attempts' => 'ugm_attempts', // removed
-                // 'ugm.forceFopen' => 'ugm_forceFopen', // removed
+        $settings = array(
+            'versionListPath' => 'ugm_version_list_path', //ok
+            'lastCheck' => 'ugm_last_check', //ok
+            'latestVersion' => 'ugm_latest_version', //ok
+            'hideWhenNoUpgrade' => 'ugm_hide_when_no_upgrade', //ok
+            // 'interval' => 'ugm_interval', //ok  CHANGED TO '1 day' in install
+            'groups' => 'ugm_groups', //ok
+            'versionsToShow' => 'ugm_versions_to_show', //ok
+            'githubTimeout' => 'ugm_github_timeout', //ok
+            'github_token' => 'ugm_github_token', //ok
+            'github_username' => 'ugm_github_username', //ok
+            'plOnly' => 'ugm_pl_only', //ok
+            'language' => 'ugm_language', //ok
+            'ssl_verify_peer' => 'ugm_ssl_verify_peer', //ok
+            'modxTimeout' => 'ugm_modx_timeout', //ok
+            'forcePclZip' => 'ugm_force_pcl_zip', //ok
+            // 'ugm.attempts' => 'ugm_attempts', // removed
+            // 'ugm.forceFopen' => 'ugm_forceFopen', // removed
 
-                /* New Settings -- install will create */
-                /*'ugm_temp_dir' => '{base_path}ugmtemp/',
-                'ugm_versionlist_api_url' => '//api.github.com/repos/modxcms/revolution/tags',
-                'ugm_cert_path' => '',*/
-            );
-
-            $props = $widgetSnippet->get('properties');
+            /* New Settings -- install will create */
+            /*'ugm_temp_dir' => '{base_path}ugmtemp/',
+            'ugm_versionlist_api_url' => '//api.github.com/repos/modxcms/revolution/tags',
+            'ugm_cert_path' => '',*/
+        );
+        $savedSettings = $modx->getOption('ugm_saved_settings', $_SESSION, null, true);
+        if ( !empty($savedSettings))  {
+            $modx->log(modX::LOG_LEVEL_INFO, 'Updating Setting Values from Snippet Properties');
+            $props = $modx->fromJSON($savedSettings);
             $output = '';
             if (!empty ($props)) {
                 foreach ($settings as $propName => $settingKey) {
-                    $value = $props[$propName]['value'];
-                    if ($props[$propName]['type'] == 'combo-boolean') {
-                        $value = empty($value) ? '0' : '1';
-                    }
                     // $output .= "\n<br> Setting System {$settingKey} to {$value}";
-
                     $setting = $modx->getObject('modSystemSetting', $settingKey);
                     if ($setting) {
+                        $value = $props[$propName]['value'];
                         $setting->set('value', $value);
                         $setting->save();
                     } else {
@@ -129,6 +123,7 @@ if ($object->xpdo) {
                 }
             }
         }
+
 
         $chunk = $modx->getObject('modChunk', array('name' => 'UpgradeMODXSnippetScriptSource'));
         if ($chunk) {
@@ -144,9 +139,6 @@ if ($object->xpdo) {
             if ($doc) {
                 $doc->remove();
             }
-
-
-
             break;
     }
 }
