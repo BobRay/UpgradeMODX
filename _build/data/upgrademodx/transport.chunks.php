@@ -29,24 +29,12 @@ $chunks[1] = $modx->newObject('modChunk');
 $chunks[1]->fromArray(array (
   'id' => 1,
   'property_preprocess' => false,
-  'name' => 'UpgradeMODXSnippetScriptSource',
-  'description' => 'Source for MODX Upgrade script. Used internally',
-  'properties' => 
-  array (
-  ),
-), '', true, true);
-$chunks[1]->setContent(file_get_contents($sources['source_core'] . '/elements/chunks/upgrademodxsnippetscriptsource.chunk.php'));
-
-$chunks[2] = $modx->newObject('modChunk');
-$chunks[2]->fromArray(array (
-  'id' => 2,
-  'property_preprocess' => false,
   'name' => 'UpgradeMODXTpl',
   'description' => 'Tpl chunk for alert widget',
   'properties' => 
   array (
   ),
 ), '', true, true);
-$chunks[2]->setContent(file_get_contents($sources['source_core'] . '/elements/chunks/upgrademodxtpl.chunk.html'));
+$chunks[1]->setContent(file_get_contents($sources['source_core'] . '/elements/chunks/upgrademodxtpl.chunk.html'));
 
 return $chunks;
