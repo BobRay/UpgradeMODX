@@ -123,13 +123,14 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         } catch (Exception $e) {
             fclose($destFile);
             unlink($this->destinationPath);
-            throw new exception($this->modx->lexicon('ugm_download_failed -- ' . $e->getMessage()));
+            throw new exception($this->modx->lexicon('ugm_download_failed') . ' -- ' . $e->getMessage());
         }
 
         fclose($destFile);
 
         if (filesize($this->destinationPath) === 0) {
-            throw new exception($this->modx->lexicon('ugm_download_failed') . ' Filesize: 0');
+            throw new exception($this->modx->lexicon('ugm_download_failed')
+                . ' Filesize: 0');
         } else {
             $msg = $this->modx->lexicon('ugm_downloaded') . ' ' . $_SESSION['ugm_version'] .
                 ' -> ' . $this->destinationPath;
