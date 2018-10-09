@@ -133,5 +133,5 @@ $_lang['ugm_setup_prepared'] = 'Setup prepared';
 $_lang['ugm_could_not_write'] = 'Could not write';
 
 /* Used in cleanup.class.php */
-$_lang['ugm_deleting_temp_files'] = 'Deleting Temp Files';
-$_lang['ugm_temp_files_deleted'] = 'Temp Files Deleted';
+$_lang['ugm_deleting_temp_files'] = 'Cleaning Up';
+$_lang['ugm_temp_files_deleted'] = 'Cleanup Completed (temporary files removed)';
