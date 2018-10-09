@@ -154,3 +154,7 @@ $_lang['ugm_download_failed'] = 'Download failed';
 $_lang['ugm_no_root_config_core'] = 'Could not find root config.core.php';
 $_lang['ugm_setup_prepared'] = 'Setup prepared';
 $_lang['ugm_could_not_write'] = 'Could not write';
+
+/* Used in cleanup.class.php */
+$_lang['ugm_deleting_temp_files'] = 'Deleting Temp Files';
+$_lang['ugm_temp_files_deleted'] = 'Temp Files Deleted';

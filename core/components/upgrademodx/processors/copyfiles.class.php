@@ -214,7 +214,7 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         $tend = $mtime;
         $totalTime = ($tend - $tstart);
         $totalTime = sprintf("%2.4f s", $totalTime);
-        $output .= "\n" . 'Copy Time' .
+        $output .= "\n    " . 'Copy Time' .
             ': ' . $totalTime;
 
         $output .= ' -- ' . $this->modx->lexicon('ugm_files_copied') . ' ' . $this->fileCount;

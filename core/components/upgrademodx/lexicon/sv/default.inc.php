@@ -118,3 +118,20 @@ $_lang['ugm_download_failed'] = 'Download failed';
 $_lang['setting_ugm_cert_path'] = 'Cert Path';
 $_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
 
+/* Used in copyfiles.class.php */
+$_lang['ugm_copied'] = 'Copied';
+$_lang['ugm_to'] = 'to';
+$_lang['ugm_files_copied'] = 'Objects copied';
+
+/* Used in downloadfiles.class.php */
+$_lang['ugm_downloaded'] = 'Downloaded';
+$_lang['ugm_download_failed'] = 'Download failed';
+
+/* Used in preparesetup.class.php */
+$_lang['ugm_no_root_config_core'] = 'Could not find root config.core.php';
+$_lang['ugm_setup_prepared'] = 'Setup prepared';
+$_lang['ugm_could_not_write'] = 'Could not write';
+
+/* Used in cleanup.class.php */
+$_lang['ugm_deleting_temp_files'] = 'Deleting Temp Files';
+$_lang['ugm_temp_files_deleted'] = 'Temp Files Deleted';

@@ -116,7 +116,6 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
             'Cache-Control' => 'no-cache',
             'Accept' => 'application/zip'
         );
-        $options['timeout'] = $this->modxTimeout;
 
         try {
             $response = $client->request('GET', $this->sourceUrl, $options);

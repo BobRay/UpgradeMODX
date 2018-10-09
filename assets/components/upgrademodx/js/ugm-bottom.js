@@ -55,7 +55,7 @@ new ProgressButton(bttn, {
             }
         };
 
-        var  process = function () {
+        var process = function () {
             if (progress === 0) {
                 // console.log("progress is zero");
                 updateText(button_text, 'Downloading Files');
@@ -63,7 +63,7 @@ new ProgressButton(bttn, {
                 instance._setProgress(progress);
                 var maxProgress = 0.3;
                 var progressInterval = setInterval(function () {
-                    if (progress < 1.0  && progress < maxProgress) {
+                    if (progress < 1.0 && progress < maxProgress) {
                         progress += 0.01;
                         instance._setProgress(progress);
                         if (progress >= 1) {
@@ -82,7 +82,7 @@ new ProgressButton(bttn, {
                     data: {
                         'action': 'downloadfiles',
                         'props': ugm_config,
-                        'version' : selectedVersion
+                        'version': selectedVersion
                     },
                     success: function (data) {
                         if (data.success === true) {
@@ -93,7 +93,7 @@ new ProgressButton(bttn, {
                             instance._setProgress(progress);
 
                             /* Run next processor */
-                           //  console.log(ugm_config);
+                            //  console.log(ugm_config);
                             $.ajax({
                                 type: 'GET',
                                 url: ugmConnectorUrl,
@@ -105,9 +105,9 @@ new ProgressButton(bttn, {
                                 success: function (data) {
                                     if (data.success === true) {
                                         updateText(button_text, data.message);
-                                       // alert("Got success return from unzipfiles");
+                                        // alert("Got success return from unzipfiles");
                                         progress = 0.6;
-                                        maxProgress = 0.7;
+                                        maxProgress = 0.8;
                                         instance._setProgress(progress);
                                         /* Run next processor */
                                         $.ajax({
@@ -121,9 +121,9 @@ new ProgressButton(bttn, {
                                             success: function (data) {
                                                 if (data.success === true) {
                                                     updateText(button_text, data.message);
-                                                   // alert("Got success return from copyfiles");
-                                                    progress = 0.7;
-                                                    maxProgress = 1;
+                                                    // alert("Got success return from copyfiles");
+                                                    progress = 0.8;
+                                                    maxProgress = 0.85;
                                                     instance._setProgress(progress);
                                                     /* Run next processor */
                                                     $.ajax({
@@ -137,15 +137,43 @@ new ProgressButton(bttn, {
                                                         success: function (data) {
                                                             if (data.success === true) {
                                                                 updateText(button_text, data.message);
-                                                              //  alert("Got success return from preparesetup");
-                                                                progress = 1;
+                                                                // alert("Got success return from copyfiles");
+                                                                progress = 0.85;
+                                                                maxProgress = 0.98;
                                                                 instance._setProgress(progress);
-                                                                instance._stop(1);
+                                                                /* Run next processor */
+                                                                $.ajax({
+                                                                    type: 'GET',
+                                                                    url: ugmConnectorUrl,
+                                                                    data: {
+                                                                        'action': 'cleanup',
+                                                                        'props': ugm_config,
+                                                                        'version': selectedVersion
+                                                                    },
+                                                                    success: function (data) {
+                                                                        if (data.success === true) {
+                                                                            updateText(button_text, data.message);
+                                                                            //  alert("Got success return from preparesetup");
+                                                                            progress = 1;
+                                                                            instance._setProgress(progress);
+                                                                            instance._stop(1);
+                                                                        } else {
+                                                                            displayError(data.message, progressInterval, instance);
+                                                                        }
+                                                                        clearInterval(progressInterval);
+                                                                        //console.log(ugm_setup_url);
+                                                                        setTimeout(function () {
+                                                                            window.location.replace(ugm_setup_url);
+                                                                        }, 1500);
+
+                                                                    },
+                                                                    dataType: 'json'
+                                                                });
                                                             } else {
                                                                 displayError(data.message, progressInterval, instance);
                                                             }
-                                                            clearInterval(progressInterval);
-                                                            window.location.replace(ugm_setup_url);
+                                                            // clearInterval(progressInterval);
+                                                            // window.location.replace(ugm_setup_url);
                                                         },
                                                         dataType: 'json'
                                                     });
@@ -172,12 +200,9 @@ new ProgressButton(bttn, {
                             displayError(data.message, progressInterval, instance);
                             console.log(data.message);
                         }
-                        // console.log(data.message);
                     },
                     dataType: 'json'
                 });
-
-
             }
             progress = Math.min(progress, 1);
 
@@ -191,8 +216,8 @@ new ProgressButton(bttn, {
             if (progress === 1) {
                 setTimeout(function () {
                     instance._stop(1);
-                   // clearInterval(interval);
-                }, 1000);
+                    // clearInterval(interval);
+                }, 500);
             }
         };
         process();
@@ -208,5 +233,3 @@ function displayError($msg, progressInterval, instance) {
 
     // bttn.innerHTML = $msg;
 }
-
-
