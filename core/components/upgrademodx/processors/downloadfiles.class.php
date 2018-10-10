@@ -106,11 +106,17 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         }
 
         set_time_limit(0);
-        $options = [
+        $options = array(
             RequestOptions::SINK => $destFile, // the body of a response
             RequestOptions::CONNECT_TIMEOUT => $this->modxTimeout,    // request
+            RequestOptions::VERIFY => (bool) $this->sslVerifyPeer,
            // RequestOptions::TIMEOUT => 0.0,    // response
-        ];
+        );
+
+        if (!empty($this->certPath)) {
+            $options[RequestOptions::CERT] = $this->certPath;
+        }
+
         // $options = array();
         $options['headers'] = array(
             'Cache-Control' => 'no-cache',

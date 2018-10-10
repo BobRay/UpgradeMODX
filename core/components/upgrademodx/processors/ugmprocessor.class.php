@@ -40,6 +40,8 @@ abstract class UgmProcessor extends modProcessor {
    public $testDir = null;
    public $logFilePath = MODX_CORE_PATH . 'cache/logs/upgrademodx.log';
    public $zipFileName = '';
+   public $certPath = '';
+   public $sslVerifyPeer = true;
 
     public function initialize() {
         /** @var $props array() */
@@ -58,6 +60,9 @@ abstract class UgmProcessor extends modProcessor {
         if (!is_dir($this->tempDir)) {
             $this->mmkDir($this->unzippedDir);
         }
+
+        $this->certPath = $this->modx->getOption('ugm_cert_path', null, '', true);
+        $this->sslVerifyPeer = $this->modx->getOption('ugm_ssl_verify_peer', null, true);
         return parent::initialize();
     }
 
