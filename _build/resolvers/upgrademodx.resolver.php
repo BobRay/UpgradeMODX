@@ -82,8 +82,6 @@ if ($object->xpdo) {
 
         $settings = array(
             'versionListPath' => 'ugm_version_list_path', //ok
-            'lastCheck' => 'ugm_last_check', //ok
-            'latestVersion' => 'ugm_latest_version', //ok
             'hideWhenNoUpgrade' => 'ugm_hide_when_no_upgrade', //ok
             // 'interval' => 'ugm_interval', //ok  CHANGED TO '1 day' in install
             'groups' => 'ugm_groups', //ok
@@ -123,6 +121,22 @@ if ($object->xpdo) {
                 }
             }
         }
+
+        /* Empty latest version and last check settings */
+        $check = $modx->getObject('modSystemSetting', array('key' => 'ugm_last_check'));
+        if ($check) {
+            $setting->set('value', '');
+            $setting->save();
+        }
+        $latest = $modx->getObject('modSystemSetting', array('key' => 'ugm_latest_version'));
+        if ($latest) {
+            $latest->set('value', '');
+            $latest->save();
+        }
+
+        unset($check, $latest, $savedSettings, $settings);
+
+
 
 
         $chunk = $modx->getObject('modChunk', array('name' => 'UpgradeMODXSnippetScriptSource'));

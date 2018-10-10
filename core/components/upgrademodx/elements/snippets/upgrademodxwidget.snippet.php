@@ -119,7 +119,7 @@ $placeholders['[[+ugm_latest_version]]'] = $latestVersion;
 $placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
 $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
 
-$versionListExists = $upgrade->versionListExists(); // ToDo: remove this later
+$versionListExists = $upgrade->versionListExists();
 
 $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 
