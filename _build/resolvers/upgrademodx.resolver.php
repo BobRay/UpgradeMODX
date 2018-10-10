@@ -125,8 +125,8 @@ if ($object->xpdo) {
         /* Empty latest version and last check settings */
         $check = $modx->getObject('modSystemSetting', array('key' => 'ugm_last_check'));
         if ($check) {
-            $setting->set('value', '');
-            $setting->save();
+            $check->set('value', '');
+            $check->save();
         }
         $latest = $modx->getObject('modSystemSetting', array('key' => 'ugm_latest_version'));
         if ($latest) {
@@ -136,15 +136,19 @@ if ($object->xpdo) {
 
         unset($check, $latest, $savedSettings, $settings);
 
-
-
-
         $chunk = $modx->getObject('modChunk', array('name' => 'UpgradeMODXSnippetScriptSource'));
         if ($chunk) {
             $modx->log(modX::LOG_LEVEL_INFO, 'Removing ScriptSource chunk');
             $chunk->remove();
         }
 
+        /* Refresh System Setting Cache */
+        $modxVersion = $modx->getOption('settings_version', null);
+        $cm = $modx->getCacheManager();
+        if (version_compare($modxVersion, '2.1.0-pl') >= 0) {
+            $cacheRefreshOptions = array('system_settings' => array());
+            $cm->refresh($cacheRefreshOptions);
+        }
 
         break;
 
