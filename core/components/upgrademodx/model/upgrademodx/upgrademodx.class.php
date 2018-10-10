@@ -344,16 +344,26 @@ if (!class_exists('UpgradeMODX')) {
                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
                'ugm_latest_version' => $latestVersion,
             );
+            $dirty = false;
             foreach($settings as $key => $value) {
                 $setting = $this->modx->getObject('modSystemSetting', array('key' => $key));
                 $success = true;
-                if ($setting) {
+                if ($setting && $setting->get('value') !== $value) {
+                    $dirty = true;
                     $setting->set('value', $value);
                     if (!$setting->save()) {
                         $success = false;
                     }
                 } else {
                     $success = false;
+                }
+                if ($dirty) {
+                    $modxVersion = $this->modx->getOption('settings_version', true);
+                    $cm = $this->modx->getCacheManager();
+                    if (version_compare($modxVersion, '2.1.0-pl') >= 0) {
+                        $cacheRefreshOptions = array('system_settings' => array());
+                        $cm->refresh($cacheRefreshOptions);
+                    }
                 }
 
                 if (!$success) {
