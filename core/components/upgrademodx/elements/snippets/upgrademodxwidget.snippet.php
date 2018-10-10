@@ -115,7 +115,6 @@ $latestVersion = $modx->getOption('ugm_latest_version', null, '', true);
 $placeholders = array();
 $placeholders['[[+ugm_assets_url]]'] = $assetsUrl;
 $placeholders['[[+ugm_current_version]]'] = $currentVersion;
-$placeholders['[[+ugm_latest_version]]'] = $latestVersion;
 $placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
 $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
 
@@ -130,6 +129,8 @@ if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
 } else {
     $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;
 }
+
+$placeholders['[[+ugm_latest_version]]'] = $latestVersion;
 
 if ($devMode) {
     $upgradeAvailable = true;
