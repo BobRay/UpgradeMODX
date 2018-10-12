@@ -355,7 +355,9 @@ if (!class_exists('UpgradeMODX')) {
                         $success = false;
                     }
                 } else {
-                    $success = false;
+                    if (! $setting) {
+                        $success = false;
+                    }
                 }
                 if ($dirty) {
                     $modxVersion = $this->modx->getOption('settings_version', true);
