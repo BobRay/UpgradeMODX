@@ -110,12 +110,14 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $client GuzzleHttp\Client */
         protected $client = null;
 
+        /** @var $corePath string   */
         protected $corePath = '';
 
+        /** @var $plOnly bool */
         protected $plOnly = false;
 
+        /** @var $certPath string */
         protected $certPath = '';
-
 
         public function __construct($modx) {
             /** @var $modx modX */
@@ -146,7 +148,6 @@ if (!class_exists('UpgradeMODX')) {
             $this->progressFileURL = MODX_ASSETS_URL . 'components/upgrademodx/ugmprogress.txt';
             file_put_contents($this->progressFilePath, 'Starting Upgrade');
             $this->versionsToShow = $this->modx->getOption('ugm_versions_to_show', null, 5, true);
-
             $this->corePath = $this->modx->getOption('ugm.core_path', null,
                 $this->modx->getOption('core_path') . 'components/upgrademodx/');
             require_once $this->corePath . 'vendor/autoload.php';
