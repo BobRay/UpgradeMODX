@@ -80,6 +80,7 @@ $modx->lexicon->load($language . ':upgrademodx:default');
 /* Return empty string if user shouldn't see widget */
 $devMode = $modx->getOption('ugm.devMode', null, false, true);
 $groups = $modx->getOption('ugm_groups', null, 'Administrator', true);
+
 if (strpos($groups, ',') !== false) {
     $groups = explode(',', $groups);
 }
@@ -108,13 +109,19 @@ $interval = $modx->getOption('ugm_interval', null, '+1 day', true);
 $hideWhenNoUpgrade = $modx->getOption('ugm_hide_when_no_upgrade', null, false, true);
 $plOnly = $modx->getOption('ugm_pl_only', null, true, true);
 $versionsToShow = $modx->getOption('ugm_versions_to_show', null, 5, true);
-$currentVersion = $modx->getOption('settings_version');
+$settingsVersion = $modx->getOption('settings_version');
 $latestVersion = $modx->getOption('ugm_latest_version', null, '', true);
+/* $fileVersion is current version at time of last versionlist creation */
+$fileVersion = $modx->getOption('ugm_file_version', null, '', true);
+$regenerate = false;
+if ($fileVersion !== $settingsVersion) {
+    $regenerate = true;
+}
 
 /* Set Placeholders */
 $placeholders = array();
 $placeholders['[[+ugm_assets_url]]'] = $assetsUrl;
-$placeholders['[[+ugm_current_version]]'] = $currentVersion;
+$placeholders['[[+ugm_current_version]]'] = $settingsVersion;
 $placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
 $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
 
@@ -122,12 +129,12 @@ $versionListExists = $upgrade->versionListExists();
 
 $timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
 
-/* Perform check if no latestVersion, or if it's time to check */
-if ((!$versionListExists ) || $timeToCheck || empty($latestVersion)) {
-    $upgradeAvailable = $upgrade->upgradeAvailable($currentVersion);
+/* Perform check if no latestVersion, or if it's time to check, or settings_version has been changed */
+if ((!$versionListExists ) || $timeToCheck || empty($latestVersion) || $regenerate) {
+    $upgradeAvailable = $upgrade->upgradeAvailable($settingsVersion);
     $latestVersion = $upgrade->getLatestVersion();
 } else {
-    $upgradeAvailable = version_compare($currentVersion, $latestVersion) < 0;
+    $upgradeAvailable = version_compare($settingsVersion, $latestVersion) < 0;
 }
 
 $placeholders['[[+ugm_latest_version]]'] = $latestVersion;

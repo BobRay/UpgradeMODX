@@ -340,10 +340,11 @@ if (!class_exists('UpgradeMODX')) {
             $this->latestVersion = $version;
         }
 
-        public function updateSettings($lastCheck, $latestVersion ) {
+        public function updateSettings($lastCheck, $latestVersion, $settingsVersion ) {
             $settings = array(
                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
                'ugm_latest_version' => $latestVersion,
+               'ugm_file_version' => $settingsVersion,
             );
             $dirty = false;
             foreach($settings as $key => $value) {
@@ -483,7 +484,7 @@ EOD;
         }
 
 
-        public function upgradeAvailable($currentVersion) {
+        public function upgradeAvailable($settingsVersion) {
             $output = '';
             $config = array(
                 'processors_path' => $this->corePath . 'processors/', //xxx
@@ -504,7 +505,7 @@ EOD;
                     $this->updateLatestVersion($versions);
 
                     /* Update settings */
-                    $this->updateSettings(time(), $this->latestVersion);
+                    $this->updateSettings(time(), $this->latestVersion, $settingsVersion);
 
                     /* Update versionlist file  */
                     $this->updateVersionListFile($this->renderedVersionList);
@@ -520,7 +521,7 @@ EOD;
             } else {
 
                 /* See if the latest version is newer than the current version */
-                $newVersion = version_compare($currentVersion, $latestVersion) < 0;
+                $newVersion = version_compare($settingsVersion, $latestVersion) < 0;
                 $upgradeAvailable = $newVersion;
             }
 
