@@ -399,7 +399,7 @@ if (!class_exists('UpgradeMODX')) {
             if ($versions === false) {
                 $output = false;
             } else {
-                $versions = $this->finalizeVersionArray($versions);
+                $versions = $this->finalizeVersionArray($versions, $this->plOnly, $this->versionsToShow);
                 $this->versionArray = $versions;
                 $itemGrid = array();
                 foreach ($versions as $ver => $item) {
