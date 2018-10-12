@@ -117,6 +117,8 @@ $_lang['setting_ugm_temp_dir_desc'] = 'Path to the directory used for temporary 
 $_lang['ugm_download_failed'] = 'Download failed';
 $_lang['setting_ugm_cert_path'] = 'Cert Path';
 $_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
+$_lang['setting_ugm_file_version'] = 'File Version';
+$_lang['setting_ugm_file_version_desc'] = 'Version when versionlist file was last updated. Set automatically -- do not edit!';
 
 /* Used in copyfiles.class.php */
 $_lang['ugm_copied'] = 'Copied';

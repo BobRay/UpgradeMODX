@@ -110,6 +110,8 @@ $_lang['setting_ugm_language_desc'] = 'Code de la langue a utiliser en deux lett
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Forcer l\'usage de PclZip à la place de ZipArchive';
 $_lang['setting_ugm_ssl_verify_peer_desc'] = 'Par sécurité, demander à cURL de vérifier l\'identité du serveur';
 
+$_lang['setting_ugm_file_version'] = 'File Version';
+$_lang['setting_ugm_file_version_desc'] = 'Version when versionlist file was last updated. Set automatically -- do not edit!';
 $_lang['setting_ugm_version_list_path'] = 'Versionlist path';
 $_lang['setting_ugm_github_timeout'] = 'GitHub Timeout';
 $_lang['setting_ugm_modx_timeout'] = 'MODX Timeout';
