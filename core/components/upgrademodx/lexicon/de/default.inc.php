@@ -52,13 +52,13 @@ $_lang['ugm_upgrade_modx'] = 'Aktualisieren Sie MODX';
 $_lang['ugm_json_decode_failed'] = 'JSON decode für Versionsdaten von Github in upgradeAvailable() fehlgeschlagen';
 $_lang['ugm_no_curl_no_fopen'] = 'Weder allow_url_fopen noch cURL können zur Überprüfung von Updates verwendet werden';
 
-$_lang['ugm_no_version_list_from_github'] = 'Could not get version list from GitHub';
-$_lang['ugm_no_such_version'] = 'Requested version does not exist';
+$_lang['ugm_no_version_list_from_github'] = 'Konnte Versionsliste von GitHub nicht laden';
+$_lang['ugm_no_such_version'] = 'Angeforderte Version existiert nicht';
 
 /* Used in upgrademodx.class.php */
 $_lang['failed'] = 'fehlgeschlagen';
 
-$_lang['ugm_missing_versionlist'] = "Missing 'versionlist' file; try reloading the dashboard page";
+$_lang['ugm_missing_versionlist'] = "Fehlende 'versionlist' Datei; laden Sie die Dashboard-Seite neu";
 $_lang['ugm_cannot_read_directory'] = 'Unable to read directory contents or directory is empty';
 $_lang['ugm_unknown_error_reading_temp'] = 'Unknown error reading /temp directory';
 $_lang['no_method_enabled'] = 'Cannot download the files - neither cURL nor allow_url_fopen is enabled on this server.';
@@ -66,9 +66,9 @@ $_lang['ugm_cannot_read_config_core_php'] = 'Could not read config.core.php';
 $_lang['ugm_cannot_read_main_config'] = 'Cannot Read main config file';
 $_lang['ugm_could_not_find_cacert'] = 'Could not find cacert.pem';
 $_lang['ugm_could_not_write_progress'] = 'Could not write to ugmprogress file';
-$_lang['ugm_file'] = 'File';
+$_lang['ugm_file'] = 'Datei';
 $_lang['ugm_is_empty_download_failed'] = 'is empty -- download failed';
-$_lang['ugm_unable_to_create_directory'] = 'Unable to create directory';
+$_lang['ugm_unable_to_create_directory'] = 'Erstellen des Verzeichnisses fehlgeschlagen';
 $_lang['ugm_unable_to_read_ugmtemp'] = 'Unable to read from /ugmtemp directory';
 $_lang['ugm_file_copy_failed'] = 'File Copy Failed';
 $_lang['ugm_begin_upgrade'] = 'Begin Upgrade';
@@ -107,34 +107,34 @@ $_lang['setting_ugm_language_desc'] = 'Zwei-Zeichen Sprachcode (ISO 639-1) für 
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Erzwingen der Nutzung von PclZip anstatt von ZipArchive';
 $_lang['setting_ugm_ssl_verify_peer_desc'] = 'Zur Sicherheit, cURL die Identität des Servers verifizieren lassen';
 
-$_lang['setting_ugm_file_version'] = 'File Version';
+$_lang['setting_ugm_file_version'] = 'Datei Version';
 $_lang['setting_ugm_file_version_desc'] = 'Version when versionlist file was last updated. Set automatically -- do not edit!';
-$_lang['setting_ugm_force_pcl_zip'] = 'Force PclZip';
-$_lang['setting_ugm_version_list_path'] = 'Versionlist path';
-$_lang['setting_ugm_github_timeout'] = 'GitHub Timeout';
-$_lang['setting_ugm_modx_timeout'] = 'MODX Timeout';
-$_lang['setting_ugm_versionlist_api_url'] = 'Version List API URL';
-$_lang['setting_ugm_versionlist_api_url_desc'] = 'URL of API to get version list from; default: //api.github.com/repos/modxcms/revolution/tags';
-$_lang['setting_ugm_temp_dir'] = 'Temp directory';
+$_lang['setting_ugm_force_pcl_zip'] = 'Erzwinge PclZip';
+$_lang['setting_ugm_version_list_path'] = 'Versionlist Pfad';
+$_lang['setting_ugm_github_timeout'] = 'GitHub Zeitüberschreitung';
+$_lang['setting_ugm_modx_timeout'] = 'MODX Zeitüberschreitung';
+$_lang['setting_ugm_versionlist_api_url'] = 'Versionslisten API-URL';
+$_lang['setting_ugm_versionlist_api_url_desc'] = 'URL der API für Versionsliste; Standard: //api.github.com/repos/modxcms/revolution/tags';
+$_lang['setting_ugm_temp_dir'] = 'Temp Verzeichnis';
 $_lang['setting_ugm_temp_dir_desc'] = 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/';
-$_lang['ugm_download_failed'] = 'Download failed';
-$_lang['setting_ugm_cert_path'] = 'Cert Path';
-$_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
+$_lang['ugm_download_failed'] = 'Download fehlgeschlagen';
+$_lang['setting_ugm_cert_path'] = 'Cert Pfad';
+$_lang['setting_ugm_cert_path_desc'] = 'Pfad zu SSL-Zertifikat Datei im .pem Format (selten benötigt)';
 
 /* Used in copyfiles.class.php */
-$_lang['ugm_copied'] = 'Copied';
-$_lang['ugm_to'] = 'to';
-$_lang['ugm_files_copied'] = 'Objects copied';
+$_lang['ugm_copied'] = 'Kopiert';
+$_lang['ugm_to'] = 'nach';
+$_lang['ugm_files_copied'] = 'Dateien kopiert';
 
 /* Used in downloadfiles.class.php */
-$_lang['ugm_downloaded'] = 'Downloaded';
-$_lang['ugm_download_failed'] = 'Download failed';
+$_lang['ugm_downloaded'] = 'Heruntergeladen';
+$_lang['ugm_download_failed'] = 'Download fehlgeschlagen';
 
 /* Used in preparesetup.class.php */
-$_lang['ugm_no_root_config_core'] = 'Could not find root config.core.php';
-$_lang['ugm_setup_prepared'] = 'Setup prepared';
-$_lang['ugm_could_not_write'] = 'Could not write';
+$_lang['ugm_no_root_config_core'] = 'Konnte config.core.php im Root nicht finden';
+$_lang['ugm_setup_prepared'] = 'Installation vorbereitet';
+$_lang['ugm_could_not_write'] = 'Konnte nicht schreiben';
 
 /* Used in cleanup.class.php */
-$_lang['ugm_deleting_temp_files'] = 'Cleaning Up';
-$_lang['ugm_temp_files_deleted'] = 'Cleanup Completed (temporary files removed)';
+$_lang['ugm_deleting_temp_files'] = 'Am Aufräumen';
+$_lang['ugm_temp_files_deleted'] = 'Aufräumen komplett (temporäre Dateien gelöscht)';
