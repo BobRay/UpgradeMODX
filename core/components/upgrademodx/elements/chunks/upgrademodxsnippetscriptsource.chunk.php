@@ -638,7 +638,7 @@ EOD;
             /* This JS manages starting and stopping the rotation and the progress bar */
             $output .= <<<EOD
     <script src="[[+ugm_assets_url]]js/classie.js"></script>
-    <script src="[[+ugm_assets_url]]js/progressButton.js"></script>
+    <script src="[[+ugm_assets_url]]js/progressbutton.js"></script>
     <script>
         
         var bttn = document.getElementById('ugm_submit_button');
