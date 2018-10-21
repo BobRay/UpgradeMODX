@@ -120,6 +120,13 @@ $_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; ra
 $_lang['setting_ugm_file_version'] = 'File Version';
 $_lang['setting_ugm_file_version_desc'] = 'Version when versionlist file was last updated. Set automatically -- do not edit!';
 
+/* System Setting Area strings */
+$_lang['Download'] = 'Download';
+$_lang['Form'] = 'Form';
+$_lang['GitHub'] = 'GitHub';
+$_lang['Security'] = 'Security';
+$_lang['Widget'] = 'Widget';
+
 /* Used in copyfiles.class.php */
 $_lang['ugm_copied'] = 'Copied';
 $_lang['ugm_to'] = 'to';
