@@ -142,6 +142,31 @@ if ($object->xpdo) {
             $chunk->remove();
         }
 
+        /* Delete old properties lex files */
+        $path = MODX_CORE_PATH . 'components/upgrademodx/lexicon/';
+
+        $dir = new DirectoryIterator($path);
+        foreach ($dir as $fileinfo) {
+            if ($fileinfo->isDir() && !$fileinfo->isDot()) {
+                $file = $path . $fileinfo->getFilename() . '/properties.inc.php';
+                if (file_exists($file)) {
+                    @unlink($file);
+                }
+            }
+        }
+
+        /* Delete old ScriptSource files */
+        $file = MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/upgrademodxsnippetscriptsource.chunk.php';
+        if (file_exists($file)) {
+            @unlink($file);
+        }
+
+        $file = MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/upgrademodxsnippetscriptsource.chunk.zip';
+
+        if (file_exists($file)) {
+            @unlink($file);
+        }
+
         /* Refresh System Setting Cache */
         $modxVersion = $modx->getOption('settings_version', null);
         $cm = $modx->getCacheManager();
