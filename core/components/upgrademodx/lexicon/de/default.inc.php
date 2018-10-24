@@ -108,7 +108,7 @@ $_lang['setting_ugm_force_pcl_zip_desc'] = 'Erzwingen der Nutzung von PclZip ans
 $_lang['setting_ugm_ssl_verify_peer_desc'] = 'Zur Sicherheit, cURL die Identität des Servers verifizieren lassen';
 
 $_lang['setting_ugm_file_version'] = 'Datei Version';
-$_lang['setting_ugm_file_version_desc'] = 'Version when versionlist file was last updated. Set automatically -- do not edit!';
+$_lang['setting_ugm_file_version_desc'] = 'Version, als die Versionslistendatei zuletzt aktualisiert wurde. Wird automatisch gesetzt -- nicht editieren!';
 $_lang['setting_ugm_force_pcl_zip'] = 'Erzwinge PclZip';
 $_lang['setting_ugm_version_list_path'] = 'Versionlist Pfad';
 $_lang['setting_ugm_github_timeout'] = 'GitHub Zeitüberschreitung';
@@ -116,7 +116,7 @@ $_lang['setting_ugm_modx_timeout'] = 'MODX Zeitüberschreitung';
 $_lang['setting_ugm_versionlist_api_url'] = 'Versionslisten API-URL';
 $_lang['setting_ugm_versionlist_api_url_desc'] = 'URL der API für Versionsliste; Standard: //api.github.com/repos/modxcms/revolution/tags';
 $_lang['setting_ugm_temp_dir'] = 'Temp Verzeichnis';
-$_lang['setting_ugm_temp_dir_desc'] = 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/';
+$_lang['setting_ugm_temp_dir_desc'] = 'Pfad zu dem Verzeichnis, das für den temporären Speicher zum Herunterladen und Entpacken von Dateien verwendet wird; Muss beschreibbar sein; Standard: {base_path}ugmtemp/';
 $_lang['ugm_download_failed'] = 'Download fehlgeschlagen';
 $_lang['setting_ugm_cert_path'] = 'Cert Pfad';
 $_lang['setting_ugm_cert_path_desc'] = 'Pfad zu SSL-Zertifikat Datei im .pem Format (selten benötigt)';
