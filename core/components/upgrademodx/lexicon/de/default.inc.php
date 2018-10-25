@@ -121,6 +121,13 @@ $_lang['ugm_download_failed'] = 'Download fehlgeschlagen';
 $_lang['setting_ugm_cert_path'] = 'Cert Pfad';
 $_lang['setting_ugm_cert_path_desc'] = 'Pfad zu SSL-Zertifikat Datei im .pem Format (selten benötigt)';
 
+/* System Setting Area strings */
+$_lang['Download'] = 'Download';
+$_lang['Form'] = 'Formular';
+$_lang['GitHub'] = 'GitHub';
+$_lang['Security'] = 'Sicherheit';
+$_lang['Widget'] = 'Widget';
+
 /* Used in copyfiles.class.php */
 $_lang['ugm_copied'] = 'Kopiert';
 $_lang['ugm_to'] = 'nach';
