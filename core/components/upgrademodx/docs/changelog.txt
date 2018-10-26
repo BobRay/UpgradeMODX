@@ -1,6 +1,6 @@
 Changelog for UpgradeMODX
 
-UpgradeMODX 2.0.0-pl
+UpgradeMODX 2.0.2-pl
 ---------------------------------
 Tell Setup where the core is, so it doesn't ask!
 Automatically select appropriate upgrade version
