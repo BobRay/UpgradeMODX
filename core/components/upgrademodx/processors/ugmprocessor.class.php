@@ -38,7 +38,7 @@ abstract class UgmProcessor extends modProcessor {
    public $tempDir = '';
    public $unzippedDir = '';
    public $testDir = null;
-   public $logFilePath = MODX_CORE_PATH . 'cache/logs/upgrademodx.log';
+   public $logFilePath = '';
    public $zipFileName = '';
    public $certPath = '';
    public $sslVerifyPeer = true;
@@ -49,6 +49,7 @@ abstract class UgmProcessor extends modProcessor {
         $this->devMode = $this->modx->getOption('ugm.devMode', null, false, true);
         $this->corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
         $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
+        $this->logFilePath = $this->corePath . 'cache/logs/upgrademodx.log';
         if ($this->devMode) {
             $this->tempDir = 'c:/dummy/ugmtemp/';
             $this->mmkDir('c:/dummy/ugmtemp/test');
