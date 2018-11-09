@@ -73,10 +73,10 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
     public function getDirectories($directories = array()) {
         if (empty($directories)) {
             $directories = array(
-                'setup' => MODX_BASE_PATH . 'setup/',
-                'core' => MODX_CORE_PATH,
-                'manager' => MODX_MANAGER_PATH,
-                'connectors' => MODX_CONNECTORS_PATH,
+                'setup' => $this->basePath . 'setup/',
+                'core' => $this->corePath,
+                'manager' => $this->managerPath,
+                'connectors' => $this->connectorsPath,
             );
         }
 
@@ -90,9 +90,9 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         }
 
         /* See if we need to do processors path */
-        $path = $this->processorsUnderCore(MODX_CORE_PATH, MODX_PROCESSORS_PATH);
+        $path = $this->processorsUnderCore($this->corePath, $this->processorsPath);
         if (! $path) { // processors not under core
-            $directories['core/model/modx/processors'] = MODX_PROCESSORS_PATH;
+            $directories['core/model/modx/processors'] = $this->processorsPath;
         }
 
         /* Normalize directory paths */
@@ -196,7 +196,7 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         $tstart = $mtime;
         set_time_limit(0);
         $source = $this->unzippedDir . '/' . $version;
-        $dest = $this->devMode ? $this->testDir : MODX_BASE_PATH;
+        $dest = $this->devMode ? $this->testDir : $this->basePath;
         try {
             copy($source . '/ht.access', $dest . 'ht.access');
             copy($source . '/index.php', $dest . 'index.php');
