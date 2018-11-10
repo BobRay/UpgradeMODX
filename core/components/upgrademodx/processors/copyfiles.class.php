@@ -57,10 +57,9 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
      */
     public function processorsUnderCore($corePath, $pPath) {
         /* If processors are under the core, no need to do processors path */
-        $p = pathinfo($corePath, PATHINFO_DIRNAME);
-        $p = array_filter(explode('/', $p));
-        $coreDir = array_pop($p);
-        return stripos($pPath, $coreDir) !== false;
+        $corePath = $this->normalize($corePath);
+        $pPath = $this->normalize($pPath);
+        return stripos($pPath, $corePath) !== false;
     }
 
 
