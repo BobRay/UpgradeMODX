@@ -88,7 +88,7 @@ class UpgradeMODXUnzipfilesProcessor extends UgmProcessor {
             return false;
         }
 
-        $corePath = $this->corePath;
+        $corePath = $this->modxCorePath;
         $status = true;
         if ((!$forcePclZip) && class_exists('ZipArchive', false)) {
             $zip = new ZipArchive;

@@ -34,7 +34,9 @@ abstract class UgmProcessor extends modProcessor {
    public $devMode = false;
    public $errors = array();
    public $name = '';
-   public $corePath ='';
+   public $modxCorePath ='';
+   public $ugmCorePath = '';
+   public $basePath = '';
    public $tempDir = '';
    public $unzippedDir = '';
    public $testDir = null;
@@ -47,9 +49,10 @@ abstract class UgmProcessor extends modProcessor {
         /** @var $props array() */
         $this->props = $this->getProperty('props');
         $this->devMode = $this->modx->getOption('ugm.devMode', null, false, true);
-        $this->corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
-        $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
-        $this->logFilePath = $this->corePath . 'cache/logs/upgrademodx.log';
+        $this->basePath = $this->modx->getOption('base_path', NULL, MODX_BASE_PATH);
+        $this->modxCorePath = $this->modx->getOption('core_path', null, MODX_CORE_PATH);
+        $this->ugmCorePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');        $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
+        $this->logFilePath = $this->modxCorePath . 'cache/logs/upgrademodx.log';
         if ($this->devMode) {
             $this->tempDir = 'c:/dummy/ugmtemp/';
             $this->mmkDir('c:/dummy/ugmtemp/test');

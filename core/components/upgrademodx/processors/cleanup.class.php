@@ -44,7 +44,7 @@ class UpgradeMODXCleanupProcessor extends UgmProcessor {
      * @throws Exception
      */
     public function cleanUp() {
-        $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
+        $rootCoreConfig = $this->basePath . 'config.core.php';
         $success = true;
         if (!$this->devMode) {
             $this->rrmdir($this->tempDir);

@@ -45,7 +45,7 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
      */
     public function prepareSetup() {
         sleep(2);
-        $rootCoreConfig = MODX_BASE_PATH . 'config.core.php';
+        $rootCoreConfig = $this->basePath. 'config.core.php';
         $success = true;
         if (file_exists($rootCoreConfig)) {
             $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";
@@ -57,7 +57,7 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
                     $content .= "\n" . $newStr;
                 }
                 $setup = 'setup/includes/config.core.php';
-                $target = $this->devMode ? $this->tempDir . 'test/' . $setup : MODX_BASE_PATH . $setup;
+                $target = $this->devMode ? $this->tempDir . 'test/' . $setup : $this->basePath . $setup;
                 if (!file_put_contents($target, $content)) {
                     throw new Exception($this->modx->lexicon('ugm_could_not_write') . ' ' .
                         $this->modx->lexicon('ugm_to') .
