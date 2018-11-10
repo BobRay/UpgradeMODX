@@ -57,10 +57,9 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
      */
     public function processorsUnderCore($corePath, $pPath) {
         /* If processors are under the core, no need to do processors path */
-        $p = pathinfo($corePath, PATHINFO_DIRNAME);
-        $p = array_filter(explode('/', $p));
-        $coreDir = array_pop($p);
-        return stripos($pPath, $coreDir) !== false;
+        $corePath = $this->normalize($corePath);
+        $pPath = $this->normalize($pPath);
+        return stripos($pPath, $corePath) !== false;
     }
 
 
@@ -71,12 +70,15 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
      * @return array
      */
     public function getDirectories($directories = array()) {
+        $managerPath = $this->modx->getOption('manager_path', null, MODX_MANAGER_PATH);
+        $connectorsPath = $this->modx->getOption('connectors_path', null, MODX_CONNECTORS_PATH);
+        $processorsPath = $this->modx->getOption('processors_path', null, MODX_PROCESSORS_PATH);
         if (empty($directories)) {
             $directories = array(
                 'setup' => $this->basePath . 'setup/',
-                'core' => $this->corePath,
-                'manager' => $this->managerPath,
-                'connectors' => $this->connectorsPath,
+                'core' => $this->modxCorePath,
+                'manager' => $managerPath,
+                'connectors' => $connectorsPath,
             );
         }
 
@@ -90,9 +92,9 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         }
 
         /* See if we need to do processors path */
-        $path = $this->processorsUnderCore($this->corePath, $this->processorsPath);
+        $path = $this->processorsUnderCore($this->modxCorePath, $processorsPath);
         if (! $path) { // processors not under core
-            $directories['core/model/modx/processors'] = $this->processorsPath;
+            $directories['core/model/modx/processors'] = $processorsPath;
         }
 
         /* Normalize directory paths */

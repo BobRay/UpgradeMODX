@@ -45,7 +45,7 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
      */
     public function prepareSetup() {
         sleep(2);
-        $rootCoreConfig = $this->basePath . 'config.core.php';
+        $rootCoreConfig = $this->basePath. 'config.core.php';
         $success = true;
         if (file_exists($rootCoreConfig)) {
             $newStr = "define('MODX_SETUP_KEY', '@traditional@');\n?>";

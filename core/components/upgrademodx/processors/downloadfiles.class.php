@@ -56,7 +56,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         }
         $this->log($this->modx->lexicon('ugm_downloading_files'));
 
-        $corePath = $this->corePath;
+        $corePath = $this->ugmCorePath;
         require_once $corePath . 'vendor/autoload.php';
         $version = $this->zipFileName;
         $this->log("Version: " . $version);
