@@ -89,8 +89,6 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
 
         if (!$this->hasErrors()) {
             $this->log($this->modx->lexicon('ugm_setup_prepared'));
-            $this->log($this->modx->lexicon('ugm_deleting_temp_files'));
-
         }
         return $this->prepareResponse($this->modx->lexicon('ugm_deleting_temp_files'));
 
