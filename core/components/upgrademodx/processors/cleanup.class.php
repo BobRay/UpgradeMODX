@@ -24,7 +24,7 @@
 
 /* @var $modx modX */
 
-include 'ugmprocessor.class.php';
+include_once 'ugmprocessor.class.php';
 
 class UpgradeMODXCleanupProcessor extends UgmProcessor {
 
@@ -46,9 +46,9 @@ class UpgradeMODXCleanupProcessor extends UgmProcessor {
     public function cleanUp() {
         $rootCoreConfig = $this->basePath . 'config.core.php';
         $success = true;
-        if (!$this->devMode) {
+       // if (!$this->devMode) {
             $this->rrmdir($this->tempDir);
-        }
+       // }
     }
 
     /** Recursive remove dir function.

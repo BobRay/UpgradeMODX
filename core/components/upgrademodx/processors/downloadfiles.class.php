@@ -29,7 +29,7 @@ use GuzzleHttp\RequestOptions;
 
 /* @var $modx modX */
 
-include 'ugmprocessor.class.php';
+include_once 'ugmprocessor.class.php';
 
 class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
 //    public $languageTopics = array('upgrademodx:default');

@@ -111,7 +111,7 @@ if (!class_exists('UpgradeMODX')) {
         protected $client = null;
 
         /** @var $corePath string   */
-        protected $corePath = '';
+        public $corePath = '';
 
         /** @var $plOnly bool */
         protected $plOnly = false;

@@ -55,9 +55,9 @@ abstract class UgmProcessor extends modProcessor {
         $this->logFilePath = $this->modxCorePath . 'cache/logs/upgrademodx.log';
         if ($this->devMode) {
             $this->tempDir = 'c:/dummy/ugmtemp/';
-            $this->mmkDir('c:/dummy/ugmtemp/test');
+            $this->mmkDir('c:/dummy/ugmtemp/test/');
             $this->testDir = 'c:/dummy/ugmtemp/test/';
-            $this->logFilePath = 'C:/dummy/ugmtemp/upgrademodx.log';
+            $this->logFilePath = 'C:/dummy/upgrademodx.log';
         }
         $this->zipFileName = $this->getProperty('version');
         $this->unzippedDir = $this->tempDir . 'unzipped';

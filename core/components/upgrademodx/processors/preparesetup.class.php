@@ -24,7 +24,7 @@
 
 /* @var $modx modX */
 
-include 'ugmprocessor.class.php';
+include_once 'ugmprocessor.class.php';
 
 class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
 

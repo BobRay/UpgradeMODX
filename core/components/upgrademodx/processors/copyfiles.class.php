@@ -23,7 +23,7 @@
  */
 
 /* @var $modx modX */
-include 'ugmprocessor.class.php';
+include_once 'ugmprocessor.class.php';
 
 class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
     var $fileCount = 0;
