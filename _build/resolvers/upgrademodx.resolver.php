@@ -155,17 +155,26 @@ if ($object->xpdo) {
             }
         }
 
-        /* Delete old ScriptSource files */
-        $file = MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/upgrademodxsnippetscriptsource.chunk.php';
-        if (file_exists($file)) {
-            @unlink($file);
+        /* Delete old files */
+
+        $files = array(
+            MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/upgrademodxsnippetscriptsource.chunk.php',
+            MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/upgrademodxsnippetscriptsource.chunk.zip',
+            MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/modx.zip',
+        );
+
+        foreach($files as $file) {
+            if (file_exists($file)) {
+                @unlink($file);
+            }
         }
 
-        $file = MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/upgrademodxsnippetscriptsource.chunk.zip';
-
-        if (file_exists($file)) {
-            @unlink($file);
+        $dir = MODX_CORE_PATH . 'components/upgrademodx/elements/chunks/ugmtemp';
+        if (is_dir($dir)) {
+            @rmdir($dir);
         }
+
+
 
         /* Refresh System Setting Cache */
         $modxVersion = $modx->getOption('settings_version', null);
