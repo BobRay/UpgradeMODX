@@ -1,5 +1,11 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.0.3-pl
+---------------------------------
+Fix bug with possible 500 error in PHP 5
+Fix bug with test for copying processors files
+Update Unit Tests
+
 UpgradeMODX 2.0.2-pl
 ---------------------------------
 Tell Setup where the core is, so it doesn't ask!
