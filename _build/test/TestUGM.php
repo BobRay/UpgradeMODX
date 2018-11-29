@@ -237,8 +237,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertEquals($this->modx->lexicon('ugm_launching_setup'), $result['message']);
         $this::assertEquals(1, $result['success']);
         $this::assertEmpty($result['errors']);
-        $this::assertFalse(is_dir($tempDir));
-
+        $this::assertFalse(is_dir($tempDir . 'unzipped'));
 
     }
 

@@ -1,5 +1,10 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.1.0-pl
+---------------------------------
+Fix bug with inactive submit button
+Add option to use UGM on multiple sites on same server
+
 UpgradeMODX 2.0.3-pl
 ---------------------------------
 Fix bug with possible 500 error in PHP 5

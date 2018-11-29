@@ -44,6 +44,7 @@ abstract class UgmProcessor extends modProcessor {
    public $zipFileName = '';
    public $certPath = '';
    public $sslVerifyPeer = true;
+   public $customTempDir = false;
 
     public function initialize() {
         /** @var $props array() */
@@ -51,7 +52,9 @@ abstract class UgmProcessor extends modProcessor {
         $this->devMode = $this->modx->getOption('ugm.devMode', null, false, true);
         $this->basePath = $this->modx->getOption('base_path', NULL, MODX_BASE_PATH);
         $this->modxCorePath = $this->modx->getOption('core_path', null, MODX_CORE_PATH);
-        $this->ugmCorePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');        $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
+        $this->ugmCorePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path') . 'components/upgrademodx/');
+        $this->tempDir = $this->modx->getOption('ugm_temp_dir', null, MODX_BASE_PATH . 'ugmtemp/');
+
         $this->logFilePath = $this->modxCorePath . 'cache/logs/upgrademodx.log';
         if ($this->devMode) {
             $this->tempDir = 'c:/dummy/ugmtemp/';
@@ -59,6 +62,8 @@ abstract class UgmProcessor extends modProcessor {
             $this->testDir = 'c:/dummy/ugmtemp/test/';
             $this->logFilePath = 'C:/dummy/upgrademodx.log';
         }
+
+        $this->customTempDir = $this->tempDir == MODX_BASE_PATH . 'ugmtemp/' ? false : true;
         $this->zipFileName = $this->getProperty('version');
         $this->unzippedDir = $this->tempDir . 'unzipped';
         if (!is_dir($this->tempDir)) {

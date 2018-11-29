@@ -107,6 +107,10 @@
 
 <p>You can create a free account at GitHub, or use an existing one. To get a token, follow the directions <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">here</a>. Copy your token to the clipboard, then paste it into the <code>ugm_github_token</code> System Setting. Enter your GitHub username in the <code>ugm_github_username</code> System Setting. Don't forget to clear the cache after changing any settings.</p>
 
+<h3>Multiple Installs</h3>
+
+<p>If you have multiple MODX sites on the same server, you can set the <code>ugm_temp_dir</code> System Setting to a path that's available to all sites, like your server's tmp directory. Once you do that, UpgradeMODX will leave the downloaded .zip file in place and skip the download for all sites but the first one. Remember to change that setting on all the sites before performing any upgrades.</p>
+
 <h3>Troubleshooting</h3>
 
 <p>If you get frequent timeouts, you can increase the <code>ugm_github_timeout</code> or <code>ugm_modx_timeout</code> System Settings. They set how long the program will wait for a response. The default is 6 seconds.</p>
@@ -120,6 +124,9 @@
 
     <p>Version 2.0.0 has a new setting: <code>ugm_cert_path</code> (empty by default). If you are having SSL trouble, you could try asking the host or checking their forum for the path to the SSL cert file. Paste that path into the <code>value</code> field of this setting.</p>
 </div>
+<br>
+
+<p>If UpgradeMODX shows an available upgrade but the submit button doesn't work, check the spelling of the  <code>assets/components/upgrademodx/js/progressButton.js</code> file. Make sure the "B" matches the case of the filename in the UpgradeMODXTpl chunk.</p>
 
 
 

@@ -48,9 +48,11 @@ class UpgradeMODXCleanupProcessor extends UgmProcessor {
     public function cleanUp() {
         $rootCoreConfig = $this->basePath . 'config.core.php';
         $success = true;
-       // if (!$this->devMode) {
+        if (!$this->customTempDir) {
             $this->rrmdir($this->tempDir);
-       // }
+        } else {
+            $this->rrmdir($this->unzippedDir);
+        }
     }
 
     /** Recursive remove dir function.
