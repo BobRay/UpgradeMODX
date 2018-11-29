@@ -42,7 +42,7 @@
 
   <!--  </div>-->
         <script type = "text/javascript" src="http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/js/classie.js"></script>
-        <script type="text/javascript" src="http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/js/progressbutton.js"></script>
+        <script type="text/javascript" src="http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/js/progressButton.js"></script>
         <script>
             $('#ugm_submit_button').hover(
                 function () {
