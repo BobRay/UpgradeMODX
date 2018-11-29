@@ -43,6 +43,8 @@ class UpgradeMODXCleanupProcessor extends UgmProcessor {
      * after adding setup key
      * @throws Exception
      */
+
+    /* ToDo: Add option to save downloaded .zip file */
     public function cleanUp() {
         $rootCoreConfig = $this->basePath . 'config.core.php';
         $success = true;

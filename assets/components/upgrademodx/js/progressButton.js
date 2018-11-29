@@ -1,5 +1,5 @@
 /**
- * progressbutton.js v1.0.0
+ * progressButton.js v1.0.0
  * http://www.codrops.com
  *
  * Licensed under the MIT license.
