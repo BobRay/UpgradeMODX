@@ -2,10 +2,10 @@
 /**
  * sv default topic lexicon file for UpgradeMODX extra
  *
- * Copyright 2016 by Kristoffer Karlström <http://www.kmmtiming.se>
+ * Copyright 2016-2018 by Kristoffer Karlström <http://www.kmmtiming.se>
  * 2018 Update by mrhaw
  * Created on 09-08-2015
- * Edited on 04-24-2016
+ * Edited on 11-30-2018
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -55,7 +55,9 @@ $_lang['ugm_no_curl_no_fopen'] = 'Varken allow_url_fopen eller cURL kan använda
 $_lang['ugm_no_version_list_from_github'] = 'Misslyckades att hämta versionslista från GitHub';
 $_lang['ugm_no_such_version'] = 'Efterfrågad version existerar inte';
 
+
 /* Used in upgrademodx.class.php */
+
 $_lang['failed'] = 'misslyckades';
 
 $_lang['ugm_missing_versionlist'] = "Saknar fil 'versionlist'; Pröva att ladda om sidan";
@@ -90,57 +92,79 @@ $_lang['ugm_modified_for_upgrade_by'] = 'Modifierad för "Upgrade only with dash
 $_lang['ugm_original_design_by'] = 'Original Design Av';
 $_lang['ugm_back_to_manager'] = 'Tillbaka till MODX Manager';
 
-/* Used in System Settings */
-$_lang['setting_ugm_github_token_desc'] = 'Github token - tillängligt från din profil på GitHub';
-$_lang['setting_ugm_github_username_desc'] = 'Ditt användarnamn på GitHub';
-$_lang['setting_ugm_version_list_path_desc'] = 'Sökväg till filen med versionshistorik (minus filnamnet -- avslutad med ett slash); Default: {core_path}cache/upgrademodx/';
-$_lang['setting_ugm_github_timeout_desc'] = 'Timeout i sekunder för kontroll mot Github; default: 6';
-$_lang['setting_ugm_modx_timeout_desc'] = 'Timeout i sekunder för att kontrollera status mot MODX; default: 6';
-$_lang['setting_ugm_groups_desc'] = 'grupp, eller kommaseparerad lista av grupper, som kommer att se widgeten';
-$_lang['setting_ugm_hide_when_no_upgrade_desc'] = 'Dölj widgeten när det inte finns några tillgängliga uppdateringar: default: Nej';
-$_lang['setting_ugm_interval_desc'] = 'Intervall mellan kontroller -- Exempelvis: 1 vecka, 3 dagar, 6 timmar; default: 1 dag';
-$_lang['setting_ugm_last_check_desc'] = 'Datum och tid för senaste kontrollen -- sätts automatiskt';
-$_lang['setting_ugm_latest_version_desc'] = 'Senaste version (vid senaste kontrollen) -- sätts automatiskt';
-$_lang['setting_ugm_pl_only_desc'] = 'Visa enbart pl (stabila) versioner; default: Ja';
-$_lang['setting_ugm_versions_to_show_desc'] = 'Antal versioner som ska visas i uppgraderingsformuläret; default: 5';
-$_lang['setting_ugm_language_desc'] = 'Tvåbokstavskod för språk som ska användas; default: en';
-$_lang['setting_ugm_force_pcl_zip_desc'] = 'Tvinga användande av PclZip istället för ZipArchive';
-$_lang['setting_ugm_ssl_verify_peer_desc'] = 'Av säkerhetsskäl, låt cURL verifiera serverns identitet';
+/* Used in unzipfiles.class.php */
+$_lang['ugm_files_to_extract'] = 'objekt att packa upp';
+$_lang['ugm_destination'] = 'Destination';
+$_lang['ugm_source'] = 'Käll';
+$_lang['ugm_unzipped'] = 'Uppackade';
+$_lang['ugm_no_downloaded_file'] = 'Kunde inte hitta den nedladdade filen';
+$_lang['ugm_could_not_create_directory'] = 'Kunde inte skapa katalog';
+$_lang['ugm_directory_not_writable'] = 'Katalogen är inte skrivbar';
 
-$_lang['setting_ugm_version_list_path'] = 'Versionlist path';
-$_lang['setting_ugm_github_timeout'] = 'GitHub Timeout';
+
+/* Used in transport.settings.php */
+$_lang['setting_ugm_file_version'] = 'Filversion';
+$_lang['setting_ugm_file_version_desc'] = 'Version då filen med versionslistan uppdaterades. Sätts automatiskt -- ändra inte!';
+$_lang['setting_ugm_temp_dir'] = 'Tempkatalog';
+$_lang['setting_ugm_temp_dir_desc'] = 'Sökväg till katalogen som används temporärt för att lagra och packa upp nedladdade filer; Måste vara skrivbar; default:{base_path}ugmtemp/';
+$_lang['setting_ugm_versionlist_api_url'] = 'API URL för versionslista';
+$_lang['setting_ugm_versionlist_api_url_desc'] = 'URL för API att hämta versionslista från; default: //api.github.com/repos/modxcms/revolution/tags';
+$_lang['setting_ugm_version_list_path'] = 'Sökväg till versionslista';
+$_lang['setting_ugm_version_list_path_desc'] = 'Sökvägen till filen med versionslistan (minus filnamnet -- ska avslutas med snedstreck); Default: {core_path}cache/upgrademodx/';
+$_lang['setting_ugm_last_check'] = 'Senaste kontroll';
+$_lang['setting_ugm_last_check_desc'] = 'Datum och tid för senaste kontrollen -- sätts automatiskt';
+$_lang['setting_ugm_latest_version'] = 'Senaste version';
+$_lang['setting_ugm_latest_version_desc'] = 'Senaste version (vid senaste kontrollen) -- sätts automatiskt';
+$_lang['setting_ugm_hide_when_no_upgrade'] = 'Dölj när ingen uppdatering finns';
+$_lang['setting_ugm_hide_when_no_upgrade_desc'] = 'Dölj widgeten när det inte finns några tillgängliga uppdateringar: default: Nej';
+$_lang['setting_ugm_interval'] = 'Intervall';
+$_lang['setting_ugm_interval_desc'] = 'Intervall mellan kontroller -- Exempelvis: 1 vecka, 3 dagar, 6 timmar; default: 1 dag';
+$_lang['setting_ugm_groups'] = 'grupper';
+$_lang['setting_ugm_groups_desc'] = 'grupp, eller kommaseparerad lista av grupper, som kommer att se widgeten';
+$_lang['setting_ugm_versions_to_show'] = 'Versioner att visa';
+$_lang['setting_ugm_versions_to_show_desc'] = 'Antal versioner som ska visas i uppgraderingsformuläret; default: 5';
+$_lang['setting_ugm_github_timeout'] = 'GitHub timeout';
+$_lang['setting_ugm_github_timeout_desc'] = 'Timeout i sekunder vid kontroll mot Github; default: 6';
+$_lang['setting_ugm_github_token'] = 'GitHub token';
+$_lang['setting_ugm_github_token_desc'] = 'Github token - tillängligt från din profil på GitHub';
+$_lang['setting_ugm_github_username'] = 'Användarnamn på GitHub';
+$_lang['setting_ugm_github_username_desc'] = 'Ditt användarnamn på GitHub';
+$_lang['setting_ugm_pl_only'] = 'Bara pl versioner';
+$_lang['setting_ugm_pl_only_desc'] = 'Visa enbart pl (stabila) versioner; default: Ja';
+$_lang['setting_ugm_language'] = 'Språk';
+$_lang['setting_ugm_language_desc'] = 'Tvåbokstavskod för språk som ska användas; default: en';
+$_lang['setting_ugm_ssl_verify_peer'] = 'Verifiera SSL identitet';
+$_lang['setting_ugm_ssl_verify_peer_desc'] = 'Av säkerhetsskäl, låt cURL verifiera serverns identitet';
 $_lang['setting_ugm_modx_timeout'] = 'MODX Timeout';
-$_lang['setting_ugm_versionlist_api_url'] = 'Version List API URL';
-$_lang['setting_ugm_versionlist_api_url_desc'] = 'URL of API to get version list from; default: //api.github.com/repos/modxcms/revolution/tags';
-$_lang['setting_ugm_temp_dir'] = 'Temp directory';
-$_lang['setting_ugm_temp_dir_desc'] = 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/';
-$_lang['ugm_download_failed'] = 'Download failed';
-$_lang['setting_ugm_cert_path'] = 'Cert Path';
-$_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
-$_lang['setting_ugm_file_version'] = 'File Version';
-$_lang['setting_ugm_file_version_desc'] = 'Version when versionlist file was last updated. Set automatically -- do not edit!';
+$_lang['setting_ugm_modx_timeout_desc'] = 'Timeout i sekunder för att kontrollera status mot MODX; default: 6';
+$_lang['setting_ugm_force_pcl_zip'] = 'Force PclZip';
+$_lang['setting_ugm_force_pcl_zip_desc'] = 'Tvinga användande av PclZip istället för ZipArchive';
+
+$_lang['setting_ugm_cert_path'] = 'Sökväg till certifikat';
+$_lang['setting_ugm_cert_path_desc'] = 'Sökväg till SSL certifikatfil i .pem format; sällan nödvändigt';
 
 /* System Setting Area strings */
-$_lang['Download'] = 'Download';
-$_lang['Form'] = 'Form';
+$_lang['Download'] = 'Ladda ner';
+$_lang['Form'] = 'Formulär';
 $_lang['GitHub'] = 'GitHub';
-$_lang['Security'] = 'Security';
+$_lang['Security'] = 'Säkerhet';
 $_lang['Widget'] = 'Widget';
 
+
 /* Used in copyfiles.class.php */
-$_lang['ugm_copied'] = 'Copied';
-$_lang['ugm_to'] = 'to';
-$_lang['ugm_files_copied'] = 'Objects copied';
+$_lang['ugm_copied'] = 'Kopierad';
+$_lang['ugm_to'] = 'till';
+$_lang['ugm_files_copied'] = 'Objekt kopierade';
 
 /* Used in downloadfiles.class.php */
-$_lang['ugm_downloaded'] = 'Downloaded';
-$_lang['ugm_download_failed'] = 'Download failed';
+$_lang['ugm_downloaded'] = 'Nerladdad';
+$_lang['ugm_download_failed'] = 'Nerladdning misslyckades';
 
 /* Used in preparesetup.class.php */
-$_lang['ugm_no_root_config_core'] = 'Could not find root config.core.php';
-$_lang['ugm_setup_prepared'] = 'Setup prepared';
-$_lang['ugm_could_not_write'] = 'Could not write';
+$_lang['ugm_no_root_config_core'] = 'Kunde inte hitta config.core.php';
+$_lang['ugm_setup_prepared'] = 'Setup förberedd';
+$_lang['ugm_could_not_write'] = 'Kunde inte skriva';
 
 /* Used in cleanup.class.php */
-$_lang['ugm_deleting_temp_files'] = 'Cleaning Up';
-$_lang['ugm_temp_files_deleted'] = 'Cleanup Completed (temporary files removed)';
+$_lang['ugm_deleting_temp_files'] = 'Städar upp';
+$_lang['ugm_temp_files_deleted'] = 'Städning slutförd (temporära filer borttagna)';
