@@ -1,0 +1,32 @@
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+/*body {
+    color: #111111;
+    font-family: 'Lato', Arial, sans-serif;
+}*/
+
+.clearfix:before,
+.clearfix:after {
+    content: '';
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+a {
+    color: #148544;
+    text-decoration: none;
+    outline: none;
+}
+
+a:hover, a:focus {
+    color: #fff;
+}
+
+@media screen and (max-width: 25em) {
+    .container > header {
+        font-size: 70%;
+    }
+}

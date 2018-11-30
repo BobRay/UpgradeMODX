@@ -1,5 +1,47 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.1.0-pl
+---------------------------------
+Fix bug with inactive submit button
+Add option to use UGM on multiple sites on same server
+
+UpgradeMODX 2.0.3-pl
+---------------------------------
+Fix bug with possible 500 error in PHP 5
+Fix bug with test for copying processors files
+Update Unit Tests
+
+UpgradeMODX 2.0.2-pl
+---------------------------------
+Tell Setup where the core is, so it doesn't ask!
+Automatically select appropriate upgrade version
+Automatically extend version list to include current version
+Indicate current version in version list
+Report progress during upgrade process
+3D animation for progress (except on f@$@|#% IE < Edge)
+Use processors for each step to avoid timeouts
+Operate entirely in the Manager until setup is launched
+Add lexicon strings for all text
+Restyle for Mobile
+Change Ajax method to get to conform with the HTML 2.0 spec
+Fix bug with missing versionlist error
+Make sure downloaded file is closed
+Get MODX files directly from AWS
+Update credits
+Other bug fixes and improvements
+
+
+UpgradeMODX 1.5.6-pl
+---------------------------------
+Wrap rrmdir in if(function_exists)
+Add warning not to skip .0 versions
+
+UpgradeMODX 1.5.5-pl
+---------------------------------
+Fix issue with MODX logo (thanks to DigitalPenguin)
+Move background image to local file
+
+
 UpgradeMODX 1.5.4-pl
 ---------------------------------
 Fix open_base_dir redirect issue (thanks to Jako)

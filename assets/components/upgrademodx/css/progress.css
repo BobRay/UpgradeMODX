@@ -1,0 +1,416 @@
+div#Upgrade_modx {
+  /* General styles for all types of buttons */
+  /* CSS for IE < Edge */
+  /* Fill horizontal */
+  /* ====================== */
+  /* Necessary 3d styles for buttons with perspective */
+  /* Rotate bottom 3d */
+  /* ====================== */
+  /* UpgradeMODX page styles */
+  /* ====================== */
+  /*************** BIG SCREENS below 1300 px ************* */
+  /*********** BIG PHONES, TABLETS ***********/
+  /************ SMALL PHONES **************/
+}
+div#Upgrade_modx *, div#Upgrade_modx *:after, div#Upgrade_modx *::before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+div#Upgrade_modx .progress-button {
+  font-size: 16px;
+  margin: 20px 0 12px 30px;
+  position: relative;
+  display: block;
+  height: 55px;
+  width: 300px;
+  padding: 0;
+  outline: none;
+}
+div#Upgrade_modx .progress-button[disabled],
+div#Upgrade_modx .progress-button[disabled].state-loading {
+  cursor: default;
+}
+div#Upgrade_modx .progress-button .content {
+  position: relative;
+  display: block;
+}
+div#Upgrade_modx span#button_content.content {
+  letter-spacing: 2px;
+  font: 400 13.333px/1 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
+  font-size: 1em;
+  line-height: 2.9em;
+  background-color: #32AB9A;
+  /* Old browsers */
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #32AB9A), color-stop(100%, #00948E));
+  /* Chrome,Safari4+ */
+  background-image: -webkit-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* Chrome10+,Safari5.1+ */
+  background-image: -o-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* Opera 11.10+ */
+  background-image: -ms-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* IE10+ */
+  background-image: linear-gradient(to bottom, #32AB9A 0%, #00948E 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#000000", GradientType=0);
+  /* IE6-9 */
+  background-image: -moz-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* FF3.6+ */
+  background-image: linear-gradient(#32AB9A, #00948E);
+}
+div#Upgrade_modx .progress-button:hover span#button_content.content {
+  transition: background-image 0.25s ease;
+  background-color: #2b9385;
+  /* Old browsers */
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2b9385), color-stop(100%, #007571));
+  /* Chrome,Safari4+ */
+  background-image: -webkit-linear-gradient(top, #2b9385 0%, #007571 100%);
+  /* Chrome10+,Safari5.1+ */
+  background-image: -o-linear-gradient(top, #2b9385 0%, #007571 100%);
+  /* Opera 11.10+ */
+  background-image: -ms-linear-gradient(top, #2b9385 0%, #007571 100%);
+  /* IE10+ */
+  background-image: linear-gradient(to bottom, #2b9385 0%, #007571 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#000000", GradientType=0);
+  /* IE6-9 */
+  background-image: -moz-linear-gradient(top, #2b9385 0%, #007571 100%);
+  /* FF3.6+ */
+  background-image: linear-gradient(#2b9385, #007571);
+  color: #ffffff;
+}
+div#Upgrade_modx .progress-button.state-loading span#button_content.content {
+  transition: background-image 0.25s ease;
+  background-color: #32AB9A;
+  /* Old browsers */
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #32AB9A), color-stop(100%, #00948E));
+  /* Chrome,Safari4+ */
+  background-image: -webkit-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* Chrome10+,Safari5.1+ */
+  background-image: -o-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* Opera 11.10+ */
+  background-image: -ms-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* IE10+ */
+  background-image: linear-gradient(to bottom, #32AB9A 0%, #00948E 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff", endColorstr="#000000", GradientType=0);
+  /* IE6-9 */
+  background-image: -moz-linear-gradient(top, #32AB9A 0%, #00948E 100%);
+  /* FF3.6+ */
+  background-image: linear-gradient(#32AB9A, #00948E);
+}
+div#Upgrade_modx .progress-button:hover {
+  cursor: pointer;
+}
+div#Upgrade_modx .notransition {
+  -webkit-transition: none !important;
+  transition: none !important;
+}
+div#Upgrade_modx .progress-button .progress {
+  background: #00948E;
+}
+div#Upgrade_modx .progress-button .progress-inner {
+  position: absolute;
+  left: 0;
+  background: #00605a;
+}
+div#Upgrade_modx .progress-button[data-horizontal] .progress-inner {
+  top: 0;
+  width: 0;
+  height: 100%;
+  -webkit-transition: width 0.3s, opacity 0.3s;
+  transition: width 0.3s, opacity 0.3s;
+}
+div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] {
+  border: 1px solid #0c4d26;
+  border-radius: 3px !important;
+  overflow: hidden;
+  background: #32AB9A;
+  -webkit-font-smoothing: antialiased;
+}
+div#Upgrade_modx .progress-button[data-style=fill][data-horizontal][disabled], div#Upgrade_modx .progress-button[data-style=fill][data-horizontal].state-loading {
+  transition: padding 0.25s;
+  padding-bottom: 70px;
+}
+div#Upgrade_modx .progress-button[data-style=fill][data-horizontal] .content {
+  z-index: 10;
+  -webkit-font-smoothing: antialiased;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  line-height: 3.4em !important;
+}
+div#Upgrade_modx .progress-button[data-perspective] {
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  -webkit-perspective: 900px;
+  perspective: 900px;
+}
+div#Upgrade_modx .progress-button[data-perspective] .content {
+  border: 1px solid #0c4d26;
+  border-radius: 3px !important;
+  padding: 0;
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+div#Upgrade_modx .progress-button[data-perspective] .progress-wrap {
+  width: 100%;
+  border: none;
+  display: block;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+div#Upgrade_modx .progress-button[data-perspective] .content,
+div#Upgrade_modx .progress-button[data-perspective] .progress {
+  outline: 1px solid rgba(0, 0, 0, 0);
+  /* Smooth jagged edges in FF */
+}
+div#Upgrade_modx .progress-button[data-style=rotate-angle-bottom] .progress {
+  position: absolute;
+  top: 100%;
+  left: 1.5px;
+  border-bottom: none;
+  width: calc(300px - 3px);
+  outline: 1px solid #0c4d26;
+  height: 30px;
+  box-shadow: 0 -1px 0 #148544;
+  /* fix the blurriness that causes a gap */
+  -webkit-transform: rotateX(-90deg);
+  transform: rotateX(-90deg);
+  -webkit-transform-origin: 50% 0;
+  transform-origin: 50% 0;
+}
+div#Upgrade_modx .progress-button[data-style=rotate-angle-bottom].state-loading .progress-wrap {
+  -webkit-transform: rotateX(45deg);
+  transform: rotateX(45deg);
+  border-bottom: none;
+}
+div#Upgrade_modx p.ugm_error {
+  width: 400px;
+  color: red;
+  padding: 17px;
+  text-shadow: none;
+  text-align: left;
+  border: 1px solid #0c4d26;
+  background: #f4fffc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+div#Upgrade_modx a {
+  text-decoration: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: 0 0;
+}
+div#Upgrade_modx table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+div#Upgrade_modx td, div#Upgrade_modx td img {
+  vertical-align: top;
+}
+div#Upgrade_modx button, div#Upgrade_modx input, div#Upgrade_modx select, div#Upgrade_modx textarea {
+  margin: 0;
+  font-size: 100%;
+}
+div#Upgrade_modx input[type=password], div#Upgrade_modx input[type=text], div#Upgrade_modx textarea {
+  padding: 0;
+}
+div#Upgrade_modx input[type=checkbox] {
+  vertical-align: bottom;
+}
+div#Upgrade_modx input[type=radio] {
+  vertical-align: middle;
+  display: inline-block;
+}
+div#Upgrade_modx article, div#Upgrade_modx aside, div#Upgrade_modx details, div#Upgrade_modx figcaption, div#Upgrade_modx figure, div#Upgrade_modx footer, div#Upgrade_modx header, div#Upgrade_modx hgroup, div#Upgrade_modx menu, div#Upgrade_modx nav, div#Upgrade_modx section {
+  display: block;
+}
+div#Upgrade_modx html {
+  overflow-y: scroll;
+}
+div#Upgrade_modx a, div#Upgrade_modx a:active, div#Upgrade_modx a:focus, div#Upgrade_modx a:hover, div#Upgrade_modx a:visited, div#Upgrade_modx button, div#Upgrade_modx input[type=button], div#Upgrade_modx input[type=submit], div#Upgrade_modx label {
+  cursor: pointer;
+}
+div#Upgrade_modx .button, div#Upgrade_modx button {
+  border: none;
+  color: #fff;
+  display: inline-block;
+  padding: 15px;
+  font-size: 20px;
+  text-decoration: none;
+  background-color: #67a749;
+  text-shadow: 2px 2px 1px #0c4d26;
+}
+div#Upgrade_modx h3 {
+  margin-top: 20px;
+  font-weight: normal;
+}
+div#Upgrade_modx #upgrade_form {
+  margin: 10px 0 18px;
+  display: block;
+}
+div#Upgrade_modx #upgrade_form p {
+  margin-top: 15px;
+}
+div#Upgrade_modx #upgrade_form .column {
+  margin: 15px 0;
+  padding-left: 37px;
+  display: block;
+  box-sizing: border-box;
+  width: 500px;
+}
+div#Upgrade_modx .column h3 {
+  display: inline-block;
+  padding: 0 0 5px;
+  margin: 0 0 20px;
+  border-bottom: 2px solid #000;
+}
+div#Upgrade_modx .column label {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: 0;
+  box-shadow: 0 0 0 1px #E4E4E4;
+  margin: 0;
+  border-collapse: collapse;
+  background-color: transparent;
+}
+div#Upgrade_modx .column label:last-of-type {
+  border-radius: 0 0 3px 3px;
+}
+div#Upgrade_modx .column label.ugm_version_header {
+  font-weight: bold;
+  background-color: #E4E9EE;
+  border-radius: 3px 3px 0 0;
+}
+div#Upgrade_modx label > input {
+  margin: 3px 5px 5px 5px;
+}
+@media only screen and (max-width: 1300px) {
+  div#Upgrade_modx .content_div {
+    margin: 0 auto;
+    padding: 3% 0 0 0;
+  }
+  div#Upgrade_modx .content_div h2, div#Upgrade_modx h3 {
+    margin-left: 30px;
+  }
+  div#Upgrade_modx #upgrade_form .column {
+    margin: 0 auto;
+    width: 100%;
+  }
+  div#Upgrade_modx #upgrade_form {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  div#Upgrade_modx .column label {
+    font-size: 200% !important;
+    margin: 0;
+    padding: 45px 5px;
+    width: 90%;
+  }
+  div#Upgrade_modx label > input {
+    margin: 0 5px 0 5px;
+    border: 0;
+    width: 60px;
+    height: 1em;
+  }
+  div#Upgrade_modx #upgrade_form p {
+    line-height: 35px;
+    margin: 20px 0 43px 30px;
+  }
+  div#Upgrade_modx input[type=radio] {
+    clear: left !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  div#Upgrade_modx body {
+    text-align: center;
+  }
+  div#Upgrade_modx .footer {
+    text-align: left;
+  }
+  div#Upgrade_modx #upgrade_form .column {
+    margin: 15px auto;
+    padding-left: 37px;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  div#Upgrade_modx .content_div h2 {
+    margin: 0 auto;
+    padding: 0 10%;
+  }
+  div#Upgrade_modx div.column {
+    margin: 0 auto;
+    padding: 1%;
+  }
+  div#Upgrade_modx .content_div {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  div#Upgrade_modx #upgrade_form {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  div#Upgrade_modx #upgrade_form p {
+    margin: 0 auto;
+    font-size: 200% !important;
+    line-height: 35px;
+    text-align: left;
+    padding: 20px 0 0 24px;
+    width: 100%;
+  }
+  div#Upgrade_modx .column label {
+    text-align: left;
+    font-size: 200% !important;
+    margin: 0;
+    width: 95%;
+    display: block;
+  }
+  div#Upgrade_modx label > input {
+    margin: 0 5px 0 5px;
+    border: 0;
+    width: 20px;
+    height: 1em;
+    display: inline;
+  }
+}
+@media only screen and (max-width: 421px) {
+  div#Upgrade_modx #upgrade_form .column {
+    margin: 0;
+    padding: 0;
+  }
+  div#Upgrade_modx .column label {
+    display: block;
+    font-size: 200% !important;
+    margin: 0 5px;
+    padding: 45px 15px;
+    width: 98%;
+    line-height: 30px;
+  }
+  div#Upgrade_modx .content_div h2 {
+    line-height: 32px;
+  }
+  div#Upgrade_modx #upgrade_form p {
+    padding: 20px 0 25px 24px;
+    font-size: 200% !important;
+    line-height: 35px;
+  }
+  div#Upgrade_modx label > input[type=radio] {
+    display: none;
+  }
+  div#Upgrade_modx .footer a {
+    text-shadow: none;
+    color: #333333;
+  }
+}
+
+/*# sourceMappingURL=progress.css.map */

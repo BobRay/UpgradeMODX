@@ -16,14 +16,14 @@ $components = array(
     'packageName' => 'UpgradeMODX',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => 'UpgradeMODX project extra',
-    'version' => '1.5.4',
+    'version' => '2.1.0',
     'release' => 'pl',
     'author' => 'Bob Ray',
-    'email' => '<http://bobsguides.com>',
-    'authorUrl' => 'http://bobsguides.com',
+    'email' => '<https://bobsguides.com>',
+    'authorUrl' => 'https://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
-    'packageDocumentationUrl' => 'http://bobsguides.com/upgrademodx-tutorial.html',
-    'copyright' => '2015-2017',
+    'packageDocumentationUrl' => 'https://bobsguides.com/upgrademodx-tutorial.html',
+    'copyright' => '2015-2018',
 
     /* no need to edit this except to change format */
     'createdon' => strftime('%m-%d-%Y'),
@@ -55,8 +55,159 @@ $components = array(
      * and export them with exportObjects. If you do that, be sure to set
      * their namespace to the lowercase package name of your extra */
 
-    'newSystemSettings' => array(
-    ),
+    /*'newSystemSettings' => array(
+
+        'forcePclZip' =>
+            array(
+                'key' => 'ugm.forcePclZip',
+                'namespace' => 'upgrademodx',
+                'name' => 'forcePclZip',
+                'xtype' => 'combo-boolean',
+                'value' => false,
+                'area' => 'Download',
+                'description' => 'Force the use of PclZip instead of ZipArchive',
+            ),
+        'modxTimeout' =>
+            array(
+                'key' => 'ugm.modxTimeout',
+                'namespace' => 'upgrademodx',
+                'name' => 'modxTimeout',
+                'xtype' => 'textfield',
+                'value' => '6',
+                'area' => 'Download',
+                'description' => 'Timeout in seconds for checking download status from MODX; default: 6',
+            ),
+        'ssl_verify_peer' =>
+            array(
+                'key' => 'ugm.ssl_verify_peer',
+                'namespace' => 'upgrademodx',
+                'name' => 'ssl_verify_peer',
+                'xtype' => 'combo-boolean',
+                'value' => true,
+                'area' => 'Download',
+                'description' => 'For security, have cURL verify the identity of the server',
+            ),
+        'language' =>
+            array(
+                'key' => 'ugm.language',
+                'namespace' => 'upgrademodx',
+                'name' => 'language',
+                'xtype' => 'textfield',
+                'value' => 'en',
+                'area' => 'Form',
+                'description' => 'Two-letter language code for language to use; default: en',
+            ),
+        'plOnly' =>
+            array(
+                'key' => 'ugm.plOnly',
+                'namespace' => 'upgrademodx',
+                'name' => 'plOnly',
+                'xtype' => 'combo-boolean',
+                'value' => true,
+                'area' => 'Form',
+                'description' => 'Show only pl (stable) versions; default: yes',
+            ),
+        'versionsToShow' =>
+            array(
+                'key' => 'ugm.versionsToShow',
+                'namespace' => 'upgrademodx',
+                'name' => 'versionsToShow',
+                'xtype' => 'textfield',
+                'value' => '5',
+                'area' => 'Form',
+                'description' => 'Number of versions to show in upgrade form; default: 5',
+            ),
+        'githubTimeout' =>
+            array(
+                'key' => 'ugm.githubTimeout',
+                'namespace' => 'upgrademodx',
+                'name' => 'githubTimeout',
+                'xtype' => 'textfield',
+                'value' => '6',
+                'area' => 'GitHub',
+                'description' => 'Timeout in seconds for checking Github; default: 6',
+            ),
+        'github_token' =>
+            array(
+                'key' => 'ugm.github_token',
+                'namespace' => 'upgrademodx',
+                'name' => 'github_token',
+                'xtype' => 'textfield',
+                'value' => '',
+                'area' => 'GitHub',
+                'description' => 'Github token - available from your GitHub profile',
+            ),
+        'github_username' =>
+            array(
+                'key' => 'ugm.github_username',
+                'namespace' => 'upgrademodx',
+                'name' => 'github_username',
+                'xtype' => 'textfield',
+                'value' => '',
+                'area' => 'GitHub',
+                'description' => 'Your username at GitHub',
+            ),
+        'groups' =>
+            array(
+                'key' => 'ugm.groups',
+                'namespace' => 'upgrademodx',
+                'name' => 'groups',
+                'xtype' => 'textfield',
+                'value' => 'Administrator',
+                'area' => 'Security',
+                'description' => 'group, or comma-separated list of groups, who will see the widget',
+            ),
+        'hideWhenNoUpgrade' =>
+            array(
+                'key' => 'ugm.hideWhenNoUpgrade',
+                'namespace' => 'upgrademodx',
+                'name' => 'hideWhenNoUpgrade',
+                'xtype' => 'combo-boolean',
+                'value' => false,
+                'area' => 'Widget',
+                'description' => 'Hide widget when no upgrade is available: default: No',
+            ),
+        'interval' =>
+            array(
+                'key' => 'ugm.interval',
+                'namespace' => 'upgrademodx',
+                'name' => 'interval',
+                'xtype' => 'textfield',
+                'value' => '1 day',
+                'area' => 'Widget',
+                'description' => 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 day',
+            ),
+        'lastCheck' =>
+            array(
+                'key' => 'ugm.lastCheck',
+                'namespace' => 'upgrademodx',
+                'name' => 'lastCheck',
+                'xtype' => 'textfield',
+                'value' => '2018-07-12 00:54:46',
+                'area' => 'Widget',
+                'description' => 'Date and time of last check -- set automatically',
+            ),
+        'latestVersion' =>
+            array(
+                'key' => 'ugm.latestVersion',
+                'namespace' => 'upgrademodx',
+                'name' => 'latestVersion',
+                'xtype' => 'textfield',
+                'value' => '2.6.4-pl',
+                'area' => 'Widget',
+                'description' => 'Latest version (at last check) -- set automatically',
+            ),
+        'versionListPath' =>
+            array(
+                'key' => 'ugm.versionListPath',
+                'namespace' => 'upgrademodx',
+                'name' => 'versionListPath',
+                'xtype' => 'textfield',
+                'value' => '{core_path}cache/upgrademodx/',
+                'area' => 'Widget',
+                'description' => 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/',
+            ),
+    ),*/
 
     /* ************************ NEW SYSTEM EVENTS ************************* */
 
@@ -194,12 +345,6 @@ $components = array(
                 'category' => 'UpgradeMODX',
                 'description' => 'Tpl chunk for alert widget',
             ),
-            'UpgradeMODXSnippetScriptSource' => array(
-                'category' => 'UpgradeMODX',
-                'description' => 'Source for MODX Upgrade script. Used internally',
-                'static' => false,
-                'filename' => 'upgrademodxsnippetscriptsource.chunk.php'
-            ),
         ),
         'templates' => array(
         ),
@@ -235,10 +380,10 @@ $components = array(
      * Set to hasAssets = false to skip.
      * Empty js and/or css files will be created.
      */
-    'hasAssets' => false,
+    'hasAssets' => true,
 
     'assetsDirs' => array(
-
+        'images' => true,
     ),
     /* minify any JS files */
     'minifyJS' => false,
@@ -254,7 +399,6 @@ $components = array(
        if 'createCmpFiles is true, these will be ignored.
     */
     'jsFiles' => array(
-
     ),
 
     /* Desired CSS files */
@@ -296,7 +440,7 @@ $components = array(
      *  named after the package suffix 'validator.php' will be added */
 
     'validators' => array(
-
+        'default',
     ),
 
     /* (optional) install.options is needed if you will interact
@@ -357,7 +501,7 @@ $components = array(
 
     /* If this is false, the rest of this section will be ignored */
 
-    'createCmpFiles' => false,
+    'createCmpFiles' => true,
 
     /* IMPORTANT: The array values in the rest of
        this section should be all lowercase */
@@ -380,6 +524,11 @@ $components = array(
        import, and export. */
 
     'processors' => array(
+        'getversions',
+        'downloadfiles',
+        'unzipfiles',
+        'copyfiles',
+        'preparesetup',
     ),
 
     /* These will automatically go to core/components/yourcomponent/controllers[/directory]/filename
@@ -392,13 +541,13 @@ $components = array(
     /* These will automatically go in assets/components/yourcomponent/ */
 
     'connectors' => array(
-
-
+        'connector.php',
     ),
     /* These will automatically go to assets/components/yourcomponent/js[/directory]/filename
        Format: directory:filename */
 
     'cmpJsFiles' => array(
+        ':ugm-bottom.js',
     ),
 
     /* These go to core/components/componentName/templates/

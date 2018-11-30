@@ -1,23 +1,20 @@
-UpgradeMODX Extra for MODx Revolution
+UpgradeMODX Extra for MODX Revolution
 =======================================
 
 
-**Author:** Bob Ray [Bob's Guides](http://bobsguides.com)
+**Author:** Bob Ray [Bob's Guides](https://bobsguides.com)
 
-**Contributions from:** Dmytro Lukianenko (dmi3y), Susan Sottwell, Bumkaka, Sharapov, Inreti, Zaigham Rana, frischnetz, and AgelxNash.
-Documentation is available at [Bob's Guides](http://bobsguides.com/upgrade-modx-package.html)
+**Contributors:** Dmytro Lukianenko (dmi3y), Susan Sottwell, Bumkaka, Sharapov, Inreti, Zaigham Rana, frischnetz, and AgelxNash.
 
-Package created with MyComponent
+**Documentation:** [UpgradeMODX Docs](https://bobsguides.com/upgrade-modx-package.html)
 
+**Bugs and requests:** [UpgradeMODX Issues](https://github.com/BobRay/UpgradeMODX/issues)
+  
+**Questions about using UpgradeMODX** [MODX Forums](https://forums.modx.com)
 
 Always back up your files and database tables before performing an upgrade.
 
-
-
 This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.
-
-
-Please leave feedback on the issues page if you find any problems with the package.
 
 This Package (UpgradeMODX) is designed to upgrade MODX from the dashboard of the MODX Manager.
 

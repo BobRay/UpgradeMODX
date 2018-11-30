@@ -1,0 +1,302 @@
+[
+  {
+    "name": "v2.6.5-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.6.5-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.6.5-pl",
+    "commit": {
+      "sha": "4ab357178e98708feeb92392557a4f3c87f0cebc",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/4ab357178e98708feeb92392557a4f3c87f0cebc"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjYuNS1wbA=="
+  },
+  {
+    "name": "v2.6.4-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.6.4-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.6.4-pl",
+    "commit": {
+      "sha": "5d235070e1eca9bd414cb4a43697c0de797d74a7",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/5d235070e1eca9bd414cb4a43697c0de797d74a7"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjYuNC1wbA=="
+  },
+  {
+    "name": "v2.6.3-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.6.3-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.6.3-pl",
+    "commit": {
+      "sha": "95a3b614ceba20be70c7b21e48acc443002c629b",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/95a3b614ceba20be70c7b21e48acc443002c629b"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjYuMy1wbA=="
+  },
+  {
+    "name": "v2.6.2-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.6.2-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.6.2-pl",
+    "commit": {
+      "sha": "f9f264eb1f96389e44e5d3ed88b733e55f24eb15",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/f9f264eb1f96389e44e5d3ed88b733e55f24eb15"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjYuMi1wbA=="
+  },
+  {
+    "name": "v2.6.1-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.6.1-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.6.1-pl",
+    "commit": {
+      "sha": "10692efe83cdd6a33571e16756c243a7ab2aadbd",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/10692efe83cdd6a33571e16756c243a7ab2aadbd"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjYuMS1wbA=="
+  },
+  {
+    "name": "v2.6.0-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.6.0-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.6.0-pl",
+    "commit": {
+      "sha": "75754fc85c6773f92ed0db4d031c7ae9378f501b",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/75754fc85c6773f92ed0db4d031c7ae9378f501b"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjYuMC1wbA=="
+  },
+  {
+    "name": "v2.5.8-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.8-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.8-pl",
+    "commit": {
+      "sha": "bf1c301bdea4fdb8d08a8783e073cdf1ba6ef094",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/bf1c301bdea4fdb8d08a8783e073cdf1ba6ef094"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuOC1wbA=="
+  },
+  {
+    "name": "v2.5.7-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.7-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.7-pl",
+    "commit": {
+      "sha": "2ebbab1bfe950623bc72785a8d475b11f26df37e",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/2ebbab1bfe950623bc72785a8d475b11f26df37e"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuNy1wbA=="
+  },
+  {
+    "name": "v2.5.6-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.6-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.6-pl",
+    "commit": {
+      "sha": "2e3bfe8d6b616d3a832f6f80b02acdeca18c595f",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/2e3bfe8d6b616d3a832f6f80b02acdeca18c595f"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuNi1wbA=="
+  },
+  {
+    "name": "v2.5.5-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.5-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.5-pl",
+    "commit": {
+      "sha": "075da1e869e65315a77ec6614b65538378b501ba",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/075da1e869e65315a77ec6614b65538378b501ba"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuNS1wbA=="
+  },
+  {
+    "name": "v2.5.4-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.4-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.4-pl",
+    "commit": {
+      "sha": "c53bcfe70f6c37c47275ac2b02c6e8cfa344038e",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/c53bcfe70f6c37c47275ac2b02c6e8cfa344038e"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuNC1wbA=="
+  },
+  {
+    "name": "v2.5.3-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.3-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.3-pl",
+    "commit": {
+      "sha": "a293e6c220cba2d83cab9dc7327288bc93e25a69",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/a293e6c220cba2d83cab9dc7327288bc93e25a69"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuMy1wbA=="
+  },
+  {
+    "name": "v2.5.2-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.2-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.2-pl",
+    "commit": {
+      "sha": "a41de649e9d4884a9ac777d29474234eebd56586",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/a41de649e9d4884a9ac777d29474234eebd56586"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuMi1wbA=="
+  },
+  {
+    "name": "v2.5.1-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.1-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.1-pl",
+    "commit": {
+      "sha": "11d155db1dbb1f764f0ed22d100cc080172f6211",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/11d155db1dbb1f764f0ed22d100cc080172f6211"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuMS1wbA=="
+  },
+  {
+    "name": "v2.5.0-rc2",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.0-rc2",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.0-rc2",
+    "commit": {
+      "sha": "7594615e7fe0c10e008b365c6eb1acb9c4f18d80",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/7594615e7fe0c10e008b365c6eb1acb9c4f18d80"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuMC1yYzI="
+  },
+  {
+    "name": "v2.5.0-rc1",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.0-rc1",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.0-rc1",
+    "commit": {
+      "sha": "697ad2aa893528dbe6d7166ffac4d4c12c3ecf98",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/697ad2aa893528dbe6d7166ffac4d4c12c3ecf98"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuMC1yYzE="
+  },
+  {
+    "name": "v2.5.0-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.5.0-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.5.0-pl",
+    "commit": {
+      "sha": "bf40bdb68a5a026e7f29b1aab9b7bed60bc5cc90",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/bf40bdb68a5a026e7f29b1aab9b7bed60bc5cc90"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjUuMC1wbA=="
+  },
+  {
+    "name": "v2.4.4-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.4.4-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.4.4-pl",
+    "commit": {
+      "sha": "46145d1a6710df4e7e76f06c4400238790ee83e4",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/46145d1a6710df4e7e76f06c4400238790ee83e4"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjQuNC1wbA=="
+  },
+  {
+    "name": "v2.4.3-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.4.3-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.4.3-pl",
+    "commit": {
+      "sha": "71c5dc94ca489dc2c59b0d834ccc3b77c0b76064",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/71c5dc94ca489dc2c59b0d834ccc3b77c0b76064"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjQuMy1wbA=="
+  },
+  {
+    "name": "v2.4.2-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.4.2-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.4.2-pl",
+    "commit": {
+      "sha": "ed2adf4c3c4bba5102f5acba256f20845761ba56",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/ed2adf4c3c4bba5102f5acba256f20845761ba56"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjQuMi1wbA=="
+  },
+  {
+    "name": "v2.4.1-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.4.1-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.4.1-pl",
+    "commit": {
+      "sha": "d63cc1735422a9c5c51b18a9f21d26bd1f6c390b",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/d63cc1735422a9c5c51b18a9f21d26bd1f6c390b"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjQuMS1wbA=="
+  },
+  {
+    "name": "v2.4.0-rc1",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.4.0-rc1",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.4.0-rc1",
+    "commit": {
+      "sha": "e1042374fa8c46a853c8f583ec16061b9ad4ebb5",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/e1042374fa8c46a853c8f583ec16061b9ad4ebb5"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjQuMC1yYzE="
+  },
+  {
+    "name": "v2.4.0-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.4.0-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.4.0-pl",
+    "commit": {
+      "sha": "429427aa5ba35c7e7b09601302442efdeaced534",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/429427aa5ba35c7e7b09601302442efdeaced534"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjQuMC1wbA=="
+  },
+  {
+    "name": "v2.3.6-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.3.6-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.3.6-pl",
+    "commit": {
+      "sha": "1b473d07ee9fd4f9a670967b0d28a19c3a3209b4",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/1b473d07ee9fd4f9a670967b0d28a19c3a3209b4"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjMuNi1wbA=="
+  },
+  {
+    "name": "v2.3.5-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.3.5-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.3.5-pl",
+    "commit": {
+      "sha": "b3f4f2d3aaf4f5671e8726b06e67724b234d9372",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/b3f4f2d3aaf4f5671e8726b06e67724b234d9372"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjMuNS1wbA=="
+  },
+  {
+    "name": "v2.3.4-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.3.4-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.3.4-pl",
+    "commit": {
+      "sha": "4a307fcb60a24ec8afbb91edd0c145a606629dea",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/4a307fcb60a24ec8afbb91edd0c145a606629dea"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjMuNC1wbA=="
+  },
+  {
+    "name": "v2.3.3-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.3.3-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.3.3-pl",
+    "commit": {
+      "sha": "b754e6e619837bd41c7c4e2ba6ecacb67e6732a4",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/b754e6e619837bd41c7c4e2ba6ecacb67e6732a4"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjMuMy1wbA=="
+  },
+  {
+    "name": "v2.3.2-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.3.2-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.3.2-pl",
+    "commit": {
+      "sha": "35c0b0592b2048eda52a2bd21e47cc3f1042eb03",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/35c0b0592b2048eda52a2bd21e47cc3f1042eb03"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjMuMi1wbA=="
+  },
+  {
+    "name": "v2.3.1-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.3.1-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.3.1-pl",
+    "commit": {
+      "sha": "ccd0f149cc0393a24ac0581c1824d1f49a3d74b0",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/ccd0f149cc0393a24ac0581c1824d1f49a3d74b0"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjMuMS1wbA=="
+  },
+  {
+    "name": "v2.3.0-pl",
+    "zipball_url": "https://api.github.com/repos/modxcms/revolution/zipball/v2.3.0-pl",
+    "tarball_url": "https://api.github.com/repos/modxcms/revolution/tarball/v2.3.0-pl",
+    "commit": {
+      "sha": "9bdcb3f187b61bb670fb1ee33cc1503c267b4aac",
+      "url": "https://api.github.com/repos/modxcms/revolution/commits/9bdcb3f187b61bb670fb1ee33cc1503c267b4aac"
+    },
+    "node_id": "MDM6UmVmODA2MjAxOnYyLjMuMC1wbA=="
+  }
+]

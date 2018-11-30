@@ -2,7 +2,7 @@
 /**
  * dashboardWidgets transport file for UpgradeMODX extra
  *
- * Copyright 2015-2017 by Bob Ray <http://bobsguides.com>
+ * Copyright 2015-2018 by Bob Ray <https://bobsguides.com>
  * Created on 08-15-2015
  *
  * @package upgrademodx

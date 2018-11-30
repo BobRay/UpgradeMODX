@@ -2,14 +2,14 @@
 UpgradeMODX
 
 
-Author: Bob Ray <http://bobsguides.com>
-Copyright 2015
+Author: Bob Ray <https://bobsguides.com>
+Copyright 2015-2018 Bob Ray
 
-Official Documentation: http://bobsguides.com/upgrade-modx-package.html
+Official Documentation: https://bobsguides.com/upgrade-modx-package.html
 
 Bugs and Feature Requests: https://github.com:BobRay/UpgradeMODX
 
-Questions: http://forums.modx.com
+Questions: https://forums.modx.com
 
 Created by MyComponent
 

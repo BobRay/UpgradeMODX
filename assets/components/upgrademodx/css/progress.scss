@@ -1,0 +1,466 @@
+@mixin linearGradient($top, $bottom) {
+    background-color: $top; /* Old browsers */
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $top), color-stop(100%, $bottom)); /* Chrome,Safari4+ */
+    background-image: -webkit-linear-gradient(top, $top 0%, $bottom 100%); /* Chrome10+,Safari5.1+ */
+    background-image: -o-linear-gradient(top, $top 0%, $bottom 100%); /* Opera 11.10+ */
+    background-image: -ms-linear-gradient(top, $top 0%, $bottom 100%); /* IE10+ */
+    background-image: linear-gradient(to bottom, $top 0%, $bottom 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#000000', GradientType=0); /* IE6-9 */
+    background-image: -moz-linear-gradient(top, $top 0%, $bottom 100%); /* FF3.6+ */
+    background-image: linear-gradient($top, $bottom);
+}
+
+$button-width: 300px;
+$button-height: 55px;
+$button-font: 400 13.333px/1 "Helvetica Neue", Helvetica, Arial, Tahoma, sans-serif;
+
+
+$button-gradient-first: #32AB9A;
+$button-gradient-second: #00948E;
+$button-background-hover: #2b9385;
+$button-gradient-hover-first: #2b9385;
+$button-gradient-hover-second: #007571;
+
+$progress-width: calc(#{$button-width} - 3px);
+$progress-background: #32AB9A;
+$inner-progress-background: #00605a;
+$progress-button-background: #1d9650;
+$progress-button-color: #ffffff;
+$button-letter_spacing: 2px;
+$button-active-text-color: #ffffff;
+$button-border-color: #0c4d26;
+$h2-color: #777777;
+$button-margin: 20px 0 12px 30px;
+
+div#Upgrade_modx {
+  *, *:after, *::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: transparent;
+  }
+
+  /* General styles for all types of buttons */
+  .progress-button {
+    font-size: 16px;
+    margin: $button-margin;
+    position: relative;
+    display: block;
+    height: $button-height;
+    width: $button-width;
+    padding: 0;
+    outline: none;
+  }
+
+  .progress-button[disabled],
+  .progress-button[disabled].state-loading {
+    cursor: default;
+  }
+
+  .progress-button .content {
+    position: relative;
+    display: block;
+  }
+
+  span#button_content.content {
+    letter-spacing: $button-letter_spacing;
+    font: $button-font;
+    font-size: 1em;
+    line-height: 2.9em;
+    @include linearGradient($button-gradient-first, $button-gradient-second);
+  }
+
+.progress-button:hover span#button_content.content {
+     transition: background-image 0.25s ease;
+     @include linearGradient($button-gradient-hover-first, $button-gradient-hover-second);
+    color: #ffffff;
+  }
+
+  .progress-button.state-loading span#button_content.content {
+    transition: background-image 0.25s ease;
+    @include linearGradient($button-gradient-first, $button-gradient-second);
+  }
+  .progress-button:hover {
+    cursor: pointer;
+  }
+
+  .notransition {
+    -webkit-transition: none !important;
+    transition: none !important;
+  }
+
+  .progress-button .progress {
+    background: $button-gradient-second;
+
+  }
+
+  .progress-button .progress-inner {
+    position: absolute;
+    left: 0;
+    background: $inner-progress-background;
+  }
+
+  .progress-button[data-horizontal] .progress-inner {
+    top: 0;
+    width: 0;
+    height: 100%;
+    -webkit-transition: width 0.3s, opacity 0.3s;
+    transition: width 0.3s, opacity 0.3s;
+  }
+
+  /* CSS for IE < Edge */
+  /* Fill horizontal */
+  /* ====================== */
+
+  .progress-button[data-style="fill"][data-horizontal] {
+    border: 1px solid #0c4d26;
+    border-radius: 3px !important;
+    overflow: hidden;
+    background: $button-gradient-first;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .progress-button[data-style="fill"][data-horizontal][disabled], .progress-button[data-style="fill"][data-horizontal].state-loading {
+    transition: padding  0.25s;
+    padding-bottom: 70px;
+  }
+
+  .progress-button[data-style="fill"][data-horizontal] .content {
+    z-index: 10;
+    -webkit-font-smoothing: antialiased;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+    line-height: 3.4em !important;
+  }
+
+   /* Necessary 3d styles for buttons with perspective */
+
+  .progress-button[data-perspective] {
+    display: inline-block;
+    padding: 0;
+    background: transparent;
+    -webkit-perspective: 900px;
+    perspective: 900px;
+  }
+
+  .progress-button[data-perspective] .content {
+    border: 1px solid $button-border-color;
+    border-radius: 3px !important;
+    padding: 0;
+    width: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .progress-button[data-perspective] .progress-wrap {
+    width: 100%;
+    border: none;
+    display: block;
+    -webkit-transition: -webkit-transform 0.2s;
+    transition: transform 0.2s;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+
+  .progress-button[data-perspective] .content,
+  .progress-button[data-perspective] .progress {
+    outline: 1px solid rgba(0, 0, 0, 0); /* Smooth jagged edges in FF */
+  }
+
+  /* Rotate bottom 3d */
+  /* ====================== */
+
+  .progress-button[data-style="rotate-angle-bottom"] .progress {
+    position: absolute;
+    top: 100%;
+    left: 1.5px;
+    border-bottom: none;
+    width: $progress-width;
+    outline: 1px solid $button-border-color;
+    height: 30px;
+    box-shadow: 0 -1px 0 #148544; /* fix the blurriness that causes a gap */
+    -webkit-transform: rotateX(-90deg);
+    transform: rotateX(-90deg);
+    -webkit-transform-origin: 50% 0;
+    transform-origin: 50% 0;
+  }
+
+  .progress-button[data-style="rotate-angle-bottom"].state-loading .progress-wrap {
+    -webkit-transform: rotateX(45deg);
+    transform: rotateX(45deg);
+    border-bottom: none;
+  }
+
+  /* UpgradeMODX page styles */
+  /* ====================== */
+  p.ugm_error {
+    width:400px;
+    color:red;
+    padding: 17px;
+    text-shadow:none;
+    text-align:left;
+    border: 1px solid $button-border-color;
+    background: #f4fffc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+  a {
+    text-decoration: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: 0 0
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0
+  }
+
+  td, td img {
+    vertical-align: top
+  }
+
+  button, input, select, textarea {
+    margin: 0;
+    font-size: 100%;
+  }
+
+  input[type=password], input[type=text], textarea {
+    padding: 0
+  }
+
+  input[type=checkbox] {
+    vertical-align: bottom
+  }
+
+  input[type=radio] {
+    vertical-align: middle;
+    display: inline-block;
+  }
+
+  article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block
+  }
+
+  html {
+    overflow-y: scroll
+  }
+
+  a, a:active, a:focus, a:hover, a:visited, button, input[type=button], input[type=submit], label {
+    cursor: pointer;
+  }
+
+  .button, button {
+    border: none;
+    color: #fff;
+    display: inline-block;
+    padding: 15px;
+    font-size: 20px;
+    text-decoration: none;
+    background-color: #67a749;
+    text-shadow: 2px 2px 1px #0c4d26;
+  }
+
+  h3 {
+    margin-top: 20px;
+    font-weight: normal;
+  }
+
+  #upgrade_form {
+    margin: 10px 0 18px;
+    display: block;
+  }
+
+  #upgrade_form p {
+    margin-top: 15px;
+  }
+
+  #upgrade_form .column {
+    margin: 15px 0;
+    padding-left: 37px;
+    display: block;
+    box-sizing: border-box;
+    width: 500px;
+
+  }
+
+  .column h3 {
+    display: inline-block;
+    padding: 0 0 5px;
+    margin: 0 0 20px;
+    border-bottom: 2px solid #000
+  }
+
+  .column label {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 0;
+    box-shadow: 0 0 0 1px #E4E4E4;
+    margin: 0;
+    border-collapse: collapse;
+    background-color: transparent;
+  }
+
+  .column label:last-of-type {
+     border-radius: 0 0 3px 3px;
+  }
+
+  .column label.ugm_version_header {
+    font-weight: bold;
+    background-color: #E4E9EE;
+    border-radius: 3px 3px 0 0;
+  }
+
+  label > input {
+    margin: 3px 5px 5px 5px;
+  }
+
+  /*************** BIG SCREENS below 1300 px ************* */
+  @media only screen and (max-width: 1300px) {
+
+    .content_div {
+      margin: 0 auto;
+      padding: 3% 0 0 0;
+    }
+
+    .content_div h2, h3 {
+      margin-left: 30px;
+    }
+
+    #upgrade_form .column {
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    #upgrade_form {
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .column label {
+      // border: 1px solid $button-border-color;
+      font-size: 200% !important;
+      margin: 0;
+      padding: 45px 5px;
+      width: 90%;
+    }
+    label > input {
+      margin: 0 5px 0 5px;
+      border: 0;
+      width: 60px;
+      height: 1em;
+    }
+
+    #upgrade_form p {
+     // font-size: 200% !important;
+      line-height: 35px;
+      margin: 20px 0 43px 30px;
+    }
+
+    input[type=radio] {
+      clear: left !important;
+    }
+
+  }
+
+  /*********** BIG PHONES, TABLETS ***********/
+  @media only screen and (max-width: 768px) {
+    body {
+      text-align: center;
+    }
+
+    .footer {
+      text-align: left;
+    }
+
+    #upgrade_form .column {
+      margin: 15px auto;
+      padding-left: 37px;
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .content_div h2 {
+      margin: 0 auto;
+      padding: 0 10%;
+    }
+
+    div.column {
+      margin: 0 auto;
+      padding: 1%;
+    }
+    .content_div {
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    #upgrade_form {
+      margin-left: 0;
+      padding-left: 0;
+    }
+
+    #upgrade_form p {
+      margin: 0 auto;
+      font-size: 200% !important;
+      line-height: 35px;
+      text-align: left;
+      padding: 20px 0 0 24px;
+      width: 100%;
+    }
+
+    .column label {
+      text-align: left;
+      font-size: 200% !important;
+      margin: 0;
+      width: 95%;
+      display: block;
+    }
+    label > input {
+      margin: 0 5px 0 5px;
+      border: 0;
+      width: 20px;
+      height: 1em;
+      display: inline;
+    }
+
+  }
+
+  /************ SMALL PHONES **************/
+  @media only screen and (max-width: 421px) {
+
+    #upgrade_form .column {
+      margin: 0;
+      padding: 0;
+    }
+    .column label {
+      display: block;
+      font-size: 200% !important;
+      margin: 0 5px;
+      padding: 45px 15px;
+      width: 98%;
+      line-height: 30px;
+    }
+    .content_div h2 {
+      line-height: 32px;
+    }
+
+    #upgrade_form p {
+      padding: 20px 0 25px 24px;
+      font-size: 200% !important;
+      line-height: 35px;
+    }
+    label > input[type=radio] {
+      display: none;
+    }
+
+    .footer a {
+      text-shadow: none;
+      color: #333333;
+    }
+  }
+} // end div#Upgrade_modx
