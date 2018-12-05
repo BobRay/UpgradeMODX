@@ -136,10 +136,12 @@ if (!class_exists('UpgradeMODX')) {
             $this->modxTimeout = $this->modx->getOption('ugm_modx_timeout', null, 6, true);
             $this->errors = array();
             $this->latestVersion = $this->modx->getOption('ugm_latestVersion', null, '', true);
-            $path = $this->modx->getOption('ugm_version_list_path',
+
+            /*$path = $this->modx->getOption('ugm_version_list_path',
                 null, MODX_CORE_PATH . 'cache/upgrademodx/', true);
             $path = str_replace('{core_path}', MODX_CORE_PATH, $path);
-            $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);
+            $this->versionListPath = str_replace('{assets_path}', MODX_ASSETS_PATH, $path);*/
+            $this->versionListPath = $this->getVersionListPath();
             $this->verifyPeer = (bool) $this->modx->getOption('ugm_ssl_verify_peer', null, true);
             $this->certPath = $this->modx->getOption('ugm_cert_path', null, '', true);
             $this->devMode = (bool) $this->modx->getOption('ugm.devMode', null, false, true);
@@ -155,6 +157,18 @@ if (!class_exists('UpgradeMODX')) {
             $this->github_username = $this->modx->getOption('ugm_github_username', null, null, true);
             $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
             $this->client = new Client();
+        }
+
+        public function getVersionListPath() {
+            $path = $this->modx->getOption('ugm_version_list_path', null);
+            /* If path is empty or contains hard-coded cache path,
+               get true path from cacheManager */
+            if ( ($path === '') || (stripos($path, 'core/cache/upgrademodx/') !== false)) {
+                $cm = $this->modx->getCacheManager();
+                $path = $cm->getCachePath() . 'upgrademodx/';
+            }
+            $this->mmkDir($path);
+            return $path;
         }
 
         public function versionListExists() {
@@ -460,7 +474,7 @@ EOD;
                 $response = $this->client->request('GET', $url, $options);
                 $retVal = $response->getBody();
             } catch (Exception $e) {
-                $msg = $this->modx->lexicon('ugm_no_version_list_from_github') . ' &mdash; ' . $e->getMessage();
+                $msg = $this->modx->lexicon('ugm_no_version_list_from_github') . " &mdash; " . $e->getMessage();
                 $this->setError($msg);
                 $retVal = false;
             }
