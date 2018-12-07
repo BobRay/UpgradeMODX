@@ -41,11 +41,18 @@ if ($object->xpdo) {
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
-            /* Remove VersionList file */
-            $path = MODX_CORE_PATH . 'cache/upgrademodx/versionlist';
-            if (file_exists($path)) {
-                unlink($path);
+            /* Remove VersionList file and getVersion processor */
+            $files = array(
+                MODX_CORE_PATH . 'cache/upgrademodx/versionlist',
+                MODX_CORE_PATH . 'components/upgrademodx/processors/getversions.class.php',
+            );
+
+            foreach ($files as $file) {
+                if (file_exists($path)) {
+                    unlink($path);
+                }
             }
+
             /* Create resource if we're pre-widget */
             if (!file_exists(MODX_CORE_PATH . 'model\modx\moddashboardwidget.class.php')) {
                 $doc = $modx->getObject('modResource', array('alias' => 'upgrade-modx'));
