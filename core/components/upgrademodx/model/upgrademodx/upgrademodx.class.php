@@ -180,7 +180,7 @@ if (!class_exists('UpgradeMODX')) {
                 // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
                 $path = $this->versionListPath . 'versionlist';
                 if (! file_exists($path)) {
-                    $this->setError($this->modx->lexicon('ugm_no_version_list'));
+                    $this->setError($this->modx->lexicon('ugm_no_version_list') . ' @ ' . $path);
                     return false;
                 }
                 $this->renderedVersionList = file_get_contents($path);
@@ -499,20 +499,10 @@ EOD;
 
 
         public function upgradeAvailable($settingsVersion) {
-            $output = '';
-            $config = array(
-                'processors_path' => $this->corePath . 'processors/', //xxx
-            );
-            $response = $this->modx->runProcessor('getversions', array(), $config);
+            $this->renderedVersionList = $this->createVersionList();
+            if (! empty($this->renderedVersionList)) {
 
-            if (! $response->response['success']) {
-                $this->setError($this->modx->lexicon('ugm_no_version_list_from_github'));
-            } else {
-                /* processor calls finalize */
-                $versions = $response->response['object'];
-                $this->versionArray = $versions;
-                // $this->modx->log(modX::LOG_LEVEL_ERROR, 'OBJECT: ' . print_r($versions, true));
-                $this->renderedVersionList = $response->response['message'];
+                $versions = $this->versionArray;
 
                 if (!empty($versions)) {
                     /* Set $this->latestVersion */
@@ -533,23 +523,19 @@ EOD;
             if (!empty($this->errors)) {
                 $upgradeAvailable = false;
             } else {
-
                 /* See if the latest version is newer than the current version */
                 $newVersion = version_compare($settingsVersion, $latestVersion) < 0;
                 $upgradeAvailable = $newVersion;
             }
-
             return $upgradeAvailable;
         }
 
         public function updateVersionListFile($renderedVersionList) {
             $path = $this->versionListPath;
             $this->mmkDir($path);
-            $versionList = var_export($this->versionArray, true);
 
             $fp = @fopen($this->versionListPath . 'versionlist', 'w');
             if ($fp) {
-                /* fwrite($fp, '<' . '?p' . "hp\n" . '$InstallData = ' . $versionList . ';'); */
                 fwrite($fp, $renderedVersionList);
                 fclose($fp);
             } else {
@@ -557,7 +543,6 @@ EOD;
                     ' ' . $path . 'versionlist ' . ' ' .
                     $this->modx->lexicon('ugm_for_writing'));
             }
-
         }
 
         public function mmkDir($folder, $perm = 0755) {
