@@ -46,7 +46,9 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this->ugm = new UpgradeMODX($modx);
         $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
         $props = $snippet->getProperties();
-        $props['ugm.devMode'] = false;
+
+        $devMode = (bool) $this->modx->getOption('ugm.devMode', null, true, true);
+        $this::assertTrue($devMode);
         $this->ugm->init($props);
         $this->props = $props;
         $this->modx->lexicon->load('en:upgrademodx:default');
@@ -61,13 +63,17 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
     public function testGetVersions() {
        $file = $this->ugm->versionListPath . 'versionlist';
-       unlink($file);
+       @unlink($file);
 
+        /* Rigged test, simulates being NOT up-to-date by pretending
+           current version is an older one */
        $currentVersion='2.6.0-pl';
        $result = $this->ugm->upgradeAvailable($currentVersion);
        $this::assertTrue($result);
 
-       $currentVersion = $this->modx->getOption('ugm_latest_version');
+       /* Rigged test, simulates being up-to-date by pretending
+          current version is the latest one */
+        $currentVersion = $this->modx->getOption('ugm_latest_version');
         $result = $this->ugm->upgradeAvailable($currentVersion);
         $this::assertFalse($result);
         $this::assertEmpty($this->ugm->getErrors());
@@ -81,7 +87,6 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         /* Make sure we're showing at least as many versions as $versionsToShow */
         $versionCount = substr_count($content, 'MODX Revolution');
         $this::assertGreaterThanOrEqual($versionCount, $versionsToShow);
-
     }
 
     public function testDownloadFiles() {
@@ -154,9 +159,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
         $logFilePath = $this->logFilePath;
         $version = $this->version;
-        // $file = str_replace('.zip', '', $version);
         $time = time();
-        // rrmdir($tempDir . 'unzipped');
         $this::assertTrue(file_exists($tempDir . $version));
         $options = array(
             'processors_path' => $this->ugm->corePath . 'processors/',
@@ -185,7 +188,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         foreach($directories as $k => $v) {
             $this::assertTrue(is_dir($v));
             $mTime = filemtime($v);
-            $this::assertGreaterThan($time, $mTime);
+            $this::assertGreaterThan($time, $mTime, 'Directory: ' . $v);
         }
         // echo print_r($result, true);
     }
