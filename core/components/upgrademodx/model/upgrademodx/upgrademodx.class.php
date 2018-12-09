@@ -127,6 +127,8 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $githubUrl string */
         protected $githubUrl = '';
 
+        /** @var $verbose bool */
+        protected $verbose = false;
         public function __construct($modx) {
             /** @var $modx modX */
             $this->modx = $modx;
@@ -135,6 +137,7 @@ if (!class_exists('UpgradeMODX')) {
         public function init($props) {
             /** @var $InstallData array */
             $this->devMode = (bool)$this->modx->getOption('ugm.devMode', null, false, true);
+            $this->verbose = (bool) $this->modx->getOption('ugm_verbose', null, false, true);
             $language = $this->modx->getOption('ugm_language',
                 null, $this->modx->getOption('manager_language'), true);
             $language = empty($language) ? 'en': $language;
@@ -510,7 +513,7 @@ EOD;
 
                 //  } catch (\Exception $e) {
             } catch (RequestException $e) {
-                $msg = $this->parseException($e);
+                $msg = $this->parseException($e, $this->verbose);
                 $retVal = false;
                 /* $this->setError($msg);
                  $req = Psr7\str($e->getRequest());
@@ -548,7 +551,7 @@ EOD;
          * @return string - Error message based on Exception
          *
          */
-        public function parseException($e) {
+        public function parseException($e, $verbose = false) {
             $msg = $e->getMessage();
             $prefix = $this->modx->lexicon('ugm_no_version_list_from_github') . ' -- ';
             $retVal = $msg; // default to entire message;
@@ -558,7 +561,7 @@ EOD;
                 $response = $e->getResponse();
                 $exception = (string)$e->getResponse()->getBody();
                 $message = json_decode($exception);
-                $x = print_r($message, true);
+                // $x = print_r($message, true);
                 if (empty($message)) {
                     $message = $response->getReasonPhrase();
                     $retVal = $code . ' ' . $message;
@@ -570,7 +573,7 @@ EOD;
                 $code = ((int) $code === 0) ? '503' : $code;
                 $retVal = $code . ' ' . 'Connection error (no internet?)';
             }
-            $retVal =  $prefix . $retVal;
+            $retVal = $verbose? $prefix . ' ' . $msg : $prefix . $retVal;
             $this->setError($retVal);
             return $retVal;
         }

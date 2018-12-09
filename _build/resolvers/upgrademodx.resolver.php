@@ -141,7 +141,14 @@ if ($object->xpdo) {
             $latest->save();
         }
 
-        unset($check, $latest, $savedSettings, $settings);
+        $fileVersion = $modx->getObject('modSystemSetting', array('key' => 'ugm_file_version'));
+        if ($fileVersion) {
+            $fileVersion->set('value', '');
+            $fileVersion->save();
+        }
+
+
+        unset($check, $latest, $savedSettings, $settings, $fileVersion);
 
         $chunk = $modx->getObject('modChunk', array('name' => 'UpgradeMODXSnippetScriptSource'));
         if ($chunk) {

@@ -139,6 +139,8 @@ $_lang['setting_ugm_modx_timeout'] = 'MODX Timeout';
 $_lang['setting_ugm_modx_timeout_desc'] = 'Timeout in seconds for checking download status from MODX; default: 6';
 $_lang['setting_ugm_force_pcl_zip'] = 'Force PclZip';
 $_lang['setting_ugm_force_pcl_zip_desc'] = 'Force the use of PclZip instead of ZipArchive';
+$_lang['setting_ugm_verbose'] = 'Verbose Error Messages';
+$_lang['setting_ugm_verbose_desc'] = 'Display full GitHub Error Messages';
 
 $_lang['setting_ugm_cert_path'] = 'Cert Path';
 $_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
