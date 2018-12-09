@@ -72,8 +72,10 @@ class TestUGM extends PHPUnit_Framework_TestCase {
     public function testGetVersions() {
         /* Normal return */
         $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, '', '');
+        $this::assertNotEmpty($versions);
         $errors = $this->ugm->getErrors();
-        // $this::assertNotEmpty($versions);
+        $this::assertEmpty($errors);
+        $this::assertNotEmpty($versions);
         $vArray = json_decode($versions);
         $this::assertNotEmpty($vArray);
         $this::assertNotEmpty($vArray['0']->name);
@@ -98,6 +100,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         /* Bad Credentials */
         $this->ugm->clearErrors();
         $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, 'BR', 'TK');
+        $this::assertFalse($versions);
         $errors = $this->ugm->getErrors();
         $this::assertNotEmpty($errors);
         $this::assertContains('401', $errors[0]);
@@ -106,6 +109,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         /* Invalid URL */
         $this->ugm->clearErrors();
         $versions = $this->ugm->getVersions('//api.gixhub/repos/modxcms/revolution/tags', 6, true);
+        $this::assertFalse($versions);
         $errors = $this->ugm->getErrors();
         $this::assertNotEmpty($errors);
         $this::assertContains('503', $errors[0]);
@@ -164,10 +168,6 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
         // echo $form;
        //  echo print_r($errors, true);
-
-
-
-
     }
 
     /**
@@ -228,7 +228,6 @@ class TestUGM extends PHPUnit_Framework_TestCase {
     }
 
     public function testUnzipFiles() {
-
         $devMode = $this->modx->getOption('ugm.devMode');
         $this::assertTrue((bool)$devMode);
         $tempDir = $this->tempDir;
