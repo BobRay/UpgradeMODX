@@ -6,6 +6,10 @@
  * Time: 2:47 PM
  */
 
+
+/* IMPORTANT: Tests will not run unless ugm.devMode System Setting exists
+   and is set to true */
+
 if (! function_exists('rrmdir')) {
     function rrmdir($dir) {
         $dir = rtrim($dir, '/\\');
@@ -61,7 +65,115 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertInstanceOf('UpgradeMODX', $this->ugm);
     }
 
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function testGetVersions() {
+        /* Normal return */
+        $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, '', '');
+        $errors = $this->ugm->getErrors();
+        // $this::assertNotEmpty($versions);
+        $vArray = json_decode($versions);
+        $this::assertNotEmpty($vArray);
+        $this::assertNotEmpty($vArray['0']->name);
+        $this::assertNotEmpty($vArray['0']->zipball_url);
+        $version = $vArray['0']->name;
+        $pattern = '/v\d{1,2}\.\d{1,2}.\d{1,2}\-[A-Za-z]+/';
+        preg_match($pattern, $version, $matches);
+        $this::assertEquals($version, $matches[0]);
+
+        /* Bad URL */
+        $this->ugm->clearErrors();
+        $versions = $this->ugm->getVersions('//xapi.github.com/repos/modxcms/revolution/tags', 6, true);
+        $this::assertFalse($versions);
+        $errors = $this->ugm->getErrors();
+        $this::assertNotEmpty($errors);
+        $this::assertContains('Not Found', $errors[0]);
+        $this::assertContains('404', $errors[0]);
+        // echo print_r($errors, true);
+        // echo print_r($vArray, true);
+        // for ($i = 1; $i <= 40; $i++ ) {
+
+        /* Bad Credentials */
+        $this->ugm->clearErrors();
+        $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, 'BR', 'TK');
+        $errors = $this->ugm->getErrors();
+        $this::assertNotEmpty($errors);
+        $this::assertContains('401', $errors[0]);
+        $this::assertContains('Bad credentials', $errors[0]);
+
+        /* Invalid URL */
+        $this->ugm->clearErrors();
+        $versions = $this->ugm->getVersions('//api.gixhub/repos/modxcms/revolution/tags', 6, true);
+        $errors = $this->ugm->getErrors();
+        $this::assertNotEmpty($errors);
+        $this::assertContains('503', $errors[0]);
+        $this::assertContains('Connection error', $errors[0]);
+
+    }
+
+    public function testGetVersionListPath() {
+        $path = $this->ugm->getVersionListPath('', true);
+        $this::assertEquals('c:/dummy/ugmtemp/', $path);
+        $path = $this->ugm->getVersionListPath('', false);
+        $this::assertEquals('c:/xampp/htdocs/addons/core/cache/upgrademodx/', $path);
+        $path = $this->ugm->getVersionListPath('No Path');
+        $this::assertEquals('No Path', $path);
+        $path = $this->ugm->getVersionListPath('No Path', true);
+        $this::assertEquals('c:/dummy/ugmtemp/', $path);
+        $path = $this->ugm->getVersionListPath('core/cache/upgrademodx/', false);
+        $this::assertEquals('c:/xampp/htdocs/addons/core/cache/upgrademodx/', $path);
+        // echo $path;
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testCreateVersionForm() {
+        $path = $this->ugm->getVersionListPath('', true);
+        $versionListFile = $path . 'versionlist';
+        // echo $versionListFile;
+        if (file_exists($versionListFile)) {
+            unlink($versionListFile);
+        }
+        // $this->assertTrue(false);
+        $form = $this->ugm->createVersionForm($this->modx);
+        $this::assertEmpty($form);
+        $errors = $this->ugm->getErrors();
+        $this::assertNotEmpty($errors);
+        $this::assertContains("Could not get version list", $errors[0]);
+        $this::assertContains("@ c:/dummy/ugmtemp/versionlist" , $errors[0]);
+        // echo print_r($form, true);
+        $this->ugm->upgradeAvailable('2.6.0-pl');
+
+
+        $this::assertFileExists($versionListFile);
+
+        $this->ugm->clearErrors();
+        $form = $this->ugm->createVersionForm($this->modx);
+        $this::assertNotEmpty($form);
+        $errors = $this->ugm->getErrors();
+        $this::assertEmpty($errors);
+        $this::assertContains("upgrade_form", $form);
+        $this::assertContains("recommended that you install", $form);
+        $this::assertContains("ugm_version_header", $form);
+        $this::assertContains("checked", $form);
+        $this::assertContains("ugm_submit_button", $form);
+        $this::assertContains("progress-button", $form);
+
+        // echo $form;
+       //  echo print_r($errors, true);
+
+
+
+
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testUpgradeAvailable() {
        $file = $this->ugm->versionListPath . 'versionlist';
        @unlink($file);
 
@@ -188,7 +300,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         foreach($directories as $k => $v) {
             $this::assertTrue(is_dir($v));
             $mTime = filemtime($v);
-            $this::assertGreaterThan($time, $mTime, 'Directory: ' . $v);
+            $this::assertGreaterThanOrEqual($time, $mTime, 'Directory: ' . $v);
         }
         // echo print_r($result, true);
     }
