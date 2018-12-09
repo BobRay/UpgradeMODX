@@ -443,7 +443,7 @@ if (!class_exists('UpgradeMODX')) {
         public function createVersionList() {
             $output = '';
             $versions = $this->getVersions($this->githubUrl, $this->gitHubTimeout,
-                $this->verifyPeer, $this->github_username, $this->github_token, $this->certPath);
+                $this->verifyPeer, $this->github_username, $this->github_token, $this->certPath, $this->verbose);
             // $this->modx->log(modX::LOG_LEVEL_ERROR, "USERNAME: " . $this->github_username . ' -- ' . "TOKEN: " . $this->github_token);
             if ($versions === false) {
                 $output = false;
@@ -485,7 +485,7 @@ EOD;
          * Gets raw JSON version list from GitHub
          */
         public function getVersions($url, $githubTimeout, $verifyPeer, $githubUsername = null,
-                $githubToken = null, $certPath = null) {
+                $githubToken = null, $certPath = null, $verbose = false) {
             // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Version list from GitHub');
             $options = array();
             if ((!empty($githubUsername)) && (!empty($githubToken))) { // use token if set
@@ -513,7 +513,7 @@ EOD;
 
                 //  } catch (\Exception $e) {
             } catch (RequestException $e) {
-                $msg = $this->parseException($e, $this->verbose);
+                $msg = $this->parseException($e, $verbose);
                 $retVal = false;
                 /* $this->setError($msg);
                  $req = Psr7\str($e->getRequest());
@@ -536,7 +536,7 @@ EOD;
 
             } catch (\Exception $e) {
                 /** @var $e \Exception */
-                $msg = $this->parseException($e);
+                $msg = $this->parseException($e, $verbose);
                 $retVal = false;
             }
 

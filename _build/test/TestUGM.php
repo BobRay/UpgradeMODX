@@ -106,6 +106,17 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertContains('401', $errors[0]);
         $this::assertContains('Bad credentials', $errors[0]);
 
+        /* Bad Credentials verbose*/
+        $this->ugm->clearErrors();
+        $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, 'BR', 'TK', '', true);
+        $this::assertFalse($versions);
+        $errors = $this->ugm->getErrors();
+        $this::assertNotEmpty($errors);
+        $this::assertContains('401', $errors[0]);
+        $this::assertContains('Bad credentials', $errors[0]);
+        $this::assertContains('Client error', $errors[0]);
+
+
         /* Invalid URL */
         $this->ugm->clearErrors();
         $versions = $this->ugm->getVersions('//api.gixhub/repos/modxcms/revolution/tags', 6, true);
