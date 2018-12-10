@@ -48,6 +48,8 @@
         <li>Other bug fixes and improvements</li>
 
     </ul>
+
+    <p>Because Guzzle is used for the HTTP requests, PHP 5.4 is now the minimum required version of PHP, though some users have reported that they needed to upgrade to PHP 7 to get UpgradeMODX to work for them.</p>
 </div>
 
 <h3>Credits</h3>
@@ -63,9 +65,9 @@
 <br />
 
 <div class="box">
-    <p>In very old versions of MODX, creation of the dashboard widget will fail and you'll see a bunch of error messages during the install. The UpgradeMODX installer will attempt to create a resource  called <code>UpgradeMODX</code> that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an upgrade is available, it will let you launch the installer.</p>
+    <p>In very old versions of MODX, creation of the dashboard widget will fail and you'll see a bunch of error messages during the install. The UpgradeMODX installer will attempt to create a resource  called <code>UpgradeMODX</code> that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an upgrade is available, it should let you launch the installer.</p>
 
-<p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the version of PHP to version 5.4 or below, or manually make the changes to the three files shown in <a href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
+<p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the version of PHP to version 5.4, or manually make the changes to the three files shown in <a href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
 
 <p>Once you've upgraded MODX to a recent-enough version, you can uninstall and re-install UpgradeMODX to get the widget. You can also upgrade to the current version of PHP.</p>
 </div>
@@ -95,7 +97,9 @@
 
 <p>The upgrade processors can only be run from the Manager, and only by users who belong to allowed user groups (Administrator by default). The Even if the processors were available to the public, all they would do is upgrade your site.</p>
 
-<p>The upgrade script downloads everything to the <code>/ugmtemp</code> directory in the MODX root directory (or another directory if you have set the <code>ugm_temp_dir</code> System Setting). UpgradeMODX deletes that directory when it finishes successfully so nothing should be left behind after the upgrade.</p>
+<p>The upgrade script downloads everything to the <code>/ugmtemp</code> directory in the MODX root directory (or another directory if you have set the <code>ugm_temp_dir</code> System Setting). At the default location, UpgradeMODX deletes that directory when it finishes successfully so nothing should be left behind after the upgrade.</p>
+
+    <p>If you have changed the directory, UpgradeMODX will leave the downloaded <code>.zip</code> files in place. This is handy if you have multiple MODX installs on the same server and avoid downloading the <code>.zip</code> file for each one.</p>
 
 <p>After upgrading the site, It's a good idea to make sure that the <code>/ugmtemp</code> directory has been removed, especially if the script times out or fails. The files are relatively harmless, but their existence could identify your site as a MODX site, and there's no point in giving potential hackers that information.</p>
 
@@ -105,7 +109,9 @@
 
 <p>The default install of UpgradeMODX makes anonymous requests to the MODX repository at GitHub for information. Requests of this type are limited to 60 per hour. If a lot of people are making requests, or your <code>ugm_interval</code> setting is very short, or if you are doing a lot of testing, this limit could be hit and you will either get the error message: <code>GitHub API Rate Limit Exceeded</code> or the script will report that it couldn't get the version list from GitHub. You can try again later, but to solve this problem permanently, you can get your own GitHub token so your requests will not be anonymous. That will bump your limit up to 5,000 requests per hour.</p>
 
-<p>You can create a free account at GitHub, or use an existing one. To get a token, follow the directions <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">here</a>. Copy your token to the clipboard, then paste it into the <code>ugm_github_token</code> System Setting. Enter your GitHub username in the <code>ugm_github_username</code> System Setting. Don't forget to clear the cache after changing any settings.</p>
+<p>You can create a free account at GitHub, or use an existing one. To get a token, follow the directions <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">here</a>. Copy your token to the clipboard, then paste it into the <code>ugm_github_token</code> System Setting. Enter your GitHub username in the <code>ugm_github_username</code> System Setting. Don't forget to clear the cache after changing any settings. Some browsers will cache the request headers, which contain the credentials, so you may also need to clear your browser cache and cookies.</p>
+
+<p></p>
 
 <h3>Multiple Installs</h3>
 
@@ -113,14 +119,20 @@
 
 <h3>Troubleshooting</h3>
 
+<p>If UpgradeMODX reports trouble getting the versions from GitHub, you should get a helpful error message. If you'd like to see the full message returned from GitHub, set the <code>ugm_verbose</code> System Setting to <code>Yes</code>.</p>
+
 <p>If you get frequent timeouts, you can increase the <code>ugm_github_timeout</code> or <code>ugm_modx_timeout</code> System Settings. They set how long the program will wait for a response. The default is 6 seconds.</p>
 
-<p>UpgradeMODX now uses Guzzle (which uses cURL by default) to check for and download files. It uses ZipArchive to unzip them. If cURL isn't installed, Guzzle uses streams to get remote files. You can set the <code>ugm_force_pcl_zip</code> SystemSetting to <code>Yes</code> to avoid using ZipArchive to unzip the downloaded MODX file. </p>
+<p>UpgradeMODX now uses Guzzle (which uses cURL by default) to check for and download files. If cURL isn't installed on your server, Guzzle uses streams to get remote files and requires PHP 5.4 to work.</p>
+
+<p>UpgradeMODX uses ZipArchive to unzip the files. You can set the <code>ugm_force_pcl_zip</code> SystemSetting to <code>Yes</code> to avoid using ZipArchive to unzip the downloaded MODX file. </p>
 
 <br />
 
 <div class="box">
-    <p>In Version 2.0.0 of UpgradeMODX the cURL SSL_VERIFY_PEER option to is set to <code>true</code> by default in Guzzle. Guzzle uses the servers certificate file, so there should be no need to turn it off. Having this setting off leaves you vulnerable to man-in-the-middle attacks where the attacker could pretend to be the MODX repo and lead you to download malicious code instead of MODX. If you can't get UpgradeMODX to work because of SSL issues. The best solution is to check with your host, but turning the <code>ugm_ssl_verify_peer</code> System Setting off might make it work for you, but in a less secure way.
+    <p>In Version 2.0.0 of UpgradeMODX the cURL SSL_VERIFY_PEER option to is set to <code>true</code> by default in Guzzle. Guzzle uses the server's certificate file, so there should be no need to turn it off. Having this setting off leaves you vulnerable to man-in-the-middle attacks where the attacker could pretend to be the MODX repo and lead you to download malicious code instead of MODX. If you can't get UpgradeMODX to work because of SSL issues, the best solution is to check with your host. There is a list <a href="http://docs.guzzlephp.org/en/stable/request-options.html#verify">here</a> of the places Guzzle looks for the certificate file.</p>
+
+<p>Turning the <code>ugm_ssl_verify_peer</code> System Setting off might make it work for you, but in a less secure way.
 
     <p>Version 2.0.0 has a new setting: <code>ugm_cert_path</code> (empty by default). If you are having SSL trouble, you could try asking the host or checking their forum for the path to the SSL cert file. Paste that path into the <code>value</code> field of this setting.</p>
 </div>
@@ -128,7 +140,17 @@
 
 <p>If UpgradeMODX shows an available upgrade but the submit button doesn't work, check the spelling of the  <code>assets/components/upgrademodx/js/progressButton.js</code> file. Make sure the "B" matches the case of the filename in the UpgradeMODXTpl chunk.</p>
 
+<p>Note that some browsers cache the credentials used in HTTP requests. If you change the <code>ugm_github_username</code> and <code>ugm_github_token</code> settings. They may not take effect until you clear the browser cache (and maybe the cookies) or use a different browser that doesn't have the cached credentials.</p>
 
+<p>If the widget doesn't appear. Go to System (gear icon) -> Dashboards and check to make sure the widget is on the default dashboard (or whatever dashboard you're using).</p>
+
+<h3>Catch 22</h3>
+
+<p>There is a bug in very old versions of MODX that prevents some elements of UpgradeMODX and other extras from being installed if you are using PHP 7 (see the note above about fixing this bug manually). At the same time, UpgradeMODX now requires PHP 5.4 or above because that's what Guzzle requires. There may be other incompatibilities in older versions of MODX and some of your plugins might interfere with the setup process.</p>
+
+<p>If UpgradeMODX fails for you and the troubleshooting steps above don't work, the best approach is to use PHP 5.4, and upgrade MODX manually using the method described <a href="https://bobsguides.com/modx-upgrade-faq.html">here</a>. Make sure you install all major versions of MODX (the ones ending in .0).</p>
+
+<p>Once you hit MODX 2.4, you should be able to upgrade to PHP 7 (assuming that you've fixed the bug), then uninstall and remove Upgrade MODX, re-install it, and use UpgradeMODX from that point on. For security, and to prevent future hassles, keep your MODX install up to date.</p>
 
 
 <br/>
@@ -137,47 +159,61 @@
 <h3>UpgradeMODX System Settings</h3>
 
 <table class="properties">
-    <tr><th>Setting Key</th><th>Description</th><th>Default</th></tr>
-
     <tr>
-        <td>ugm_force_pcl_zip</td>
-        <td>Force the use of PclZip instead of ZipArchive</td>
+        <th>Setting</th>
+        <th>Description</th>
+        <th>Default</th>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">GitHub</td>
+    </tr>
+    <tr>
+        <td>ugm_verbose</td>
+        <td>Display full GitHub Error Messages</td>
         <td>No</td>
     </tr>
     <tr>
-        <td>ugm_github_token</td>
-        <td>(optional) Token for GitHub - available from your GitHub profile</td>
+        <td>ugm_cert_path</td>
+        <td>Path to SSL cert file in .pem format; rarely necessary</td>
         <td></td>
     </tr>
     <tr>
         <td>ugm_github_username</td>
-        <td>(optional) Your GitHub username</td>
+        <td>Your username at GitHub</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ugm_github_token</td>
+        <td>Github token - available from your GitHub profile</td>
         <td></td>
     </tr>
     <tr>
         <td>ugm_github_timeout</td>
-        <td>Timeout (in seconds) for requests to GitHub</td>
+        <td>Timeout in seconds for checking Github</td>
         <td>6</td>
     </tr>
     <tr>
-        <td>ugm_groups</td>
-        <td>group, or commma-separated list of groups, who will see the widget</td>
-        <td>Administrator</td>
+        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Widget</td>
     </tr>
     <tr>
-        <td>ugm_hide_when_no_upgrade</td>
-        <td>Hide widget when no upgrade is available</td>
-        <td>No</td>
+        <td>ugm_versionlist_api_url</td>
+        <td>URL of API to get version list from</td>
+        <td>//api.github.com/repos/modxcms/revolution/tags</td>
+    </tr>
+    <tr>
+        <td>ugm_temp_dir</td>
+        <td>Path to the directory used for temporary storage for downloading and unzipping files; Must be writable</td>
+        <td>{base_path}ugmtemp/</td>
+    </tr>
+    <tr>
+        <td>ugm_file_version</td>
+        <td>Version when versionlist file was last updated. Set automatically -- do not edit!</td>
+        <td></td>
     </tr>
     <tr>
         <td>ugm_interval</td>
         <td>Interval between checks -- Examples: 1 week, 3 days, 6 hours</td>
-        <td>1 week</td>
-    </tr>
-    <tr>
-        <td>ugm_language</td>
-        <td>Two-letter code of language to use</td>
-        <td>en</td>
+        <td>1 day</td>
     </tr>
     <tr>
         <td>ugm_last_check</td>
@@ -190,19 +226,9 @@
         <td></td>
     </tr>
     <tr>
-        <td>ugm_modx_timeout</td>
-        <td>Timeout (in seconds) for requests to MODX</td>
-        <td>6</td>
-    </tr>
-    <tr>
-        <td>ugm_pl_only</td>
-        <td>Show only pl (stable) versions</td>
-        <td>Yes</td>
-    </tr>
-    <tr>
-        <td>ugm_ssl_verify_peer</td>
-        <td>For security, have cURL verify the identity of the server</td>
-        <td>Yes (strongly recommended)</td>
+        <td>ugm_hide_when_no_upgrade</td>
+        <td>Hide widget when no upgrade is available</td>
+        <td>No</td>
     </tr>
     <tr>
         <td>ugm_version_list_path</td>
@@ -210,32 +236,49 @@
         <td>{core_path}cache/upgrademodx/</td>
     </tr>
     <tr>
+        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Download</td>
+    </tr>
+    <tr>
+        <td>ugm_force_pcl_zip</td>
+        <td>Force the use of PclZip instead of ZipArchive</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>ugm_modx_timeout</td>
+        <td>Timeout in seconds for checking download status from MODX</td>
+        <td>6</td>
+    </tr>
+    <tr>
+        <td>ugm_ssl_verify_peer</td>
+        <td>For security, have cURL verify the identity of the server</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Form</td>
+    </tr>
+    <tr>
+        <td>ugm_language</td>
+        <td>Two-letter language code for language to use</td>
+        <td>en</td>
+    </tr>
+    <tr>
+        <td>ugm_pl_only</td>
+        <td>Show only pl (stable) versions</td>
+        <td>1</td>
+    </tr>
+    <tr>
         <td>ugm_versions_to_show</td>
-        <td>Number of versions to show in upgrade form (not widget)</td>
+        <td>Number of versions to show in upgrade form</td>
         <td>5</td>
     </tr>
-
     <tr>
-        <td>ugm_versionlist_api_url</td>
-        <td>URL of API to get version list from</td>
-        <td>//api.github.com/repos/modxcms/revolution/tags</td>
+        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Security</td>
     </tr>
-
     <tr>
-        <td>ugm_temp_dir</td>
-        <td>Path to the directory used for temporary storage for downloading and unzipping files;
-            Must be writable</td>
-        <td>{base_path}ugmtemp/</td>
+        <td>ugm_groups</td>
+        <td>group, or comma-separated list of groups, who will see the widget</td>
+        <td>Administrator</td>
     </tr>
-
-    <tr>
-        <td>ugm_cert_path</td>
-        <td>Path to SSL cert file in .pem format; rarely necessary
-        </td>
-        <td></td>
-    </tr>
-
-
 </table>
 
 <p>&nbsp;</p>
