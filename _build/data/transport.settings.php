@@ -28,8 +28,8 @@ $systemSettings = array();
 $systemSettings[1] = $modx->newObject('modSystemSetting');
 $systemSettings[1]->fromArray(array (
   'key' => 'ugm_verbose',
-  'value' => '',
-  'xtype' => 'textfield',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
   'name' => 'Verbose Error Messages',
@@ -68,7 +68,7 @@ $systemSettings[4]->fromArray(array (
 $systemSettings[5] = $modx->newObject('modSystemSetting');
 $systemSettings[5]->fromArray(array (
   'key' => 'ugm_file_version',
-  'value' => '2.7.0-pl',
+  'value' => '2.6.3-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -188,7 +188,7 @@ $systemSettings[16]->fromArray(array (
 $systemSettings[17] = $modx->newObject('modSystemSetting');
 $systemSettings[17]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2018-12-08 23:23:54',
+  'value' => '2018-12-10 10:58:46',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
