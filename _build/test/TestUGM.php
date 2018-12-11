@@ -70,6 +70,8 @@ class TestUGM extends PHPUnit_Framework_TestCase {
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testGetVersions() {
+        /* Note: Some tests here will fail if rate limit has been exceeded */
+
         /* Normal return */
         $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, '', '');
         $this::assertNotEmpty($versions);
@@ -84,6 +86,25 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $pattern = '/v\d{1,2}\.\d{1,2}.\d{1,2}\-[A-Za-z]+/';
         preg_match($pattern, $version, $matches);
         $this::assertEquals($version, $matches[0]);
+
+        /* Rate limit test -- This wrecks the other tests for an hour */
+       /*
+       $this->ugm->clearErrors();
+       for ($i = 1; $i <=70; $i++) {
+            $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, '', '');
+            $errors = $this->ugm->getErrors();
+            if (!empty ($errors)) {
+                break;
+            }
+        }
+        $errors = $this->ugm->getErrors();
+        $this::assertNotEmpty($errors());
+       $this::assertContains('rate limit', $errors[0]);
+
+        // echo "\nI = " . $i;
+        // echo print_r($errors, true);
+
+        return; */
 
         /* Bad URL */
         $this->ugm->clearErrors();
