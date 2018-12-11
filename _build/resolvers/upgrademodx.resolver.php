@@ -48,8 +48,8 @@ if ($object->xpdo) {
             );
 
             foreach ($files as $file) {
-                if (file_exists($path)) {
-                    unlink($path);
+                if (file_exists($file)) {
+                    unlink($file);
                 }
             }
 
