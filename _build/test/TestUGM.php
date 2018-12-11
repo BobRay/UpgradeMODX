@@ -144,7 +144,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertFalse($versions);
         $errors = $this->ugm->getErrors();
         $this::assertNotEmpty($errors);
-        $this::assertContains('503', $errors[0]);
+        $this::assertContains('Could not get version list', $errors[0]);
         $this::assertContains('Connection error', $errors[0]);
 
     }
