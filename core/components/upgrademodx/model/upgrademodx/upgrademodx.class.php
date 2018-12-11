@@ -438,13 +438,13 @@ if (!class_exists('UpgradeMODX')) {
 
         /**
          * @return bool|string
-         * @throws GuzzleException
+         * @throws GuzzleHttp\Exception\GuzzleException
+         * @throws \Exception
          */
         public function createVersionList() {
             $output = '';
             $versions = $this->getVersions($this->githubUrl, $this->gitHubTimeout,
                 $this->verifyPeer, $this->github_username, $this->github_token, $this->certPath, $this->verbose);
-            // $this->modx->log(modX::LOG_LEVEL_ERROR, "USERNAME: " . $this->github_username . ' -- ' . "TOKEN: " . $this->github_token);
             if ($versions === false) {
                 $output = false;
             } else {
@@ -480,20 +480,27 @@ EOD;
 
 
         /**
+         * * Gets raw JSON version list from GitHub
+         * @throws \GuzzleHttp\Exception\ClientException
+         * @param $url string
+         * @param $githubTimeout int
+         * @param $verifyPeer bool
+         * @param null $githubUsername string
+         * @param null $githubToken string
+         * @param null $certPath string
+         * @param bool $verbose bool
+         * @throws \GuzzleHttp\Exception\GuzzleException
+         *
          * @return mixed returns JSON version list as string or false on failure
-         * @throws GuzzleException
-         * Gets raw JSON version list from GitHub
          */
         public function getVersions($url, $githubTimeout, $verifyPeer, $githubUsername = null,
                 $githubToken = null, $certPath = null, $verbose = false) {
-            // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Version list from GitHub');
             $options = array();
             if ((!empty($githubUsername)) && (!empty($githubToken))) { // use token if set
                 $options['auth'] = array($githubUsername, $githubToken);
             }
             $options['header'] = array (
                 'Cache-Control' => 'no-cache',
-               //  'Access-Control-Allow-Headers' => 'Authorization,Content-Type',
                 'Accept' => 'application/json',
             );
             if (!empty ($certPath))  {
@@ -515,34 +522,11 @@ EOD;
             } catch (RequestException $e) {
                 $msg = $this->parseException($e, $verbose);
                 $retVal = false;
-                /* $this->setError($msg);
-                 $req = Psr7\str($e->getRequest());
-                 $x = $e->getMessage();
-                 $code = $e->getCode();
-                 $msg = json_decode($x);
-
-                 if ($e->hasResponse()) {
-                     $exception = (string)$e->getResponse()->getBody();
-                     $exception = json_decode($exception);
-                     $resp =  Psr7\str($e->getResponse());
-                     $rArray = print_r($resp, true);
-
-                     $message = $e->getResponse()->getReasonPhrase();
-
-
-                 }
-
-                 $msg = $this->modx->lexicon('ugm_no_version_list_from_github') . " &mdash; " . $e->getMessage(); */
-
             } catch (\Exception $e) {
-                /** @var $e \Exception */
+                /** @var $e \GuzzleHttp\Exception\RequestException */
                 $msg = $this->parseException($e, $verbose);
                 $retVal = false;
             }
-
-
-
-
             return $retVal;
         }
 
@@ -552,6 +536,7 @@ EOD;
          *
          */
         public function parseException($e, $verbose = false) {
+            /** @var  $response \Psr\Http\Message\MessageInterface */
             $msg = $e->getMessage();
             $prefix = $this->modx->lexicon('ugm_no_version_list_from_github') . ' -- ';
             $retVal = $msg; // default to entire message;
@@ -559,8 +544,8 @@ EOD;
 
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
-                $exception = (string)$e->getResponse()->getBody();
-                $message = json_decode($exception);
+                $rawMessage = $response->getBody();
+                $message = json_decode( (string) $rawMessage);
                 // $x = print_r($message, true);
                 if (empty($message)) {
                     $message = $response->getReasonPhrase();
@@ -570,7 +555,7 @@ EOD;
                     $retVal = $code . ' ' . $ex['message'];
                 }
             } elseif (empty($code) || ($code >= 500)) {
-                $code = ((int) $code === 0) ? '503' : $code;
+                $code = ((int) $code === 0) ? 'No Code Returned' : $code;
                 $retVal = $code . ' ' . 'Connection error (no internet?)';
             }
             $retVal = $verbose? $prefix . ' ' . $msg : $prefix . $retVal;
@@ -598,7 +583,8 @@ EOD;
         /**
          * @param $settingsVersion
          * @return bool
-         * @throws GuzzleException
+         * @throws GuzzleHttp\Exception\GuzzleException
+         * @throws \Exception
          */
         public function upgradeAvailable($settingsVersion) {
             $this->renderedVersionList = $this->createVersionList();
