@@ -127,14 +127,17 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $githubUrl string */
         protected $githubUrl = '';
 
+        /** @var string $fileVersion - latest version when versionlist file last created */
+        protected $fileVersion = '';
+
         /** @var $verbose bool */
         protected $verbose = false;
         public function __construct($modx) {
             /** @var $modx modX */
-            $this->modx = $modx;
+            $this->modx =& $modx;
         }
 
-        public function init($props) {
+        public function init() {
             /** @var $InstallData array */
             $this->devMode = (bool)$this->modx->getOption('ugm.devMode', null, false, true);
             $this->verbose = (bool) $this->modx->getOption('ugm_verbose', null, false, true);
@@ -157,6 +160,7 @@ if (!class_exists('UpgradeMODX')) {
             $this->progressFilePath = MODX_ASSETS_PATH . 'components/upgrademodx/ugmprogress.txt';
             $this->mmkDir(MODX_ASSETS_PATH . 'components/upgrademodx');
             $this->progressFileURL = MODX_ASSETS_URL . 'components/upgrademodx/ugmprogress.txt';
+            $this->fileVersion = $this->modx->getOption('ugm_file_version', null, '', true);
             file_put_contents($this->progressFilePath, 'Starting Upgrade');
             $this->versionsToShow = $this->modx->getOption('ugm_versions_to_show', null, 5, true);
             $this->corePath = $this->modx->getOption('ugm.core_path', null,
@@ -198,22 +202,21 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         public function createVersionForm($modx) {
-            if (empty($this->renderedVersionList)) {
-                // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
-                $path = $this->versionListPath . 'versionlist';
-                if (! file_exists($path)) {
-                    $this->setError($this->modx->lexicon('ugm_no_version_list') . ' @ ' . $path);
-                    return false;
-                }
-                $this->renderedVersionList = file_get_contents($path);
+            // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
+            $path = $this->versionListPath . 'versionlist';
+            if (! file_exists($path)) {
+                $this->setError($this->modx->lexicon('ugm_no_version_list') . ' @ ' . $path);
+                return false;
             }
+            $renderedVersionList = file_get_contents($path);
+
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */
             $output = '';
             $output .= "\n" . '<div id="upgrade_form">';
             $output .= "\n<p>" . $modx->lexicon('ugm_get_major_versions') . '</p>';
             $output .= "\n" . '</div>' . "\n ";
-            $output .= $this->renderedVersionList;
+            $output .= $renderedVersionList;
             if (stripos($output, 'Error') === false) {
                 $output .= "\n" . $this->getButtonCode($modx->lexicon('ugm_begin_upgrade'));
             }
@@ -341,6 +344,7 @@ if (!class_exists('UpgradeMODX')) {
               latest if there isn't one. */
             reset($versionArray);
             $latest = key($versionArray);
+            $this->latestVersion = $latest;
 
             /* Reverse array so we can stop at the first one that
                fits the criteria */
@@ -376,11 +380,11 @@ if (!class_exists('UpgradeMODX')) {
             $this->latestVersion = $version;
         }
 
-        public function updateSettings($lastCheck, $latestVersion, $settingsVersion ) {
+        public function updateSettings($lastCheck, $latestVersion, $fileVersion ) {
             $settings = array(
                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
                'ugm_latest_version' => $latestVersion,
-               'ugm_file_version' => $settingsVersion,
+               'ugm_file_version' => $fileVersion,
             );
             $dirty = false;
             foreach($settings as $key => $value) {
@@ -415,11 +419,14 @@ if (!class_exists('UpgradeMODX')) {
         }
 
         /**
-         * @param $lastCheck string = time of previous check
-         * @param $interval - interval between checks
+         * See if it's time to check for a new version based on
+         * last check time and interval
+         *
          * @return bool true if time to check, false if not
          */
-        public function timeToCheck($lastCheck, $interval = '+1 day') {
+        public function timeToCheck() {
+            $lastCheck = $this->modx->getOption('ugm_last_check', null, '2015-08-17 00:00:004', true);
+            $interval = $this->modx->getOption('ugm_interval', null, '+1 day', true);
             if ($this->devMode) {
                 return true;
             }
@@ -441,40 +448,34 @@ if (!class_exists('UpgradeMODX')) {
          * @throws GuzzleHttp\Exception\GuzzleException
          * @throws \Exception
          */
-        public function createVersionList() {
+        public function createVersionList($versions) {
             $output = '';
-            $versions = $this->getVersions($this->githubUrl, $this->gitHubTimeout,
-                $this->verifyPeer, $this->github_username, $this->github_token, $this->certPath, $this->verbose);
-            if ($versions === false) {
-                $output = false;
-            } else {
-                $versions = $this->finalizeVersionArray($versions, $this->plOnly, $this->versionsToShow);
-                $this->versionArray = $versions;
-                $itemGrid = array();
-                foreach ($versions as $ver => $item) {
-                    $itemGrid[$item['tree']][$ver] = $item;
-                }
-                $i = 0;
-                $header = $this->modx->lexicon('ugm_choose_version');
-                foreach ($itemGrid as $tree => $item) {
-                    $output .= "\n" . '<div class="column">';
 
-                    $output .= "\n" . '<label class="ugm_version_header"><span>' . $header . '</span></label>';
-
-                    foreach ($item as $version => $itemInfo) {
-                        $selected = $itemInfo['selected'] ? ' checked' : '';
-                        $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
-                        $i = 0;
-                        $output .= <<<EOD
-                    \n<label><input type="radio"{$selected} name="modx" value="$version">
-                    <span>{$itemInfo['name']} $current</span>
-                    </label>
-EOD;
-                        $i++;
-                    } // end inner foreach loop
-                } // end outer foreach loop
-                $output .= "\n</div>";
+            $itemGrid = array();
+            foreach ($versions as $ver => $item) {
+                $itemGrid[$item['tree']][$ver] = $item;
             }
+            $i = 0;
+            $header = $this->modx->lexicon('ugm_choose_version');
+            foreach ($itemGrid as $tree => $item) {
+                $output .= "\n" . '<div class="column">';
+
+                $output .= "\n" . '<label class="ugm_version_header"><span>' . $header . '</span></label>';
+
+                foreach ($item as $version => $itemInfo) {
+                    $selected = $itemInfo['selected'] ? ' checked' : '';
+                    $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
+                    $i = 0;
+                    $output .= <<<EOD
+                \n<label><input type="radio"{$selected} name="modx" value="$version">
+                <span>{$itemInfo['name']} $current</span>
+                </label>
+EOD;
+                    $i++;
+                } // end inner foreach loop
+            } // end outer foreach loop
+            $output .= "\n</div>";
+
             return $output;
         }
 
@@ -493,7 +494,7 @@ EOD;
          *
          * @return mixed returns JSON version list as string or false on failure
          */
-        public function getVersions($url, $githubTimeout, $verifyPeer, $githubUsername = null,
+        public function getRawVersions($url, $githubTimeout = 6, $verifyPeer = true, $githubUsername = null,
                 $githubToken = null, $certPath = null, $verbose = false) {
             $options = array();
             if ((!empty($githubUsername)) && (!empty($githubToken))) { // use token if set
@@ -581,39 +582,41 @@ EOD;
 
 
         /**
-         * @param $settingsVersion
+         * @param $settingsVersion string
+         * @param $regenerate bool
          * @return bool
          * @throws GuzzleHttp\Exception\GuzzleException
          * @throws \Exception
          */
-        public function upgradeAvailable($settingsVersion) {
-            $this->renderedVersionList = $this->createVersionList();
-            if (! empty($this->renderedVersionList)) {
+        public function upgradeAvailable($settingsVersion, $regenerate = false) {
+            $versionListExists = $this->versionListExists();
+            $timeToCheck = $this->timeToCheck();
 
-                $versions = $this->versionArray;
-
-                if (!empty($versions)) {
-                    /* Set $this->latestVersion */
-                    $this->updateLatestVersion($versions);
-
-                    /* Update settings */
-                    $this->updateSettings(time(), $this->latestVersion, $settingsVersion);
-
-                    /* Update versionlist file  */
-                    $this->updateVersionListFile($this->renderedVersionList);
-                } else {
-                    $this->setError('Versions Empty');
+            /* Perform check if no latestVersion, or if it's time to check, or settings_version has been changed */
+            if ((!$versionListExists) || $timeToCheck || empty($this->latestVersion) || $regenerate) {
+                $rawVersions = $this->getRawVersions($this->githubUrl, $this->gitHubTimeout,
+                    $this->verifyPeer, $this->github_username, $this->github_token,
+                    $this->certPath, $this->verbose);
+                /* finalizeVersions sets $this->latestVersion */
+                $finalizedVersions = $this->finalizeVersionArray($rawVersions, $this->plOnly, $this->versionsToShow, $settingsVersion);
+                $renderedVersionList = $this->createVersionList($finalizedVersions);
+                if (($this->latestVersion !== $this->fileVersion) || (! $this->versionListExists()) || $regenerate ){
+                    $this->updateVersionListFile($renderedVersionList);
                 }
+                $this->updateSettings(time(), $this->latestVersion, $this->latestVersion );
+
+
+                // $upgradeAvailable = $upgrade->upgradeAvailable($settingsVersion);
+                // $latestVersion = $upgrade->getLatestVersion();
             }
 
-            $latestVersion = $this->latestVersion;
+            $upgradeAvailable = version_compare($settingsVersion, $this->latestVersion) < 0;
 
             if (!empty($this->errors)) {
                 $upgradeAvailable = false;
             } else {
                 /* See if the latest version is newer than the current version */
-                $newVersion = version_compare($settingsVersion, $latestVersion) < 0;
-                $upgradeAvailable = $newVersion;
+                $upgradeAvailable = version_compare($settingsVersion, $this->latestVersion) < 0;
             }
             return $upgradeAvailable;
         }

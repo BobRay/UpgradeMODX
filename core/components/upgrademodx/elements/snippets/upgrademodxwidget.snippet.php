@@ -48,28 +48,8 @@
  * @property &latestVersion textfield -- Latest version (at last check) -- set automatically; Default: (empty)..
  * @property &plOnly combo-boolean -- Show only pl (stable) versions; Default: yes.
  * @property &versionsToShow textfield -- Number of versions to show in upgrade form (not widget); Default: 5.
-
  */
 
-if (php_sapi_name() === 'cli') {
-    /* This section for debugging during development. It won't execute in MODX */
-/*    include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
-    $snippet =
-    $scriptProperties = array(
-        'versionsToShow' => 5,
-        'hideWhenNoUpgrade' => false,
-        'lastCheck' => '',
-        'interval' => '+60 seconds',
-        'plOnly' => false,
-        'language' => 'en',
-        'forcePclZip' => false,
-        'currentVersion' => $modx->getOption('settings_version'),
-        'latestVersion' => '2.4.3-pl',
-        'githubTimeout' => 6,
-        'modxTimeout' => 6,
-    );*/
-
-}
 
 /* Initialize */
 /* This will execute when in MODX */
@@ -77,10 +57,10 @@ $language = $modx->getOption('ugm_language', null, $modx->getOption('manager_lan
 $language = empty($language) ? 'en' : $language;
 $props = $scriptProperties;
 $modx->lexicon->load($language . ':upgrademodx:default');
-/* Return empty string if user shouldn't see widget */
 $devMode = $modx->getOption('ugm.devMode', null, false, true);
 $groups = $modx->getOption('ugm_groups', null, 'Administrator', true);
 
+/* Return empty string if user shouldn't see widget */
 if (strpos($groups, ',') !== false) {
     $groups = explode(',', $groups);
 }
@@ -92,7 +72,7 @@ $corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path'
 $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
-$upgrade->init($props);
+$upgrade->init();
 $props['ugm_setup_url'] = MODX_SITE_URL . 'setup/index.php';
 unset($props['controller']); // remove trash from scriptProperties
 $modx->regClientStartupScript('<script>
@@ -104,19 +84,18 @@ var ugm_setup_url = "' . MODX_SITE_URL . 'setup/index.php";
 $modx->regClientCSS($assetsUrl . 'css/progress.css');
 $modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js");
 $modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
-$lastCheck = $modx->getOption('ugm_last_check', null, '2015-08-17 00:00:004', true);
-$interval = $modx->getOption('ugm_interval', null, '+1 day', true);
+
 $hideWhenNoUpgrade = $modx->getOption('ugm_hide_when_no_upgrade', null, false, true);
-$plOnly = $modx->getOption('ugm_pl_only', null, true, true);
-$versionsToShow = $modx->getOption('ugm_versions_to_show', null, 5, true);
+// $plOnly = $modx->getOption('ugm_pl_only', null, true, true);
+// $versionsToShow = $modx->getOption('ugm_versions_to_show', null, 5, true);
 $settingsVersion = $modx->getOption('settings_version');
-$latestVersion = $modx->getOption('ugm_latest_version', null, '', true);
-/* $fileVersion is current version at time of last versionlist creation */
-$fileVersion = $modx->getOption('ugm_file_version', null, '', true);
+// $latestVersion = $modx->getOption('ugm_latest_version', null, '', true);
+/* $fileVersion is latest version at time of last versionlist creation */
+/*$fileVersion = $modx->getOption('ugm_file_version', null, '', true);
 $regenerate = false;
 if ($fileVersion !== $settingsVersion) {
     $regenerate = true;
-}
+}*/
 
 /* Set Placeholders */
 $placeholders = array();
@@ -125,19 +104,12 @@ $placeholders['[[+ugm_current_version]]'] = $settingsVersion;
 $placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_version_caption');
 $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
 
-$versionListExists = $upgrade->versionListExists();
+$upgradeAvailable = $upgrade->upgradeAvailable($settingsVersion);
+// $versionListExists = $upgrade->versionListExists();
 
-$timeToCheck = $upgrade->timeToCheck($lastCheck, $interval);
+// $timeToCheck = $upgrade->timeToCheck();
 
-/* Perform check if no latestVersion, or if it's time to check, or settings_version has been changed */
-if ((!$versionListExists ) || $timeToCheck || empty($latestVersion) || $regenerate) {
-    $upgradeAvailable = $upgrade->upgradeAvailable($settingsVersion);
-    $latestVersion = $upgrade->getLatestVersion();
-} else {
-    $upgradeAvailable = version_compare($settingsVersion, $latestVersion) < 0;
-}
-
-$placeholders['[[+ugm_latest_version]]'] = $latestVersion;
+$placeholders['[[+ugm_latest_version]]'] = $upgrade->getLatestVersion();
 
 if ($devMode) {
     $upgradeAvailable = true;
@@ -155,7 +127,6 @@ if (!empty($errors)) {
         $msg .= '<br/><span style="color:red">' . $modx->lexicon('ugm_error') .
             ': ' . $error . '</span>';
     }
-
     return $msg;
 }
 
