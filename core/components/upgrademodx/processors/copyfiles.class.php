@@ -189,38 +189,48 @@ class UpgradeMODXCopyfilesProcessor extends UgmProcessor {
         $version = str_replace('.zip', '' , $this->zipFileName);
 
         /* Get directories for file copy */
-        $directories = $this->getDirectories();
-        $directories = $this->normalize($directories);
-        /* set start time */
-        $mtime = microtime();
-        $mtime = explode(" ", $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $tstart = $mtime;
-        set_time_limit(0);
-        $source = $this->unzippedDir . '/' . $version;
-        $dest = $this->devMode ? $this->testDir : $this->basePath;
         try {
-            copy($source . '/ht.access', $dest . 'ht.access');
-            copy($source . '/index.php', $dest . 'index.php');
-            $this->copyFiles($source, $directories);
-            /* We do need this one */
-            copy($source . '/setup/includes/config.core.php', $dest . '/setup/includes/config.core.php');
+            $directories = $this->getDirectories();
+            $directories = $this->normalize($directories);
         } catch (Exception $e) {
             $this->addError($e->getMessage());
         }
-        /* report how long it took */
-        $output = '';
-        $mtime = microtime();
-        $mtime = explode(" ", $mtime);
-        $mtime = $mtime[1] + $mtime[0];
-        $tend = $mtime;
-        $totalTime = ($tend - $tstart);
-        $totalTime = sprintf("%2.4f s", $totalTime);
-        $output .= "\n    " . 'Copy Time' .
-            ': ' . $totalTime;
 
-        $output .= ' -- ' . $this->modx->lexicon('ugm_files_copied') . ' ' . $this->fileCount;
-        $this->log($output);
+        if (! $this->hasErrors()) {
+            /* set start time */
+            $mtime = microtime();
+            $mtime = explode(" ", $mtime);
+            $mtime = $mtime[1] + $mtime[0];
+            $tstart = $mtime;
+            set_time_limit(0);
+            $source = $this->unzippedDir . '/' . $version;
+            $dest = $this->devMode ? $this->testDir : $this->basePath;
+            try {
+                copy($source . '/ht.access', $dest . 'ht.access');
+                copy($source . '/index.php', $dest . 'index.php');
+                $this->copyFiles($source, $directories);
+                /* We do need this one */
+                copy($source . '/setup/includes/config.core.php', $dest . '/setup/includes/config.core.php');
+            } catch (Exception $e) {
+                $this->addError($e->getMessage());
+            }
+            /* report how long it took */
+            $output = '';
+            $mtime = microtime();
+            $mtime = explode(" ", $mtime);
+            $mtime = $mtime[1] + $mtime[0];
+            $tend = $mtime;
+            $totalTime = ($tend - $tstart);
+            $totalTime = sprintf("%2.4f s", $totalTime);
+            $output .= "\n    " . 'Copy Time' .
+                ': ' . $totalTime;
+
+            $output .= ' -- ' . $this->modx->lexicon('ugm_files_copied') . ' ' . $this->fileCount;
+            $this->log($output);
+        } else {
+            $output = 'Exception occurred in copyFiles processor ' . isset($this->errors[0])? $this->errors[0] : '';
+            $this->log($output);
+        }
         return $this->prepareResponse($this->modx->lexicon('ugm_preparing_setup'));
 
     }
