@@ -69,11 +69,11 @@ class TestUGM extends PHPUnit_Framework_TestCase {
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function testGetVersions() {
+    public function testGetRawVersions() {
         /* Note: Some tests here will fail if rate limit has been exceeded */
 
         /* Normal return */
-        $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, '', '');
+        $versions = $this->ugm->getRawVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, '', '');
         $this::assertNotEmpty($versions);
         $errors = $this->ugm->getErrors();
         $this::assertEmpty($errors);
@@ -108,7 +108,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
         /* Bad URL */
         $this->ugm->clearErrors();
-        $versions = $this->ugm->getVersions('//xapi.github.com/repos/modxcms/revolution/tags', 6, true);
+        $versions = $this->ugm->getRawVersions('//xapi.github.com/repos/modxcms/revolution/tags', 6, true);
         $this::assertFalse($versions);
         $errors = $this->ugm->getErrors();
         $this::assertNotEmpty($errors);
@@ -120,7 +120,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
         /* Bad Credentials */
         $this->ugm->clearErrors();
-        $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, 'BR', 'TK');
+        $versions = $this->ugm->getRawVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, 'BR', 'TK');
         $this::assertFalse($versions);
         $errors = $this->ugm->getErrors();
         $this::assertNotEmpty($errors);
@@ -129,7 +129,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
         /* Bad Credentials verbose*/
         $this->ugm->clearErrors();
-        $versions = $this->ugm->getVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, 'BR', 'TK', '', true);
+        $versions = $this->ugm->getRawVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, 'BR', 'TK', '', true);
         $this::assertFalse($versions);
         $errors = $this->ugm->getErrors();
         $this::assertNotEmpty($errors);
@@ -140,7 +140,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
         /* Invalid URL */
         $this->ugm->clearErrors();
-        $versions = $this->ugm->getVersions('//api.gixhub/repos/modxcms/revolution/tags', 6, true);
+        $versions = $this->ugm->getRawVersions('//api.gixhub/repos/modxcms/revolution/tags', 6, true);
         $this::assertFalse($versions);
         $errors = $this->ugm->getErrors();
         $this::assertNotEmpty($errors);
@@ -162,6 +162,21 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertEquals('c:/xampp/htdocs/addons/core/cache/upgrademodx/', $path);
         // echo $path;
     }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testFinalizeVersionArray() {
+        $rawVersions = $this->ugm->getRawVersions('//api.github.com/repos/modxcms/revolution/tags', 6, true, '', '');
+        $this::assertNotEmpty($rawVersions);
+        $finalizedVersionArray=$this->ugm->finalizeVersionArray($rawVersions, true, 40);
+        $this::assertNotEmpty($finalizedVersionArray);
+        $count = count($finalizedVersionArray);
+        // $this::assertEquals(10, $count);
+        $renderedVersionList = $this->ugm->createVersionList($finalizedVersionArray);
+        $this->ugm->updateVersionListFile($renderedVersionList);
+    }
+
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -352,7 +367,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $config = array(
             'version' => $version,
         );
-
+        $time = time();
         $response = $this->modx->runProcessor('preparesetup', $config, $options);
         $result = $response->response;
 
@@ -363,6 +378,14 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertEmpty($result['errors']);
         $content = file_get_contents($configFile);
         $this::assertNotEmpty(strpos($content, '@traditional@'));
+
+        /* Make sure new version list is created */
+        $path = $this->ugm->getVersionListPath('', true) . 'versionlist';
+        $this::assertEquals('c:/dummy/ugmtemp/versionlist', $path);
+
+        $fileTime = filemtime($path);
+        $this::assertNotEmpty($fileTime);
+        $this::assertTrue($fileTime >= $time);
     }
 
     public function testCleanup() {
