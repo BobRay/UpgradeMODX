@@ -600,9 +600,7 @@ EOD;
                 /* finalizeVersions sets $this->latestVersion */
                 $finalizedVersions = $this->finalizeVersionArray($rawVersions, $this->plOnly, $this->versionsToShow, $settingsVersion);
                 $renderedVersionList = $this->createVersionList($finalizedVersions);
-                if (($this->latestVersion !== $this->fileVersion) || (! $this->versionListExists()) || $regenerate ){
-                    $this->updateVersionListFile($renderedVersionList);
-                }
+                $this->updateVersionListFile($renderedVersionList);
                 $this->updateSettings(time(), $this->latestVersion, $this->latestVersion );
 
 
