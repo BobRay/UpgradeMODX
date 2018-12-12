@@ -390,7 +390,7 @@ if (!class_exists('UpgradeMODX')) {
             foreach($settings as $key => $value) {
                 $setting = $this->modx->getObject('modSystemSetting', array('key' => $key));
                 $success = true;
-                if ($setting && $setting->get('value') !== $value) {
+                if ($setting && $setting->get('value') != $value) {
                     $dirty = true;
                     $setting->set('value', $value);
                     if (!$setting->save()) {
