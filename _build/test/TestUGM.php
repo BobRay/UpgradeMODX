@@ -245,7 +245,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertNotEmpty($versionsToShow);
         /* Make sure we're showing at least as many versions as $versionsToShow */
         $versionCount = substr_count($content, 'MODX Revolution');
-        $this::assertGreaterThanOrEqual($versionCount, $versionsToShow);
+        $this::assertTrue((int) $versionCount >= (int) $versionsToShow);
     }
 
     public function testDownloadFiles() {
