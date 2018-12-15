@@ -93,14 +93,6 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
 
         if (!$this->hasErrors()) {
             $this->log($this->modx->lexicon('ugm_setup_prepared'));
-            /* Update versionlist file here with new current version */
-            require_once($this->ugmCorePath . 'model/upgrademodx/upgrademodx.class.php');
-            $ugm = new UpgradeMODX($this->modx);
-            if ($ugm) {
-                $ugm->init();
-                $settingsVersion = $this->modx->getOption('settings_version', null);
-                $ugm->upgradeAvailable($settingsVersion, true); // second arg forces regeneration of version list
-            }
         }
         return $this->prepareResponse($this->modx->lexicon('ugm_deleting_temp_files'));
 
