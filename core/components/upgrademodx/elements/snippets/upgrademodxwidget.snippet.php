@@ -86,16 +86,7 @@ $modx->regClientStartupScript("//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jque
 $modx->regClientStartupScript($assetsUrl . 'js/modernizr.custom.js');
 
 $hideWhenNoUpgrade = $modx->getOption('ugm_hide_when_no_upgrade', null, false, true);
-// $plOnly = $modx->getOption('ugm_pl_only', null, true, true);
-// $versionsToShow = $modx->getOption('ugm_versions_to_show', null, 5, true);
 $settingsVersion = $modx->getOption('settings_version');
-// $latestVersion = $modx->getOption('ugm_latest_version', null, '', true);
-/* $fileVersion is latest version at time of last versionlist creation */
-/*$fileVersion = $modx->getOption('ugm_file_version', null, '', true);
-$regenerate = false;
-if ($fileVersion !== $settingsVersion) {
-    $regenerate = true;
-}*/
 
 /* Set Placeholders */
 $placeholders = array();
@@ -105,10 +96,6 @@ $placeholders['[[+ugm_current_version_caption]]'] = $modx->lexicon('ugm_current_
 $placeholders['[[+ugm_latest_version_caption]]'] = $modx->lexicon('ugm_latest_version_caption');
 
 $upgradeAvailable = $upgrade->upgradeAvailable($settingsVersion);
-// $versionListExists = $upgrade->versionListExists();
-
-// $timeToCheck = $upgrade->timeToCheck();
-
 $placeholders['[[+ugm_latest_version]]'] = $upgrade->getLatestVersion();
 
 if ($devMode) {
