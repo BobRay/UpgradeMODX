@@ -108,7 +108,7 @@ if (!class_exists('UpgradeMODX')) {
         protected $progressFileURL = '';
 
         /** @var $client GuzzleHttp\Client */
-        protected $client = null;
+        public $client = null;
 
         /** @var $corePath string   */
         public $corePath = '';
@@ -134,6 +134,7 @@ if (!class_exists('UpgradeMODX')) {
 
         public function init() {
             /** @var $InstallData array */
+            $this->createModxErrorLog();
             $this->devMode = (bool)$this->modx->getOption('ugm.devMode', null, false, true);
             $this->verbose = (bool) $this->modx->getOption('ugm_verbose', null, false, true);
             $language = $this->modx->getOption('ugm_language',
@@ -165,6 +166,17 @@ if (!class_exists('UpgradeMODX')) {
             $this->setGithubCredentials();
             $this->client = new \GuzzleHttp\Client();
             $this->mmkDir($this->versionListPath);
+        }
+
+        public function createModxErrorLog() {
+            $eLogPath = $this->modx->getCachePath() . 'logs/';
+            if (! is_dir($eLogPath)) {
+                $this->mmkDir($eLogPath);
+            }
+            $file = $eLogPath . 'error.log';
+            if (! file_exists($file)) {
+                touch($file);
+            }
         }
 
         public function setGithubCredentials() {
