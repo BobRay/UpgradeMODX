@@ -149,6 +149,26 @@ class TestUGM extends PHPUnit_Framework_TestCase {
 
     }
 
+    public function testSetLatestVersion() {
+        $s = '[{"name": "v2.7.0-rc",}, 
+              "name": "v2.6.5-pl",
+
+  },';
+        $this->ugm->setLatestVersion($s);
+        $v = $this->ugm->getLatestVersion();
+        $this::assertNotEmpty($v);
+        $this::assertEquals('2.6.5-pl', $v);
+        // echo "\nVersion: " . $v;
+
+        $this->ugm->setLatestVersion($s, false);
+        $v = $this->ugm->getLatestVersion();
+        $this::assertNotEmpty($v);
+        $this::assertEquals('2.7.0-rc', $v);
+        // echo "\nVersion: " . $v;
+        $errors = $this->ugm->getErrors();
+        $this::assertTrue(is_array($errors));
+        $this::assertEmpty($errors);
+    }
     public function testGetVersionListPath() {
         $path = $this->ugm->getVersionListPath('', true);
         $this::assertEquals('c:/dummy/ugmtemp/', $path);
@@ -172,9 +192,7 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $finalizedVersionArray=$this->ugm->finalizeVersionArray($rawVersions, true, 40);
         $this::assertNotEmpty($finalizedVersionArray);
         $count = count($finalizedVersionArray);
-        // $this::assertEquals(10, $count);
-        $renderedVersionList = $this->ugm->createVersionList($finalizedVersionArray);
-        $this->ugm->updateVersionListFile($renderedVersionList);
+        $this::assertGreaterThanOrEqual(26, $count);
     }
 
 
@@ -196,11 +214,9 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertContains("Could not get version list", $errors[0]);
         $this::assertContains("@ c:/dummy/ugmtemp/versionlist" , $errors[0]);
         // echo print_r($form, true);
+
         $this->ugm->upgradeAvailable('2.6.0-pl');
-
-
         $this::assertFileExists($versionListFile);
-
         $this->ugm->clearErrors();
         $form = $this->ugm->createVersionForm($this->modx);
         $this::assertNotEmpty($form);
@@ -230,6 +246,11 @@ class TestUGM extends PHPUnit_Framework_TestCase {
        $result = $this->ugm->upgradeAvailable($currentVersion);
        $this::assertTrue($result);
 
+       $currentVersion='3.9.9-pl';
+
+        $result = $this->ugm->upgradeAvailable($currentVersion);
+        $this::assertFalse($result);
+
        /* Rigged test, simulates being up-to-date by pretending
           current version is the latest one */
         $currentVersion = $this->modx->getOption('ugm_latest_version');
@@ -244,8 +265,8 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $versionsToShow = $this->modx->getOption('ugm_versions_to_show');
         $this::assertNotEmpty($versionsToShow);
         /* Make sure we're showing at least as many versions as $versionsToShow */
-        $versionCount = substr_count($content, 'MODX Revolution');
-        $this::assertTrue((int) $versionCount >= (int) $versionsToShow);
+        $versionCount = substr_count($content, 'zipball_url');
+        $this::assertTrue((int) $versionCount >= (int) 26);
     }
 
     public function testDownloadFiles() {
@@ -378,14 +399,6 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertEmpty($result['errors']);
         $content = file_get_contents($configFile);
         $this::assertNotEmpty(strpos($content, '@traditional@'));
-
-        /* Make sure new version list is created */
-        $path = $this->ugm->getVersionListPath('', true) . 'versionlist';
-        $this::assertEquals('c:/dummy/ugmtemp/versionlist', $path);
-
-        $fileTime = filemtime($path);
-        $this::assertNotEmpty($fileTime);
-        $this::assertTrue($fileTime >= $time);
     }
 
     public function testCleanup() {
