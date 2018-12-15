@@ -42,8 +42,11 @@ if ($object->xpdo) {
         case xPDOTransport::ACTION_INSTALL:
         case xPDOTransport::ACTION_UPGRADE:
             /* Remove VersionList file and getVersion processor */
+            /** @var $cm modCacheManager string */
+            $cm = $modx->getCacheManager();
+            $path = $cm->getCachePath() . 'upgrademodx/versionlist';
             $files = array(
-                MODX_CORE_PATH . 'cache/upgrademodx/versionlist',
+                $path,
                 MODX_CORE_PATH . 'components/upgrademodx/processors/getversions.class.php',
             );
 
