@@ -65,6 +65,16 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertInstanceOf('UpgradeMODX', $this->ugm);
     }
 
+    public function testInit() {
+        $eLogPath = $this->modx->getCachePath() . 'logs/';
+        $this->ugm->init();
+        $this::assertTrue(is_dir($eLogPath));
+        $this::assertTrue(file_exists($eLogPath . 'error.log' ));
+        $this::assertInstanceOf('\GuzzleHttp\Client', $this->ugm->client);
+        $this::assertNotEmpty($this->modx->lexicon('ugm_no_version_list'));
+        $this::assertEquals(array(), $this->ugm->getErrors());
+        $this::assertTrue(is_dir(MODX_ASSETS_PATH . 'components/upgrademodx'));
+    }
 
     /**
      * @throws \GuzzleHttp\Exception\GuzzleException
