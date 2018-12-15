@@ -1,11 +1,6 @@
 <?php
-
-use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 
-
-//use GuzzleHttp\Exception\GuzzleException;
-// use GuzzleHttp\Client;
 /**
  * UpgradeMODX class file for UpgradeMODX Widget snippet for  extra
  *
@@ -167,19 +162,14 @@ if (!class_exists('UpgradeMODX')) {
                 $this->modx->getOption('core_path') . 'components/upgrademodx/');
             require_once $this->corePath . 'vendor/autoload.php';
             /* These use System Setting if property is empty */
-            $this->github_username = $this->modx->getOption('ugm_github_username', null, null, true);
-            $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
             $this->setGithubCredentials();
             $this->client = new \GuzzleHttp\Client();
             $this->mmkDir($this->versionListPath);
         }
 
         public function setGithubCredentials() {
-            $username = $this->modx->getOption('ugm_github_username', null, null, true);
-            if (empty($username)) {
-                $x = 1;
-            }
-            $this->github_username = $username;
+            $this->github_username = $this->modx->getOption('ugm_github_username', null, null, true);
+            $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
         }
 
         public function getVersionListPath($path, $devMode = false) {
@@ -194,6 +184,7 @@ if (!class_exists('UpgradeMODX')) {
                 $path = $cm->getCachePath() . 'upgrademodx/';
             }
             $this->mmkDir($path);
+            $this->versionListPath = $path;
             return $path;
         }
 
@@ -208,7 +199,15 @@ if (!class_exists('UpgradeMODX')) {
                 $this->setError($this->modx->lexicon('ugm_no_version_list') . ' @ ' . $path);
                 return false;
             }
-            $renderedVersionList = file_get_contents($path);
+            $rawVersions = file_get_contents($path);
+            if (empty($rawVersions)) {
+                $this->setError($this->modx->lexicon('ugm_no_version_list') . ' @ ' . $path);
+                return false;
+            }
+
+            $finalVersionList = $this->finalizeVersionArray($rawVersions, $this->plOnly, $this->versionsToShow);
+            $renderedVersionList = $this->renderVersionList($finalVersionList);
+
 
             /** @var $upgrade  UpgradeMODX */
             /** @var $modx modX */
@@ -439,16 +438,10 @@ if (!class_exists('UpgradeMODX')) {
             return $retVal;
         }
 
-        public function getVersionArray() {
-            return $this->versionArray;
-        }
-
-        /**
+              /**
          * @return bool|string
-         * @throws GuzzleHttp\Exception\GuzzleException
-         * @throws \Exception
          */
-        public function createVersionList($versions) {
+        public function renderVersionList($versions) {
             $output = '';
 
             $itemGrid = array();
@@ -580,6 +573,19 @@ EOD;
             return $this->errors;
         }
 
+        public function setLatestVersion($rawVersions, $plOnly = true) {
+            if ($plOnly) {
+                $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-pl)"/';
+            } else {
+                $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-[a-zA-Z]+)"/';
+            }
+            preg_match($pattern, $rawVersions, $matches);
+            if (! isset($matches[1]) || empty($matches[1])) {
+                $this->setError('Regex failed');
+            } else {
+                $this->latestVersion =  $matches[1];
+            }
+        }
 
         /**
          * @param $settingsVersion string
@@ -592,23 +598,16 @@ EOD;
             $versionListExists = $this->versionListExists();
             $timeToCheck = $this->timeToCheck();
 
-            /* Perform check if no latestVersion, or if it's time to check, or settings_version has been changed */
+            /* Perform check if no latestVersion, or if it's time to check */
             if ((!$versionListExists) || $timeToCheck || empty($this->latestVersion) || $regenerate) {
                 $rawVersions = $this->getRawVersions($this->githubUrl, $this->gitHubTimeout,
                     $this->verifyPeer, $this->github_username, $this->github_token,
                     $this->certPath, $this->verbose);
-                /* finalizeVersions sets $this->latestVersion */
-                $finalizedVersions = $this->finalizeVersionArray($rawVersions, $this->plOnly, $this->versionsToShow, $settingsVersion);
-                $renderedVersionList = $this->createVersionList($finalizedVersions);
-                $this->updateVersionListFile($renderedVersionList);
+                /* Update $this->latestVersion based on $rawVersions string */
+                $this->setLatestVersion($rawVersions, $this->plOnly);
+                $this->updateVersionListFile($rawVersions);
                 $this->updateSettings(time(), $this->latestVersion, $this->latestVersion );
-
-
-                // $upgradeAvailable = $upgrade->upgradeAvailable($settingsVersion);
-                // $latestVersion = $upgrade->getLatestVersion();
             }
-
-            $upgradeAvailable = version_compare($settingsVersion, $this->latestVersion) < 0;
 
             if (!empty($this->errors)) {
                 $upgradeAvailable = false;
