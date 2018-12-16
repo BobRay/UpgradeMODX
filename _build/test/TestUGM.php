@@ -279,6 +279,29 @@ class TestUGM extends PHPUnit_Framework_TestCase {
         $this::assertTrue((int) $versionCount >= (int) 26);
     }
 
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function testUpdateVersionListFile() {
+        $time = time();
+        $path = $this->ugm->getVersionListPath('', true);
+        $path .= 'versionlist';
+        $rawVersions = file_get_contents($path);
+        $this->ugm->setLatestVersion($rawVersions);
+        $latestVersion = $this->ugm->getLatestVersion();
+        // $this->ugm->upgradeAvailable($latestVersion);
+        $this->ugm->updateVersionListFile('test', $latestVersion, $latestVersion);
+        $content = file_get_contents($path);
+        $this::assertEquals($rawVersions, $content);
+        $this->ugm->updateVersionListFile('test', '2.6.0', $latestVersion);
+        $content = file_get_contents($path);
+        $this::assertEquals('test', $content);
+        $this->ugm->updateVersionListFile($rawVersions, '2.6.0', $latestVersion );
+        $content = file_get_contents($path);
+        $this::assertEquals($rawVersions, $content);
+       //  echo file_get_contents($path);
+    }
+
     public function testDownloadFiles() {
         $devMode = $this->modx->getOption('ugm.devMode');
         $this::assertTrue((bool) $devMode);

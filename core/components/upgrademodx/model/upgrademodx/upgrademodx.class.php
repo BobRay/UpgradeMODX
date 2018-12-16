@@ -617,7 +617,7 @@ EOD;
                     $this->certPath, $this->verbose);
                 /* Update $this->latestVersion based on $rawVersions string */
                 $this->setLatestVersion($rawVersions, $this->plOnly);
-                $this->updateVersionListFile($rawVersions);
+                $this->updateVersionListFile($rawVersions, $this->fileVersion, $this->latestVersion);
                 $this->updateSettings(time(), $this->latestVersion, $this->latestVersion );
             }
 
@@ -630,14 +630,20 @@ EOD;
             return $upgradeAvailable;
         }
 
-        public function updateVersionListFile($renderedVersionList) {
+        public function updateVersionListFile($rawVersions, $fileVersion, $latestVersion) {
             $path = $this->versionListPath;
            // $this->modx->log(modX::LOG_LEVEL_ERROR, 'PATH: ' . $path);
+            if ($fileVersion == $latestVersion && $this->versionListExists()) {
+                return;
+            }
+
             $this->mmkDir($path);
+            file_put_contents($path . 'versionlist', $rawVersions);
+
 
             $fp = @fopen($this->versionListPath . 'versionlist', 'w');
             if ($fp) {
-                fwrite($fp, $renderedVersionList);
+                fwrite($fp, $rawVersions);
                 fclose($fp);
             } else {
                 $this->setError($this->modx->lexicon('ugm_could_not_open') .
