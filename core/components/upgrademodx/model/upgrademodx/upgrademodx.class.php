@@ -56,6 +56,9 @@ use GuzzleHttp\Exception\RequestException;
 
 
 if (!class_exists('UpgradeMODX')) {
+    /**
+     * Class UpgradeMODX
+     */
     class UpgradeMODX {
 
         /** @var $versionArray array - array of versions to display if upgrade is available as a string
@@ -127,11 +130,19 @@ if (!class_exists('UpgradeMODX')) {
 
         /** @var $verbose bool */
         protected $verbose = false;
+
+        /**
+         * UpgradeMODX constructor.
+         * @param $modx modX
+         */
         public function __construct($modx) {
             /** @var $modx modX */
             $this->modx =& $modx;
         }
 
+        /**
+         * Initialize variables and do some setup
+         */
         public function init() {
             /** @var $InstallData array */
             $this->createModxErrorLog();
@@ -168,6 +179,11 @@ if (!class_exists('UpgradeMODX')) {
             $this->mmkDir($this->versionListPath);
         }
 
+        /**
+         *  Make sure MODX error log file exists in
+         *  case PHP errors are thrown after a manual
+         *  cache clear
+         */
         public function createModxErrorLog() {
             $eLogPath = $this->modx->getCachePath() . 'logs/';
             if (! is_dir($eLogPath)) {
@@ -179,13 +195,24 @@ if (!class_exists('UpgradeMODX')) {
             }
         }
 
+        /**
+         * Set GitHub credential class variables
+         */
         public function setGithubCredentials() {
             $this->github_username = $this->modx->getOption('ugm_github_username', null, null, true);
             $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
         }
 
+        /**
+         * Set versionlist path from setting or (if default)
+         * set it using cachePath from CacheManager
+         * or local dummy/ugm temp if ugm.devMode is on.
+         *
+         * @param $path --
+         * @param bool $devMode
+         * @return string
+         */
         public function getVersionListPath($path, $devMode = false) {
-
             if ($devMode) {
                 return('c:/dummy/ugmtemp/');
             }
@@ -200,10 +227,22 @@ if (!class_exists('UpgradeMODX')) {
             return $path;
         }
 
+        /**
+         * @return bool - true if file exists, false if not
+         */
         public function versionListExists() {
             return file_exists($this->versionListPath . 'versionlist');
         }
 
+        /**
+         * Create final version form that will be shown
+         * in the Manager. Uses rawVersions from versionlist file,
+         * calls finalizeVersionArray to create sorted array with
+         * current version and recommended version flagged, then calls
+         * renderVersionList to render the versionlist part of the form.
+         * @param $modx
+         * @return bool|string -- returns form or false on error
+         */
         public function createVersionForm($modx) {
             // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
             $path = $this->versionListPath . 'versionlist';
@@ -218,6 +257,9 @@ if (!class_exists('UpgradeMODX')) {
             }
 
             $finalVersionList = $this->finalizeVersionArray($rawVersions, $this->plOnly, $this->versionsToShow);
+            if (! is_array($finalVersionList)) {
+                return false;
+            }
             $renderedVersionList = $this->renderVersionList($finalVersionList);
 
 
@@ -234,6 +276,11 @@ if (!class_exists('UpgradeMODX')) {
             return $output;
         }
 
+        /**
+         * Gets Internet Explorer version.
+         * Used to adjust JS and submit button
+         * @return bool
+         */
         public static function getIeVersion() {
             $version = false;
             preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
@@ -249,6 +296,14 @@ if (!class_exists('UpgradeMODX')) {
             return $version;
         }
 
+        /**
+         * Generates button code based on Browser and IE version
+         *
+         * @param string $action
+         * @param bool $disabled
+         * @param bool $submitted
+         * @return string
+         */
         public function getButtonCode($action = "[[+ugm_begin_upgrade]]", $disabled = false, $submitted = false) {
             $disabled = $disabled ? ' disabled ' : '';
             $red = $submitted ? ' red' : '';
@@ -268,7 +323,17 @@ if (!class_exists('UpgradeMODX')) {
             return $buttonCode;
         }
 
-        /* Final arg is there for unit tests */
+
+        /**
+         * Creates final version array from raw versions,
+         * with current and recommended version flagged
+         * Final arg is there for unit tests
+         * @param $contents
+         * @param bool $plOnly
+         * @param int $versionsToShow
+         * @param string $currentVersion
+         * @return array|bool -- returns version array or false on error
+         */
         public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5, $currentVersion = '') {
             $currentVersion = empty($currentVersion)
                 ? $this->modx->getOption('settings_version', null)
@@ -384,13 +449,14 @@ if (!class_exists('UpgradeMODX')) {
             return $this->versionArray;
         }
 
-        public function updateLatestVersion($versionArray) {
-            reset($versionArray);
-            $version = key($versionArray);
-            // $this->modx->log(modX::LOG_LEVEL_ERROR, "LATEST: ".  print_r($version, true));
-            $this->latestVersion = $version;
-        }
-
+        /**
+         * Updates ugm_last_check, ugm_latest_version,
+         * and ugm_file_version System Settings
+         *
+         * @param $lastCheck
+         * @param $latestVersion
+         * @param $fileVersion
+         */
         public function updateSettings($lastCheck, $latestVersion, $fileVersion ) {
             $settings = array(
                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
@@ -431,7 +497,7 @@ if (!class_exists('UpgradeMODX')) {
 
         /**
          * See if it's time to check for a new version based on
-         * last check time and interval
+         * last check time and interval. Return true if ugm_last_check is empty
          *
          * @return bool true if time to check, false if not
          */
@@ -450,8 +516,13 @@ if (!class_exists('UpgradeMODX')) {
             return $retVal;
         }
 
-              /**
-         * @return bool|string
+
+        /**
+         * Returns rendered version list for use
+         * in version list part of form
+         *
+         * @param $versions array -- finalized version list
+         * @return string
          */
         public function renderVersionList($versions) {
             $output = '';
@@ -487,15 +558,18 @@ EOD;
 
         /**
          * * Gets raw JSON version list from GitHub
+         *  Long param list is mainly for unit tests
+         *
          * @throws \GuzzleHttp\Exception\ClientException
-         * @param $url string
+         * @throws \GuzzleHttp\Exception\GuzzleException
+         * @param $url string -- GitHub URL
          * @param $githubTimeout int
          * @param $verifyPeer bool
          * @param null $githubUsername string
          * @param null $githubToken string
-         * @param null $certPath string
-         * @param bool $verbose bool
-         * @throws \GuzzleHttp\Exception\GuzzleException
+         * @param null $certPath string -- optional path to SSL cert file
+         * @param bool $verbose -- show verbose error messages
+         *
          *
          * @return mixed returns JSON version list as string or false on failure
          */
@@ -537,6 +611,9 @@ EOD;
         }
 
         /**
+         * Creates beautified error message based on
+         * exception thrown
+         *
          * @param $e GuzzleHttp\Exception\RequestException
          * @return string - Error message based on Exception
          *
@@ -569,22 +646,44 @@ EOD;
             return $retVal;
         }
 
+        /**
+         * Clears error array
+         */
         public function clearErrors() {
             $this->errors = array();
         }
 
+        /**
+         * returns $this->latestVersion
+         * @return string
+         */
         public function getLatestVersion() {
             return $this->latestVersion;
         }
 
+        /**
+         * Adds error to errors array
+         * @param $msg string
+         */
         public function setError($msg) {
             $this->errors[] = $msg;
         }
 
+        /**
+         * returns error array
+         *
+         * @return array
+         */
         public function getErrors() {
             return $this->errors;
         }
 
+        /**
+         * Sets $this->latestVersion based on
+         * $plOnly setting and raw versions JSON string
+         * @param $rawVersions array
+         * @param bool $plOnly
+         */
         public function setLatestVersion($rawVersions, $plOnly = true) {
             if ($plOnly) {
                 $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-pl)"/';
@@ -600,9 +699,9 @@ EOD;
         }
 
         /**
-         * @param $settingsVersion string
-         * @param $regenerate bool
-         * @return bool
+         * @param $settingsVersion string - current version from System Setting
+         * @param $regenerate bool - forces check with GitHub if true
+         * @return bool - returns true if upgrade is available or false if not
          * @throws GuzzleHttp\Exception\GuzzleException
          * @throws \Exception
          */
@@ -630,9 +729,18 @@ EOD;
             return $upgradeAvailable;
         }
 
+
+        /**
+         * Updates versionlist file with raw JSON version string
+         * only if it's not already up to date. Sets an error
+         * if versionlist file can't be opened for writing
+         *
+         * @param $rawVersions - JSON string with raw versionlist
+         * @param $fileVersion -- latest version in file when last saved
+         * @param $latestVersion
+         */
         public function updateVersionListFile($rawVersions, $fileVersion, $latestVersion) {
             $path = $this->versionListPath;
-           // $this->modx->log(modX::LOG_LEVEL_ERROR, 'PATH: ' . $path);
             if ($fileVersion == $latestVersion && $this->versionListExists()) {
                 return;
             }
@@ -652,6 +760,12 @@ EOD;
             }
         }
 
+        /**
+         * Creates directory if it doesn't exist
+         *
+         * @param $folder - path to directory
+         * @param int $perm - folder permissions
+         */
         public function mmkDir($folder, $perm = 0755) {
             if (!is_dir($folder)) {
                 mkdir($folder, $perm, true);

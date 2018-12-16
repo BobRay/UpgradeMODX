@@ -141,8 +141,6 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
                 ' -> ' . $this->destinationPath;
             $this->log($msg);
         }
-
-
     }
 
     /**
@@ -160,7 +158,6 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         /* message for next processor */
 
         return $this->prepareResponse($this->modx->lexicon('ugm_unzipping_files'));
-
     }
 }
 
