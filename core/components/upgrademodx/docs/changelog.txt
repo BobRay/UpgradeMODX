@@ -1,5 +1,20 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.1.2-pl
+---------------------------------
+Fix bug with getting latestVersion value
+Only update versionlist when necessary
+Eliminate unnecessary trip to GitHub
+Provide workaround for versionlist issues
+Add many unit tests
+Get true cache path from CacheManager
+Catch potential uncaught exception in copyFiles processor
+Cache versionlist for better performance
+Fix path bug in resolver
+Better error reporting from GitHub
+Add ugm_verbose setting for more detailed exception messages
+Update Swedish translation
+
 UpgradeMODX 2.1.0-pl
 ---------------------------------
 Fix bug with inactive submit button
