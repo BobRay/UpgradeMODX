@@ -120,6 +120,27 @@
 <h3>Troubleshooting</h3>
 
 <p>If UpgradeMODX reports trouble getting the versions from GitHub, you should get a helpful error message. If you'd like to see the full message returned from GitHub, set the <code>ugm_verbose</code> System Setting to <code>Yes</code>.</p>
+<br>
+<div class="box">
+    <p>As of UGM Version 2.1.1, if you get persistent errors about the versionlist, you can bypass them by creating the file: core/cache/upgrademodx/versionlist and following these steps:</p>
+
+    <ol>
+    <li>Go to this url: <a target="_blank" rel="noopener noreferrer" href="//api.github.com/repos/modxcms/revolution/tags">//api.github.com/repos/modxcms/revolution/tags</a>.</li>
+
+        <li>Copy the <b>entire</b> contents of your browser window (Ctrl-a, Ctrl-c)</li>
+
+        <li>Paste it into the file (Ctrl-v).</li>
+
+        <li>Note the name of the latest version at the top of the file (e.g., 2.7.0-pl)</li>
+
+        <li>Set the <code>ugm_last_check</code> and <code>ugm_file_version</code> settings to the latest version</li>
+
+        <li>Clear the Site Cache in the Manager</li>
+    </ol>
+
+    <p>You should be able to do as many upgrades as needed in the next 24 hours</p>
+</div>
+<br>
 
 <p>If you get frequent timeouts, you can increase the <code>ugm_github_timeout</code> or <code>ugm_modx_timeout</code> System Settings. They set how long the program will wait for a response. The default is 6 seconds.</p>
 
