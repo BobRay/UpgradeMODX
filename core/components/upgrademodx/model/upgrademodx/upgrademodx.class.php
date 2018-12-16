@@ -148,7 +148,7 @@ if (!class_exists('UpgradeMODX')) {
             $this->githubUrl = $this->modx->getOption('ugm_versionlist_api_url',
                 null, '//api.github.com/repos/modxcms/revolution/tags', true);;
             $this->errors = array();
-            $this->latestVersion = $this->modx->getOption('ugm_latestVersion', null, '', true);
+            $this->latestVersion = $this->modx->getOption('ugm_latest_version', null, '', true);
             $this->verifyPeer = (bool) $this->modx->getOption('ugm_ssl_verify_peer', null, true);
             $this->certPath = $this->modx->getOption('ugm_cert_path', null, '', true);
             $this->versionListPath = $this->getVersionListPath($this->modx->getOption('ugm_version_list_path', null),
