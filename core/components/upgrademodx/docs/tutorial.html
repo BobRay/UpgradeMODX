@@ -95,7 +95,7 @@
 <br/>
 <h3>Security</h3>
 
-<p>The upgrade processors can only be run from the Manager, and only by users who belong to allowed user groups (Administrator by default). The Even if the processors were available to the public, all they would do is upgrade your site.</p>
+<p>The upgrade processors can only be run from the Manager, and only by users who belong to allowed user groups (Administrator by default). Even if the processors were available to the public, all they would do is upgrade your site.</p>
 
 <p>The upgrade script downloads everything to the <code>/ugmtemp</code> directory in the MODX root directory (or another directory if you have set the <code>ugm_temp_dir</code> System Setting). At the default location, UpgradeMODX deletes that directory when it finishes successfully so nothing should be left behind after the upgrade.</p>
 
@@ -122,7 +122,7 @@
 <p>If UpgradeMODX reports trouble getting the versions from GitHub, you should get a helpful error message. If you'd like to see the full message returned from GitHub, set the <code>ugm_verbose</code> System Setting to <code>Yes</code>.</p>
 <br>
 <div class="box">
-    <p>As of UGM Version 2.1.1, if you get persistent errors about the versionlist, you can bypass them by creating the file: core/cache/upgrademodx/versionlist and following these steps:</p>
+    <p>As of UGM Version 2.1.2, if you get persistent errors about the versionlist, you can bypass them by creating the file: core/cache/upgrademodx/versionlist and following these steps:</p>
 
     <ol>
     <li>Go to this url: <a target="_blank" rel="noopener noreferrer" href="//api.github.com/repos/modxcms/revolution/tags">//api.github.com/repos/modxcms/revolution/tags</a>.</li>
