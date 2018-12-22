@@ -72,7 +72,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
     }
 
 
-    function remoteFilexists() {
+    function remoteFileExists() {
         /** @var $client GuzzleHttp\Client */
         $client = $this->client;
 
@@ -91,7 +91,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
     public function download() {
 
         /* See if the file is available for download */
-        if (!$this->remoteFilexists()) {
+        if (!$this->remoteFileExists()) {
             throw new Exception($this->modx->lexicon('ugm_no_such_version'));
         }
 
