@@ -584,7 +584,7 @@ EOD;
                 'Accept' => 'application/json',
             );
             if (!empty ($certPath))  {
-                $options['cert'] = $this->certPath;
+                $options['cert'] = $certPath;
             }
 
             $options['timeout'] = $githubTimeout;
