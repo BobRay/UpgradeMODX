@@ -1,33 +1,54 @@
-
-<p>UpgradeMODX provides a dashboard widget that checks for available upgrades to MODX and (optionally) installs them. The upgrade process is automatic and very simple. It shows you a form with available versions to install (you can set how many it shows). Once you've selected one, UpgradeMODX downloads all the files, puts them in place, and launches Setup. It should upgrade *any* version of MODX except the SDK development version. It should correctly upgrade versions with a moved and/or renamed manager, core, connectors, assets, or processors directory. I think it will upgrade the SDK version to the non-SDK version, but I haven't tested that.</p>
+<p>UpgradeMODX provides a dashboard widget that checks for available upgrades to MODX and (optionally) installs them.
+    The upgrade process is automatic and very simple. It shows you a form with available versions to install (you can
+    set how many it shows). Once you've selected one, UpgradeMODX downloads all the files, puts them in place, and
+    launches Setup. It should upgrade *any* version of MODX except the SDK development version. It should correctly
+    upgrade versions with a moved and/or renamed manager, core, connectors, assets, or processors directory. I think it
+    will upgrade the SDK version to the non-SDK version, but I haven't tested that.</p>
 
 <p>Upgrade MODX is only for upgrades. It will not install a fresh MODX site.</p>
 
-<br />
+<br/>
 <p>(Jump to <a href="[[~[[*id]]]]#system_settings">System Settings Table</a>)</p>
-<br />
+<br/>
 
-<p><b>No matter what upgrade method you use, you are strongly advised to make a full backup of the database and all files and be prepared to restore the site if things go wrong.</b></p>
+<p><b>No matter what upgrade method you use, you are strongly advised to make a full backup of the database and all
+    files and be prepared to restore the site if things go wrong.</b></p>
 
 
-<p>For testing purposes (and to fix possible corrupted or missing MODX files), you can &quot;upgrade&quot; MODX to the version you currently have by changing the <code>settings_version</code> System Setting to an earlier version.  UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup. In theory, UpgradeMODX can also be used to &quot;downgrade&quot; MODX to a previous version, though this has not been extensively tested.</p>
+<p>For testing purposes (and to fix possible corrupted or missing MODX files), you can &quot;upgrade&quot; MODX to the
+    version you currently have by changing the <code>settings_version</code> System Setting to an earlier version.
+    UpgradeMODX will go through all of its steps, download and replace all the MODX files, and launch setup. In theory,
+    UpgradeMODX can also be used to &quot;downgrade&quot; MODX to a previous version, though this has not been
+    extensively tested.</p>
 
-<br />
+<br/>
 <div class="box">
-    <p>If you have moved or renamed any directories. UpgradeMODX should work fine. It calculates the correct location for the files by reading the <code>config.inc.php</code> file. Setup should no longer ask you where your core directory is.</p>
+    <p>If you have moved or renamed any directories. UpgradeMODX should work fine. It calculates the correct location
+        for the files by reading the <code>config.inc.php</code> file. Setup should no longer ask you where your core
+        directory is.</p>
 </div>
 
-<br />
+<br/>
 <h3>Installing UpgradeMODX</h3>
 
-<p>Go to Extras -> Installer (or System -> Package Management in older versions of MODX) on the main menu in the MODX Manager and click on the &quot;Download Extras&quot; button. That will take you to the Revolution Repository (AKA Web Transport Facility). Put UpgradeMODX in the search box and press Enter. Click on the &quot;Download&quot; button, and once the package is downloaded, click on the &quot;Back to Package Manager&quot; button. That should bring you back to your Package Management grid. Click on the &quot;Install&quot; button next to UpgradeMODX in the grid. The UpgradeMODX package should now be installed.</p>
+<p>Go to Extras -> Installer (or System -> Package Management in older versions of MODX) on the main menu in the MODX
+    Manager and click on the &quot;Download Extras&quot; button. That will take you to the Revolution Repository (AKA
+    Web Transport Facility). Put UpgradeMODX in the search box and press Enter. Click on the &quot;Download&quot;
+    button, and once the package is downloaded, click on the &quot;Back to Package Manager&quot; button. That should
+    bring you back to your Package Management grid. Click on the &quot;Install&quot; button next to UpgradeMODX in the
+    grid. The UpgradeMODX package should now be installed.</p>
 
 <br/>
 <div class="box">
     <h3>Upgrade Notes</h3>
-    <p>Version 2.0.x of UpgradeMODX has a very different look and many upgrades. It stores all configuration data in System Settings instead of snippet properties, so all settings will survive upgrades. The Settings can be found by going to System (gear icon) -> System Settings and selecting the <code>upgrademodx</code> namespace. The installation script will attempt to copy your snippet property values to the new System Settings. In view of the attacks on MODX, the default <code>interval</code> will be reset to 1 Day.</p>
+    <p>Version 2.0.x of UpgradeMODX has a very different look and many upgrades. It stores all configuration data in
+        System Settings instead of snippet properties, so all settings will survive upgrades. The Settings can be found
+        by going to System (gear icon) -> System Settings and selecting the <code>upgrademodx</code> namespace. The
+        installation script will attempt to copy your snippet property values to the new System Settings. In view of the
+        attacks on MODX, the default <code>interval</code> will be reset to 1 Day.</p>
 
-    <p>Most of the work is now done in JavaScript and MODX processors. The UpgradeMODXScriptSource chunk has been removed.</p>
+    <p>Most of the work is now done in JavaScript and MODX processors. The UpgradeMODXScriptSource chunk has been
+        removed.</p>
 
     <p>Here's a quick summary showing some of the new features:</p>
 
@@ -49,44 +70,73 @@
 
     </ul>
 
-    <p>Because Guzzle is used for the HTTP requests, PHP 5.4 is now the minimum required version of PHP, though some users have reported that they needed to upgrade to PHP 7 to get UpgradeMODX to work for them.</p>
+    <p>Because Guzzle is used for the HTTP requests, PHP 5.4 is now the minimum required version of PHP, though some
+        users have reported that they needed to upgrade to PHP 7 to get UpgradeMODX to work for them.</p>
 </div>
 
 <h3>Credits</h3>
-<p>This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Sharapov, Bumkaka, Inreti, Zaigham Rana, frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.</p>
+<p>This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko
+    (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Sharapov, Bumkaka, Inreti, Zaigham Rana,
+    frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.</p>
 
 <br/>
 <h3>Usage</h3>
 
-<p>To upgrade your site, just click select a version to upgrade to and click on the &quot;Upgrade MODX&quot; button in the widget. Downloading and extracting the files may take some time, so be patient.</p>
+<p>To upgrade your site, just click select a version to upgrade to and click on the &quot;Upgrade MODX&quot; button in
+    the widget. Downloading and extracting the files may take some time, so be patient.</p>
 
-<p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) -> Dashboards.</p>
+<p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have
+    another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) ->
+    Dashboards.</p>
 
-<br />
+<br/>
 
 <div class="box">
-    <p>In very old versions of MODX, creation of the dashboard widget will fail and you'll see a bunch of error messages during the install. The UpgradeMODX installer will attempt to create a resource  called <code>UpgradeMODX</code> that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an upgrade is available, it should let you launch the installer.</p>
+    <p>In very old versions of MODX, creation of the dashboard widget will fail and you'll see a bunch of error messages
+        during the install. The UpgradeMODX installer will attempt to create a resource called <code>UpgradeMODX</code>
+        that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an
+        upgrade is available, it should let you launch the installer.</p>
 
-<p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the version of PHP to version 5.4, or manually make the changes to the three files shown in <a href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
+    <p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX
+        install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the
+        version of PHP to version 5.4, or manually make the changes to the three files shown in <a
+                href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
 
-<p>Once you've upgraded MODX to a recent-enough version, you can uninstall and re-install UpgradeMODX to get the widget. You can also upgrade to the current version of PHP.</p>
+    <p>Once you've upgraded MODX to a recent-enough version, you can uninstall and re-install UpgradeMODX to get the
+        widget. You can also upgrade to the current version of PHP.</p>
 </div>
 
 
 <br/>
 
 
-<p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change the <code>ugm_groups</code> System Setting. You can also change the <code>ugm_interval</code> System Setting if you'd like it to check for upgrades more, or less often, though the default value is now 1 day.</p>
+<p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change
+    the <code>ugm_groups</code> System Setting. You can also change the <code>ugm_interval</code> System Setting if
+    you'd like it to check for upgrades more, or less often, though the default value is now 1 day.</p>
 
 <p>Hint: To get to the Manager's dashboard, you can click on the MODX logo at the upper left.</p>
 
-<p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60 seconds. It will only execute when you visit the dashboard at least 60 seconds after the last check. The minimum recommendation for the <code>ugm_interval</code> System Setting on a production site is <code>1 hour</code>.</p>
+<p>Note that if you set the interval to 60 seconds (as it is in the beta and rc versions), it won't execute every 60
+    seconds. It will only execute when you visit the dashboard at least 60 seconds after the last check. The minimum
+    recommendation for the <code>ugm_interval</code> System Setting on a production site is <code>1 hour</code>.</p>
 
-<p>By default, UpgradeMODX considers only pl (stable) versions for upgrade (except in the beta and rc versions). You can change the <code>ugm_pl_only</code> System Setting to see all versions. You can change the <code>ugm_versions_to_show</code> System Setting to show more versions (the default is 5). UpgradeMODX will automatically extend the versions shown to include your current version. Initially, the interval for checking is set to <code>1 day</code> (except in the beta and rc versions where it's 60 seconds). You can change that by setting the <code>ugm_interval</code> System Setting. That setting should always be an integer followed by the name of the unit (e.g., 6 hours, 3 days, 1 week, 1 month.</p>
+<p>By default, UpgradeMODX considers only pl (stable) versions for upgrade (except in the beta and rc versions). You can
+    change the <code>ugm_pl_only</code> System Setting to see all versions. You can change the <code>ugm_versions_to_show</code>
+    System Setting to show more versions (the default is 5). UpgradeMODX will automatically extend the versions shown to
+    include your current version. Initially, the interval for checking is set to <code>1 day</code> (except in the beta
+    and rc versions where it's 60 seconds). You can change that by setting the <code>ugm_interval</code> System Setting.
+    That setting should always be an integer followed by the name of the unit (e.g., 6 hours, 3 days, 1 week, 1 month.
+</p>
 
-<p>If you would like to hide the widget when no upgrade is available, change the <code>ugm_hide_when_no_upgrade</code> System Setting. The widget will still check for upgrades at the selected interval, but won't appear in the dashboard(s) unless an upgrade exists.</p>
+<p>If you would like to hide the widget when no upgrade is available, change the <code>ugm_hide_when_no_upgrade</code>
+    System Setting. The widget will still check for upgrades at the selected interval, but won't appear in the
+    dashboard(s) unless an upgrade exists.</p>
 
-<p>If you would like to fool the widget into thinking there is an upgrade, you can change the <code>settings_version</code> System Setting. Make it any earlier version (it doesn't have to be a real version) and the widget will show an update. If you install the update (even though it's not an update) and finish Setup, it will restore the System Setting to its correct value. If you don't run an upgrade, be sure to change the System Setting back to its original value.</p>
+<p>If you would like to fool the widget into thinking there is an upgrade, you can change the
+    <code>settings_version</code> System Setting. Make it any earlier version (it doesn't have to be a real version) and
+    the widget will show an update. If you install the update (even though it's not an update) and finish Setup, it will
+    restore the System Setting to its correct value. If you don't run an upgrade, be sure to change the System Setting
+    back to its original value.</p>
 
 <p>You can set the language used by the widget with the <code>ugm_language</code> System Setting</p>
 
@@ -95,37 +145,71 @@
 <br/>
 <h3>Security</h3>
 
-<p>The upgrade processors can only be run from the Manager, and only by users who belong to allowed user groups (Administrator by default). Even if the processors were available to the public, all they would do is upgrade your site.</p>
+<p>The upgrade processors can only be run from the Manager, and only by users who belong to allowed user groups
+    (Administrator by default). Even if the processors were available to the public, all they would do is upgrade your
+    site.</p>
 
-<p>The upgrade script downloads everything to the <code>/ugmtemp</code> directory in the MODX root directory (or another directory if you have set the <code>ugm_temp_dir</code> System Setting). At the default location, UpgradeMODX deletes that directory when it finishes successfully so nothing should be left behind after the upgrade.</p>
+<p>The upgrade script downloads everything to the <code>/ugmtemp</code> directory in the MODX root directory (or another
+    directory if you have set the <code>ugm_temp_dir</code> System Setting). At the default location, UpgradeMODX
+    deletes that directory when it finishes successfully so nothing should be left behind after the upgrade.</p>
 
-    <p>If you have changed the directory, UpgradeMODX will leave the downloaded <code>.zip</code> files in place. This is handy if you have multiple MODX installs on the same server and avoid downloading the <code>.zip</code> file for each one.</p>
+<p>If you have changed the directory, UpgradeMODX will leave the downloaded <code>.zip</code> files in place. This is
+    handy if you have multiple MODX installs on the same server and avoid downloading the <code>.zip</code> file for
+    each one.</p>
 
-<p>After upgrading the site, It's a good idea to make sure that the <code>/ugmtemp</code> directory has been removed, especially if the script times out or fails. The files are relatively harmless, but their existence could identify your site as a MODX site, and there's no point in giving potential hackers that information.</p>
+<p>After upgrading the site, It's a good idea to make sure that the <code>/ugmtemp</code> directory has been removed,
+    especially if the script times out or fails. The files are relatively harmless, but their existence could identify
+    your site as a MODX site, and there's no point in giving potential hackers that information.</p>
 
-<br />
+<br/>
 <h3>GitHub API Rate Limit Exceeded</h3>
-<br />
+<br/>
 
-<p>The default install of UpgradeMODX makes anonymous requests to the MODX repository at GitHub for information. Requests of this type are limited to 60 per hour. If a lot of people are making requests, or your <code>ugm_interval</code> setting is very short, or if you are doing a lot of testing, this limit could be hit and you will either get the error message: <code>GitHub API Rate Limit Exceeded</code> or the script will report that it couldn't get the version list from GitHub. You can try again later, but to solve this problem permanently, you can get your own GitHub token so your requests will not be anonymous. That will bump your limit up to 5,000 requests per hour.</p>
+<p>The default install of UpgradeMODX makes anonymous requests to the MODX repository at GitHub for information.
+    Requests of this type are limited to 60 per hour. If a lot of people are making requests, or your
+    <code>ugm_interval</code> setting is very short, or if you are doing a lot of testing, this limit could be hit and
+    you will either get the error message: <code>GitHub API Rate Limit Exceeded</code> or the script will report that it
+    couldn't get the version list from GitHub. You can try again later, but to solve this problem permanently, you can
+    get your own GitHub token so your requests will not be anonymous. That will bump your limit up to 5,000 requests per
+    hour.</p>
 
-<p>You can create a free account at GitHub, or use an existing one. To get a token, follow the directions <a href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">here</a>. Copy your token to the clipboard, then paste it into the <code>ugm_github_token</code> System Setting. Enter your GitHub username in the <code>ugm_github_username</code> System Setting. Don't forget to clear the cache after changing any settings. Some browsers will cache the request headers, which contain the credentials, so you may also need to clear your browser cache and cookies.</p>
+<p>You can create a free account at GitHub, or use an existing one. To get a token, follow the directions <a
+        href="https://help.github.com/articles/creating-an-access-token-for-command-line-use/" target="_blank">here</a>.
+    Copy your token to the clipboard, then paste it into the <code>ugm_github_token</code> System Setting. Enter your
+    GitHub username in the <code>ugm_github_username</code> System Setting. Don't forget to clear the cache after
+    changing any settings. Some browsers will cache the request headers, which contain the credentials, so you may also
+    need to clear your browser cache and cookies.</p>
 
 <p></p>
 
 <h3>Multiple Installs</h3>
 
-<p>If you have multiple MODX sites on the same server, you can set the <code>ugm_temp_dir</code> System Setting to a path that's available to all sites, like your server's tmp directory. Once you do that, UpgradeMODX will leave the downloaded .zip file in place and skip the download for all sites but the first one. Remember to change that setting on all the sites before performing any upgrades.</p>
+<p>If you have multiple MODX sites on the same server, you can set the <code>ugm_temp_dir</code> System Setting to a
+    path that's available to all sites, like your server's tmp directory. Once you do that, UpgradeMODX will leave the
+    downloaded .zip file in place and skip the download for all sites but the first one. Remember to change that setting
+    on all the sites before performing any upgrades.</p>
 
 <h3>Troubleshooting</h3>
 
-<p>If UpgradeMODX reports trouble getting the versions from GitHub, you should get a helpful error message. If you'd like to see the full message returned from GitHub, set the <code>ugm_verbose</code> System Setting to <code>Yes</code>.</p>
+<p>If UpgradeMODX reports trouble getting the versions from GitHub, you should get a helpful error message. If you'd
+    like to see the full message returned from GitHub, set the <code>ugm_verbose</code> System Setting to
+    <code>Yes</code>.</p>
 <br>
 <div class="box">
-    <p>As of UGM Version 2.1.2, if you get persistent errors about the versionlist, you can bypass them by creating the file: core/cache/upgrademodx/versionlist and following these steps:</p>
+    <p>As of UGM Version 2.1.2, if you get persistent errors about the versionlist, you can bypass them by following the
+        steps below. Before you do that, though, try turning off the MODX News and Security Feeds. Go to System
+        (gear->icon) -> System Settings and put <code>feed</code> in the search box at the upper right.</p>
+
+    <p>It might also be wise to move the UpgradeMODX widget above the Feed widgets in your dashboard by giving it a
+        lower rank in System -> Dashboards. Right-click on your dashboard and select &quot;Update Dashboard.&quot;
+        Change the ranks and click on the &quot;Save&quot; button.</p>
+
+    <p>If none of that works, create the file: core/cache/upgrademodx/versionlist then follow these steps:</p>
 
     <ol>
-    <li>Go to this url: <a target="_blank" rel="noopener noreferrer" href="//api.github.com/repos/modxcms/revolution/tags">//api.github.com/repos/modxcms/revolution/tags</a>.</li>
+        <li>Go to this url: <a target="_blank" rel="noopener noreferrer" style="overflow-wrap: break-word;
+  word-wrap: break-word;" href="//api.github.com/repos/modxcms/revolution/tags">//api.github.com/repos/modxcms/revolution/tags</a>.
+        </li>
 
         <li>Copy the <b>entire</b> contents of your browser window (Ctrl-a, Ctrl-c)</li>
 
@@ -142,36 +226,60 @@
 </div>
 <br>
 
-<p>If you get frequent timeouts, you can increase the <code>ugm_github_timeout</code> or <code>ugm_modx_timeout</code> System Settings. They set how long the program will wait for a response. The default is 6 seconds.</p>
+<p>If you get frequent timeouts, you can increase the <code>ugm_github_timeout</code> or <code>ugm_modx_timeout</code>
+    System Settings. They set how long the program will wait for a response. The default is 6 seconds.</p>
 
-<p>UpgradeMODX now uses Guzzle (which uses cURL by default) to check for and download files. If cURL isn't installed on your server, Guzzle uses streams to get remote files and requires PHP 5.4 to work.</p>
+<p>UpgradeMODX now uses Guzzle (which uses cURL by default) to check for and download files. If cURL isn't installed on
+    your server, Guzzle uses streams to get remote files and requires PHP 5.4 to work.</p>
 
-<p>UpgradeMODX uses ZipArchive to unzip the files. You can set the <code>ugm_force_pcl_zip</code> SystemSetting to <code>Yes</code> to avoid using ZipArchive to unzip the downloaded MODX file. </p>
+<p>UpgradeMODX uses ZipArchive to unzip the files. You can set the <code>ugm_force_pcl_zip</code> SystemSetting to
+    <code>Yes</code> to avoid using ZipArchive to unzip the downloaded MODX file. </p>
 
-<br />
+<br/>
 
 <div class="box">
-    <p>In Version 2.0.0 of UpgradeMODX the cURL SSL_VERIFY_PEER option to is set to <code>true</code> by default in Guzzle. Guzzle uses the server's certificate file, so there should be no need to turn it off. Having this setting off leaves you vulnerable to man-in-the-middle attacks where the attacker could pretend to be the MODX repo and lead you to download malicious code instead of MODX. If you can't get UpgradeMODX to work because of SSL issues, the best solution is to check with your host. There is a list <a href="http://docs.guzzlephp.org/en/stable/request-options.html#verify">here</a> of the places Guzzle looks for the certificate file.</p>
+    <p>In Version 2.0.0 of UpgradeMODX the cURL SSL_VERIFY_PEER option to is set to <code>true</code> by default in
+        Guzzle. Guzzle uses the server's certificate file, so there should be no need to turn it off. Having this
+        setting off leaves you vulnerable to man-in-the-middle attacks where the attacker could pretend to be the MODX
+        repo and lead you to download malicious code instead of MODX. If you can't get UpgradeMODX to work because of
+        SSL issues, the best solution is to check with your host. There is a list <a
+                href="http://docs.guzzlephp.org/en/stable/request-options.html#verify">here</a> of the places Guzzle
+        looks for the certificate file.</p>
 
-<p>Turning the <code>ugm_ssl_verify_peer</code> System Setting off might make it work for you, but in a less secure way.
+    <p>Turning the <code>ugm_ssl_verify_peer</code> System Setting off might make it work for you, but in a less secure
+        way.
 
-    <p>Version 2.0.0 has a new setting: <code>ugm_cert_path</code> (empty by default). If you are having SSL trouble, you could try asking the host or checking their forum for the path to the SSL cert file. Paste that path into the <code>value</code> field of this setting.</p>
+    <p>Version 2.0.0 has a new setting: <code>ugm_cert_path</code> (empty by default). If you are having SSL trouble,
+        you could try asking the host or checking their forum for the path to the SSL cert file. Paste that path into
+        the <code>value</code> field of this setting.</p>
 </div>
 <br>
 
-<p>If UpgradeMODX shows an available upgrade but the submit button doesn't work, check the spelling of the  <code>assets/components/upgrademodx/js/progressButton.js</code> file. Make sure the "B" matches the case of the filename in the UpgradeMODXTpl chunk.</p>
+<p>If UpgradeMODX shows an available upgrade but the submit button doesn't work, check the spelling of the <code>assets/components/upgrademodx/js/progressButton.js</code>
+    file. Make sure the "B" matches the case of the filename in the UpgradeMODXTpl chunk.</p>
 
-<p>Note that some browsers cache the credentials used in HTTP requests. If you change the <code>ugm_github_username</code> and <code>ugm_github_token</code> settings. They may not take effect until you clear the browser cache (and maybe the cookies) or use a different browser that doesn't have the cached credentials.</p>
+<p>Note that some browsers cache the credentials used in HTTP requests. If you change the
+    <code>ugm_github_username</code> and <code>ugm_github_token</code> settings. They may not take effect until you
+    clear the browser cache (and maybe the cookies) or use a different browser that doesn't have the cached credentials.
+</p>
 
-<p>If the widget doesn't appear. Go to System (gear icon) -> Dashboards and check to make sure the widget is on the default dashboard (or whatever dashboard you're using).</p>
+<p>If the widget doesn't appear. Go to System (gear icon) -> Dashboards and check to make sure the widget is on the
+    default dashboard (or whatever dashboard you're using).</p>
 
 <h3>Catch 22</h3>
 
-<p>There is a bug in very old versions of MODX that prevents some elements of UpgradeMODX and other extras from being installed if you are using PHP 7 (see the note above about fixing this bug manually). At the same time, UpgradeMODX now requires PHP 5.4 or above because that's what Guzzle requires. There may be other incompatibilities in older versions of MODX and some of your plugins might interfere with the setup process.</p>
+<p>There is a bug in very old versions of MODX that prevents some elements of UpgradeMODX and other extras from being
+    installed if you are using PHP 7 (see the note above about fixing this bug manually). At the same time, UpgradeMODX
+    now requires PHP 5.4 or above because that's what Guzzle requires. There may be other incompatibilities in older
+    versions of MODX and some of your plugins might interfere with the setup process.</p>
 
-<p>If UpgradeMODX fails for you and the troubleshooting steps above don't work, the best approach is to use PHP 5.4, and upgrade MODX manually using the method described <a href="https://bobsguides.com/modx-upgrade-faq.html">here</a>. Make sure you install all major versions of MODX (the ones ending in .0).</p>
+<p>If UpgradeMODX fails for you and the troubleshooting steps above don't work, the best approach is to use PHP 5.4, and
+    upgrade MODX manually using the method described <a href="https://bobsguides.com/modx-upgrade-faq.html">here</a>.
+    Make sure you install all major versions of MODX (the ones ending in .0).</p>
 
-<p>Once you hit MODX 2.4, you should be able to upgrade to PHP 7 (assuming that you've fixed the bug), then uninstall and remove Upgrade MODX, re-install it, and use UpgradeMODX from that point on. For security, and to prevent future hassles, keep your MODX install up to date.</p>
+<p>Once you hit MODX 2.4, you should be able to upgrade to PHP 7 (assuming that you've fixed the bug), then uninstall
+    and remove Upgrade MODX, re-install it, and use UpgradeMODX from that point on. For security, and to prevent future
+    hassles, keep your MODX install up to date.</p>
 
 
 <br/>
@@ -186,7 +294,7 @@
         <th>Default</th>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">GitHub</td>
+        <td colspan="3" style="text-align:left;padding-left:100px;" class="properties_header">GitHub</td>
     </tr>
     <tr>
         <td>ugm_verbose</td>
@@ -214,12 +322,12 @@
         <td>6</td>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Widget</td>
+        <td colspan="3" style="text-align:left;padding-left:100px;" class="properties_header">Widget</td>
     </tr>
     <tr>
         <td>ugm_versionlist_api_url</td>
         <td>URL of API to get version list from</td>
-        <td>//api.github.com/repos/modxcms/revolution/tags</td>
+        <td style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word;">//api.github.com/repos/modxcms/revolution/tags</td>
     </tr>
     <tr>
         <td>ugm_temp_dir</td>
@@ -254,10 +362,10 @@
     <tr>
         <td>ugm_version_list_path</td>
         <td>Path to versionlist file (minus the filename -- should end in a slash)</td>
-        <td>{core_path}cache/upgrademodx/</td>
+        <td style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word;">{core_path}cache/upgrademodx/</td>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Download</td>
+        <td colspan="3" style="text-align:left;padding-left:100px;" class="properties_header">Download</td>
     </tr>
     <tr>
         <td>ugm_force_pcl_zip</td>
@@ -275,7 +383,7 @@
         <td>1</td>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Form</td>
+        <td colspan="3" style="text-align:left;padding-left:100px;" class="properties_header">Form</td>
     </tr>
     <tr>
         <td>ugm_language</td>
@@ -293,7 +401,7 @@
         <td>5</td>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:left;padding-left:100px; class="properties_header">Security</td>
+        <td colspan="3" style="text-align:left;padding-left:100px;" class="properties_header">Security</td>
     </tr>
     <tr>
         <td>ugm_groups</td>
