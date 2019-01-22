@@ -40,7 +40,8 @@ $(document).ajaxError(function (event, request, settings) {
 
 var bttn = document.getElementById('ugm_submit_button');
 var old = '';
-new ProgressButton(bttn, {
+if (bttn) {
+  new ProgressButton(bttn, {
     callback: function (instance) {
 
         //alert("Clicked");
@@ -222,7 +223,8 @@ new ProgressButton(bttn, {
         };
         process();
     }
-});
+  });
+}
 
 function displayError($msg, progressInterval, instance) {
     clearInterval(progressInterval);
