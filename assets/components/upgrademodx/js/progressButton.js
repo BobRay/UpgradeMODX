@@ -51,6 +51,9 @@
         transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ];
 
     function ProgressButton( el, options ) {
+        if (!el) {
+            return;
+        }
         this.button = el;
         this.options = extend( {}, this.options );
         extend( this.options, options );
