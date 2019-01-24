@@ -639,7 +639,7 @@ EOD;
                 }
             } elseif (empty($code) || ($code >= 500)) {
                 $code = ((int) $code === 0) ? 'No Code Returned' : $code;
-                $retVal = $code . ' ' . 'Connection error (no internet?)';
+                $retVal = $code . ' ' . 'Connection error (no internet?) -- Try turning off News and Security feeds.';
             }
             $retVal = $verbose? $prefix . ' ' . $msg : $prefix . $retVal;
             $this->setError($retVal);
