@@ -1,0 +1,28 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WebDriver or PhpBrowser.
+# If you need both WebDriver and PHPBrowser tests - create a separate suite.
+
+actor: AcceptanceTester
+modules:
+    enabled:
+        - \Helper\Acceptance
+        - WebDriver
+        - Asserts
+    config:
+        WebDriver:
+            url: 'http://localhost/test/'
+            browser: 'chrome'
+            window_size: 'maximize'
+            wait: 5
+              # window_size: false
+              #capabilities:
+            # chromeOptions:
+            #args: ["--headless", "--disable-gpu", "--disable-extensions"]
+
+extensions:
+    enabled:
+        - Codeception\Extension\RunProcess:
+              - java -jar c:/Users/BobRay/Downloads/Selenium/selenium-server-standalone-3.9.0.jar
+              - C:/Users/BobRay/Downloads/selenium-drivers/chromedriver.exe

@@ -1,0 +1,1103 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en" style="" class=" js csstransforms3d csstransitions csstransformspreserve3d  ext-strict x-viewport"><head>
+<title>Dashboard | xxx MODX Revolution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    
+<link rel="stylesheet" type="text/css" href="/test/manager/assets/ext3/resources/css/ext-all-notheme-min.css" />
+<link rel="stylesheet" type="text/css" href="/test/manager/templates/default/css/index.css?v=f8bf0b2e" />
+
+<script src="/test/manager/assets/ext3/adapter/ext/ext-base.js" type="text/javascript"></script>
+<script src="/test/manager/assets/ext3/ext-all.js" type="text/javascript"></script>
+<script src="/test/manager/assets/modext/core/modx.js?v=f8bf0b2e" type="text/javascript"></script>
+<script src="/test/connectors/lang.js.php?ctx=mgr&amp;topic=topmenu,file,resource,welcome,configcheck,controlerrorlog:default&amp;action=" type="text/javascript"></script>
+<script src="/test/connectors/modx.config.js.php?action=&amp;wctx=mgr" type="text/javascript"></script>
+
+<script type="text/javascript" src="/test/manager/assets/modext/core/modx.localization.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/util/utilities.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/util/datetime.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/util/uploaddialog.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/util/fileupload.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/util/superboxselect.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/core/modx.component.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/core/modx.view.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.button.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.searchbar.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.panel.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.tabs.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.window.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.combo.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.grid.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.console.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.portal.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/windows.js"></script>
+<script type="text/javascript" src="/test/manager/assets/fileapi/FileAPI.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/util/multiuploaddialog.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/tree/modx.tree.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/tree/modx.tree.treeloader.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/modx.treedrop.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/core/modx.tree.asynctreenode.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/resource/modx.tree.resource.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/element/modx.tree.element.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/system/modx.tree.directory.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/system/modx.panel.filetree.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/widgets/media/modx.browser.js"></script>
+<script type="text/javascript" src="/test/manager/assets/modext/core/modx.layout.js"></script>
+<script type="text/javascript" src="/test/manager/templates/default/js/layout.js"></script>
+<script type="text/javascript">
+Ext.onReady(function() {
+    MODx.defaultState = {"modx-resource-tree":["\/root\/web_0"],"undefined-sort-default":"menuindex","undefined-sort":"menuindex"};
+    MODx.load({xtype: "modx-layout",accordionPanels: MODx.accordionPanels || [],auth: "modx5c4229b10bbfd0.28780067_105c4ce2c10b0736.02295180"});
+});
+</script>
+<script src="/test/assets/components/controlerrorlog/js/mgr/cel.default.js" type="text/javascript"></script>
+<script src="/test/manager/assets/modext/widgets/security/modx.grid.user.online.js" type="text/javascript"></script>
+<script src="/test/manager/assets/modext/widgets/security/modx.grid.user.recent.resource.js" type="text/javascript"></script>
+<script src="/test/manager/assets/modext/widgets/modx.panel.welcome.js" type="text/javascript"></script>
+<script src="/test/manager/assets/modext/sections/welcome.js" type="text/javascript"></script>
+<link href="/test/assets/components/controlerrorlog/css/mgr/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">MODx.helpUrl = ""</script>
+<script>	var cel_config = {"name":"C:\/xampp\/htdocs\/test\/core\/cache\/logs\/error.log","tooLarge":false,"size":0,"empty":true,"last":15,"auto_refresh":true,"refresh_freq":60000,"connector_url":"\/test\/assets\/components\/controlerrorlog\/connector.php"}; </script>
+
+    <script type="text/javascript">
+      Ext.applyIf(MODx.lang, {"active_users_none":"No currently active users.","add_user":"Add User","create_resource":"Create Resource","dashboard":"Dashboard","documentation":"Documentation","file_bug":"File a bug","forums":"Forums","help":"Help","modx_news":"MODX News","onlineusers_action":"Action","onlineusers_actionid":"Action-ID","onlineusers_ipaddress":"User's IP address","onlineusers_lasthit":"Last hit","onlineusers_message":"This list shows all users active within the last 20 minutes (current time is [[+curtime]])","onlineusers_title":"Online users","onlineusers_user":"User","onlineusers_userid":"User's ID","quicklinks":"Quicklinks","security_notices":"Security Notices","view_tree":"View Tree","welcome_back":"Welcome back, [[+name]].","welcome_messages":"Your Inbox contains &lt;strong&gt;%d&lt;\/strong&gt; message(s), of which &lt;strong&gt;%s&lt;\/strong&gt; are unread.","welcome_title":"Welcome to your MODX Content Manager","yourinfo_message":"This section shows some information about you:","yourinfo_previous_login":"Your last login:","yourinfo_title":"Your info","yourinfo_total_logins":"Total number of logins:","yourinfo_username":"You are logged in as:"});
+      Ext.onReady(function() {
+        MODx.load({
+          xtype: "modx-grid-user-online"
+          ,renderTo: "modx-grid-user-online"
+        });
+      });
+    </script>
+<script type="text/javascript">Ext.onReady(function() {
+    MODx.load({
+        xtype: "modx-grid-user-recent-resource"
+        ,user: "10"
+        ,renderTo: "modx-grid-user-recent-resource"
+    });
+});</script>
+<script type="text/javascript">
+Ext.onReady(function() {
+    MODx.load({
+        xtype: "modx-page-welcome"
+        ,dashboard: {"id":1,"name":"Default","description":"","hide_trees":false}
+    });
+});
+</script>
+<script>
+var ugmConnectorUrl = "/test/assets/components/upgrademodx/connector.php";
+var ugm_config = {"ugm_setup_url":"http:\/\/localhost\/test\/setup\/index.php"};
+var ugm_setup_url = "http://localhost/test/setup/index.php";
+</script>
+<link rel="stylesheet" href="/test/assets/components/upgrademodx/css/progress.css" type="text/css" />
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js?v=270pl"></script>
+<script type="text/javascript" src="/test/assets/components/upgrademodx/js/modernizr.custom.js?v=270pl"></script>
+
+<script type="text/javascript">
+    Ext.onReady(function() {
+        // Enable site name tooltip (on overflow only)
+        if( Ext.get('site_name').dom.scrollWidth &gt; Ext.get('site_name').dom.clientWidth ){
+          new Ext.ToolTip({
+              title: Ext.get('site_name').dom.title
+              ,target: Ext.get('site_name')
+          });
+        }
+                new MODx.SearchBar;
+            });
+</script>
+
+</head>
+<body id="modx-body-tag" class=" ext-webkit ext-chrome x-border-layout-ct">
+
+<div id="modx-browser"></div>
+<div id="modx-container">
+    <div id="modx-header" style="left: 0px; top: 0px; width: 1536px; height: 55px;">
+        <div id="modx-navbar">
+            <ul id="modx-user-menu"><li class="errorlog-li"><a id="errorlog-link" class="errorlog-empty" href="javascript:showLog()" title="Open the error log in a new window"><i class="celicon"></i></a></li>
+                                <li id="limenu-user" class="top">
+<a href="javascript:;"><span id="user-avatar"><img src="https://www.gravatar.com/avatar/2b03ef645fb6395dd55cbbdfa04ea4da?s=128&amp;d=mm" /></span> <span id="user-username">JoeTester</span></a>
+<ul class="modx-subnav">
+<li id="profile">
+<a href="?a=security/profile">Edit Account<span class="description">Update account email, password or info</span>
+</a>
+</li><li id="messages">
+<a href="?a=security/message">Messages<span class="description">View and send messages</span>
+</a>
+</li><li id="logout">
+<a href="?a=security/logout" onclick=" MODx.logout(); return false; ">Logout<span class="description">Log out of the Manager</span>
+</a>
+</li></ul>
+</li>
+<li id="limenu-admin" class="top">
+<a href="javascript:;"><i class="icon-gear icon icon-large"></i></a>
+<ul class="modx-subnav">
+<li id="system_settings">
+<a href="?a=system/settings">System Settings<span class="description">Configure all system settings</span>
+</a>
+</li><li id="bespoke_manager">
+<a href="?a=security/forms">Manager Customization<span class="description">Manage bespoke MODX Managers</span>
+</a>
+</li><li id="dashboards">
+<a href="?a=system/dashboards">Dashboards<span class="description">Manage custom login Dashboards</span>
+</a>
+</li><li id="contexts">
+<a href="?a=context">Contexts<span class="description">Manage Contexts and their settings</span>
+</a>
+</li><li id="edit_menu">
+<a href="?a=system/action">Menus<span class="description">Manage the top Manager menu</span>
+</a>
+</li><li id="acls">
+<a href="?a=security/permission">Access Control Lists<span class="description">Manage Permissions through Groups, Roles and Access Policies</span>
+</a>
+</li><li id="propertysets">
+<a href="?a=element/propertyset">Property Sets<span class="description">Manage Element property sets</span>
+</a>
+</li><li id="lexicon_management">
+<a href="?a=workspaces/lexicon">Lexicons<span class="description">Edit Manager language strings</span>
+</a>
+</li><li id="namespaces">
+<a href="?a=workspaces/namespace">Namespaces<span class="description">Distinguish between Add-on settings</span>
+</a>
+</li></ul>
+</li>
+<li id="limenu-about">
+<a href="?a=help" title=""><i class="icon-question-circle icon icon-large"></i></a>
+</li>
+            </ul>
+
+            <ul id="modx-topnav">
+                <li id="modx-home-dashboard">
+                    <a href="?" title="MODX 2.7.0-pl (traditional)&#10;Dashboard">Dashboard</a>
+                </li>
+                <li id="modx-site-info">
+                    <div id="site_name" class="info-item site_name" title="xxx MODX Revolution">xxx MODX Revolution</div>
+                                        <div class="info-item full_appname">MODX Revolution 2.7.0-pl</div>
+                </li>
+                                <li id="modx-manager-search-icon">
+                    <a href="javascript:;" onclick="Ext.getCmp('modx-uberbar').toggle()" title="Search">
+                        <span class="icon-stack icon-lg">
+                          <i class="icon icon-square icon-stack-2x"></i>
+                          <i class="icon icon-search icon-stack-1x"></i>
+                        </span>
+                    </a>
+                </li>
+                                <li id="limenu-site" class="top">
+<a href="javascript:;">Content</a>
+<ul class="modx-subnav">
+<li id="new_resource">
+<a href="?a=resource/create">New Resource<span class="description">Create a Resource — usually a web page</span>
+</a>
+</li><li id="preview">
+<a onclick=" MODx.preview(); return false; ">Preview Site<span class="description">View your website in a new window</span>
+</a>
+</li><li id="import_site">
+<a href="?a=system/import/html">Import HTML<span class="description">Import HTML files to Resources</span>
+</a>
+</li><li id="import_resources">
+<a href="?a=system/import">Import Static Resources<span class="description">Import any Content Type based on file extension to Static Resources</span>
+</a>
+</li><li id="resource_groups">
+<a href="?a=security/resourcegroup">Resource Groups<span class="description">Assign Resources to Groups</span>
+</a>
+</li><li id="content_types">
+<a href="?a=system/contenttype">Content Types<span class="description">Add content types for resources, such as .html, .js, etc.</span>
+</a>
+</li></ul>
+</li>
+<li id="limenu-media" class="top">
+<a href="javascript:;">Media</a>
+<ul class="modx-subnav">
+<li id="file_browser">
+<a href="?a=media/browser">Media Browser<span class="description">View, upload and manage media</span>
+</a>
+</li><li id="sources">
+<a href="?a=source">Media Sources<span class="description">Media sources for use of media from remote services or servers</span>
+</a>
+</li></ul>
+</li>
+<li id="limenu-components" class="top">
+<a href="javascript:;">Extras</a>
+<ul class="modx-subnav">
+<li id="SiteCheck">
+<a href="?a=index&amp;namespace=sitecheck">SiteCheck<span class="description">Check the integrity of your site</span>
+</a>
+</li><li id="installer">
+<a href="?a=workspaces">Installer<span class="description">Manage Add-ons and Distributions</span>
+</a>
+</li><li id="RefreshCache">
+<a href="?a=home&amp;namespace=refreshcache">RefreshCache<span class="description">Refresh the MODX cache</span>
+</a>
+</li><li id="orphans">
+<a href="?a=index&amp;namespace=orphans">Orphans<span class="description">Find unused elements.</span>
+</a>
+</li></ul>
+</li>
+<li id="limenu-manage" class="top">
+<a href="javascript:;">Manage</a>
+<ul class="modx-subnav">
+<li id="users">
+<a href="?a=security/user">Users<span class="description">Manage Users and their Permissions</span>
+</a>
+</li><li id="refresh_site">
+<a onclick=" MODx.clearCache(); return false; ">Clear Cache<span class="description">Delete Cache files in all Contexts</span>
+</a>
+<ul class="modx-subsubnav">
+<li id="refreshuris">
+<a onclick=" MODx.refreshURIs(); return false; ">Refresh URIs<span class="description">Regenerate system Resource URIs.</span>
+</a>
+</li></ul>
+</li><li id="remove_locks">
+<a onclick=" MODx.removeLocks();return false; ">Remove Locks<span class="description">Remove all locks on Manager pages</span>
+</a>
+</li><li id="flush_access">
+<a onclick=" MODx.msg.confirm({&#10;    title: _('flush_access')&#10;    ,text: _('flush_access_confirm')&#10;    ,url: MODx.config.connector_url&#10;    ,params: {&#10;        action: 'security/access/flush'&#10;    }&#10;    ,listeners: {&#10;        'success': {fn:function() { location.href = './'; },scope:this},&#10;        'failure': {fn:function(response) { Ext.MessageBox.alert('failure', response.responseText); },scope:this},&#10;    }&#10;}); ">Flush Your Permissions<span class="description">Reload this session’s Permissions</span>
+</a>
+</li><li id="flush_sessions">
+<a onclick=" MODx.msg.confirm({&#10;    title: _('flush_sessions')&#10;    ,text: _('flush_sessions_confirm')&#10;    ,url: MODx.config.connector_url&#10;    ,params: {&#10;        action: 'security/flush'&#10;    }&#10;    ,listeners: {&#10;        'success': {fn:function() { location.href = './'; },scope:this}&#10;    }&#10;}); ">Logout All Users<span class="description">Immediately destroy all sessions</span>
+</a>
+</li><li id="reports">
+<a>Reports<span class="description">Admin reports for your MODX install</span>
+</a>
+<ul class="modx-subsubnav">
+<li id="site_schedule">
+<a href="?a=resource/site_schedule">Site Schedule<span class="description">View Resources with upcoming publish or unpublish dates.</span>
+</a>
+</li><li id="view_logging">
+<a href="?a=system/logs">Manager Actions<span class="description">View the recent manager activity.</span>
+</a>
+</li><li id="eventlog_viewer">
+<a href="?a=system/event">Error Log<span class="description">View the MODX error.log.</span>
+</a>
+</li><li id="view_sysinfo">
+<a href="?a=system/info">System Info<span class="description">View server information, such as phpinfo, database info, and more.</span>
+</a>
+</li></ul>
+</li></ul>
+</li>
+<li id="limenu-Custom Search">
+<a href="?a=home&amp;namespace=customsearch">Custom Search</a>
+</li>
+            </ul>
+                        <div id="modx-manager-search" role="search"><div class="x-form-field-wrap x-form-field-trigger-wrap" id="ext-gen135" style="width: 258px;"><input type="text" size="24" autocomplete="off" aria-label="Search" id="modx-uberbar" name="modx-uberbar" class="x-form-text x-form-field x-form-empty-field" style="width: 219px;" /><button type="submit" aria-label="Go" class="x-form-trigger icon icon-large icon-search" id="ext-gen136"></button></div></div>
+                    </div>
+    </div>
+        <div id="modAB"></div>
+        <div id="modx-leftbar" class=" x-plain" style="width: 310px; left: 0px; top: 55px;"><div class="x-plain-bwrap" id="ext-gen14"><div class="x-plain-body x-plain-body-noheader" id="ext-gen15" style="overflow: auto; width: 310px; height: 664px;"><div id="modx-leftbar-tabpanel" class=" x-tab-panel modx-tabs x-tab-panel-noborder" style="width: 274px;"><div class="x-tab-panel-header x-tab-panel-header-noborder x-unselectable x-tab-panel-header-plain" id="ext-gen23" style="width: 274px;"><div class="x-tab-strip-wrap" id="ext-gen26" style="width: 264px;"><ul class="x-tab-strip x-tab-strip-top" id="ext-gen28"><li class=" x-tab-strip-active" id="modx-leftbar-tabpanel__modx-resource-tree"><a class="x-tab-strip-close" id="ext-gen31"></a><span class="x-tab-strip-text ">Resources</span></li><li class="" id="modx-leftbar-tabpanel__modx-tree-element"><a class="x-tab-strip-close" id="ext-gen32"></a><span class="x-tab-strip-text ">Elements</span></li><li class="" id="modx-leftbar-tabpanel__modx-file-tree"><a class="x-tab-strip-close" id="ext-gen33"></a><span class="x-tab-strip-text ">Files</span></li><li class="x-tab-edge" id="ext-gen29"><span class="x-tab-strip-text"> </span></li><div class="x-clear" id="ext-gen30"></div></ul></div><div class="x-tab-strip-spacer" id="ext-gen27"></div></div><div class="x-tab-panel-bwrap" id="ext-gen24"><div class="x-tab-panel-body x-tab-panel-body-noborder x-tab-panel-body-top" id="ext-gen25" style="overflow: auto; height: auto; width: 274px;"><div id="modx-resource-tree" class="x-panel modx-tree x-panel-noborder x-tree" style="width: 274px;"><div class="x-panel-bwrap" id="ext-gen34"><div id="modx-resource-tree-tbar" class=" x-panel-tbar-noheader x-panel-tbar-noborder" style="width: 274px;"><div id="ext-comp-1007" class="x-toolbar x-small-editor x-toolbar-layout-ct" style="width: 269px;"><table cellspacing="0" class="x-toolbar-ct"><tbody><tr><td class="x-toolbar-left" align="left"><table cellspacing="0"><tbody><tr class="x-toolbar-left-row"><td class="x-toolbar-cell" id="ext-gen139"><span id="ext-comp-1063" class="x-btn x-btn-small x-btn-icon-small-left tree-new-resource x-btn-noicon" unselectable="on"><em class=""><button type="button" id="ext-gen140" class=" x-btn-text"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen141"><span id="ext-comp-1064" class="x-btn x-btn-small x-btn-icon-small-left tree-new-weblink x-btn-noicon" unselectable="on"><em class=""><button type="button" id="ext-gen142" class=" x-btn-text"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen143"><span id="ext-comp-1065" class="x-btn x-btn-small x-btn-icon-small-left tree-new-symlink x-btn-noicon" unselectable="on"><em class=""><button type="button" id="ext-gen144" class=" x-btn-text"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen145"><span id="ext-comp-1066" class="x-btn x-btn-small x-btn-icon-small-left tree-new-static-resource x-btn-noicon" unselectable="on"><em class=""><button type="button" id="ext-gen146" class=" x-btn-text"> </button></em></span></td></tr></tbody></table></td><td class="x-toolbar-right" align="right"><table cellspacing="0" class="x-toolbar-right-ct"><tbody><tr><td><table cellspacing="0"><tbody><tr class="x-toolbar-right-row"><td class="x-toolbar-cell" id="ext-gen147"><span id="emptifier" class="x-btn x-btn-small x-btn-icon-small-left tree-trash x-btn-noicon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen148" class=" x-btn-text"> </button></em></span></td></tr></tbody></table></td><td><table cellspacing="0"><tbody><tr class="x-toolbar-extras-row"></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div><div class="x-panel-body x-panel-body-noheader x-panel-body-noborder" id="ext-gen35" style="overflow: auto; height: auto; width: 274px;"><ul class="x-tree-root-ct x-tree-arrows" id="ext-gen37"><div class="x-tree-root-node"><li class="x-tree-node"><div ext:tree-node-id="web_0" class="x-tree-node-el x-unselectable tree-pseudoroot-node pedit pnew pdelete pnewdoc pnew_modDocument pnewdoc pnew_modSymLink pnewdoc pnew_modWebLink pnewdoc pnew_modStaticResource pqcreate x-tree-node-expanded" unselectable="on" id="extdd-1"><span class="x-tree-node-indent"></span><i class="x-tree-ec-icon x-tree-elbow-end-minus"></i><i class="icon tree-context" unselectable="on" id="extdd-2"></i><a hidefocus="on" class="x-tree-node-anchor" href="#" tabindex="1"><span unselectable="on" xmlns:ns9704125="ext" ns9704125:qtip="The default front-end context for your web site." id="extdd-3">Website</span></a><div id="extdd-1_tools" class="modx-tree-node-tool-ct undefined undefined"><span id="ext-comp-1069" class="x-btn icon x-btn-small x-btn-icon-small-left icon-plus-circle x-btn-noicon" unselectable="on">   <i class=" x-btn-text" id="ext-gen149"> </i></span><span id="ext-comp-1071" class="x-btn icon x-btn-small x-btn-icon-small-left icon-refresh x-btn-noicon" unselectable="on">   <i class=" x-btn-text" id="ext-gen150"> </i></span></div></div><ul class="x-tree-node-ct" style=""><li class="x-tree-node"><div ext:tree-node-id="web_1" class="x-tree-node-el x-unselectable psave pview pedit pduplicate pnew pnew_modDocument pnew pnew_modSymLink pnew pnew_modWebLink pnew pnew_modStaticResource pqcreate pqupdate pdelete pundelete ppublish punpublish x-tree-node-collapsed" unselectable="on" id="extdd-4"><span class="x-tree-node-indent"></span><i class="x-tree-ec-icon x-tree-elbow-plus"></i><i class="icon tree-resource icon-web-1 icon-parent-web-0 tree-folder parent-resource" unselectable="on" id="extdd-5"></i><a hidefocus="on" class="x-tree-node-anchor" href="#" tabindex="1"><span unselectable="on" xmlns:ns9704125="ext" ns9704125:qtip="&lt;b&gt;Congratulations!&lt;/b&gt;&lt;br /&gt;" id="extdd-6">Home <span dir="ltr">(1)</span></span></a><div id="extdd-4_tools" class="modx-tree-node-btn-create undefined undefined"><span id="ext-comp-1073" class="x-btn icon x-btn-small x-btn-icon-small-left icon-plus-square x-btn-noicon" unselectable="on">   <i class=" x-btn-text" id="ext-gen151"> </i></span></div></div><ul class="x-tree-node-ct" style="display:none;"></ul></li><li class="x-tree-node"><div ext:tree-node-id="web_16" class="x-tree-node-el x-tree-node-leaf x-unselectable x-tree-node-leaf unpublished hidemenu psave pview pedit pduplicate pnew pnew_modDocument pnew pnew_modSymLink pnew pnew_modWebLink pnew pnew_modStaticResource pqcreate pqupdate pdelete pundelete ppublish punpublish" unselectable="on" id="extdd-7"><span class="x-tree-node-indent"></span><i class="x-tree-ec-icon x-tree-elbow"></i><i class="icon tree-resource icon-web-16 icon-parent-web-0" unselectable="on" id="extdd-8"></i><a hidefocus="on" class="x-tree-node-anchor" href="#" tabindex="1"><span unselectable="on" id="extdd-9">SiteCheck Problem Resources <span dir="ltr">(16)</span></span></a><div id="extdd-7_tools" class="modx-tree-node-btn-create undefined undefined"><span id="ext-comp-1075" class="x-btn icon x-btn-small x-btn-icon-small-left icon-plus-square x-btn-noicon" unselectable="on">   <i class=" x-btn-text" id="ext-gen152"> </i></span></div></div><ul class="x-tree-node-ct" style=""></ul></li><li class="x-tree-node"><div ext:tree-node-id="web_2" class="x-tree-node-el x-unselectable unpublished psave pview pedit pduplicate pnew pnew_modDocument pnew pnew_modSymLink pnew pnew_modWebLink pnew pnew_modStaticResource pqcreate pqupdate pdelete pundelete ppublish punpublish x-tree-node-collapsed" unselectable="on" id="extdd-10"><span class="x-tree-node-indent"></span><i class="x-tree-ec-icon x-tree-elbow-plus"></i><i class="icon tree-resource icon-web-2 icon-parent-web-0 tree-folder parent-resource" unselectable="on" id="extdd-11"></i><a hidefocus="on" class="x-tree-node-anchor" href="#" tabindex="1"><span unselectable="on" id="extdd-12">Test <span dir="ltr">(2)</span></span></a><div id="extdd-10_tools" class="modx-tree-node-btn-create undefined undefined"><span id="ext-comp-1077" class="x-btn icon x-btn-small x-btn-icon-small-left icon-plus-square x-btn-noicon" unselectable="on">   <i class=" x-btn-text" id="ext-gen153"> </i></span></div></div><ul class="x-tree-node-ct" style="display:none;"></ul></li><li class="x-tree-node"><div ext:tree-node-id="web_14" class="x-tree-node-el x-tree-node-leaf x-unselectable x-tree-node-leaf unpublished psave pview pedit pduplicate pnew pnew_modDocument pnew pnew_modSymLink pnew pnew_modWebLink pnew pnew_modStaticResource pqcreate pqupdate pdelete pundelete ppublish punpublish" unselectable="on" id="extdd-13"><span class="x-tree-node-indent"></span><i class="x-tree-ec-icon x-tree-elbow"></i><i class="icon tree-resource icon-web-14 icon-parent-web-0" unselectable="on" id="extdd-14"></i><a hidefocus="on" class="x-tree-node-anchor" href="#" tabindex="1"><span unselectable="on" xmlns:ns9704125="ext" ns9704125:qtip="&lt;b&gt;Login&lt;/b&gt;&lt;br /&gt;" id="extdd-15">Login <span dir="ltr">(14)</span></span></a><div id="extdd-13_tools" class="modx-tree-node-btn-create undefined undefined"><span id="ext-comp-1079" class="x-btn icon x-btn-small x-btn-icon-small-left icon-plus-square x-btn-noicon" unselectable="on">   <i class=" x-btn-text" id="ext-gen154"> </i></span></div></div><ul class="x-tree-node-ct" style=""></ul></li><li class="x-tree-node"><div ext:tree-node-id="web_9" class="x-tree-node-el x-tree-node-leaf x-unselectable x-tree-node-leaf hidemenu psave pview pedit pduplicate pnew pnew_modDocument pnew pnew_modSymLink pnew pnew_modWebLink pnew pnew_modStaticResource pqcreate pqupdate pdelete pundelete ppublish punpublish" unselectable="on" id="extdd-16"><span class="x-tree-node-indent"></span><i class="x-tree-ec-icon x-tree-elbow-end"></i><i class="icon tree-resource icon-web-9 icon-parent-web-0" unselectable="on" id="extdd-17"></i><a hidefocus="on" class="x-tree-node-anchor" href="#" tabindex="1"><span unselectable="on" id="extdd-18">CacheClear <span dir="ltr">(9)</span></span></a><div id="extdd-16_tools" class="modx-tree-node-btn-create undefined undefined"><span id="ext-comp-1081" class="x-btn icon x-btn-small x-btn-icon-small-left icon-plus-square x-btn-noicon" unselectable="on">   <i class=" x-btn-text" id="ext-gen155"> </i></span></div></div><ul class="x-tree-node-ct" style=""></ul></li></ul></li></div></ul></div></div></div></div></div></div></div></div></div>
+        <div id="modx-action-buttons-container"></div>
+        <div id="modx-content" class=" x-panel x-panel-noborder" style="left: 318px; top: 55px; width: 1218px;">
+            <div id="modx-panel-holder"></div>
+<div id="modx-panel-welcome-div"></div>
+
+    <div class="x-panel-bwrap" id="ext-gen17"><div class="x-panel-body x-panel-body-noheader x-panel-body-noborder" id="ext-gen18" style="background-color: transparent; padding: 0px 1px 0px 0px; overflow: auto; width: 1217px; height: 664px;"><div id="modx-panel-welcome" class=" modx-formpanel container"><div class="modx-formpanel-bwrap" id="ext-gen132"><div class="modx-formpanel-body modx-formpanel-body-noheader" id="ext-gen133"><h2 id="modx-welcome-header" class=" modx-page-header" style="height: auto;">xxx MODX Revolution</h2><div id="modx-dashboard" class="dashboard x-panel x-panel-noborder" style="width: 1170px;">
+<div class="dashboard-block dashboard-block-half ">
+    <h3 class="title">Upgrade MODX</h3>
+    <div class="body">
+    <div id="Upgrade_modx">
+    <h3 style="color:green">Upgrade Available</h3>
+    <br />Current Version: 2.7.0-pl
+    <br />Latest Version: 2.7.0-pl
+
+
+
+    
+<div id="upgrade_form">
+<p><b>Important:</b> It is <i>strongly</i> recommended that you install all of the versions ending in .0 between your version and the current version of MODX.</p>
+</div>
+ 
+<div class="column">
+<label class="ugm_version_header"><span>Choose MODX Version for Upgrade</span></label>                
+<label style="background: transparent;"><input id="2.7.0-pl" type="radio" checked="" name="modx" value="2.7.0-pl" />
+                <span>MODX Revolution 2.7.0-pl    (current version)</span>
+                </label>                
+<label style="background: rgb(240, 240, 240);"><input id="2.6.5-pl" type="radio" name="modx" value="2.6.5-pl" />
+                <span>MODX Revolution 2.6.5-pl </span>
+                </label>                
+<label style="background: transparent;"><input id="2.6.4-pl" type="radio" name="modx" value="2.6.4-pl" />
+                <span>MODX Revolution 2.6.4-pl </span>
+                </label>                
+<label style="background: transparent;"><input id="2.6.3-pl" type="radio" name="modx" value="2.6.3-pl" />
+                <span>MODX Revolution 2.6.3-pl </span>
+                </label>                
+<label style="background: transparent;"><input id="2.6.2-pl" type="radio" name="modx" value="2.6.2-pl" />
+                <span>MODX Revolution 2.6.2-pl </span>
+                </label>
+</div>
+
+        <button type="submit" name="IeSucks" id="ugm_submit_button" class="progress-button state-loading" data-style="rotate-angle-bottom" data-perspective="" data-horizontal="" disabled=""><span class="progress-wrap"><span class="content" id="button_content">Unzipping files</span><span class="progress"><span class="progress-inner" style="width: 33%;"></span></span></span></button>
+    <div id="ugm_errors"></div>
+</div>
+<script src="/test/assets/components/upgrademodx/js/classie.js"></script>
+<script src="/test/assets/components/upgrademodx/js/progressButton.js"></script>
+<script src="/test/assets/components/upgrademodx/js/ugm-bottom.js"></script>
+<p> </p>
+
+
+
+    </div>
+</div>
+<div class="dashboard-block dashboard-block-half ">
+    <h3 class="title">MODX News Feed</h3>
+    <div class="body">
+    <div id="modx-news-feed-container" class="feed-loading" data-feed="news"><div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/CAGPWwMxb70/you-are-invited-to-modx-amsterdam-march-29-2019" target="_blank">You are Invited to MODX Amsterdam, March 29, 2019</a></h2>
+    <span class="content">The Springbok Agency, Amsterdam, has announced an upcoming <a href="https://modx.amsterdam/" target="_blank" rel="nofollow">MODX Meetup</a> on Friday 29th of March 2019 in Amsterdam.<br />
+<br />
+A historic city with a futuristic outlook, Amsterdam provides the ideal location to bring MODX users together, exchange ideas &amp; extend the professional network. There are plenty of places to visit during the free time.<br />
+<br />
+The organizers have planned a <a href="https://modx.amsterdam/" target="_blank" rel="nofollow">jam-packed one-day event</a>. Expect innovative topics covering the 3 Cs: Core, Content &amp; Commerce. They're working to secure a unique venue, as well.<br />
+<br />
+The event has also received significant assistance and support from Gauke Pieter Sietzema and Henk Everts of Sterc Online Agency and Mark Hamstra from modmore.<br />
+<br />
+For more information and to book your attendance, visit <a href="https://modx.amsterdam/" target="_blank" rel="nofollow">https://modx.amsterdam/</a>.</span>
+    <span class="date_stamp">1/14/2019 1:00:37 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/ieCQ_KjtuUw/urgent-active-attacks-on-modx-revolution-sites-below-revolution-2-6-5" target="_blank">Urgent! Active Attacks on MODX Revolution Sites Below Revolution 2.6.5</a></h2>
+    <span class="content">On July 12, 2018, we <a href="https://modx.com/download" target="_blank" rel="nofollow">released MODX Revolution 2.6.5</a> to close <a href="https://forums.modx.com/thread/104040/revolution-2-6-4-and-prior-two-cricital-vulnerabilities-upgrade-mandatory-patch#dis-post-559515" target="_blank" rel="nofollow">two critical vulnerabilities</a>. <br />
+<br />
+On July 16, the members of the MODX team were notified that an example attack script was shared publicly that would enable hackers to modify and use for malicious purposes. Starting on July 18th, 2018, the MODX team began receiving reports that these attacks were compromising MODX Revolution websites. <br />
+<br />
+<strong>Upgrade Now</strong><br />
+If your site has not been hacked, you <strong>MUST upgrade</strong>* to MODX Revolution 2.6.5 and all Extras immediately. <br />
+<br />
+<strong>Already Hacked</strong><br />
+If your site has been compromised, do not panic. It may be possible to recover the site if you have a backup from prior to July 18th, 2018. <br />
+<br />
+Once you have restored from a backup, you should immediately upgrade to MODX Revolution 2.6.5 and then upgrade all Extras from within the MODX Manager, including Gallery if it is installed. Once you login to your site Manager (e.g., at <a href="https://www.example.com/manager/" target="_blank" rel="nofollow">https://www.example.com/manager/</a>), navigate to the top "Extras" menu and press the orange "upgrade" button for each Extra that needs to be upgraded.<br />
+<br />
+<strong>No Backup; Still Hacked</strong><br />
+The <a href="https://modx.com/services/#engage" target="_blank" rel="nofollow">MODX Services team</a> has experience in hacked site remediation. Also some <a href="https://modx.com/professionals" target="_blank" rel="nofollow">MODX Professionals</a> may have similar experience. Sucuri.net also provides hack remediation to identify and remove compromised files.<br />
+<br />
+<strong>Need Help with Upgrades</strong><br />
+If you do not know how to upgrade your site there are several support options available. You can contact the developer or builder of your site, ask for help in the <a href="https://forums.modx.com/" target="_blank" rel="nofollow">MODX Forums</a>, find a <a href="https://modx.com/professionals" target="_blank" rel="nofollow">MODX Professional</a> or get help from the <a href="https://modx.com/services/#engage" target="_blank" rel="nofollow">MODX Services team</a>.<br />
+<br />
+<strong>Staying Abreast of Releases is Critical</strong><br />
+We cannot stress how important it is to update sites to the latest versions of MODX as they are released. While this active exploit is unusual in the MODX Community, it does underscore the need to be vigilant with new releases and security patches. <br />
+<br />
+* Experienced MODX developers can do an interim manual patch on 2.6.x and above by replacing the following files <a href="https://raw.githubusercontent.com/modxcms/revolution/3fc50383c81b51e7718c9f29f9cef23dfadfa7fb/core/model/phpthumb/modphpthumb.class.php" target="_blank" rel="nofollow">here</a>, <a href="https://raw.githubusercontent.com/modxcms/revolution/606dc0f1635de4b699d1151616af75e5c08d4cdd/core/model/modx/registry/modfileregister.class.php" target="_blank" rel="nofollow">here</a> and if it exists, this <a href="https://raw.githubusercontent.com/Mark-H/Gallery/90c90003e8f811eb837ef3e997ada987671f12f0/core/components/gallery/processors/web/phpthumb.php" target="_blank" rel="nofollow">file</a>.</span>
+    <span class="date_stamp">7/22/2018 8:28:44 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/AJLMbs7CpSc/php-5-6-is-approaching-its-end-of-life" target="_blank">PHP 5.6 is Approaching its End of Life</a></h2>
+    <span class="content"><strong>PHP 5.6 is Approaching its End of Life this Year</strong><br />
+<br />
+December 31, 2018 marks the <a href="https://secure.php.net/supported-versions.php" target="_blank" rel="nofollow">official end of security support for PHP 5.6</a>, this means there will be no further updates to the software. PHP 7.0 was released in December 2015 and PHP 7.1 was released December of 2016.<br />
+<br />
+<strong>What This Change Means For You</strong><br />
+Most MODX users and site owners will have no issues with PHP 7 if they run at least MODX 2.5.2 or Evo CMS 1.4.0 (formerly MODX Evolution) or later versions. For MODX Cloud customers, we're ending <a href="https://modx.com/blog/php56-removal-announcement" target="_blank" rel="nofollow">PHP 5.6 support on July 1, 2018</a>.<br />
+<br />
+Reasons people might have issues with PHP 7 include:<br />
+<ul class="dis-ul"><li> Outdated MODX Revolution or other software</li>
+<li> MODX Extras or software add-ons/Plugins not updated or unsupported</li>
+<li> Custom code that requires updating</li>
+<li> If you’re using other software alongside MODX, most applications today should be compatible with PHP 7.1 which was first released in December of 2016.</li></ul>
+<br />
+<strong>How to Prepare for PHP 7</strong><br />
+Most MODX users will hav no issues with PHP 7. You may just need to upgrade to the lates version of MODX Revolution. For MODX Cloud customers we’ve created a <a href="https://support.modx.com/hc/en-us/articles/360002096493" target="_blank" rel="nofollow">Support Article to guide customers through the move to PHP 7.1</a>.<br />
+<br />
+<strong>Need Help Getting Ready?</strong><br />
+For site owners who are unsure about how to get their site ready for the upcoming changes, we advise you to contact your developer or designer. If you’ve lost contact with your developer or designer, you can find a local <a href="https://modx.com/professionals/" target="_blank" rel="nofollow">MODX Professional</a> to assist.</span>
+    <span class="date_stamp">5/1/2018 2:43:40 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/gJeBaGUtuKo/modx3-project-launch" target="_blank">MODX3 Project Launch</a></h2>
+    <span class="content"><strong>MODX3 Project</strong><br />
+<a href="https://modx3.org/" target="_blank" rel="nofollow">MODX3.org</a> was recently deployed to celebrate the official launch of the MODX3 Project. A dedicated team is currently working on making MODX3 a reality. Some familiar names from the MODX Community are pushing the project forward on a daily basis including Vasily Naumkin, Mark Hamstra, Gauke Pieter Sietzema, and myself. The very talented UX designer Rinze van der Brug is providing additional support. We are also getting help from members of the community and the MODX integration team.<br />
+<br />
+<strong>The Plan</strong><br />
+For a complete plan of MODX3, please check the <a href="https://modx3.org/plan" target="_blank" rel="nofollow">website</a>. It contains a list of prospective features which we will continue to update with any additional ones we come up with as the project progresses. We are reserving budget for extra features, and we will publish examples of these as part of the <a href="https://modx3.org/updates" target="_blank" rel="nofollow">weekly updates on MODX3.org</a>.<br />
+<br />
+<strong>You Can Contribute to MODX3</strong><br />
+STERC, MODX LLC, modmore, and a subsidy from the European Union (European Fund for Regional Development) are subsidizing the MODX3 project. The full budget is available <a href="https://modx3.org/funding" target="_blank" rel="nofollow">here</a>.<br />
+<br />
+However, three companies cannot entirely fund a project of this size on their own. Therefore, we are seeking additional funding from sponsors and donations. These funds will be utilized to finish the project and enable us to implement extra features in MODX3, to make it even better!<br />
+<br />
+Sponsors can <a href="https://modx3.org/sponsor" target="_blank" rel="nofollow">submit the sponsor form</a> and will get an invoice from STERC who is acting as a financial intermediary of the project. We are not defining standard packages, but any amount above € 100,- will help. We will provide optional recognition for all sponsors in a future sponsor listing. Sponsors paying over € 2.500,- can also display their logo on the project website.<br />
+<br />
+Recognition on the site is also available now for those wishing to <a href="https://modx3.org/donate" target="_blank" rel="nofollow">donate to the project immediately</a>. After submitting the donation form, you can select from the following payment methods: PayPal, iDEAL, Bancontact, SOFORT Banking, bank transfer, KBC/CBC Payment Button, ING HomePay, and credit card.<br />
+<br />
+<strong>A Meetup and Official MODX3 Launch</strong><br />
+The "Kick-off MODX Northern-Netherlands" Meetup on March 7th, 2018 in Leeuwarden, The Netherlands, was a huge success. Forty people were in attendance.<br />
+<br />
+During the event, Gauke Pieter Sietzema unveiled the ongoing work on the new MODX.org community website and officially kicked off the MODX3 Project. Vasily Naumkin presented a live demo of the current state of MODX3. You can view Gauke Pieter's slides covering the MODX3 project <a href="https://www.slideshare.net/secret/4A0TKJtySTxG1a" target="_blank" rel="nofollow">here</a>. Slides from Mark Hamstra's introductory talk at the meetup are also available <a href="https://www.slideshare.net/hamstramark1/modx-meetup-20180307-introduction-talk" target="_blank" rel="nofollow">here</a>.<br />
+<br />
+A report covering this event is already available on <a href="https://modx.pro/news/14844/" target="_blank" rel="nofollow">modx.pro</a> (in Russian). An English report will be available on <a href="https://modx.today/" target="_blank" rel="nofollow">MODX.today</a> shortly.</span>
+    <span class="date_stamp">3/20/2018 12:03:11 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/KJkt7rpEoiI/modx-com-server-maintenance" target="_blank">MODX.com Server Maintenance</a></h2>
+    <span class="content"><br />
+<strong>Scheduled Maintenance Downtime Notice</strong><br />
+<br />
+On November 9, 2017 at 0:600 UTC 0 (12AM US Central) (<a href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=MODX+Site+Maintenance&amp;iso=20171109T06&amp;p1=1440&amp;ah=2" target="_blank" rel="nofollow">check your timezone</a>), our upstream provider, IBM Cloud, will be performing server maintenance that will affect nearly all services from modx.com including: <ul class="dis-ul"><li>MODX.com Website (modx.com)</li><li>MODX Community Forums (forums.modx.com)</li><li>Extras (modx.com/extras)</li><li>Package Management (you will not be able to search or download Extras)</li></ul>
+<br />
+We anticipate this maintenance will require these sites and services to be down for 20 minutes, however, there is always a possibility of it taking as long as an hour. <br />
+<br />
+<br />
+If you have any questions or concerns, please send an email to help@modx.com.</span>
+    <span class="date_stamp">11/6/2017 12:58:06 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/mnbuLqLSEs4/modxpo-2017-tickets-now-on-sale" target="_blank">MODXpo 2017 Tickets Now On Sale!</a></h2>
+    <span class="content">MODXpo 2017 will be hosted November 11th and 12th in Minsk, Belarus. The organizers have been working to provide updated info about the venue, schedule, tickets, speakers and some travel tips!<br />
+The MODXpo will be held at 210 METROV, where the hugely successful 2015 MODX Meetup was held. This year, the main room will be 200 square metres with separate rooms for workshops!<br />
+<br />
+<strong>Day 1: Talks</strong><br />
+The first day of MODXpo 2017 will be a full day of talks, presented by MODX community members including Greame Leighfield, Vasily Naumkin, Ivan Klimchuk and Gauke Pieter Sietzema. See the <a href="https://2017.modxpo.eu/" target="_blank" rel="nofollow">the full schedule</a>. There are still some spots to fill, so please <a href="https://t.me/modxpo" target="_blank" rel="nofollow">contact the organizers</a> if you’ve got something up your sleeve!<br />
+<br />
+<strong>Day 2: Workshops</strong><br />
+The second day will be packed with workshops. Munich’s MODXpo workshops were well received. We’re sure these will be a hit in Minsk.<br />
+<br />
+<strong>Tickets</strong><br />
+The ticket price has been set at 99BYN (see in <a href="http://www.xe.com/currencyconverter/convert/?Amount=99&amp;From=BYN&amp;To=EUR" target="_blank" rel="nofollow">EUR</a>, <a href="http://www.xe.com/currencyconverter/convert/?Amount=99&amp;From=BYN&amp;To=USD" target="_blank" rel="nofollow">USD</a> and <a href="http://www.xe.com/currencyconverter/convert/?Amount=99&amp;From=BYN&amp;To=GBP" target="_blank" rel="nofollow">GPB</a>). You’ll get two days full of MODX goodness, including food throughout the day, a tour through Minsk and of course a goodie-bag. Also, expect most of the community heading to a bar together after each day to relax and enjoy some local drinks.<br />
+Purchase your tickets at <a href="https://modxpo.modx.by/" target="_blank" rel="nofollow">https://modxpo.modx.by/</a>!<br />
+<br />
+<strong>Getting to Minsk</strong><br />
+A lot of Western European and US citizens haven’t visited Belarus yet and might be hesitant to do so. Our MODX-friends from <a href="https://www.sterc.com/" target="_blank" rel="nofollow">Sterc</a> have traveled the whole continent for MODX Meetups—including Kazakhstan and Belarus. <br />
+<br />
+Sterc’s Gauke Pieter has this to say about their trip to Belarus: <br />
+<br />
+<blockquote>“Traveling to Minsk was as easy as traveling to Munich: flying from Amsterdam with a decent airplane, landing on a really neat airport and traveling to our Minsk city center Hotel was a breeze. <br />
+    The taxis we used all had WiFi, which was really useful. If you don’t like taxis: there’s a very good subway. The hotel had high standards and beautiful big rooms. The best part: the people from Belarus are very kind and helpful.” <br />
+</blockquote>
+<br />
+The <a href="https://2017.modxpo.eu/" target="_blank" rel="nofollow">MODXpo Minsk website</a> will be updated with options for your hotel of choice. If you’re in doubt, just contact us.<br />
+<br />
+See you in Minsk!</span>
+    <span class="date_stamp">10/9/2017 10:52:26 PM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/teddyquw_MM/modx-revolution-2-5-8-bugfixes-from-the-bughunt" target="_blank">MODX Revolution 2.5.8—Bugfixes from the Bughunt</a></h2>
+    <span class="content"><br />
+2.5.8 was released today. It contains over 30 fixes—many of which were the fruits of the recent MODX Bug Hunt, held on July, 7th in Munich, Germany with participants from around the world.<br />
+<br />
+<strong>Highlights of Revolution 2.5.8</strong><br />
+You can find all the changes in the <a href="https://raw.githubusercontent.com/modxcms/revolution/v2.5.8-pl/core/docs/changelog.txt" target="_blank" rel="nofollow">changelog</a>, but we’ve created a list with highlights for you:<ul class="dis-ul"><br />
+<li>Fixed multiple annoyances within the media browser</li>
+<li>Fixed user session token if it is set but value is empty, which will prevent unexpectedly logging out </li>
+<li>Fixed issue with incorrect signature during installation of two packages with setup options, which prevented some extras from updating</li>
+<li>Update xPDO to fix issue with validation rules</li>
+<li>Refresh Element in tree after changing name in element’s panel</li>
+<li>Refresh the parent (Resource) node when creating the first child</li></ul>
+<br />
+If you haven’t upgraded to MODX Revolution 2.5.x yet, learn more from its <a href="https://modx.com/blog/2016/04/21/modx-revolution-2.5/" target="_blank" rel="nofollow">original release announcement</a>.<br />
+<br />
+<strong>Upgrading Is Critical</strong><br />
+<br />
+<strong>Revolution 2.5.2 contained critical security enhancements, and if you are not yet running 2.5.2 or higher, you should upgrade to 2.5.8 now. See below for more info.</strong><br />
+<br />
+We cannot stress the importance of diligently upgrading to the latest version of MODX enough. While no software is 100% secure, powering your site with the most current version usually helps protect you from hackers that rely on exploiting outdated software. If you’re not sure what version of MODX Revolution you’re running, log into your website Manager. If the version number doesn’t appear in the top left-hand corner of the Manager, go to <em>Manage&gt;Reports&gt;System Info</em>.<br />
+<br />
+If you need help upgrading your site, please contact your website builder, find a <a href="https://modx.com/support-and-services/services/" target="_blank" rel="nofollow">MODX Professional</a> or get in touch with <a href="services/#engage" target="_blank" rel="nofollow">MODX Support</a>.<br />
+<br />
+<strong>Release contributors</strong><br />
+A lot of thanks go out to the following contributors: Jesse Visser, Romain Tripault, Johan van der Molen, David Pede, Jermain Buist, Kristian Pars, Ivan Klimchuk, Julian Weaver, Gernot Ebenlechner, Vasily Naumkin, Jens Külzer, Gauke Pieter Sietzema, Thomas Jakobi, Christian Seel, Jason Coward, John Peca, Mike Reid, Sander Drenth, Thomas Gautvedt, Oene Tjeerd de Bruin, Mark Hamstra, Rico P, Ben Davis, lawrenz1337, islandsins, Susan Ottwell, Henk Everts, Lars Bratke, Mathias Dannevang, Marcus Nickel and Rinze van den Brug. You made this release happen!<br />
+<br />
+<strong>Get Started with Revo 2.5</strong><br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5:<ul class="dis-ul"><br />
+<li><a href="http://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a><br />
+</li>
+<li><a href="http://docs.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.8</li>
+<li>How to <a href="https://docs.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow"> install MODX Revolution</a></li>
+<li>How to <a href="http://docs.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a> </li>
+<li>How to <a href="https://support.modx.com/hc/en-us/articles/216735808" target="_blank" rel="nofollow">upgrade MODX Revolution in MODX Cloud</a></li>
+<li>Read the <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li>
+</ul>
+<br />
+<strong>Ask Not What MODX Can Do For You</strong><br />
+MODX is possible because of the many individual community members and users that take the time to <a href="https://github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https://github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>, <a href="http://forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums.<br />
+<br />
+On behalf of the entire MODX Team, we thank you!</span>
+    <span class="date_stamp">9/13/2017 5:17:20 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/DN94F85R_00/guiding-the-future-of-modx-and-an-overdue-refresh" target="_blank">Guiding the Future of MODX and an Overdue Refresh</a></h2>
+    <span class="content">In looking to 2017 and beyond, we wanted to put our best foot forward at MODX. Over the last year, we considered many things that haven’t been acted upon in a while and picked two key initiatives. <br />
+<br />
+First, we kicked off the most important thing to come to the MODX Community since its inception with the MODX Advisory Board—a trusted body of MODXers from various backgrounds to help map the future of MODX. We also launched a new MODX.com, too. <br />
+<br />
+We can’t wait to share more, but in the meantime, take a peek behind the curtain and read what we've been working on <a href="https://modx.com/blog/guiding-the-future-of-modx-and-an-overdue-refresh" target="_blank" rel="nofollow">in the (new) MODX blog</a>.<br /></span>
+    <span class="date_stamp">5/16/2017 2:27:04 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/Op40cDojrmA/rescheduled-modx-com-server-upgrades-downtime" target="_blank"> [Rescheduled] MODX.com Server Upgrades [Downtime]</a></h2>
+    <span class="content">At 8PM US Central Daylight Savings time on May 2, 2017 (01:00 UTC 0, May 2, 2017), we will be performing maintenance on the server that handles a variety of services for MODX.com including Extras, Downloads, Search and a number of other services. This operation is expected to take approximately 40 minutes, however it may take over an hour. <br />
+<br />
+During this operation, you will not be able to view or download software or Extras for MODX Revolution or Evolution CMS (formerly MODX Evolution). You will not be able to search the website. It is possible that portions of the MODX Forums will be impacted as well.<br />
+<br />
+This maintenance will help provide more seamless operation in the future. <br />
+<br />
+We apologize for any inconvenience this may cause.<br /></span>
+    <span class="date_stamp">5/1/2017 3:36:23 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/9ymxQk_-IDI/modx-revolution-2-5-7-a-little-more-secure" target="_blank">MODX Revolution 2.5.7—A little more secure</a></h2>
+    <span class="content">Revolution 2.5.7 was released today. This patch release makes you a little more secure. It contains fixes for low-risk security issues. Also, it corrects the inability to click on results in the search bar in the Manager in Chrome and Firefox.<br />
+<br />
+<strong>Highlights of 2.5.7</strong><br />
+Here are some of the most important changes in 2.5.7:<ul class="dis-ul"><br />
+    <li>Fix search bar results not clickable in Chrome &amp; Firefox [#13405]</li>
+    <li>Improve transport package downloads to be more reliable and use additional methods to download. [#13419]</li>
+    <li>Make Forgot Password feature more secure [#13408]</li>
+    <li>Proper use of json_encode and error handling for outputArray() in processors [#13389]</li>
+    <li>Closing various low-risk security vectors for file inclusion, cross-site scripting (XSS) and more</li>
+</ul>
+For a <a href="https://raw.githubusercontent.com/modxcms/revolution/v2.5.7-pl/core/docs/changelog.txt" target="_blank" rel="nofollow">complete list of changes in Revolution 2.5.7</a> read the changelog. If you haven’t upgraded to MODX Revolution 2.5.x yet, learn more from its <a href="https://modx.com/blog/2016/04/21/modx-revolution-2.5/" target="_blank" rel="nofollow">original release announcement</a>.<br />
+<br />
+<strong>Upgrading Is Critical</strong><br />
+<strong>Revolution 2.5.2 contained critical security enhancements, and if you are not yet running 2.5.2 or higher, you should upgrade to 2.5.7 now. See below for more info.</strong><br />
+We cannot stress the importance of diligently upgrading to the latest version of MODX enough. While no software is 100% secure, powering your site with the most current version usually helps protect you from hackers that rely on exploiting outdated software. If you’re not sure what version of MODX Revolution you’re running, log into your website Manager. If the version number doesn’t appear in the top left-hand corner of the Manager, go to &lt;em&gt;Manage&gt;Reports&gt;System Info&lt;/em&gt;.<br />
+If you need help upgrading your site, please contact your website builder, find a <a href="https://modx.com/support-and-services/services/" target="_blank" rel="nofollow">MODX Professional</a> or get in touch with <a href="services/#engage" target="_blank" rel="nofollow">MODX Support</a>.<br />
+<br />
+<strong>Release Contributors</strong><br />
+Let’s take the time to thank the individual contributors to this release: Mark Hamstra, Jason Coward, Thomas Jakobi, Romain Tripault, and Christian Seel.<br />
+<br />
+<strong>Security Reporters</strong><br />
+We also would like to thank the two security consultants, <a href="https://clarifiedsecurity.com" target="_blank" rel="nofollow">Anti Räis of Clarified Security</a> and <a href="https://citadelo.com" target="_blank" rel="nofollow">Tomáš Melicher of Citadelo</a>, who reported these issues so that we could make MODX more secure for everyone who uses it.<br />
+If you find a security issue with MODX Revolution, please send a detailed report to security@modx.com for review of our security team.<br />
+<br />
+<strong>Get Started with Revo 2.5</strong><br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5:<ul class="dis-ul"><br />
+    <li><a href="http://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a></li>
+    <li><a href="http://docs.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x</li>
+    <li>How to <a href="https://docs.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a></li>
+    <li>How to <a href="http://docs.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a></li>
+    <li>How to <a href="https://support.modx.com/hc/en-us/articles/216735808" target="_blank" rel="nofollow">upgrade MODX Revolution in MODX Cloud</a></li>
+    <li>Read the <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li>
+</ul>
+<br />
+<strong>Ask Not What MODX Can Do For You</strong><br />
+MODX is possible because of the many individual community members and users that take the time to <a href="https://github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https://github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>, <a href="http://forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums.<br />
+On behalf of the entire MODX Team, we thank you!<br /></span>
+    <span class="date_stamp">4/20/2017 11:45:22 PM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/C88f2z_3Mds/extras-downloads-scheduled-server-upgrade-completed" target="_blank">Extras/Downloads Scheduled Server Upgrade [Completed]</a></h2>
+    <span class="content">[Completed] At 0:300 UTC +1 (British Summer Time) on April 21, 2017 (21:00 US Central April 20, 2017), we will be performing maintenance on the server that handles a variety of services for MODX.com including Extras, Downloads, Search and a number of other services. This operation is expected to take approximately 40 minutes, however it may take over an hour. <br />
+<br />
+During this operation, you will not be able to view or download software or Extras for MODX Revolution or Evolution CMS (formerly MODX Evolution). You will not be able to search the website. It is possible that portions of the MODX Forums will be impacted as well.<br />
+<br />
+This maintenance will help provide more seamless operation in the future. <br />
+<br />
+We apologize for any inconvenience this may cause.</span>
+    <span class="date_stamp">4/19/2017 11:46:43 PM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/9TzWPDFUN8s/modx-revolution-2-5-6-fixes-from-the-modx-bug-hunt" target="_blank">MODX Revolution 2.5.6—Fixes from the MODX Bug Hunt</a></h2>
+    <span class="content">Revolution 2.5.6 was released today. This patch release includes many of the fixes and resolved issues from the recent MODX Bug Hunt community event.<br />
+<br />
+<strong>Highlights of 2.5.6</strong><br />
+Here are some of the highlights of 2.5.6:<ul class="dis-ul"><li>Fix broken images in File tree when media source above doc root [#13292]</li>
+<li>Added validation for min and max length of text Template Variable (TV) configuration</li>
+<li>Fix error in Firefox preventing using enter in the uberbar [#12714]</li>
+<li>Show proper error page when viewing an inaccessible symlink [#12380]</li>
+<li>Show proper error message when trying to rename a file/folder that already exists [#13256]</li>
+<li>Hide database username, password, and database name from advanced setup [#13090]</li>
+</ul>
+<br />
+For a <a href="https://raw.githubusercontent.com/modxcms/revolution/v2.5.6-pl/core/docs/changelog.txt" target="_blank" rel="nofollow">complete list of changes in Revolution 2.5.6</a> read the changelog.  If you haven’t upgraded to MODX Revolution 2.5.x yet, learn more from its  <a href="https://modx.com/blog/2016/04/21/modx-revolution-2.5/" target="_blank" rel="nofollow">original release announcement</a>.<br />
+<br />
+<strong>MODX Bug Hunt</strong><br />
+On March 3, 2017, Dutch digital agency, Sterc, hosted the first <a href="http://www.modxbughunt.com/" target="_blank" rel="nofollow">MODX Bug Hunt</a>. Dozens of MODX community members reviewed,  fixed or closed over 140 issues in the <a href="https://github.com/modxcms/revolution/issues" target="_blank" rel="nofollow">MODX bug tracker at GitHub</a>. You can see more details about the MODX Bug Hunt at the website including the <a href="http://www.modxbughunt.com/leaderboard" target="_blank" rel="nofollow">reviewer/fixer leaderboard</a>, with top prize taken by Peter Bowyer. Thanks so much to the team who put together the bug hunt.<br />
+<br />
+The <a href="https://www.meetup.com/modx-bug-hunt/events/238613206/" target="_blank" rel="nofollow">second MODX Bug Hunt</a> has been scheduled for July 7, 2017. Join in on the action or support with your presence for the live show.<br />
+<br />
+<strong>Upgrading Is Critical</strong><br />
+<strong>Revolution 2.5.2 contained critical security enhancements and if you are not yet running 2.5.2 or higher you should upgrade to 2.5.6 now. See below for more info.</strong><br />
+We cannot stress the importance of diligently upgrading to the latest version of MODX enough. While no software is 100% secure, powering your site with the most current version usually helps protect you from hackers that rely on exploiting outdated software. If you’re not sure what version of MODX Revolution you’re running, log into your website Manager. If it is not shown at the top left-hand corner of the Manager, go to <em>Manage&gt;Reports&gt;System Info</em>.<br />
+<br />
+If you need help upgrading your site, please contact your website builder, find a <a href="https://modx.com/support-and-services/services/" target="_blank" rel="nofollow">MODX Professional</a> or get in touch with <a href="services/#engage" target="_blank" rel="nofollow">MODX Support</a>.<br />
+<br />
+<strong>Release Contributors</strong><br />
+Let’s take the time to thank the individual contributors to this release: Mark Hamstra, Jan Peca, Jason Coward, Thomas Jakobi, Romain Tripault, Lukas Zahnd, Mat Dave Jones, Peter Bowyer, OptimusCrime, Christian Seel, Mike Schell, Lars Bratke, Mike Reid, Mikhail Dyachuk, Oetzie, Fabian Christen, Володя, Hugo Peek, Ivan Klimchuk, Jesse Visser, Joeke Kloosterman, Sebastian G. Marinescu, Sergey Shlokov, Sytske Haagsma, Vasily Krakovetsky, sander, Romain, goldsky, Pien van Dalen, Simon Champion, Johan van der Molen, and Bob Ray.<br />
+<br />
+<strong>Get Started with Revo 2.5</strong><br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5:<ul class="dis-ul"><li><a href="http://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a></li>
+<li><a href="http://docs.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x</li>
+<li>How to <a href="https://docs.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a></li>
+<li>How to <a href="http://docs.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a></li>
+<li>How to <a href="https://support.modx.com/hc/en-us/articles/216735808" target="_blank" rel="nofollow">upgrade MODX Revolution in MODX Cloud</a></li>
+<li>Read the <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li>
+</ul>
+<br />
+<strong>Ask Not What MODX Can Do For You</strong><br />
+MODX is possible because of the many individual community members and users that take the time to <a href="https://github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https://github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>, <a href="http://forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums.<br />
+<br />
+On behalf of the entire MODX Team, we thank you!</span>
+    <span class="date_stamp">3/28/2017 4:54:24 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/V1XJd-ahyVc/modx-revolution-2-5-5-improved-logging-for-url-errors-and-more" target="_blank">MODX Revolution 2.5.5—Improved logging for URL errors and more</a></h2>
+    <span class="content">Revolution 2.5.5 was released today, February 8, 2017. It adds improved logging for URL errors, the Extras repository now connects via HTTPS, and an issue related to unzipping files has been fixed. <br />
+<br />
+<strong>Highlights of 2.5.5</strong><br />
+Here are some of the highlights of 2.5.5:<br />
+<ul class="dis-ul"><br />
+<li>Fix the way bad links are logged in the error log to provide useful information to resolve</li>
+<li>Address a few potential security issues in the setup (installer)</li>
+<li>Add checks to validate file extension when renaming/creating files using file browser</li>
+<li>Extras repository (Download Extras) now uses HTTPS (SSL) URL</li>
+<li>Site name now appears on the title of the Manager Login page</li>
+<li>Fix File Unzip feature</li>
+</ul>
+<br />
+For a <a href="https://raw.githubusercontent.com/modxcms/revolution/v2.5.5-pl/core/docs/changelog.txt" target="_blank" rel="nofollow">complete list of changes in Revolution 2.5.5</a> read the changelog. If you haven’t upgraded to MODX Revolution 2.5.x yet, learn more from its <a href="https://modx.com/blog/2016/04/21/modx-revolution-2.5/" target="_blank" rel="nofollow">original release announcement</a>.<br />
+<br />
+<br />
+<strong>Upgrading Is Critical</strong><br />
+<strong>Revolution 2.5.2 contained critical security enhancements and if you are not yet running 2.5.2 or higher you should upgrade to 2.5.5 now. See below for more info.</strong><br />
+<br />
+We cannot stress the importance of diligently upgrading to the latest version of MODX enough. While no software is 100% secure, powering your site with the most current version usually helps protect you from hackers that rely on exploiting outdated software. If you're not sure what version of MODX Revolution you're running, login to your website Manager. If it is not shown at the top left hand corner of the Manager, go to <em>Manage&gt;Reports&gt;System Info</em>.<br />
+<br />
+<br />
+If you need help upgrading your site, please contact your website builder, find a <a href="https://modx.com/professionals/" target="_blank" rel="nofollow">MODX Professional</a> or get in touch with <a href="https://modx.com/services/" target="_blank" rel="nofollow">MODX Support</a>.<br />
+<br />
+<br />
+<strong>Release Contributors</strong><br />
+Let’s take the time to thank the individual contributors to this release: Jan Peca, Thomas Jakobi, Romain Tripault, Jason Coward, Sergey Shlokov, Lukas Zahnd, Mat Dave Jones, Mark Hamstra, OptimusCrime, Володя, Fabian Christen, Sebastian G. Marinescu, Vasily Krakovetsky, twet2f999, xf0, Romain, Bruno17, goldsky, JP de Vries, lexsmil, Mike Reid, and Simon Champion. <br />
+<br />
+<br />
+<strong>Get Started with Revo 2.5</strong><br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5:<br />
+<br />
+<ul class="dis-ul"><br />
+<li><a href="http://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a></li>
+<li><a href="http://docs.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x</li>
+<li>How to <a href="https://docs.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a></li>
+<li>How to <a href="http://docs.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a></li>
+<li>How to <a href="https://support.modx.com/hc/en-us/articles/216735808" target="_blank" rel="nofollow">upgrade MODX Revolution in MODX Cloud</a></li>
+<li>Read the <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li></ul>
+<br />
+<strong>Ask Not What MODX Can Do For You</strong><br />
+MODX is possible because of the many individual community members and users that take the time to <a href="https://github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https://github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="https://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>, <a href="http://forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums.<br />
+<br />
+On behalf of the entire MODX Team, we thank you!<br /></span>
+    <span class="date_stamp">2/24/2017 3:14:03 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/nkF-PjAOAg8/modx-evolution-1-2-1---security-and-bugfix-release" target="_blank">MODX Evolution 1.2.1 - Security and Bugfix Release</a></h2>
+    <span class="content">Evolution 1.2.1 is now ready for download (released Jan 11, 2017)<br />
+<br />
+Thanks go out to the community developers for getting this out so soon<br />
+<br />
+You can currently download this latest release only <a href="https://github.com/modxcms/evolution/releases/tag/1.2.1" target="_blank" rel="nofollow">from GitHub</a>, the LLC may update the MODx website shortly with the new version, but until then, <a href="https://github.com/modxcms/evolution/releases/tag/1.2.1" target="_blank" rel="nofollow">GitHub is your friend</a>.<br />
+<br />
+Please read the release notes that are shown on the release page - they can have an effect your installation</span>
+    <span class="date_stamp">1/13/2017 5:58:41 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/sfHgqpFcElc/modx-revolution-2-5-4-php-mailer-security-update-and-more" target="_blank">MODX Revolution 2.5.4 —PHP Mailer Security Update and More</a></h2>
+    <span class="content">Revolution 2.5.4 was released today. It includes an update for PHP Mailer, an accessibility improvement for the Manager login and several other fixes.<br />
+<br />
+<strong>Highlights of 2.5.4</strong><br />
+Here are some of the highlights of 2.5.4:<ul class="dis-ul"><li>Update PHP Mailer library for security fixes</li>
+<li>Fixed Resources not loading on sqlsrv environments</li>
+<li>Fixes to Extras package listings in the Installer</li>
+<li>Update Font Awesome to 4.7.0</li>
+<li>Improved Accessibily/UX of Manager login screen by removing placeholders</li></ul>
+<br />
+For a <a href="https://raw.githubusercontent.com/modxcms/revolution/v2.5.4-pl/core/docs/changelog.txt" target="_blank" rel="nofollow">complete list of changes in Revolution 2.5.4</a> read the changelog.  If you haven’t upgraded to MODX Revolution 2.5.x yet, learn more from its  <a href="https://modx.com/blog/2016/04/21/modx-revolution-2.5/" target="_blank" rel="nofollow">original release announcement</a>.<br />
+<br />
+<strong>Upgrading Is Critical</strong><br />
+[strong]Revolution 2.5.2 contained critical security enhancements and if you are not yet running 2.5.2 or higher you should upgrade to 2.5.4 now. See below for more info.[/strong]<br />
+<br />
+We cannot stress the importance of diligently upgrading to the latest version of MODX enough. While no software is 100% secure, powering your site with the most current version usually helps protect you from hackers that rely on exploiting outdated software. If you’re not sure what version of MODX Revolution you’re running, log in to your website Manager. If it is not shown at the top left hand corner of the Manager, go to <em>Manage&gt;Reports&gt;System Info</em>.<br />
+<br />
+If you need help upgrading your site, please contact your website builder, find a <a href="https://modx.com/support-and-services/services/" target="_blank" rel="nofollow">MODX Professional</a> or get in touch with <a href="https://modx.com/services/#engage" target="_blank" rel="nofollow">MODX Support</a>.<br />
+<br />
+<strong>Release Contributors</strong><br />
+Let’s take the time to thank the individual contributors to this release: Jason Coward, Thomas Jakobi, Mark Hamstra, Romain Tripault, Jan Peca, Sergey Shlokov, Mike Reid, fn3k4, Mat Dave Jones, Serge, Vasily Naumkin, and JP DeVries.<br />
+<br />
+<strong>Get Started with Revo 2.5</strong><br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5:<ul class="dis-ul"><li><a href="https://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a></li>
+<li><a href="http://docs.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x</li>
+<li>How to <a href="http://docs.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a></li>
+<li>How to <a href="http://docs.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a></li>
+<li>How to <a href="https://support.modx.com/hc/en-us/articles/216735808" target="_blank" rel="nofollow">upgrade MODX Revolution in MODX Cloud</a></li>
+<li>Read the <a href="http://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li>
+</ul>
+<br />
+<strong>Ask Not What MODX Can Do For You</strong><br />
+MODX is possible because of the many individual community members and users that take the time to <a href="https://github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https://github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="http://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>, <a href="http://forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums.<br />
+<br />
+On behalf of the entire MODX Team, we thank you!</span>
+    <span class="date_stamp">1/3/2017 4:56:46 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/6ITSJ8glkc4/modx-evolution-1-2-security-fixes-and-hundreds-of-improvements-and-updates" target="_blank">MODX Evolution 1.2—Security Fixes and Hundreds of Improvements and Updates</a></h2>
+    <span class="content">The community-based MODX Evolution team has released Evolution 1.2. It closes a significant set of vulnerabilities that exist in every version prior to 1.2. It also brings forward many new features and improvements that there’s just far too many to mention in this brief introduction. In fact, there are more than 1200 commits to this release of MODX Evolution, making it the biggest release to date. <br />
+<br />
+<strong>This is release includes critical security enhancements and should be considered a mandatory upgrade.</strong> <br />
+<br />
+<strong>Highlights Evo 1.2</strong> <br />
+Here are some highlights of MODX Evolution 1.2: <ul class="dis-ul"> <br />
+<li>Corrected issue allowing Evolution sites to be compromised using several Extras </li>
+<li>Updated TinyMCE in the Manager to 4.0 which includes new themes and more </li>
+<li>New default Manager theme called MODxRE2 </li>
+<li>Changes to the Resource Tree, providing quick access to Elements, Files and etc. </li>
+<li>New start page on new installs based on Bootstrap 3 </li>
+<li>New Output Modifiers in the core, including conditionals </li>
+<li>New Manager User roles for better, more granular access for site administrators </li>
+<li>Language overrides in the Manager </li>
+<li>Upgrade jQuery in Manager </li>
+<li>For a list of all of the changes in Evolution 1.2 <a href="https://raw.githubusercontent.com/modxcms/evolution/v1.2/assets/docs/changelog.txt" target="_blank" rel="nofollow">read the changelog</a></li>
+</ul> <br />
+<br />
+<strong>Upgrading Is Critical</strong> <br />
+We cannot stress the importance of diligently upgrading to the latest version of MODX enough. While no software is 100% secure, powering your site with the most current version usually helps protect you from hackers that rely on exploiting outdated software. If you’re not sure what version of MODX Evolution you’re running, login to your website Manager and it should be in the upper right hand corner—possibly left, if extremely old. <br />
+<br />
+If you need help upgrading your site, please contact your website builder, find a <a href="https://modx.com/professionals/" target="_blank" rel="nofollow">MODX Professional</a> or get in touch with <a href="https://modx.com/services/#engage" target="_blank" rel="nofollow">MODX Support</a>. <br />
+<br />
+MODX Evolution 1.2 was developed, managed and released by the dedicated team of community members, shown in order by number of contributions. <ul class="dis-ul"> <br />
+<li>Mananori Yamamoto (<a href="https:/github.com/yama" target="_blank" rel="nofollow">yama</a>) </li>
+<li>Dennis Helfensteller (<a href="https:/github.com/Deesen" target="_blank" rel="nofollow">Deesen</a>) </li>
+<li>Nicola Lambathakis (<a href="https:/github.com/Nicola1971" target="_blank" rel="nofollow">Nicola1971</a>) </li>
+<li>Dmytro Lukianenko (<a href="https:/github.com/dmi3yy" target="_blank" rel="nofollow">Dmi3yy</a>) </li>
+<li>Piotr Matysiak (<a href="https:/github.com/pmfx" target="_blank" rel="nofollow">pmfx</a>) </li>
+<li>Sergey Davydov (<a href="https:/github.com/MrSwed" target="_blank" rel="nofollow">MrSwed</a>) </li>
+<li>(<a href="https:/github.com/bossloper" target="_blank" rel="nofollow">bossloper</a>) </li>
+<li>fourroses666, Fr3ddy7, mcparana, amaksymiuk, vhollo, poh-am, ricardo-lewis, typhoon2099, </li>esszett, Jako <br />
+</ul> <br />
+<br />
+The MODX Evolution team would like to send a special thanks to all translators and testers! <br />
+<br />
+<strong>Download Evo 1.2:</strong> <br />
+You can download the latest version of MODX Evo from the following sources: <ul class="dis-ul"> <br />
+<li>The official MODX Evolution release <a href="https://modx.com/download/evolution/" target="_blank" rel="nofollow">download page</a></li> <br />
+<li>MODX Evo <a href="https://github.com/modxcms/evolution/releases" target="_blank" rel="nofollow">GitHub repository</a></li>
+</ul> <br />
+<br />
+<strong>Install, Upgrade and More Links</strong> <br />
+For those users who are interested in using Evo, but are unsure where to begin: <ul class="dis-ul"> <br />
+<li><a href="https://modx.com/download/evolution/" target="_blank" rel="nofollow">Basic Installation</a> - How to install </li>
+<li><a href="https://docs.modx.com/evolution/1.0/administration/upgrading" target="_blank" rel="nofollow">Upgrade</a> - How to upgrade to the latest version of MODX Evolution. </li>
+<li><a href="https://docs.modx.com/evolution/1.0/developers-guide" target="_blank" rel="nofollow">Developer’s Guide</a> - All tech information (How to, What are etc.) </li>
+<li><a href="https://docs.modx.com/evolution/1.0/content-editing" target="_blank" rel="nofollow">Content Editing</a> - For editors, user creation etc. </li>
+<li><a href="https://docs.modx.com/evolution/1.0/administration" target="_blank" rel="nofollow">Administration</a> - How to manage users, moving site etc. </li>
+<li><a href="https://docs.modx.com/evolution/1.0/designing" target="_blank" rel="nofollow">Designing</a> - Templates, adding chunks, TV’s, snippets etc. </li>
+</ul> <br />
+<br />
+For more details about the MODX Evolution 1.2 release, please <a href="https://modx.com/blog/modx-evolution-1.2" target="_blank" rel="nofollow">read the complete announcement</a>.</span>
+    <span class="date_stamp">12/6/2016 5:02:36 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/zStxagMkbzc/modx-revolution-2-5-2-important-security-fixes-and-more" target="_blank">MODX Revolution 2.5.2—Important Security Fixes and More</a></h2>
+    <span class="content">Revolution 2.5.2 was released today. This patch release addresses a number of important security issues affecting all previous releases of MODX Revolution. In addition, there were a number of bugfixes and minor improvements. <br />
+<br />
+<strong>This is release includes critical security enhancements and should be considered a mandatory upgrade.</strong> <br />
+<br />
+<strong>Highlights of 2.5.2</strong> <br />
+Here are some of the highlights of 2.5.2: <ul class="dis-ul"><li>Security—MODX has high standards for security and this release predominantly focuses on the areas that were found and fixed by the contributors listed below</li>
+<li>Bugfixes—several small bugs were fixed in this release, creating a better experience for MODX users</li>
+<li>Updates—phpThumb was updated to the latest version, and support for newer versions of MySQL improved to ensure MODX Revolution is compatible with current releases of other software used alongside MODX </li></ul>
+<br />
+For a <a href="https://raw.githubusercontent.com/modxcms/revolution/v2.5.2-pl/core/docs/changelog.txt" target="_blank" rel="nofollow">complete list of changes in Revolution 2.5.2</a> read the changelog. If you haven’t upgraded to MODX Revolution 2.5.x yet, learn more from its <a href="http://modx.com/blog/2016/04/21/modx-revolution-2.5/" target="_blank" rel="nofollow">original release announcement</a>. <br />
+<br />
+<strong>Upgrading Is Critical</strong> <br />
+We cannot stress the importance of diligently upgrading to the latest version of MODX enough. While no software is 100% secure, powering your site with the most current version usually helps protect you from hackers that rely on exploiting outdated software. If you’re not sure what version of MODX Revolution you’re running, login to your website Manager. If it is not shown at the top left hand corner of the Manager, go to <strong>Manage&gt;Reports&gt;System Info</strong>. <br />
+<br />
+If you need help upgrading your site, please contact your website builder, find a <a href="https://modx.com/support-and-services/services/" target="_blank" rel="nofollow">MODX Professional</a> or get in touch with <a href="https://modx.com/#engage" target="_blank" rel="nofollow">MODX Support</a>. <br />
+<br />
+<strong>Special Thanks</strong> <br />
+We would like to especially thank the following community members who helped identify and resolve these important security issues. They have helped make MODX Revolution more secure: <ul class="dis-ul"><li><a href="https://github.com/bezumkin" target="_blank" rel="nofollow">bezumkin</a> (Vasily Naumkin) <br />
+</li>
+<li><a href="https://github.com/Fi1osof" target="_blank" rel="nofollow">Fi1osof</a> (Nikolay Lanets) </li>
+<li><a href="https://github.com/Mark-H" target="_blank" rel="nofollow">Mark-H</a> (Mark Hamstra) </li>
+<li><a href="https://github.com/AgelxNash" target="_blank" rel="nofollow">AgelXNash</a> (Evgeny Borisov)</li></ul>
+<br />
+Please let them know you appreciate their efforts. <br />
+<br />
+<strong>Release Contributors</strong> <br />
+Let’s take the time to thank the individual contributors to this release (in alphabetical order by GitHub username): Alexander Herling, Andrey, Anton Pastukhoff, appchecker, argnist, Bruno17, Christian Seel, Elizabeth, Fabian Christen, Gildas NOEL, goldsky, ilyautkin, inreti, Ivan Klimchuk, Jan Peca, Jan Tezner, Jan-Christoph Ihrens, Jason Coward, Jay Gilmore, Jens Külzer, Johan van der Molen, JP DeVries, Kirill, Lars Bratke, lefthandmedia, Liam Kerr, Lukas Zahnd, Maarten Wolzak, Mark Hamstra, Mat Dave Jones, Mike Reid, Nikolay Lanets, Oleg, oori, OptimusCrime, Realetive, Romain, Ronald Exterkate, sepiariver, Sergey Shlokov, Susan Ottwell, Thomas Jakobi, Treigh, Vague Rabbit, Vasily Naumkin, ViieeS, Whitebyte, Zaigham Rana, володя, and Илья Уткин. <br />
+<br />
+<strong>Get Started with Revo 2.5</strong> <br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5: <ul class="dis-ul"><li><a href="http://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a> <br />
+</li>
+<li><a href="http://docs.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x <br />
+</li>
+<li>How to <a href="http://docs.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a> <br />
+</li>
+<li>How to <a href="http://docs.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a> <br />
+</li>
+<li>How to <a href="https://support.modx.com/hc/en-us/articles/216735808" target="_blank" rel="nofollow">upgrade MODX Revolution in MODX Cloud</a> <br />
+</li>
+<li>Read the <a href="http://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li> </ul> <br />
+<strong>Ask Not What MODX Can Do For You</strong> <br />
+MODX is possible because of the many individual community members and users that take the time to <a href="https://github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https://github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="http://docs.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>, <a href="http://forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums. <br />
+<br />
+On behalf of the entire MODX Team, We thank you!</span>
+    <span class="date_stamp">11/14/2016 5:48:31 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/BFyJ4fyHxQE/modx-revolution-2-5-1-s3-media-source-fixes-and-much-more" target="_blank">MODX Revolution 2.5.1—S3 Media Source Fixes and much More</a></h2>
+    <span class="content">The first patch release of MODX Revolution 2.5, 2.5.1 is now available. There are mostly small changes but of note are fixes to the Amazon S3 Media Sources and S3 Buckets with dots (.) in the name and their image previews in the file tree. There were also two, minor potential security issues resolved. If you missed it, why not read the complete <a href="https:/modx.com/blog/2016/04/21/modx-revolution-2.5/" target="_blank" rel="nofollow">Revo 2.5 announcement</a>. <br />
+<br />
+Highlights from <a href="https:/raw.githubusercontent.com/modxcms/revolution/v2.5.1-pl/core/docs/changelog.txt" target="_blank" rel="nofollow">the changelog</a>: <br />
+<ul class="dis-ul"><li>Fix problem with S3 bucket names containing dot characters </li>
+<li>Correctly display image preview in file tree for S3 media sources. </li>
+<li>Use sans-serif font for TV textareas </li>
+<li>Ensure Uberbar search results respect ACLs (user permissions/access) </li>
+<li>Add missing viewport meta tag needed to correctly enable responsive MODX Manager and Manager login screen </li>
+<li>E-Mail validation now supports domain extentions (gTLDs) with more than 6 characters </li>
+<li>Two security fixes to prevent reflected XSS and closing SQL injection.</li></ul> <br />
+<br />
+<strong>Important Note for TinyMCE Users</strong> <br />
+<br />
+We have found an issue with the widely used TinyMCE Extra (the word processor-like toolbar for MODX Resources) where you cannot load Resources after Upgrading. TinyMCE by splittingred is no longer actively maintained and we recommend choosing one of the other <a href="https:/modx.com/extras/browse/?search=Tinymce" target="_blank" rel="nofollow">TinyMCE Extras</a> for 2.5.1+. There is a <a href="https:/github.com/modxcms/TinyMCE/pull/20/files" target="_blank" rel="nofollow">one-line patch available</a> if you want to continue using TinyMCE. <br />
+<br />
+<strong>Important</strong><br />
+Nearly all releases contain vital security patches. If you are using a version lower than 2.3.6 you should consider an upgrade to 2.5.1 mandatory. <br />
+<br />
+<strong>Security is an Ongoing Process</strong><br />
+We cannot stress how important it is to run the most current version of MODX. We are always improving security. Upgrade regularly to reduce the chance of your site getting hacked. If you need help upgrading your MODX site, <a href="http://modx.com/support-and-services/maintain/" target="_blank" rel="nofollow">let us know</a>. <br />
+<br />
+<strong>Release Contributors</strong> <br />
+Let’s take the time to thank the individual contributors to this release (in alphabetical order by GitHub username): achterbahn, AppChecker, Bruno17, christianseel, enigmatic, ilyautkin, Jako, labr1005, lefthandmedia, MaartenW, Mark, matdave, opengeek, OptimusCrime, pixelchutes, Realetive, Ronald, sergant210, sottwell, theboxer, thewhiterabbit, and vgrish, along with many other contributors who log &amp; triage issues, review PRs, and commit code. The MODX Community is amazing. <br />
+<br />
+<strong>Get Started with Revo 2.5</strong> <br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5: <ul class="dis-ul"><li><a href="http://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a> </li>
+<li><a href="http://rtfm.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x </li>
+<li>How to <a href="http://rtfm.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a> </li>
+<li>How to <a href="http://rtfm.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a> </li>
+<li>How to <a href="https://support.modx.com/hc/en-us/articles/216735808" target="_blank" rel="nofollow">upgrade MODX Revolution in MODX Cloud</a> </li>
+<li>Read the <a href="http://rtfm.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li></ul> <br />
+<br />
+<strong>Ask Not What MODX Can Do For You</strong> <br />
+MODX is only as good as it is because of the many individual community members and users that take the time to <a href="https:/github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https:/github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="http://rtfm.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>,<a href="http://forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums. <br />
+<br />
+On behalf of the entire MODX Team, <br />
+We thank you! <br /></span>
+    <span class="date_stamp">7/21/2016 7:03:18 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/GwSteTmyfg8/modx-revolution-2-5-php-7-performance-and-more" target="_blank">MODX Revolution 2.5—PHP 7, Performance and More</a></h2>
+    <span class="content">MODX Revolution 2.5 is now out and brings PHP7 compatibility, ability to have faster performance for anonymous users, improved Manager interface when accessing from mobile or tablet devices, enhanced accessibility and much more. <br />
+<br />
+<strong>Highlights of Revolution 2.5</strong><br />
+MODX Revolution 2.5 continues the tradition of enhancing functionality and performance for MODX Revolution, augmenting security, and fixing a variety of bugs. The excellent new features include the following areas:<br />
+<br />
+<strong>Preparing for the Future</strong><br />
+MODX CMS has alway been forward thinking. We adopted PDO for database access years before others even considered it, and you could power HTML5/CSS3 mobile responsive sites with our first release in 2005, even though those technologies didn’t exist at the time. We continue this tradition with a few things that are here today, and that will be huge soon:<br />
+<ul class="dis-ul"><br />
+    <li>PHP 7 compatibility (it’s coming soon to a server near you). PHP 7 performs significantly faster than any previous release before it so your sites should be able to handle more visitors and serve them more quickly, keeping them engaged and returning for more.</li>
+    <li>Accessibility improvements worked into the core Manager experience including screen reader and keyboard navigation on the Login screen. The work that is going on for the Accessible Manager theme that takes this much further, works in MODX Revolution 2.5, too.</li>
+</ul>
+<br />
+<strong>Improved UX</strong><br />
+<img src="https://modx.com/assets/i/blogs/ryan/25-mobile-sim-collage.png" border="0" /><br />
+Our quest to improve end-user and developer experiences will never be over. To that point, the following areas received attention for 2.5:<br />
+<ul class="dis-ul"><br />
+    <li>New default content for new installs provides helpful resources and information. Instead of the empty blank page in all previous versions of MODX Revolution, you now get a nice intro page with some important links to assist and orient new users.</li>
+    <li>Much more mobile-friendly Manager. As a stepping stone towards a new Manager in the future, this allows you to make edits and access the Manager much more easily than was possible before thanks to the <a href="https://github.com/modxcms/revolution/pull/12776" target="_blank" rel="nofollow"> intense efforts of JP Devries</a>.</li>
+    <li>Add ability to unpack zip files in the file tree / media manager</li>
+</ul>
+<br />
+<strong>Developer Sugar</strong><br />
+Sometimes you need to create custom functionality that available MODX Extras do not address. Often this involves creating a Custom Manager Pages and interfaces inside a Component.<br />
+<br />
+Previously, this required a dive into the “exciting” world of ExtJS, with which most people have a loathe-hate relationship. Now, views for applications you build into the MODX Manager are much easier to create using plain old HTML/CSS and MODX Tags. A special thanks goes to Romain Tripault and Susan Ottwell for this <a href="http://modxcookbook.com/customize-manager/cmps/cmp-made-easy.html" target="_blank" rel="nofollow">example of the new Custom Manager Pages in 2.5</a>.<br />
+<br />
+<strong>Faster Performance</strong><br />
+Google loves fast sites, as do your visitors. MODX has always been performant when serving cached pages, now it’s even more so:<br />
+<ul class="dis-ul"><br />
+    <li>Parser optimizations which improve pre-caching performance. This means visitors will be served more quickly, and Google will give your site a little more respect, which it clearly deserves.</li>
+    <li>The new <em>anonymous_sessions</em> setting (enabled by default) can significantly speed up the performance for sites that don’t need to have PHP sessions or logged in users. When this setting is disabled, and a page is fully cached, having sessionless anonymous visitors eliminates the need for a database connection for that visitor on each request. If your site serves even moderate traffic, this can significantly reduce the amount of processor required to operate. </li>
+</ul>
+<br />
+<strong>Changes in MODX Revolution 2.5</strong><br />
+Previously created sites, currently on Revolution 2.3 or above, should work when upgrading to 2.5, but we do suggest testing on an clone of your site, first. Earlier versions may take a bit of extra effort and code updates if they use non-public APIs or directly access the database.<br />
+<br />
+<strong>Release Contributors</strong><br />
+Let’s take the time to thank the individual contributors to this release (in no particular order):John Peca, Jason Coward, Thomas Jakobi, Ronald Exterkate, Mike Reid, inreti, Zaigham Rana, Jan Tezner, Elizabeth, Romain, argnist, Anton Pastukhoff, Илья Уткин, Gildas NOEL, Ivan Klimchuk, JP DeVries, Kirill, Mark Hamstra, Mat Dave Jones, Nikolay Lanets, Sergey Shlokov, and Vasily Naumkin, along with many other contributors who log &amp; triage issues, review PRs, and commit code. The MODX Community is Amazing.<br />
+<br />
+<strong>Get Started with Revolution 2.5</strong><br />
+Here’s what you need to get started or upgrade to MODX Revolution 2.5:<br />
+<ul class="dis-ul"><br />
+    <li><a href="https://modx.com/download/" target="_blank" rel="nofollow">Download Revolution 2.5</a></li>
+    <li><a href="https://modxcloud.com/" target="_blank" rel="nofollow">Test it out</a> for free in MODX Cloud</li>
+    <li><a href="http://rtfm.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x</li>
+    <li>How to <a href="http://rtfm.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a></li>
+    <li>How to <a href="http://rtfm.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a></li>
+    <li>Read the <a href="http://rtfm.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li>
+</ul>
+<br />
+<strong>It Takes a Global Village</strong><br />
+MODX is only as good as it is because of the many individual community members and users, from around the world, who take the time to <a href="https://github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https://github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="http://rtfm.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>,<a href="http://forums.modx.com/board/?board=302" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums.<br />
+<br />
+On behalf of the entire MODX Team, <br />
+<br />
+We thank you!</span>
+    <span class="date_stamp">4/21/2016 7:48:37 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="http://feedproxy.google.com/~r/modx-announce/~3/Y0VAwEgVD8Q/modx-revolution-2-5-rc2-out-now-help-us-ready-it-for-release" target="_blank">MODX Revolution 2.5-RC2 Out Now, Help us Ready it for Release</a></h2>
+    <span class="content">A new feature release of MODX Revolution is coming soon and we've published the second release candidate for MODX Revolution 2.5, today. <br />
+<br />
+<strong>What's New in Revolution 2.5</strong> <br />
+This new release of MODX Revolution includes a number of excellent new features including: <ul class="dis-ul"> <br />
+<li>PHP7 compatibility (it's coming soon to a server near you) </li>
+<li>Much more mobile-friendly Manager as a stepping stone towards a new manager in the future. </li>
+<li>Custom Manager Pages (the views for applications built into MODX) are now much easier to build using HTML and MODX Tags. Thanks to Romain Tripault and Susan Ottwell for this <a href="http://modxcookbook.com/customize-manager/cmps/cmp-made-easy.html" target="_blank" rel="nofollow">example of the new Custom Manager Pages in 2.5</a>. </li>
+<li>Accessibility improvements worked into the core Manager experience including screen reader and keyboard navigation on the Login screen. </li>
+<li>Significant improvement to the parser which could potentially improve pre-caching performance by 15%; </li>
+<li>New installs get a new look. Instead of the empty blank page in previous versions you now get a nice intro page with some important links so new users can more easily get started.</li> </ul> <br />
+<br />
+<strong>Contributors on this Release</strong> <br />
+Let’s take the time to thank the individual contributors to this release (in no particular order):Jan Peca, Jason Coward, Thomas Jakobi, Ronald Exterkate, Mike Reid, inreti, Zaigham Rana, Jan Tezner, Elizabeth, Romain, argnist, Anton Pastukhoff, Илья Уткин, Gildas NOEL, Ivan Klimchuk, JP DeVries, Kirill, Mark Hamstra, Mat Dave Jones, Nikolay Lanets, Sergey Shlokov, and Vasily Naumkin, along with many other contributors who log &amp; triage issues, review PRs, and commit code. The MODX Community is Amazing. <br />
+<br />
+<strong>Ready, Set, Test Revo 2.5</strong> <br />
+In order for a successful release of 2.5 we need people to test these release candidates on their projects, of course, do keep in mind there will be bugs—that's what we're looking to find. Here’s what you need to get started or upgrade to MODX Revolution 2.5-RC2: <ul class="dis-ul"> <br />
+<li><a href="https://modx.com/download/release/revolution-2.5.0-rc2" target="_blank" rel="nofollow">Download Revolution 2.5</a> </li>
+<li><a href="//rtfm.modx.com/revolution/2.x/getting-started/server-requirements" target="_blank" rel="nofollow">What’s required</a> to run Revolution 2.5.x </li>
+<li>How to <a href="//rtfm.modx.com/revolution/2.x/getting-started/installation/basic-installation" target="_blank" rel="nofollow">install MODX Revolution</a> </li>
+<li>How to <a href="//rtfm.modx.com/revolution/2.x/administering-your-site/upgrading-modx" target="_blank" rel="nofollow">upgrade MODX Revolution on your site</a> </li>
+<li>Read the <a href="//rtfm.modx.com/revolution/2.x/" target="_blank" rel="nofollow">MODX Revolution Documentation</a></li></ul> <br />
+<br />
+<strong>It Takes a Global Village</strong> <br />
+MODX is only as good as it is because of the many individual community members and users, from around the world, who take the time to <a href="https:/github.com/modxcms/revolution/issues?state=open" target="_blank" rel="nofollow">report issues, request new features</a>, and <a href="https:/github.com/modxcms/revolution/pulls" target="_blank" rel="nofollow">submit code to the project</a>. Make sure you <a href="//rtfm.modx.com/revolution/2.x/" target="_blank" rel="nofollow">read the documentation</a>,<a href="//forums.modx.com/board/?board=264" target="_blank" rel="nofollow">post feedback and share your experiences</a> in the MODX community forums. <br />
+<br />
+On behalf of the entire MODX Team, <br />
+ We thank you!</span>
+    <span class="date_stamp">4/7/2016 8:23:03 AM</span>
+</div></div>
+    </div>
+</div>
+<div class="dashboard-block dashboard-block-full dashboard-block-variable">
+    <h3 class="title">Configuration Check</h3>
+    <div class="body">
+    <h4>One or more configuration details didn't check out OK: </h4><ul class="configcheck"><li class="">
+                            <h5 class="warn">Core folder is accessible by web</h5>
+                            <p><i class="icon icon-info-circle"></i> MODX detected that your core folder is (partially) accessible to the public.
+<strong>This is not recommended and a security risk.</strong>
+If your MODX installation is running on a Apache webserver
+you should at least set up the .htaccess file inside the core folder <em>C:/xampp/htdocs/test/core/</em>.
+This can be easily done by renaming the existing ht.access example file there to .htaccess.
+</p><p>There are other methods and webservers you may use, please read the <a href="https://rtfm.modx.com/revolution/2.x/administering-your-site/security/hardening-modx-revolution">Hardening MODX Guide</a>
+for further information about securing your site.</p>
+If you setup everything correctly, browsing e.g. to the <a href="http://localhost/test/\core/docs/changelog.txt" target="_blank">Changelog</a>
+should give you a 403 (permission denied) or better a 404 (not found). If you can see the changelog
+there in the browser, something is still wrong and you need to reconfigure or call an expert to solve this. <p></p>
+                            </li><li class="">
+                            <h5 class="warn">Config file still writable!</h5>
+                            <p><i class="icon icon-info-circle"></i> Your site is vulnerable to hackers who could do a lot of damage to the site. Please make your config file read only! If you are not the site admin, please contact a systems administrator and warn them about this message! It is located at C:/xampp/htdocs/test/core/config/config.inc.php </p>
+                            </li></ul>
+    </div>
+</div>
+<div class="dashboard-block dashboard-block-half ">
+    <h3 class="title">MODX Security Feed</h3>
+    <div class="body">
+    <div id="modx-security-feed-container" class="feed-loading" data-feed="news"><div class="news_article">
+    <h2><a href="https://forums.modx.com/thread/104040/revolution-2-6-4-and-prior-two-cricital-vulnerabilities-upgrade-mandatory-patch#dis-post-559515" target="_blank">Revolution 2.6.4 and Prior Two Cricital Vulnerabilities; Upgrade Mandatory/Patch</a></h2>
+    <span class="content"><strong>Product:</strong> MODX Revolution<br />
+<strong>Severity:</strong> Critical<br />
+<strong>Versions:</strong> &lt;=2.6.4<br />
+<strong>Vulnerability type(s):</strong> Remote Execution / File/Directory Deletion<br />
+<strong>Report date:</strong> 2018-Jul-11<br />
+<strong>Fixed date:</strong> 2018-Jul-12<br />
+<br />
+<strong>Description</strong> <br />
+On July 11 we received notice that <strong>there are two critical vulnerabilities</strong> that include remote script execution and file/directory removal. These issues are critical in nature. It is possible for attackers to compromise the website or deface or delete files or directories.  <br />
+<br />
+<strong>Affected Releases</strong><br />
+All MODX Revolution releases prior to and including 2.6.4<br />
+<br />
+<strong>Solutions</strong><br />
+<ol class="dis-ol"><li>Upgrade to <a href="https://modx.com/download" target="_blank" rel="nofollow">MODX Revolution 2.6.5</a> or above. </li>
+<li>If you're on 2.6.4 you can replace the changed files included in the commits:  <a href="https://github.com/modxcms/revolution/commit/606dc0f1635de4b699d1151616af75e5c08d4cdd" target="_blank" rel="nofollow">here (can be manually updated on versions back to 2.3.0)</a> and <a href="https://github.com/modxcms/revolution/commit/3fc50383c81b51e7718c9f29f9cef23dfadfa7fb" target="_blank" rel="nofollow">here (can be updated on versions back to 2.5.2)</a>. Please note, replacing files in other versions of MODX Revolution could  lead to unintended consequences. It is always preferred to upgrade.</li>
+</ol>
+<br />
+<strong>Support</strong><br />
+If you do not know how to upgrade your site there are several support options available. You can contact the developer or builder of your site, ask for help in the <a href="https://forums.modx.com/" target="_blank" rel="nofollow">MODX Forums</a>, find a <a href="https://modx.com/professionals" target="_blank" rel="nofollow">MODX Professional</a> or get help from the <a href="https://modx.com/services/#engage" target="_blank" rel="nofollow">MODX Services team</a>.<br />
+<br />
+<strong>Acknowledgement</strong><br />
+We would like to thank Ivan Klimchuk (Alroniks) and agel_nash for bringing these issues to our attention and verifying their resolution. <br />
+<br />
+<strong>Additional Information</strong><br />
+For additional information, please email <a href="mailto:help@modx.com" target="_blank" rel="nofollow">MODX Support</a>.</span>
+    <span class="date_stamp">7/11/2018 10:40:19 PM</span>
+</div>
+<div class="news_article">
+    <h2><a href="https://forums.modx.com/thread/101393/revolution-2-5-1-and-prior-multiple-vulnerabilites#dis-post-547024" target="_blank">Revolution 2.5.1 and Prior Multiple Vulnerabilites</a></h2>
+    <span class="content"><strong>Product:</strong> MODX Revolution<br />
+<strong>Severity:</strong> Moderate<br />
+<strong>Versions:</strong> &lt;=2.5.1<br />
+<strong>Vulnerability type:</strong> Directory Traversal / SQL Injection<br />
+<strong>Report date:</strong> 2016-Nov-4<br />
+<strong>Fixed date:</strong> 2016-Nov-14<br />
+<br />
+<strong>Description</strong> <br />
+We received notice that there are several vulnerabilities that include a SQL injection and directory traversal. These issues on their own are not critical in nature, however, it could be possible for determined attackers to combine vectors to compromise a site. <br />
+<br />
+<strong>Affected Releases</strong><br />
+All MODX Revolution releases prior to and including 2.5.1<br />
+<br />
+<strong>Solutions</strong><br />
+<ol class="dis-ol"><li>Upgrade to <a href="https://modx.com/download" target="_blank" rel="nofollow">MODX Revolution 2.5.2</a> or above. </li>
+<li><a href="https://www.sterc.nl/en/modx/modx-2.5.2-security-patch" target="_blank" rel="nofollow">Patch available for versions 2.3.3-2.5.2</a> thanks to Sterc. Versions below 2.3.3 must upgrade.</li>
+</ol>
+<br />
+<strong>Support</strong><br />
+If you do not know how to upgrade your site there are several support options available. You can contact the developer or builder of your site, ask for help in the <a href="https://forums.modx.com/" target="_blank" rel="nofollow">MODX Forums</a>, find a <a href="https://modx.com/professionals" target="_blank" rel="nofollow">MODX Professional</a> or get help from the <a href="https://modx.com/services/#engage" target="_blank" rel="nofollow">MODX Services team</a>.<br />
+<br />
+<strong>Acknowledgement</strong><br />
+We would like to thank [url=modxclub.ru]Nikolay Lanets<a href=" and Chen Ruiqi from for bringing these issues to our attention and verifying their resolution. &lt;br /&gt;&#10;&lt;br /&gt;&#10;Additional Information&lt;br /&gt;&#10;For additional information, please use the [url=&lt;a href=" http:="" modx.com="" company="" contact="" "="" target="_blank" rel="nofollow">http://modx.com/company/contact/</a>]MODX Contact Form" target="_blank" rel="nofollow"&gt; and Chen Ruiqi from for bringing these issues to our attention and verifying their resolution. <br />
+<br />
+Additional Information<br />
+For additional information, please use the [url=<a href="http://modx.com/company/contact/" target="_blank" rel="nofollow">http://modx.com/company/contact/</a>]MODX Contact Form</span>
+    <span class="date_stamp">12/7/2016 3:53:04 AM</span>
+</div>
+<div class="news_article">
+    <h2><a href="https://forums.modx.com/thread/92129/critical-login-xss-csrf-revolution-2-2-1-4-and-prior#dis-post-503208" target="_blank">Critical Login XSS+CSRF Revolution 2.2.1.4 and Prior</a></h2>
+    <span class="content"><strong>Product:</strong> MODX Revolution<br />
+<strong>Severity:</strong> Critical<br />
+<strong>Versions:</strong> 2.0.0–2.2.14<br />
+<strong>Vulnerability type:</strong> CSRF &amp; XSS<br />
+<strong>Report date:</strong> 2014-Jul-10<br />
+<strong>Fixed date:</strong> 2014-Jul-15<br />
+<br />
+<strong>Description</strong> <br />
+A significant vulnerability was discovered in the Manager login of MODX Revolution that also affects the use of the Login Extra. A malicious user could formulate a link that automatically logs the user into their own account, then redirects the user to a site the attacker controls immediately, exposing the user's CSRF token. This can be exploited with or without getting the user to enter their credentials in the form.<br />
+<br />
+<strong>Affected Releases</strong><br />
+All MODX Revolution releases prior to and including 2.2.14.<br />
+<br />
+<strong>Solution</strong><br />
+Upgrade to <a href="http://modx.com/download/release/revolution-2.2.15-pl" target="_blank" rel="nofollow">MODX Revolution 2.2.15</a>. Due to the nature of this issue and the number of files requiring changes the solution is to upgrade. No installable patch or fileset is available for prior versions.<br />
+<br />
+<strong>Acknowledgement</strong><br />
+We would like to thank Narendra Bhati, of <a href="http://www.sumasoft.com" target="_blank" rel="nofollow">Suma Soft</a> for bringing this issue to our attention.<br />
+<br />
+<strong>Additional Information</strong><br />
+For additional information, please use the <a href="http://modx.com/company/contact/" target="_blank" rel="nofollow">MODX Contact Form</a></span>
+    <span class="date_stamp">7/14/2014 9:29:03 PM</span>
+</div>
+<div class="news_article">
+    <h2><a href="https://forums.modx.com/thread/91864/revolution-security-announcements#dis-post-501935" target="_blank">Revolution Security Announcements</a></h2>
+    <span class="content">This is the MODX Revolution Security board. This is the central location where announcements related to security issues and resolutions are posted. You can subscribe by <a href="http://forums.modx.com/board.xml?board=294" target="_blank" rel="nofollow">RSS</a> or to our <a href="http://eepurl.com/WIa5v" target="_blank" rel="nofollow">MODX Security Bulletin email</a>.</span>
+    <span class="date_stamp">7/1/2014 3:09:27 AM</span>
+</div></div>
+    </div>
+</div>
+<div class="dashboard-block dashboard-block-half ">
+    <h3 class="title">Who's Online</h3>
+    <div class="body">
+    <p>This list shows all users active within the last 20 minutes (current time is 5:44 pm)</p>
+<br />
+<div id="modx-grid-user-online"><div id="ext-comp-1033" class=" x-panel modx-grid x-grid-panel" style="width: 553px;"><div class="x-panel-bwrap" id="ext-gen42"><div class="x-panel-body x-panel-body-noheader" id="ext-gen43" style="height: auto; width: 553px;"><div class="x-grid3" hidefocus="true" id="ext-gen47"><div class="x-grid3-viewport" id="ext-gen48"><div class="x-grid3-header" id="ext-gen49"><div class="x-grid3-header-inner" id="ext-gen51"><div class="x-grid3-header-offset" style="width: 551px;"><table border="0" cellspacing="0" cellpadding="0" style="width: 551px;"><thead><tr class="x-grid3-hd-row"><td class="x-grid3-hd x-grid3-cell x-grid3-td-0 x-grid3-cell-first " style="width: 78px;"><div class="x-grid3-hd-inner x-grid3-hd-0" unselectable="on" style=""><a class="x-grid3-hd-btn" href="#"></a>User's ID<img alt="" class="x-grid3-sort-icon" src="/test/manager/assets/ext3/resources/images/default/s.gif" /></div></td><td class="x-grid3-hd x-grid3-cell x-grid3-td-1 " style="width: 155px;"><div class="x-grid3-hd-inner x-grid3-hd-1" unselectable="on" style=""><a class="x-grid3-hd-btn" href="#"></a>User<img alt="" class="x-grid3-sort-icon" src="/test/manager/assets/ext3/resources/images/default/s.gif" /></div></td><td class="x-grid3-hd x-grid3-cell x-grid3-td-2 " style="width: 155px;"><div class="x-grid3-hd-inner x-grid3-hd-2" unselectable="on" style=""><a class="x-grid3-hd-btn" href="#"></a>Last hit<img alt="" class="x-grid3-sort-icon" src="/test/manager/assets/ext3/resources/images/default/s.gif" /></div></td><td class="x-grid3-hd x-grid3-cell x-grid3-td-3 x-grid3-cell-last " style="width: 155px;"><div class="x-grid3-hd-inner x-grid3-hd-3" unselectable="on" style=""><a class="x-grid3-hd-btn" href="#"></a>Action<img alt="" class="x-grid3-sort-icon" src="/test/manager/assets/ext3/resources/images/default/s.gif" /></div></td></tr></thead></table></div></div><div class="x-clear"></div></div><div class="x-grid3-scroller" id="ext-gen50" style="overflow: visible; position: static;"><div class="x-grid3-body" style="width: 551px;" id="ext-gen52"><div class="x-grid3-row  x-grid3-row-first x-grid3-row-last" style="width:551px;"><table class="x-grid3-row-table" border="0" cellspacing="0" cellpadding="0" style="width:551px;"><tbody><tr><td class="x-grid3-col x-grid3-cell x-grid3-td-0 x-selectable x-grid3-cell-first " style="width: 78px;" tabindex="0"><div class="x-grid3-cell-inner x-grid3-col-0">10</div></td><td class="x-grid3-col x-grid3-cell x-grid3-td-1 x-selectable " style="width: 155px;" tabindex="0"><div class="x-grid3-cell-inner x-grid3-col-1">JoeTester</div></td><td class="x-grid3-col x-grid3-cell x-grid3-td-2 x-selectable " style="width: 155px;" tabindex="0"><div class="x-grid3-cell-inner x-grid3-col-2">2019-01-26 5:44 pm</div></td><td class="x-grid3-col x-grid3-cell x-grid3-td-3 x-selectable x-grid3-cell-last " style="width: 155px;" tabindex="0"><div class="x-grid3-cell-inner x-grid3-col-3">login</div></td></tr><tr class="x-grid3-row-body-tr" style=""><td colspan="4" class="x-grid3-body-cell" tabindex="0" hidefocus="on"><div class="x-grid3-row-body"></div></td></tr></tbody></table></div></div><a href="#" class="x-grid3-focus" tabindex="-1" id="ext-gen53" style="left: 1px; top: 41px;"></a></div></div><div class="x-grid3-resize-marker" id="ext-gen54"> </div><div class="x-grid3-resize-proxy" id="ext-gen55"> </div></div></div><div class="x-panel-bbar" id="ext-gen44" style="width: 553px;"><div id="ext-comp-1017" class="x-toolbar x-small-editor x-toolbar-layout-ct" style="width: 553px;"><table cellspacing="0" class="x-toolbar-ct"><tbody><tr><td class="x-toolbar-left" align="left"><table cellspacing="0"><tbody><tr class="x-toolbar-left-row"><td class="x-toolbar-cell" id="ext-gen60"><span id="ext-comp-1018" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen61" class=" x-btn-text x-tbar-page-first"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen62"><span id="ext-comp-1019" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen63" class=" x-btn-text x-tbar-page-prev"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen64"><span class="xtb-sep" id="ext-gen65"></span></td><td class="x-toolbar-cell" id="ext-gen66"><div class="xtb-text" id="ext-comp-1027">Page</div></td><td class="x-toolbar-cell" id="ext-gen67"><input type="text" size="20" autocomplete="on" msgtarget="under" id="ext-comp-1020" class="x-form-text x-form-field x-form-num-field x-tbar-page-number" /></td><td class="x-toolbar-cell" id="ext-gen68"><div class="xtb-text" id="ext-comp-1021">of 1</div></td><td class="x-toolbar-cell" id="ext-gen69"><span class="xtb-sep" id="ext-gen70"></span></td><td class="x-toolbar-cell" id="ext-gen71"><span id="ext-comp-1022" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen72" class=" x-btn-text x-tbar-page-next"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen73"><span id="ext-comp-1023" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen74" class=" x-btn-text x-tbar-page-last"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen75"><span class="xtb-sep" id="ext-gen76"></span></td><td class="x-toolbar-cell" id="ext-gen77"><span id="ext-comp-1024" class="x-btn x-btn-small x-btn-icon-small-left x-btn-icon" unselectable="on"><em class=""><button type="button" id="ext-gen78" class=" x-btn-text x-tbar-loading"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen79"><div class="xtb-text" id="ext-comp-1030">Per Page:</div></td><td class="x-toolbar-cell" id="ext-gen80"><input type="text" size="20" autocomplete="on" msgtarget="under" id="ext-comp-1031" name="ext-comp-1031" class="x-form-text x-form-field x-tbar-page-size" /></td></tr></tbody></table></td><td class="x-toolbar-right" align="right"><table cellspacing="0" class="x-toolbar-right-ct"><tbody><tr><td><table cellspacing="0"><tbody><tr class="x-toolbar-right-row"><td class="x-toolbar-cell" id="ext-gen81"><div class="xtb-text" id="ext-comp-1025">Displaying 1 - 1 of 1</div></td></tr></tbody></table></td><td><table cellspacing="0"><tbody><tr class="x-toolbar-extras-row"></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div></div></div></div>
+    </div>
+</div>
+<div class="dashboard-block dashboard-block-half ">
+    <h3 class="title">Recently Edited Resources</h3>
+    <div class="body">
+    <p>This list shows the last resources you created or edited:</p>
+<br />
+<div id="modx-grid-user-recent-resource"><div id="ext-comp-1055" class=" x-panel modx-grid x-grid-panel" style="width: 553px;"><div class="x-panel-bwrap" id="ext-gen87"><div class="x-panel-body x-panel-body-noheader" id="ext-gen88" style="height: auto; width: 553px;"><div class="x-grid3" hidefocus="true" id="ext-gen91"><div class="x-grid3-viewport" id="ext-gen92"><div class="x-grid3-header" id="ext-gen93"><div class="x-grid3-header-inner" id="ext-gen95"><div class="x-grid3-header-offset" style="width: 553px;"><table border="0" cellspacing="0" cellpadding="0" style="width: 553px;"><thead><tr class="x-grid3-hd-row"><td class="x-grid3-hd x-grid3-cell x-grid3-td-0 x-grid3-cell-first " style="width: 73px;"><div class="x-grid3-hd-inner x-grid3-hd-0" unselectable="on" style=""><a class="x-grid3-hd-btn" href="#"></a>ID<img alt="" class="x-grid3-sort-icon" src="/test/manager/assets/ext3/resources/images/default/s.gif" /></div></td><td class="x-grid3-hd x-grid3-cell x-grid3-td-1 " style="width: 356px;"><div class="x-grid3-hd-inner x-grid3-hd-1" unselectable="on" style=""><a class="x-grid3-hd-btn" href="#"></a>Resource's title<img alt="" class="x-grid3-sort-icon" src="/test/manager/assets/ext3/resources/images/default/s.gif" /></div></td><td class="x-grid3-hd x-grid3-cell x-grid3-td-2 x-grid3-cell-last " style="width: 118px;"><div class="x-grid3-hd-inner x-grid3-hd-2" unselectable="on" style=""><a class="x-grid3-hd-btn" href="#"></a>Published<img alt="" class="x-grid3-sort-icon" src="/test/manager/assets/ext3/resources/images/default/s.gif" /></div></td></tr></thead></table></div></div><div class="x-clear"></div></div><div class="x-grid3-scroller" id="ext-gen94" style="overflow: visible; position: static;"><div class="x-grid3-body" style="width: 553px;" id="ext-gen96"><div class="x-grid-empty">No data to display</div></div><a href="#" class="x-grid3-focus" tabindex="-1" id="ext-gen97" style="left: 0px; top: 40px;"></a></div></div><div class="x-grid3-resize-marker" id="ext-gen98"> </div><div class="x-grid3-resize-proxy" id="ext-gen99"> </div></div></div><div class="x-panel-bbar" id="ext-gen89" style="width: 553px;"><div id="ext-comp-1039" class="x-toolbar x-small-editor x-toolbar-layout-ct" style="width: 553px;"><table cellspacing="0" class="x-toolbar-ct"><tbody><tr><td class="x-toolbar-left" align="left"><table cellspacing="0"><tbody><tr class="x-toolbar-left-row"><td class="x-toolbar-cell" id="ext-gen104"><span id="ext-comp-1040" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen105" class=" x-btn-text x-tbar-page-first"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen106"><span id="ext-comp-1041" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen107" class=" x-btn-text x-tbar-page-prev"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen108"><span class="xtb-sep" id="ext-gen109"></span></td><td class="x-toolbar-cell" id="ext-gen110"><div class="xtb-text" id="ext-comp-1049">Page</div></td><td class="x-toolbar-cell" id="ext-gen111"><input type="text" size="20" autocomplete="on" msgtarget="under" id="ext-comp-1042" class="x-form-text x-form-field x-form-num-field x-tbar-page-number" /></td><td class="x-toolbar-cell" id="ext-gen112"><div class="xtb-text" id="ext-comp-1043">of 1</div></td><td class="x-toolbar-cell" id="ext-gen113"><span class="xtb-sep" id="ext-gen114"></span></td><td class="x-toolbar-cell" id="ext-gen115"><span id="ext-comp-1044" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen116" class=" x-btn-text x-tbar-page-next"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen117"><span id="ext-comp-1045" class="x-btn x-btn-small x-btn-icon-small-left  x-btn-icon x-item-disabled" unselectable="on"><em class=""><button type="button" id="ext-gen118" class=" x-btn-text x-tbar-page-last"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen119"><span class="xtb-sep" id="ext-gen120"></span></td><td class="x-toolbar-cell" id="ext-gen121"><span id="ext-comp-1046" class="x-btn x-btn-small x-btn-icon-small-left x-btn-icon" unselectable="on"><em class=""><button type="button" id="ext-gen122" class=" x-btn-text x-tbar-loading"> </button></em></span></td><td class="x-toolbar-cell" id="ext-gen123"><div class="xtb-text" id="ext-comp-1052">Per Page:</div></td><td class="x-toolbar-cell" id="ext-gen124"><input type="text" size="20" autocomplete="on" msgtarget="under" id="ext-comp-1053" name="ext-comp-1053" class="x-form-text x-form-field x-tbar-page-size" /></td></tr></tbody></table></td><td class="x-toolbar-right" align="right"><table cellspacing="0" class="x-toolbar-right-ct"><tbody><tr><td><table cellspacing="0"><tbody><tr class="x-toolbar-right-row"><td class="x-toolbar-cell" id="ext-gen125"><div class="xtb-text" id="ext-comp-1047">No data to display</div></td></tr></tbody></table></td><td><table cellspacing="0"><tbody><tr class="x-toolbar-extras-row"></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table></div></div></div></div></div>
+    </div>
+</div>
+<div class="x-panel-bwrap" id="ext-gen129"><div class="x-panel-body x-panel-body-noheader x-panel-body-noborder" id="ext-gen130" style="height: auto; width: 1170px;"></div></div></div></div></div></div></div></div></div>
+    <!-- #modx-content-->
+    <div id="modx-footer"></div>
+</div>
+<!-- #modx-container -->
+
+
+<div id="ext-comp-1003" class="x-tip" style="position: absolute; z-index: 20002; visibility: hidden; display: none;"><div class="x-tip-tl"><div class="x-tip-tr"><div class="x-tip-tc"><div class="x-tip-header x-unselectable" id="ext-gen3"><span class="x-tip-header-text"></span></div></div></div></div><div class="x-tip-bwrap" id="ext-gen4"><div class="x-tip-ml"><div class="x-tip-mr"><div class="x-tip-mc" id="ext-gen7"><div class="x-tip-body" id="ext-gen5" style="height: auto;"></div></div></div></div><div class="x-tip-bl x-panel-nofooter" id="ext-gen6"><div class="x-tip-br"><div class="x-tip-bc"></div></div></div></div><div class="x-tip-anchor x-tip-anchor-top" id="ext-gen8" style="z-index: 20003;"></div></div><div class="x-layout-split x-layout-split-west x-unselectable x-splitbar-h" id="modx-leftbar-tabs-xsplit" title="Drag to resize." style="left: 310px; top: 55px; height: 664px;"> <div class="x-layout-mini x-layout-mini-west" id="ext-gen21"> </div></div><div id="ext-gen22" class=" x-unselectable x-splitbar-proxy x-splitbar-proxy-h"></div><div id="ext-gen39" class="x-dd-drag-proxy x-dd-drop-nodrop" style="position: absolute; z-index: 15000; visibility: hidden; left: -10000px; top: -10000px;"><div class="x-dd-drop-icon"></div><div class="x-dd-drag-ghost" id="ext-gen40"></div></div><div id="ext-gen56" class="x-dd-drag-proxy x-dd-drop-nodrop x-grid3-col-dd" style="position: absolute; z-index: 15000; visibility: hidden; left: -10000px; top: -10000px;"><div class="x-dd-drop-icon"></div><div class="x-dd-drag-ghost" id="ext-gen57"></div></div><div class="col-move-top" id="ext-gen58"> </div><div class="col-move-bottom" id="ext-gen59"> </div><div id="ext-gen100" class="x-dd-drag-proxy x-dd-drop-nodrop x-grid3-col-dd" style="position: absolute; z-index: 15000; visibility: hidden; left: -10000px; top: -10000px;"><div class="x-dd-drop-icon"></div><div class="x-dd-drag-ghost" id="ext-gen101"></div></div><div class="col-move-top" id="ext-gen102"> </div><div class="col-move-bottom" id="ext-gen103"> </div></body></html>
