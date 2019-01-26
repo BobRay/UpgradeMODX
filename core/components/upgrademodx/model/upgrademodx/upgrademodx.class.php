@@ -543,7 +543,7 @@ if (!class_exists('UpgradeMODX')) {
                     $current = $itemInfo['current'] ? ' &nbsp;&nbsp;(' . '[[%ugm_current_version_indicator]]' . ')' : '';
                     $i = 0;
                     $output .= <<<EOD
-                \n<label><input type="radio"{$selected} name="modx" value="$version">
+                \n<label><input id="$version" type="radio"{$selected} name="modx" value="$version">
                 <span>{$itemInfo['name']} $current</span>
                 </label>
 EOD;
