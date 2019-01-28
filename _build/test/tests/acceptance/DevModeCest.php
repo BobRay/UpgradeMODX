@@ -4,7 +4,7 @@ use Page\Ovariables as oPageVariables;
 use Page\Login as LoginPage;
 use \Helper\Acceptance;
 
-class UpgradeMODXCest
+class DevModeCest
 {
     /** @var $modx modX */
     public $modx = null;
@@ -14,12 +14,12 @@ class UpgradeMODXCest
     {
         ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
         if (!class_exists('modX')) {
-            require "c:/xampp/htdocs/test/core/config/config.inc.php";
+            require \Page\ugmVariables::$configPath;
             require MODX_CORE_PATH . 'model/modx/modx.class.php';
         }
 
-        $this->modx = new modX();
 
+        $this->modx = new modX();
         $modx =& $this->modx;
         $modx->initialize('mgr');
 
@@ -58,9 +58,31 @@ class UpgradeMODXCest
             if (! (bool) $setting->get('value') === 1) {
                 $setting->set('value', '1');
                 $setting->save();
+                $this->_clearSettingCache();
                 $cm = $modx->getCacheManager();
                 $cm->refresh(array('system_settings' => array()));
             }
+        }
+    }
+
+    /**
+     * @param $modx modX
+     */
+    public function _clearSettingCache() {
+        $cm = $this->modx->getCacheManager();
+        $cm->refresh(array('system_settings' => array()));
+    }
+
+    /**
+     * @param $modx modX
+     * @param $key string
+     * @param $value string
+     */
+    public function setSystemSetting ($key, $value) {
+        $setting = $this->modx->getObject('modSystemSetting', array('key' => $key));
+        if ($setting) {
+            $setting->set('value', $value);
+            $setting->save();
         }
     }
 
@@ -83,19 +105,8 @@ class UpgradeMODXCest
         $I->click('#2.6.5-pl');
         $attr = $I->grabAttributeFrom('#2.6.5-pl', 'checked');
         $I->assertTrue($attr === "true");
-        /*if ($attr == 'checked') {
-            $I->click('XXX');
-        }*/
         $element = '#ugm_submit_button';
-       //  $I->scrollTo($element);
-       //  $I->waitForElementVisible($element);
         $I->clickWithLeftButton($element);
-
-       //  $element = 'span#button_content.content';
-       /* $I->waitForElement('//span[@id="button_content" and text()="Downloading Files"]', 10);
-        $I->waitForElement('//span[@id="button_content" and text()="Unzipping Files"]', 10);
-        $I->waitForElement('//span[@id="button_content" and text()="Copying Files"]', 10);*/
-        // $I->waitForElement('//[@id="element_id"][text()="Copying Files"]', 30);
 
         // $I->wait(1);
         $I->waitForText('Downloading Files', 2, $element);
@@ -105,7 +116,7 @@ class UpgradeMODXCest
         $I->waitForText('Cleaning Up', 30, $element);
         $I->waitForText('Launching Setup',30, $element);
         $I->waitForText('Congratulations',10);
-        $I->wait(7);
+        $I->wait(2);
 
     }
 
@@ -113,6 +124,8 @@ class UpgradeMODXCest
         $setting = $this->modx->getObject('ugm.devMode', null);
         if ($setting) {
             $setting->set('value', $this->devModeValue);
+            $setting->save();
+            $this->_clearSettingCache();
         }
     }
 }
