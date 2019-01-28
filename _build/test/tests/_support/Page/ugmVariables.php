@@ -6,8 +6,8 @@ class ugmVariables
     /*  include url of initial page */
     public static $managerUrl = 'manager/';
 
-    /* Orphans Page URL */
-    public static $orphansPage = 'manager/?a=index&namespace=orphans';
+    /* Path to  config file*/
+    public static $configPath = 'c:/xampp/htdocs/test/core/config/config.inc.php';
 
     /* Temporary category for change category test */
     public static $category = 'abOrphans';
