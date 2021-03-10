@@ -65,6 +65,11 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
                 }
             }
 
+            /* Unlock Setup Directory */
+            $dir = MODX_BASE_PATH . 'setup/.locked';
+            if (is_dir($dir)) {
+                rmdir($dir);
+            }
             /* Log out all users before launching the setup - code left in case it's necessary */
             /*if (false) { //(if (! $devModx)) {
                 $sessionTable = $this->modx->getTableName('modSession');
