@@ -24,17 +24,10 @@ class Login {
         $username = empty($username) ? self::$username : $username;
         $password = empty($password) ? self::$password : $password;
         $I = $this->tester;
-       /* if ($I->loadSessionSnapshot('login')) {
-            return;
-        }*/
-
-
         $I->amOnPage(self::$managerUrl);
         $I->fillField(self::$usernameField, $username);
         $I->fillField(self::$passwordField, $password);
         $I->click(self::$loginButton);
-
-        $I->saveSessionSnapshot('login');
 
         return $this;
     }
