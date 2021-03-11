@@ -70,15 +70,13 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
             if (is_dir($dir)) {
                 rmdir($dir);
             }
-            /* Log out all users before launching the setup - code left in case it's necessary */
-            /*if (false) { //(if (! $devModx)) {
+            /* Log out all users before launching the setup */
+            if (! $this->devMode) {
                 $sessionTable = $this->modx->getTableName('modSession');
                 if ($this->modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
                     $flushed = false;
-                } else {
-                    // $modx->user->endSession();
                 }
-            }*/
+            }
         } else {
             throw new Exception($this->modx->lexicon('ugm_no_root_config_core'));
         }
