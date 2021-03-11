@@ -2,7 +2,7 @@
 /**
  * systemSettings transport file for UpgradeMODX extra
  *
- * Copyright 2015-2018 by Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2021 Bob Ray <https://bobsguides.com>
  * Created on 08-01-2018
  *
  * @package upgrademodx

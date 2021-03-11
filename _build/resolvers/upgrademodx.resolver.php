@@ -2,7 +2,7 @@
 /**
  * Resolver for UpgradeMODX extra
  *
- * Copyright 2015-2018 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2021 Bob Ray <https://bobsguides.com>
  * Created on 08-13-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
