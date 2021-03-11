@@ -1,4 +1,5 @@
 <?php
+use PHPUnit\Framework\TestCase;
 /**
  * Created by PhpStorm.
  * User: BobRay
@@ -31,7 +32,8 @@ if (! function_exists('rrmdir')) {
     }
 }
 
-class TestUGM extends PHPUnit_Framework_TestCase {
+// class TestUGM extends PHPUnit_Framework_TestCase {
+class TestUGM extends TestCase {
     /** @var $modx modX - modx object */
     public $modx = null;
     /** @var $ugm UpgradeMODX */

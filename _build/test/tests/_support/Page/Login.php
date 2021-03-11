@@ -8,7 +8,7 @@ class Login {
     public static $usernameField = '#modx-login-username';
     public static $passwordField = '#modx-login-password';
     public static $username = 'JoeTester';
-    public static $password = 'testerPassword';
+    public static $password = 'TesterPassword';
     public static $loginButton = '#modx-login-btn';
 
     /**

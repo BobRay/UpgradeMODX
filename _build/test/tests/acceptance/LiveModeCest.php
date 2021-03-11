@@ -16,36 +16,38 @@ class LiveModeCest {
             require MODX_CORE_PATH . 'model/modx/modx.class.php';
         }
 
-
         $this->modx = new modX();
         $modx =& $this->modx;
         $modx->initialize('mgr');
 
         $user = $modx->getObject('modUser', array('username' => 'JoeTester'));
-        if (!$user) {
-            $fields = array(
-                'username' => 'JoeTester',
-                'password' => 'testerPassword',
-                'specifiedpassword' => 'testerPassword',
-                'confirmpassword' => 'testerPassword',
-                'email' => 'bobray99@gmail.com',
-                'passwordnotifymethod' => 's',
-                'passwordgenmethod' => 'x',
-                'active' => '1',
-            );
-
-            $modx->runProcessor('security/user/create', $fields);
-            $user = $modx->getObject('modUser', array('username' => 'JoeTester'));
-            /** @var $user modUser */
-            $user->joinGroup('Administrator', 2);
+        if ($user) {
+            $user->remove();
         }
+        $I->wantTo('Create Test User');
+        $fields = array(
+            'username' => 'JoeTester',
+            'password' => 'TesterPassword',
+            'specifiedpassword' => 'TesterPassword',
+            'confirmpassword' => 'TesterPassword',
+            'email' => 'bobray99@gmail.com',
+            'passwordnotifymethod' => 's',
+            'passwordgenmethod' => 'x',
+            'active' => '1',
+        );
+
+        $modx->runProcessor('security/user/create', $fields);
+        $user = $modx->getObject('modUser', array('username' => 'JoeTester'));
+        /** @var $user modUser */
+        $user->joinGroup('Administrator', 2);
+
         $modx->user =& $user;
 
         $setting = $modx->getObject('modSystemSetting', array('key' => 'ugm.devMode'));
         if (!$setting) {
             $setting = $modx->newObject('modSystemSetting');
             $setting->set('key', 'ugm.devMode');
-            // $setting->set('name', 'UpgradeMODX dev mode');
+
             $setting->set('namespace', 'core');
             $setting->set('value', '1');
             if (!$setting->save()) {
@@ -57,7 +59,7 @@ class LiveModeCest {
             $this->_setSystemSetting('ugm.devMode', '0');
         }
 
-        $this->_setSystemSetting('settings_version', '2.6.4-pl');
+        $this->_setSystemSetting('settings_version', '2.7.0-pl');
 
     }
 
@@ -89,7 +91,7 @@ class LiveModeCest {
     /** @param $I \AcceptanceTester
     *   @throws Exception
     */
-    public function tryToTest(AcceptanceTester $I) {
+    public function tryToTestLiveMode(AcceptanceTester $I) {
         /** @var $I AcceptanceTester */
         /* *************** */
         $I->wantTo('Log In');
@@ -99,18 +101,20 @@ class LiveModeCest {
 
 
         $I->amOnPage('manager');
+        $I->dontSee('Run In Live Mode');
         $I->see('Upgrade Available');
         $element = '#2.7.0-pl';
         $I->scrollTo($element);
         $I->see('(current version)');
-        $I->clickWithLeftButton($element);
-        $attr = $I->grabAttributeFrom('#2.7.0-pl', 'checked');
+        $I->scrollTo('#2.8.0-pl');
+        $I->wait(1);
+        $attr = $I->grabAttributeFrom('#2.8.0-pl', 'checked');
         $I->assertTrue($attr === "true");
 
-/*        $element = '#2.6.5-pl';
+        $element = '#2.8.0-pl';
         $I->scrollTo($element);
 
-        $I->click('#2.6.5-pl');*/
+        $I->click('#2.8.0-pl');
 
         $element = '#ugm_submit_button';
         $I->clickWithLeftButton($element);
@@ -122,7 +126,6 @@ class LiveModeCest {
         $I->waitForText('Preparing Setup', 30, $element);
         $I->waitForText('Cleaning Up', 30, $element);
         $I->waitForText('Launching Setup', 30, $element);
-       // $I->waitForText('Congratulations', 10);
         $I->waitForText('Choose Language', 10);
         $I->clickWithLeftButton('input[name="proceed"]');
         $I->waitForText('Welcome to', 3);
@@ -138,7 +141,7 @@ class LiveModeCest {
         $I->waitForText('Thank you for installing', 15);
         $I->clickWithLeftButton('#modx-next');
         $loginPage->login();
-        $I->waitForText('MODX Revolution 2.7.0-pl');
+        $I->waitForText('MODX Revolution 2.8.0-pl');
         $I->wait(5);
     }
 

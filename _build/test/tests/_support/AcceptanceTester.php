@@ -13,7 +13,6 @@
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
  * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
- * @method amOnPage($page)
  * @method see($text, $selector = null)
  * @method scrollTo($selector, $offsetX = null, $offsetY = null)
  * @method grabAttributeFrom($cssOrXpath, $attribute)

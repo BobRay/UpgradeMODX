@@ -13,7 +13,8 @@
 
 
         <link rel="stylesheet" type="text/css" href="http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/css/progress.css" />
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="
+"></script>
         <script type="text/javascript" src="http://localhost/addons/assets/mycomponents/upgrademodx/assets/components/upgrademodx/js/modernizr.custom.js"></script>
     </head>
     <body>
