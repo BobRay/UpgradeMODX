@@ -1,5 +1,17 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.1.3-pl
+---------------------------------
+Unlock setup directory before running setup
+Add acceptance tests
+Fix typo in lexicon string
+Add id attribute to checkboxes
+Prevent JS error when MODX is up to date
+Use local argument for cert path
+Improve error messages
+Add Russian translation
+Improve docs
+
 UpgradeMODX 2.1.2-pl
 ---------------------------------
 Fix bug with getting latestVersion value
