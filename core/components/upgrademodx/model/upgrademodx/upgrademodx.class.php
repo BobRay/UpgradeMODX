@@ -1,4 +1,5 @@
 <?php
+
 use GuzzleHttp\Exception\RequestException;
 
 /**
@@ -54,7 +55,6 @@ use GuzzleHttp\Exception\RequestException;
  */
 
 
-
 if (!class_exists('UpgradeMODX')) {
     /**
      * Class UpgradeMODX
@@ -93,19 +93,19 @@ if (!class_exists('UpgradeMODX')) {
         public $verifyPeer = true;
 
         /** @var $github_username string */
-            public $github_username = '';
+        public $github_username = '';
 
         /** @var $github_token string */
-            public $github_token = '';
+        public $github_token = '';
 
         /** @var $devMode bool */
-            protected $devMode = false;
+        protected $devMode = false;
 
         /** @var $versionsToShow bool */
         protected $versionsToShow = 5;
 
         /** @var $progressFilePath string */
-            protected $progressFilePath = '';
+        protected $progressFilePath = '';
 
         /** @var $progressFileURL string */
         protected $progressFileURL = '';
@@ -113,7 +113,7 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $client GuzzleHttp\Client */
         public $client = null;
 
-        /** @var $corePath string   */
+        /** @var $corePath string */
         public $corePath = '';
 
         /** @var $plOnly bool */
@@ -147,10 +147,10 @@ if (!class_exists('UpgradeMODX')) {
             /** @var $InstallData array */
             $this->createModxErrorLog();
             $this->devMode = (bool)$this->modx->getOption('ugm.devMode', null, false, true);
-            $this->verbose = (bool) $this->modx->getOption('ugm_verbose', null, false, true);
+            $this->verbose = (bool)$this->modx->getOption('ugm_verbose', null, false, true);
             $language = $this->modx->getOption('ugm_language',
                 null, $this->modx->getOption('manager_language'), true);
-            $language = empty($language) ? 'en': $language;
+            $language = empty($language) ? 'en' : $language;
             $this->modx->lexicon->load($language . ':upgrademodx:default');
             $this->forcePclZip = $this->modx->getOption('ugm_force_pcl_zip', null, false, true);
             $this->plOnly = $this->modx->getOption('ugm_pl_only', null, true, true);
@@ -160,7 +160,7 @@ if (!class_exists('UpgradeMODX')) {
                 null, '//api.github.com/repos/modxcms/revolution/tags', true);;
             $this->errors = array();
             $this->latestVersion = $this->modx->getOption('ugm_latest_version', null, '', true);
-            $this->verifyPeer = (bool) $this->modx->getOption('ugm_ssl_verify_peer', null, true);
+            $this->verifyPeer = (bool)$this->modx->getOption('ugm_ssl_verify_peer', null, true);
             $this->certPath = $this->modx->getOption('ugm_cert_path', null, '', true);
             $this->versionListPath = $this->getVersionListPath($this->modx->getOption('ugm_version_list_path', null),
                 $this->devMode);
@@ -170,9 +170,17 @@ if (!class_exists('UpgradeMODX')) {
             $this->fileVersion = $this->modx->getOption('ugm_file_version', null, '', true);
             file_put_contents($this->progressFilePath, 'Starting Upgrade');
             $this->versionsToShow = $this->modx->getOption('ugm_versions_to_show', null, 5, true);
-            $this->corePath = $this->modx->getOption('ugm.core_path', null,
-                $this->modx->getOption('core_path') . 'components/upgrademodx/');
-            require_once $this->corePath . 'vendor/autoload.php';
+
+            $v = (int) $this->modx->getVersionData()['version'];
+
+            if ($v >= 3) {
+                $path = $this->modx->getOption('core_path', null);
+
+            } else {
+                $path = MODX_BASE_PATH . 'core/components/upgrademodx/';
+            }
+            require_once $path . 'vendor/autoload.php';
+
             /* These use System Setting if property is empty */
             $this->setGithubCredentials();
             $this->client = new \GuzzleHttp\Client();
@@ -186,11 +194,11 @@ if (!class_exists('UpgradeMODX')) {
          */
         public function createModxErrorLog() {
             $eLogPath = $this->modx->getCachePath() . 'logs/';
-            if (! is_dir($eLogPath)) {
+            if (!is_dir($eLogPath)) {
                 $this->mmkDir($eLogPath);
             }
             $file = $eLogPath . 'error.log';
-            if (! file_exists($file)) {
+            if (!file_exists($file)) {
                 touch($file);
             }
         }
@@ -214,11 +222,11 @@ if (!class_exists('UpgradeMODX')) {
          */
         public function getVersionListPath($path, $devMode = false) {
             if ($devMode) {
-                return('c:/dummy/ugmtemp/');
+                return ('c:/dummy/ugmtemp/');
             }
             /* If path is empty or contains hard-coded default cache path,
                get true path from cacheManager */
-            if ( ($path === '') || (stripos($path, 'core/cache/upgrademodx/') !== false)) {
+            if (($path === '') || (stripos($path, 'core/cache/upgrademodx/') !== false)) {
                 $cm = $this->modx->getCacheManager();
                 $path = $cm->getCachePath() . 'upgrademodx/';
             }
@@ -246,7 +254,7 @@ if (!class_exists('UpgradeMODX')) {
         public function createVersionForm($modx) {
             // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
             $path = $this->versionListPath . 'versionlist';
-            if (! file_exists($path)) {
+            if (!file_exists($path)) {
                 $this->setError($this->modx->lexicon('ugm_no_version_list') . ' @ ' . $path);
                 return false;
             }
@@ -257,7 +265,7 @@ if (!class_exists('UpgradeMODX')) {
             }
 
             $finalVersionList = $this->finalizeVersionArray($rawVersions, $this->plOnly, $this->versionsToShow);
-            if (! is_array($finalVersionList)) {
+            if (!is_array($finalVersionList)) {
                 return false;
             }
             $renderedVersionList = $this->renderVersionList($finalVersionList);
@@ -317,7 +325,7 @@ if (!class_exists('UpgradeMODX')) {
             } else {
                 $buttonCode = '
         <button type = "submit" name="IeSucks" id="ugm_submit_button" class="progress-button' . $red . '" data-style="rotate-angle-bottom" data-perspective
-                data-horizontal' . $disabled . '>' .  $action . '</button>';
+                data-horizontal' . $disabled . '>' . $action . '</button>';
             }
 
             return $buttonCode;
@@ -346,7 +354,7 @@ if (!class_exists('UpgradeMODX')) {
             }
 
 
-             /* remove non-pl version objects if plOnly is set, and remove MODX 2.5.3 */
+            /* remove non-pl version objects if plOnly is set, and remove MODX 2.5.3 */
             foreach ($contents as $key => $content) {
                 $name = substr($content['name'], 1);
                 if ($plOnly && strpos($name, 'pl') === false) {
@@ -457,14 +465,14 @@ if (!class_exists('UpgradeMODX')) {
          * @param $latestVersion
          * @param $fileVersion
          */
-        public function updateSettings($lastCheck, $latestVersion, $fileVersion ) {
+        public function updateSettings($lastCheck, $latestVersion, $fileVersion) {
             $settings = array(
-               'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
-               'ugm_latest_version' => $latestVersion,
-               'ugm_file_version' => $fileVersion,
+                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
+                'ugm_latest_version' => $latestVersion,
+                'ugm_file_version' => $fileVersion,
             );
             $dirty = false;
-            foreach($settings as $key => $value) {
+            foreach ($settings as $key => $value) {
                 $setting = $this->modx->getObject('modSystemSetting', array('key' => $key));
                 $success = true;
                 if ($setting && $setting->get('value') != $value) {
@@ -474,7 +482,7 @@ if (!class_exists('UpgradeMODX')) {
                         $success = false;
                     }
                 } else {
-                    if (! $setting) {
+                    if (!$setting) {
                         $success = false;
                     }
                 }
@@ -560,8 +568,6 @@ EOD;
          * * Gets raw JSON version list from GitHub
          *  Long param list is mainly for unit tests
          *
-         * @throws \GuzzleHttp\Exception\ClientException
-         * @throws \GuzzleHttp\Exception\GuzzleException
          * @param $url string -- GitHub URL
          * @param $githubTimeout int
          * @param $verifyPeer bool
@@ -572,18 +578,20 @@ EOD;
          *
          *
          * @return mixed returns JSON version list as string or false on failure
+         * @throws \GuzzleHttp\Exception\ClientException
+         * @throws \GuzzleHttp\Exception\GuzzleException
          */
         public function getRawVersions($url, $githubTimeout = 6, $verifyPeer = true, $githubUsername = null,
-                $githubToken = null, $certPath = null, $verbose = false) {
+                                       $githubToken = null, $certPath = null, $verbose = false) {
             $options = array();
             if ((!empty($githubUsername)) && (!empty($githubToken))) { // use token if set
                 $options['auth'] = array($githubUsername, $githubToken);
             }
-            $options['header'] = array (
+            $options['header'] = array(
                 'Cache-Control' => 'no-cache',
                 'Accept' => 'application/json',
             );
-            if (!empty ($certPath))  {
+            if (!empty ($certPath)) {
                 $options['cert'] = $certPath;
             }
 
@@ -628,20 +636,20 @@ EOD;
             if ($e->hasResponse()) {
                 $response = $e->getResponse();
                 $rawMessage = $response->getBody();
-                $message = json_decode( (string) $rawMessage);
+                $message = json_decode((string)$rawMessage);
                 // $x = print_r($message, true);
                 if (empty($message)) {
                     $message = $response->getReasonPhrase();
                     $retVal = $code . ' ' . $message;
                 } else {
-                    $ex = (array) $message;
+                    $ex = (array)$message;
                     $retVal = $code . ' ' . $ex['message'];
                 }
             } elseif (empty($code) || ($code >= 500)) {
-                $code = ((int) $code === 0) ? 'No Code Returned' : $code;
+                $code = ((int)$code === 0) ? 'No Code Returned' : $code;
                 $retVal = $code . ' ' . 'Connection error (no internet?) -- Try turning off News and Security feeds.';
             }
-            $retVal = $verbose? $prefix . ' ' . $msg : $prefix . $retVal;
+            $retVal = $verbose ? $prefix . ' ' . $msg : $prefix . $retVal;
             $this->setError($retVal);
             return $retVal;
         }
@@ -691,10 +699,10 @@ EOD;
                 $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-[a-zA-Z]+)"/';
             }
             preg_match($pattern, $rawVersions, $matches);
-            if (! isset($matches[1]) || empty($matches[1])) {
+            if (!isset($matches[1]) || empty($matches[1])) {
                 $this->setError('Regex failed');
             } else {
-                $this->latestVersion =  $matches[1];
+                $this->latestVersion = $matches[1];
             }
         }
 
@@ -717,7 +725,7 @@ EOD;
                 /* Update $this->latestVersion based on $rawVersions string */
                 $this->setLatestVersion($rawVersions, $this->plOnly);
                 $this->updateVersionListFile($rawVersions, $this->fileVersion, $this->latestVersion);
-                $this->updateSettings(time(), $this->latestVersion, $this->latestVersion );
+                $this->updateSettings(time(), $this->latestVersion, $this->latestVersion);
             }
 
             if (!empty($this->errors)) {
