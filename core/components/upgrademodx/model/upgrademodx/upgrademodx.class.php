@@ -696,7 +696,7 @@ EOD;
             if ($plOnly) {
                 $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-pl)"/';
             } else {
-                $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-[a-zA-Z]+)"/';
+                $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-[a-zA-Z0-9]+)"/';
             }
             preg_match($pattern, $rawVersions, $matches);
             if (!isset($matches[1]) || empty($matches[1])) {
