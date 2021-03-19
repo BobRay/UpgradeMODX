@@ -27,73 +27,73 @@ $systemSettings = array();
 
 $systemSettings[1] = $modx->newObject('modSystemSetting');
 $systemSettings[1]->fromArray(array (
-  'key' => 'ugm_verbose',
-  'value' => '0',
-  'xtype' => 'combo-boolean',
+  'key' => 'ugm_groups',
+  'value' => 'Administrator',
+  'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
-  'area' => 'GitHub',
-  'name' => 'Verbose Error Messages',
-  'description' => 'Display full GitHub Error Messages',
+  'area' => 'Security',
+  'name' => 'groups',
+  'description' => 'group, or comma-separated list of groups, who will see the widget',
 ), '', true, true);
 $systemSettings[2] = $modx->newObject('modSystemSetting');
 $systemSettings[2]->fromArray(array (
-  'key' => 'ugm_versionlist_api_url',
-  'value' => '//api.github.com/repos/modxcms/revolution/tags',
+  'key' => 'ugm_versions_to_show',
+  'value' => '5',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
-  'area' => 'Widget',
-  'name' => 'Version List API URL',
-  'description' => 'URL of API to get version list from',
+  'area' => 'Form',
+  'name' => 'Versions To Show',
+  'description' => 'Number of versions to show in upgrade form; default: 5',
 ), '', true, true);
 $systemSettings[3] = $modx->newObject('modSystemSetting');
 $systemSettings[3]->fromArray(array (
-  'key' => 'ugm_temp_dir',
-  'value' => '{base_path}ugmtemp/',
+  'key' => 'ugm_github_timeout',
+  'value' => '6',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
-  'area' => 'Widget',
-  'name' => 'UpgradeMODX Temp Directory',
-  'description' => 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/',
+  'area' => 'GitHub',
+  'name' => 'GitHub Timeout',
+  'description' => 'Timeout in seconds for checking Github; default: 6',
 ), '', true, true);
 $systemSettings[4] = $modx->newObject('modSystemSetting');
 $systemSettings[4]->fromArray(array (
-  'key' => 'ugm_cert_path',
+  'key' => 'ugm_github_token',
   'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'Cert Path',
-  'description' => 'Path to SSL cert file in .pem format; rarely necessary',
+  'name' => 'GitHub Token',
+  'description' => 'Github token - available from your GitHub profile',
 ), '', true, true);
 $systemSettings[5] = $modx->newObject('modSystemSetting');
 $systemSettings[5]->fromArray(array (
-  'key' => 'ugm_file_version',
-  'value' => '2.6.3-pl',
+  'key' => 'ugm_github_username',
+  'value' => '',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
-  'area' => 'Widget',
-  'name' => 'File Version',
-  'description' => 'Version when versionlist file was last updated. Set automatically -- do not edit!',
+  'area' => 'GitHub',
+  'name' => 'GitHub Username',
+  'description' => 'Your username at GitHub',
 ), '', true, true);
 $systemSettings[6] = $modx->newObject('modSystemSetting');
 $systemSettings[6]->fromArray(array (
-  'key' => 'ugm_force_pcl_zip',
-  'value' => '0',
+  'key' => 'ugm_pl_only',
+  'value' => '1',
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
-  'area' => 'Download',
-  'name' => 'Force PclZip',
-  'description' => 'Force the use of PclZip instead of ZipArchive',
+  'area' => 'Form',
+  'name' => 'pl Versions Only',
+  'description' => 'Show only pl (stable) versions; default: yes',
 ), '', true, true);
 $systemSettings[7] = $modx->newObject('modSystemSetting');
 $systemSettings[7]->fromArray(array (
-  'key' => 'ugm_modx_timeout',
-  'value' => '6',
+  'key' => 'ugm_language',
+  'value' => 'en',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
-  'area' => 'Download',
-  'name' => 'MODX Timeout',
-  'description' => 'Timeout in seconds for checking download status from MODX; default: 6',
+  'area' => 'Form',
+  'name' => 'Language',
+  'description' => 'Two-letter language code for language to use; default: en',
 ), '', true, true);
 $systemSettings[8] = $modx->newObject('modSystemSetting');
 $systemSettings[8]->fromArray(array (
@@ -107,73 +107,73 @@ $systemSettings[8]->fromArray(array (
 ), '', true, true);
 $systemSettings[9] = $modx->newObject('modSystemSetting');
 $systemSettings[9]->fromArray(array (
-  'key' => 'ugm_language',
-  'value' => 'en',
-  'xtype' => 'textfield',
-  'namespace' => 'upgrademodx',
-  'area' => 'Form',
-  'name' => 'Language',
-  'description' => 'Two-letter language code for language to use; default: en',
-), '', true, true);
-$systemSettings[10] = $modx->newObject('modSystemSetting');
-$systemSettings[10]->fromArray(array (
-  'key' => 'ugm_pl_only',
-  'value' => '1',
-  'xtype' => 'combo-boolean',
-  'namespace' => 'upgrademodx',
-  'area' => 'Form',
-  'name' => 'pl Versions Only',
-  'description' => 'Show only pl (stable) versions; default: yes',
-), '', true, true);
-$systemSettings[11] = $modx->newObject('modSystemSetting');
-$systemSettings[11]->fromArray(array (
-  'key' => 'ugm_github_username',
-  'value' => '',
-  'xtype' => 'textfield',
-  'namespace' => 'upgrademodx',
-  'area' => 'GitHub',
-  'name' => 'GitHub Username',
-  'description' => 'Your username at GitHub',
-), '', true, true);
-$systemSettings[12] = $modx->newObject('modSystemSetting');
-$systemSettings[12]->fromArray(array (
-  'key' => 'ugm_github_token',
-  'value' => '',
-  'xtype' => 'textfield',
-  'namespace' => 'upgrademodx',
-  'area' => 'GitHub',
-  'name' => 'GitHub Token',
-  'description' => 'Github token - available from your GitHub profile',
-), '', true, true);
-$systemSettings[13] = $modx->newObject('modSystemSetting');
-$systemSettings[13]->fromArray(array (
-  'key' => 'ugm_github_timeout',
+  'key' => 'ugm_modx_timeout',
   'value' => '6',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
+  'area' => 'Download',
+  'name' => 'MODX Timeout',
+  'description' => 'Timeout in seconds for checking download status from MODX; default: 6',
+), '', true, true);
+$systemSettings[10] = $modx->newObject('modSystemSetting');
+$systemSettings[10]->fromArray(array (
+  'key' => 'ugm_force_pcl_zip',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'upgrademodx',
+  'area' => 'Download',
+  'name' => 'Force PclZip',
+  'description' => 'Force the use of PclZip instead of ZipArchive',
+), '', true, true);
+$systemSettings[11] = $modx->newObject('modSystemSetting');
+$systemSettings[11]->fromArray(array (
+  'key' => 'ugm_file_version',
+  'value' => '2.8.1-pl',
+  'xtype' => 'textfield',
+  'namespace' => 'upgrademodx',
+  'area' => 'Widget',
+  'name' => 'File Version',
+  'description' => 'Version when versionlist file was last updated. Set automatically -- do not edit!',
+), '', true, true);
+$systemSettings[12] = $modx->newObject('modSystemSetting');
+$systemSettings[12]->fromArray(array (
+  'key' => 'ugm_cert_path',
+  'value' => '',
+  'xtype' => 'textfield',
+  'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'GitHub Timeout',
-  'description' => 'Timeout in seconds for checking Github; default: 6',
+  'name' => 'Cert Path',
+  'description' => 'Path to SSL cert file in .pem format; rarely necessary',
+), '', true, true);
+$systemSettings[13] = $modx->newObject('modSystemSetting');
+$systemSettings[13]->fromArray(array (
+  'key' => 'ugm_temp_dir',
+  'value' => '{base_path}ugmtemp/',
+  'xtype' => 'textfield',
+  'namespace' => 'upgrademodx',
+  'area' => 'Widget',
+  'name' => 'UpgradeMODX Temp Directory',
+  'description' => 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/',
 ), '', true, true);
 $systemSettings[14] = $modx->newObject('modSystemSetting');
 $systemSettings[14]->fromArray(array (
-  'key' => 'ugm_versions_to_show',
-  'value' => '5',
+  'key' => 'ugm_versionlist_api_url',
+  'value' => '//api.github.com/repos/modxcms/revolution/tags',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
-  'area' => 'Form',
-  'name' => 'Versions To Show',
-  'description' => 'Number of versions to show in upgrade form; default: 5',
+  'area' => 'Widget',
+  'name' => 'Version List API URL',
+  'description' => 'URL of API to get version list from',
 ), '', true, true);
 $systemSettings[15] = $modx->newObject('modSystemSetting');
 $systemSettings[15]->fromArray(array (
-  'key' => 'ugm_groups',
-  'value' => 'Administrator',
-  'xtype' => 'textfield',
+  'key' => 'ugm_verbose',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
-  'area' => 'Security',
-  'name' => 'groups',
-  'description' => 'group, or comma-separated list of groups, who will see the widget',
+  'area' => 'GitHub',
+  'name' => 'Verbose Error Messages',
+  'description' => 'Display full GitHub Error Messages',
 ), '', true, true);
 $systemSettings[16] = $modx->newObject('modSystemSetting');
 $systemSettings[16]->fromArray(array (
@@ -188,7 +188,7 @@ $systemSettings[16]->fromArray(array (
 $systemSettings[17] = $modx->newObject('modSystemSetting');
 $systemSettings[17]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2018-12-10 10:58:46',
+  'value' => '2021-03-18 00:03:13',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -198,7 +198,7 @@ $systemSettings[17]->fromArray(array (
 $systemSettings[18] = $modx->newObject('modSystemSetting');
 $systemSettings[18]->fromArray(array (
   'key' => 'ugm_latest_version',
-  'value' => '2.7.0-pl',
+  'value' => '2.8.1-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
