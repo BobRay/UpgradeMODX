@@ -56,8 +56,16 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         }
         $this->log($this->modx->lexicon('ugm_downloading_files'));
 
-        $corePath = $this->ugmCorePath;
-        require_once $corePath . 'vendor/autoload.php';
+        $v = (int)$this->modx->getVersionData()['version'];
+
+        if ($v >= 3) {
+            $path = $this->modx->getOption('core_path', null);
+
+        } else {
+            $path = MODX_BASE_PATH . 'core/components/upgrademodx/';
+        }
+        require_once $path . 'vendor/autoload.php';
+
         $version = $this->zipFileName;
         $this->log("Version: " . $version);
         $v = explode('-', $version);
@@ -109,8 +117,8 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $options = array(
             RequestOptions::SINK => $destFile, // the body of a response
             RequestOptions::CONNECT_TIMEOUT => $this->modxTimeout,    // request
-            RequestOptions::VERIFY => (bool) $this->sslVerifyPeer,
-           // RequestOptions::TIMEOUT => 0.0,    // response
+            RequestOptions::VERIFY => (bool)$this->sslVerifyPeer,
+            // RequestOptions::TIMEOUT => 0.0,    // response
         );
 
         if (!empty($this->certPath)) {
