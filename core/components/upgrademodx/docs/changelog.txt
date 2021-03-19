@@ -1,162 +1,161 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.1.4-pl
+---------------------------------
+ - Fig bug with MODX 3 vendor directory
+ - Show numbered alpha and beta versions in version list
+
 UpgradeMODX 2.1.3-pl
 ---------------------------------
-Unlock setup directory before running setup
-Add acceptance tests
-Fix typo in lexicon string
-Add id attribute to checkboxes
-Prevent JS error when MODX is up to date
-Use local argument for cert path
-Improve error messages
-Add Russian translation
-Improve docs
+ - Unlock setup directory before running setup
+ - Add acceptance tests
+ - Fix typo in lexicon string
+ - Add id attribute to checkboxes
+ - Prevent JS error when MODX is up to date
+ - Use local argument for cert path
+ - Improve error messages
+ - Add Russian translation
+ - Improve docs
 
 UpgradeMODX 2.1.2-pl
 ---------------------------------
-Fix bug with getting latestVersion value
-Only update versionlist when necessary
-Eliminate unnecessary trip to GitHub
-Provide workaround for versionlist issues
-Add many unit tests
-Get true cache path from CacheManager
-Catch potential uncaught exception in copyFiles processor
-Cache versionlist for better performance
-Fix path bug in resolver
-Better error reporting from GitHub
-Add ugm_verbose setting for more detailed exception messages
-Update Swedish translation
+ - Fix bug with getting latestVersion value
+ - Only update versionlist when necessary
+ - Eliminate unnecessary trip to GitHub
+ - Provide workaround for versionlist issues
+ - Add many unit tests
+ - Get true cache path from CacheManager
+ - Catch potential uncaught exception in copyFiles processor
+ - Cache versionlist for better performance
+ - Fix path bug in resolver
+ - Better error reporting from GitHub
+ - Add ugm_verbose setting for more detailed exception messages
+ - Update Swedish translation
 
 UpgradeMODX 2.1.0-pl
 ---------------------------------
-Fix bug with inactive submit button
-Add option to use UGM on multiple sites on same server
+ - Fix bug with inactive submit button
+ - Add option to use UGM on multiple sites on same server
 
 UpgradeMODX 2.0.3-pl
 ---------------------------------
-Fix bug with possible 500 error in PHP 5
-Fix bug with test for copying processors files
-Update Unit Tests
+ - Fix bug with possible 500 error in PHP 5
+ - Fix bug with test for copying processors files
+ - Update Unit Tests
 
 UpgradeMODX 2.0.2-pl
 ---------------------------------
-Tell Setup where the core is, so it doesn't ask!
-Automatically select appropriate upgrade version
-Automatically extend version list to include current version
-Indicate current version in version list
-Report progress during upgrade process
-3D animation for progress (except on f@$@|#% IE < Edge)
-Use processors for each step to avoid timeouts
-Operate entirely in the Manager until setup is launched
-Add lexicon strings for all text
-Restyle for Mobile
-Change Ajax method to get to conform with the HTML 2.0 spec
-Fix bug with missing versionlist error
-Make sure downloaded file is closed
-Get MODX files directly from AWS
-Update credits
-Other bug fixes and improvements
-
+ - Tell Setup where the core is, so it doesn't ask!
+ - Automatically select appropriate upgrade version
+  - - Automatically extend version list to include current version
+ - Indicate current version in version list
+ - Report progress during upgrade process
+ - 3D animation for progress (except on f@$@|#% IE < Edge)
+ - Use processors for each step to avoid timeouts
+ - Operate entirely in the Manager until setup is launched
+ - Add lexicon strings for all text
+ - Restyle for Mobile
+ - Change Ajax method to get to conform with the HTML 2.0 spec
+ - Fix bug with missing versionlist error
+ - Make sure downloaded file is closed
+ - Get MODX files directly from AWS
+ - Update credits
+ - Other bug fixes and improvements
 
 UpgradeMODX 1.5.6-pl
 ---------------------------------
-Wrap rrmdir in if(function_exists)
-Add warning not to skip .0 versions
+ - Wrap rrmdir in if(function_exists)
+ - Add warning not to skip .0 versions
 
 UpgradeMODX 1.5.5-pl
 ---------------------------------
-Fix issue with MODX logo (thanks to DigitalPenguin)
-Move background image to local file
-
+ - Fix issue with MODX logo (thanks to DigitalPenguin)
+ - Move background image to local file
 
 UpgradeMODX 1.5.4-pl
 ---------------------------------
-Fix open_base_dir redirect issue (thanks to Jako)
-Add Italian translation (thanks to FerX)
-Update Swedish translation (thanks to Kristoffer Karlström)
-Fix lexicon->load issue (thanks to sebastian-marinescu)
-Hide inactive MODX version 2.5.3
-Change name of temp directory to ugmtemp
-Delete any created files if there is an error
-Minor bug fixes and improvements
+ - Fix open_base_dir redirect issue (thanks to Jako)
+ - Add Italian translation (thanks to FerX)
+ - Update Swedish translation (thanks to Kristoffer Karlström)
+ - Fix lexicon->load issue (thanks to sebastian-marinescu)
+ - Hide inactive MODX version 2.5.3
+ - Change name of temp directory to ugmtemp
+ - Delete any created files if there is an error
+ - Minor bug fixes and improvements
 
 
 UpgradeMODX 1.5.3-pl
 ---------------------------------
-Fix bug with strip_tags and failure to get versionList from GitHub
-Remove unused argument from updateVersionListFile
-Add error message on failure to get versionList from GitHub
-
+ - Fix bug with strip_tags and failure to get versionList from GitHub
+ - Remove unused argument from updateVersionListFile
+ - Add error message on failure to get versionList from GitHub
 
 UpgradeMODX 1.5.2-pl
 ---------------------------------
-Fix problem with malformed URL (thanks to Jako)
-Modifications for MODX Cloud and similar platforms
+ - Fix problem with malformed URL (thanks to Jako)
+ - Modifications for MODX Cloud and similar platforms
 
 UpgradeMODX 1.5.1-pl
 ---------------------------------
-Correct snippet tag in resource
-Fix issue with open_basedir check (thanks to Jako)
-Add Swedish translation (thanks to kristk)
-Fix protocol for loading fonts and logo (thanks to inreti)
-Add support for local certs for SSL_VERIFY_PEER
-Fix bug with quit function
-Add github_username and github_token properties
-Improve diagnostics
+ - Correct snippet tag in resource
+ - Fix issue with open_basedir check (thanks to Jako)
+ - Add Swedish translation (thanks to kristk)
+ - Fix protocol for loading fonts and logo (thanks to inreti)
+ - Add support for local certs for SSL_VERIFY_PEER
+ - Fix bug with quit function
+  - Add github_username and github_token properties
+ - Improve diagnostics
 
 UpgradeMODX 1.5.0-pl
 ---------------------------------
-Log upgrades to MODX Manager Actions log
-Add snippet property to control cURL SSL_VERIFY_PEER
+ - Log upgrades to MODX Manager Actions log
+ - Add snippet property to control cURL SSL_VERIFY_PEER
 
 
 UpgradeMODX 1.4.0-pl
 ---------------------------------
-Add forceFopen, githubTimeout, modxTimeout properties
-Add attempts, and versionListPath properties
-Improve error handling and diagnostics
-Unit tests for all methods
-Refactor for better dependency injection and reliability
-Fix bug with missing version list
-
-
+ - Add forceFopen, githubTimeout, modxTimeout properties
+ - Add attempts, and versionListPath properties
+ - Improve error handling and diagnostics
+ - Unit tests for all methods
+ - Refactor for better dependency injection and reliability
+ - Fix bug with missing version list
 
 UpgradeMODX 1.3.0-pl
 ---------------------------------
-Fix bug with blank screen when both cURL and allow_url_fopen are disabled
-Fix bug in test for cURL
-Refactor unZip code
-Add forcePclZip property
-Improve error handling
+ - Fix bug with blank screen when both cURL and allow_url_fopen are disabled
+ - Fix bug in test for cURL
+ - Refactor unZip code
+ - Add forcePclZip property
+ - Improve error handling
 
 
 UpgradeMODX 1.2.2-pl
 ---------------------------------
-Public Launch
+ - Public Launch
 
 
 UpgradeMODX 1.2.1-rc
 ---------------------------------
-Fix issue with version list
-Wrap class in if (class_exists)
+ - Fix issue with version list
+ - Wrap class in if (class_exists)
 
 
 UpgradeMODX 1.2.0-rc
 ---------------------------------
-Use PclZip if ZipArchive is not available
-Improve reliability of ZipArchive extraction
-Fix bug with sorting when plOnly is false
-Fix bug with missing setup directory
-Add set_time_limit(0) in loop
-Fix spurious error in resolver
-Form and doc updates
+ - Use PclZip if ZipArchive is not available
+  - Improve reliability of ZipArchive extraction
+ - Fix bug with sorting when plOnly is false
+ - Fix bug with missing setup directory
+ - Add set_time_limit(0) in loop
+ - Fix spurious error in resolver
+ - Form and doc updates
 
 
 UpgradeMODX 1.0.2-beta1
 ---------------------------------
-Fixed bug with earlier versions of PHP
-
+ - Fixed bug with earlier versions of PHP
 
 UpgradeMODX 1.0.0-beta1
 ---------------------------------
-Initial Version
+ - Initial Version
