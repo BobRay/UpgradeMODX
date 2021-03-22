@@ -175,9 +175,8 @@ if (!class_exists('UpgradeMODX')) {
 
             if ($v >= 3) {
                 $path = $this->modx->getOption('core_path', null);
-
             } else {
-                $path = MODX_BASE_PATH . 'core/components/upgrademodx/';
+                $path = MODX_CORE_PATH . 'components/upgrademodx/';
             }
             require_once $path . 'vendor/autoload.php';
 
