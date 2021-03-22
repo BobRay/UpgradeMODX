@@ -1,5 +1,9 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.1.5-pl
+---------------------------------
+ - Fix critical bug with vendor path on some sites
+
 UpgradeMODX 2.1.4-pl
 ---------------------------------
  - Fig bug with MODX 3 vendor directory
