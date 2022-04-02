@@ -72,7 +72,11 @@ class UpgradeMODXPreparesetupProcessor extends UgmProcessor {
             }
             /* Log out all users before launching the setup */
             if (! $this->devMode) {
-                $sessionTable = $this->modx->getTableName('modSession');
+                $classPrefix = $this->modx->getVersionData()['version'] >= 3
+                        ? 'MODX\Revolution\\'
+                        : '';
+
+                $sessionTable = $this->modx->getTableName($classPrefix . 'modSession');
                 if ($this->modx->query("TRUNCATE TABLE {$sessionTable}") == false) {
                     $flushed = false;
                 }

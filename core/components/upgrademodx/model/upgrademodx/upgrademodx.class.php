@@ -471,8 +471,11 @@ if (!class_exists('UpgradeMODX')) {
                 'ugm_file_version' => $fileVersion,
             );
             $dirty = false;
+            $classPrefix = $this->modx->getVersionData()['version'] >= 3
+                    ? 'MODX\Revolution\\'
+                    : '';
             foreach ($settings as $key => $value) {
-                $setting = $this->modx->getObject('modSystemSetting', array('key' => $key));
+                $setting = $this->modx->getObject($classPrefix . 'modSystemSetting', array('key' => $key));
                 $success = true;
                 if ($setting && $setting->get('value') != $value) {
                     $dirty = true;
