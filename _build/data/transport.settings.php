@@ -48,7 +48,7 @@ $systemSettings[2]->fromArray(array (
 $systemSettings[3] = $modx->newObject('modSystemSetting');
 $systemSettings[3]->fromArray(array (
   'key' => 'ugm_latest_version',
-  'value' => '2.8.1-pl',
+  'value' => '2.8.3-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -78,7 +78,7 @@ $systemSettings[5]->fromArray(array (
 $systemSettings[6] = $modx->newObject('modSystemSetting');
 $systemSettings[6]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2021-03-15 10:56:23',
+  'value' => '2022-03-31 13:18:19',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -108,7 +108,7 @@ $systemSettings[8]->fromArray(array (
 $systemSettings[9] = $modx->newObject('modSystemSetting');
 $systemSettings[9]->fromArray(array (
   'key' => 'ugm_file_version',
-  'value' => '2.8.1-pl',
+  'value' => '2.8.3-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
