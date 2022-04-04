@@ -32,8 +32,7 @@
 <h3>Installing UpgradeMODX</h3>
 
 <p>Go to Extras -> Installer (or System -> Package Management in older versions of MODX) on the main menu in the MODX
-    Manager and click on the &quot;Download Extras&quot; button. That will take you to the Revolution Repository (AKA
-    Web Transport Facility). Put UpgradeMODX in the search box and press Enter. Click on the &quot;Download&quot;
+    Manager and click on the &quot;Download Extras&quot; button. That will take you to the Revolution Repository. Put UpgradeMODX in the search box and press Enter. Click on the &quot;Download&quot;
     button, and once the package is downloaded, click on the &quot;Back to Package Manager&quot; button. That should
     bring you back to your Package Management grid. Click on the &quot;Install&quot; button next to UpgradeMODX in the
     grid. The UpgradeMODX package should now be installed.</p>
@@ -41,31 +40,15 @@
 <br/>
 <div class="box">
     <h3>Upgrade Notes</h3>
-    <p>Version 2.0.x of UpgradeMODX has a very different look and many upgrades. It stores all configuration data in
-        System Settings instead of snippet properties, so all settings will survive upgrades. The Settings can be found
-        by going to System (gear icon) -> System Settings and selecting the <code>upgrademodx</code> namespace. The
-        installation script will attempt to copy your snippet property values to the new System Settings. In view of the
-        attacks on MODX, the default <code>interval</code> will be reset to 1 Day.</p>
+    <p>Version 2.3.x of UpgradeMODX is fully tested in MODX 3. It can be used to upgrade from MODX 2.8.x to MODX 3.x.x. It stores configuration data in System Settings, so all settings will survive upgrades. The Settings can be found by going to System (gear icon) -> System Settings and selecting the <code>upgrademodx</code> namespace.</p>
 
-    <p>Most of the work is now done in JavaScript and MODX processors. The UpgradeMODXScriptSource chunk has been
-        removed.</p>
-
-    <p>Here's a quick summary showing some of the new features:</p>
+    <p>Here's a quick summary showing some of the changes:</p>
 
     <ul>
-        <li>Tell Setup where the core is, so it doesn't ask!</li>
-        <li>Restyle for Mobile</li>
-        <li>Automatically select appropriate upgrade version</li>
-        <li>Automatically extend version list to include current version</li>
-        <li>Indicate current version in version list</li>
-        <li>Report progress during upgrade process</li>
-        <li>3D animation for progress (except on f@$@|#% IE < Edge)</li>
-        <li>Use a separate processor for each step to avoid PHP timeouts</li>
-        <li>Use Guzzle for all remote file and data access</li>
-        <li>Operate entirely in the Manager until setup is launched</li>
-        <li>Fix bug with missing versionlist error</li>
-        <li>Make sure downloaded file is closed</li>
-        <li>Get MODX files directly from AWS</li>
+        <li>Extensive mods for MODX 3.</li>
+        <li>Fixes a critical security vulnerability in the guzzlehttp/psr7 library</li>
+        <li>More reliable connection of widget to default dashboard</li>
+        <li>Improved docs</li>
         <li>Other bug fixes and improvements</li>
 
     </ul>
@@ -77,17 +60,27 @@
 <h3>Credits</h3>
 <p>This package was inspired by the work of a number of people and I have borrowed some of their code. Dmytro Lukianenko
     (dmi3yy) is the original author of the MODX install script. Susan Sottwell, Sharapov, Bumkaka, Inreti, Zaigham Rana,
-    frischnetz, and AgelxNash, also contributed and I'd like to thank all of them for laying the groundwork.</p>
+    frischnetz, AgelxNash, and halftrainedharry, also contributed and I'd like to thank all of them for laying the groundwork and helping improve the code.</p>
 
 <br/>
 <h3>Usage</h3>
 
-<p>To upgrade your site, just click select a version to upgrade to and click on the &quot;Upgrade MODX&quot; button in
-    the widget. Downloading and extracting the files may take some time, so be patient.</p>
+<p>To upgrade your site, just select a version to upgrade to and click on the &quot;Upgrade MODX&quot; button in
+    the widget. UpgradeMODX will select the recommended version automatically. Downloading and extracting the files may take some time, so be patient.</p>
 
-<p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have
-    another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) ->
-    Dashboards.</p>
+<p>Once you've installed UpgradeMODX, the widget should appear. It's attached to the default dashboard, so if you have another dashboard showing, you'll have to attach it to that dashboard by going to System (gear icon) -> Dashboards.</p>
+
+<br/>
+
+<h3>MODX 3 Notes</h3>
+
+<p>MODX Revolution 3 is a significantly different from MODX Revolution 2. While UpgradeMODX will upgrade you from one to the next, you need to keep a couple of things in mind.</p>
+
+<p>First, you should always upgrade to MODX 3.0.0-pl before upgrading to higher versions. If you are coming from an older version of MODX 2, install all the versions ending in .0 and then the highest version before 3.0.0 before installing 3.0.0.</p>
+
+<p>Second, after you upgrade, you need to clear the MODX cache (I recommend doing it with the CacheClear extra, which works fine in MODX 3), and also your browser cache and cookies. Left over stuff in the cache and cookies can make a mess of the MODX Manager. I use the Cache Killer Chrome extension, but Incognito or Private mode will work as well. Once Cache Killer is installed, one click on the toolbar turns off the cache for both web pages and cookies. Another click turns it back on.</p>
+
+<p>Before upgrading to MODX 3, you'll also want to make sure the extras you need work in MODX 3. There's a MODX 3 compatibility list <a href="https://sitedash.app/extras" target="_blank" rel="noopener nofollow noreferrer">here</a>. There may be extras not listed as compatible there that will work in MODX 3 but haven't been tested yet. If you try one be sure to report whether it works or not on that page.</p>
 
 <br/>
 
@@ -97,9 +90,9 @@
         that will show the install check. If no widget appears, view the resource to check for MODX upgrades. When an
         upgrade is available, it should let you launch the installer.</p>
 
-    <p>If the snippet and chunks fail to install (this if fairly rare), your version of PHP is too new for your MODX
+    <p>If the snippet and chunks fail to install (this is fairly rare), your version of PHP is too new for your MODX
         install and you'll have trouble saving chunks and snippets in the Manager as well. You can either downgrade the
-        version of PHP to version 5.4, or manually make the changes to the three files shown in <a
+        version of PHP , or manually make the changes to the three files shown in <a
                 href="https://github.com/modxcms/revolution/pull/11128/files">this commit</a>. </p>
 
     <p>Once you've upgraded MODX to a recent-enough version, you can uninstall and re-install UpgradeMODX to get the
@@ -111,7 +104,7 @@
 
 
 <p>As installed, the widget will only appear for members of the Administrator group. To show it to other groups, change
-    the <code>ugm_groups</code> System Setting. You can also change the <code>ugm_interval</code> System Setting if
+    the <code>ugm_groups</code> System Setting to a comma-separated list of groups who can see the widget.  You can also change the <code>ugm_interval</code> System Setting if
     you'd like it to check for upgrades more, or less often, though the default value is now 1 day.</p>
 
 <p>Hint: To get to the Manager's dashboard, you can click on the MODX logo at the upper left.</p>
@@ -196,7 +189,7 @@
     <code>Yes</code>.</p>
 <br>
 <div class="box">
-    <p>As of UGM Version 2.1.2, if you get persistent errors about the versionlist, you can bypass them by following the
+    <p>If you get persistent errors about the versionlist, you can bypass them by following the
         steps below. Before you do that, though, try turning off the MODX News and Security Feeds. Go to System
         (gear->icon) -> System Settings and put <code>feed</code> in the search box at the upper right.</p>
 
@@ -238,18 +231,16 @@
 <br/>
 
 <div class="box">
-    <p>In Version 2.0.0 of UpgradeMODX the cURL SSL_VERIFY_PEER option to is set to <code>true</code> by default in
-        Guzzle. Guzzle uses the server's certificate file, so there should be no need to turn it off. Having this
+    <p>As of Version 2.0.0 of UpgradeMODX the cURL SSL_VERIFY_PEER option to is set to <code>true</code> by default in Guzzle. Guzzle uses the server's certificate file, so there should be no need to turn it off. Having this
         setting off leaves you vulnerable to man-in-the-middle attacks where the attacker could pretend to be the MODX
         repo and lead you to download malicious code instead of MODX. If you can't get UpgradeMODX to work because of
-        SSL issues, the best solution is to check with your host. There is a list <a
-                href="http://docs.guzzlephp.org/en/stable/request-options.html#verify">here</a> of the places Guzzle
-        looks for the certificate file.</p>
+        SSL issues, the best solution is to check with your host. There is a information <a
+                href="http://docs.guzzlephp.org/en/stable/request-options.html#verify">here</a> on the verification process.</p>
 
     <p>Turning the <code>ugm_ssl_verify_peer</code> System Setting off might make it work for you, but in a less secure
         way.
 
-    <p>Version 2.0.0 has a new setting: <code>ugm_cert_path</code> (empty by default). If you are having SSL trouble,
+    <p>UGM has a <code>ugm_cert_path</code> System Setting (empty by default). If you are having SSL trouble,
         you could try asking the host or checking their forum for the path to the SSL cert file. Paste that path into
         the <code>value</code> field of this setting.</p>
 </div>

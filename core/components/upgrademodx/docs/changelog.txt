@@ -1,5 +1,13 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.0-pl
+---------------------------------
+ - Fix severe security vulnerability with guzzlehttp/psr7
+ - Many mods for MODX 3
+ - More reliable connection of Widget to default dashboard
+ - Improved docs
+ - Other bug fixes and improvements
+
 UpgradeMODX 2.1.5-pl
 ---------------------------------
  - Fix critical bug with vendor path on some sites
