@@ -5,7 +5,7 @@ use GuzzleHttp\Exception\RequestException;
 /**
  * UpgradeMODX class file for UpgradeMODX Widget snippet for  extra
  *
- * Copyright 2015-2021 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2022 Bob Ray <https://bobsguides.com>
  * Created on 08-16-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the

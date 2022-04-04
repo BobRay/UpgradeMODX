@@ -2,7 +2,7 @@
 /**
  * ru default topic lexicon file for UpgradeMODX extra
  * Russian translation by Anton Tarasov (Himurovich) - 12-15-2018
- * Copyright 2015-2021 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2022 Bob Ray <https://bobsguides.com>
  * Created on 11-23-2018
  *
  *

@@ -2,7 +2,7 @@
 /**
  * de default topic lexicon file for UpgradeMODX extra
  *
- * Copyright 2015-2021 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2022 Bob Ray <https://bobsguides.com>
  *
  * German Translation by Sebastian G. Marinescu
  * Created on 08-18-2016
