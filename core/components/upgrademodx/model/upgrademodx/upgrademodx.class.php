@@ -119,6 +119,9 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $plOnly bool */
         protected $plOnly = false;
 
+        /** @var $showMODX3 bool */
+        protected $showMODX3 = false;
+
         /** @var $certPath string */
         protected $certPath = '';
 
@@ -154,6 +157,7 @@ if (!class_exists('UpgradeMODX')) {
             $this->modx->lexicon->load($language . ':upgrademodx:default');
             $this->forcePclZip = $this->modx->getOption('ugm_force_pcl_zip', null, false, true);
             $this->plOnly = $this->modx->getOption('ugm_pl_only', null, true, true);
+            $this->showMODX3 = $this->modx->getOption('ugm_show_modx3', null, false, true);
             $this->gitHubTimeout = $this->modx->getOption('ugm_github_timeout', null, 6, true);
             $this->modxTimeout = $this->modx->getOption('ugm_modx_timeout', null, 6, true);
             $this->githubUrl = $this->modx->getOption('ugm_versionlist_api_url',
@@ -353,9 +357,16 @@ if (!class_exists('UpgradeMODX')) {
             }
 
 
-            /* remove non-pl version objects if plOnly is set, and remove MODX 2.5.3 */
+            /* remove non-pl version objects if plOnly is set, and remove MODX 2.5.3;
+            Remove MODX 3 versions on MODX 2 sites unless ugm_show_modx3 system setting is set. */
             foreach ($contents as $key => $content) {
+                /* remove initial 'V' */
                 $name = substr($content['name'], 1);
+
+                if ((int) $name[0] === 3 && (int) $currentVersion[0] < 3 && (!$this->showMODX3)) {
+                    unset($contents[$key]);
+                    continue;
+                }
                 if ($plOnly && strpos($name, 'pl') === false) {
                     unset($contents[$key]);
                     continue;
@@ -691,7 +702,7 @@ EOD;
         /**
          * Sets $this->latestVersion based on
          * $plOnly setting and raw versions JSON string
-         * @param $rawVersions array
+         * @param $rawVersions string (JSON)
          * @param bool $plOnly
          */
         public function setLatestVersion($rawVersions, $plOnly = true) {
