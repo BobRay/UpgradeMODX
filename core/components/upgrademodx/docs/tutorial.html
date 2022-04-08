@@ -14,6 +14,16 @@
 <p><b>No matter what upgrade method you use, you are strongly advised to make a full backup of the database and all
     files and be prepared to restore the site if things go wrong.</b></p>
 
+<h3>New System Setting</h3>
+
+<p>MODX 3 versions will not be shown in the list unless you change the <code>ugm_show_modx3</code> System Setting. There are still extras that will not work in MODX 3, so please don't upgrade a production website to MODX 3 unless you've made sure that any extras you need will work on that platform.</p>
+
+<div class="box">
+    <p>If the UpgradeMODX widget doesn't show up on the dashboard, make sure you are a member of the Administrator group. (You're not by default if you're logged in as an admin user created on the MODX Cloud dashboard.) Add yourself to the Administrator group, clear the cache, go to Manage -> Flush Your Permissions, then log out and back in again.</p>
+
+      <p>If you want Manager users to see the dashboard without belonging to the Administrator group, change the <code>ugm_groups</code> System Setting. </p>
+</div>
+
 
 <p>For testing purposes (and to fix possible corrupted or missing MODX files), you can &quot;upgrade&quot; MODX to the
     version you currently have by changing the <code>settings_version</code> System Setting to an earlier version.

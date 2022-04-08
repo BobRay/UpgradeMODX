@@ -78,7 +78,7 @@ $systemSettings[5]->fromArray(array (
 $systemSettings[6] = $modx->newObject('modSystemSetting');
 $systemSettings[6]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2022-04-03 23:50:56',
+  'value' => '2022-04-03 13:56:45',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -224,5 +224,15 @@ $systemSettings[20]->fromArray(array (
   'area' => 'Form',
   'name' => 'Versions To Show',
   'description' => 'Number of versions to show in upgrade form; default: 5',
+), '', true, true);
+$systemSettings[21] = $modx->newObject('modSystemSetting');
+$systemSettings[21]->fromArray(array (
+  'key' => 'ugm_show_modx3',
+  'value' => '0',
+  'xtype' => 'combo-boolean',
+  'namespace' => 'upgrademodx',
+  'area' => 'Form',
+  'name' => 'setting_ugm_show_modx3',
+  'description' => 'setting_ugm_show_modx3_desc',
 ), '', true, true);
 return $systemSettings;

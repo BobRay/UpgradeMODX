@@ -144,6 +144,8 @@ $_lang['setting_ugm_verbose_desc'] = 'Display full GitHub Error Messages';
 
 $_lang['setting_ugm_cert_path'] = 'Cert Path';
 $_lang['setting_ugm_cert_path_desc'] = 'Path to SSL cert file in .pem format; rarely necessary';
+$_lang['setting_ugm_show_modx3'] = 'Show MODX 3 versions';
+$_lang['setting_ugm_show_modx3_desc'] = 'Show MODX 3 versions in list';
 
 /* System Setting Area strings */
 $_lang['Download'] = 'Download';
