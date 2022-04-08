@@ -16,7 +16,7 @@
 
 <h3>New System Setting</h3>
 
-<p>MODX 3 versions will not be shown in the list unless you change the <code>ugm_show_modx3</code> System Setting. There are still extras that will not work in MODX 3, so please don't upgrade a production website to MODX 3 unless you've made sure that any extras you need will work on that platform.</p>
+<p>MODX 3 versions will not be shown in the list on sites running MODX 2.x  unless you change the <code>ugm_show_modx3</code> System Setting. There are still extras that will not work in MODX 3, so please don't upgrade a production website to MODX 3 unless you've made sure that any extras you need <a href="https://sitedash.app/extras" target="_blank" rel="noopener nofollow noreferrer">will work on that platform</a> and <a href="https://docs.modx.com/3.x/en/getting-started/upgrading-to-3.0" target="_blank" rel="noopener nofollow noreferrer">understand the risks and requirements</a> involved in the upgrade. For more information, see the MODX 3 Notes section below.</p>
 
 <div class="box">
     <p>If the UpgradeMODX widget doesn't show up on the dashboard, make sure you are a member of the Administrator group. (You're not by default if you're logged in as an admin user created on the MODX Cloud dashboard.) Add yourself to the Administrator group, clear the cache, go to Manage -> Flush Your Permissions, then log out and back in again.</p>
@@ -381,7 +381,7 @@
     <tr>
         <td>ugm_ssl_verify_peer</td>
         <td>For security, have cURL verify the identity of the server</td>
-        <td>1</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td colspan="3" style="text-align:left;padding-left:100px;" class="properties_header">Form</td>
@@ -394,7 +394,12 @@
     <tr>
         <td>ugm_pl_only</td>
         <td>Show only pl (stable) versions</td>
-        <td>1</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ugm_show_modx3</td>
+        <td>Show MODX 3 versions on MODX 2 sites</td>
+        <td>No</td>
     </tr>
     <tr>
         <td>ugm_versions_to_show</td>
