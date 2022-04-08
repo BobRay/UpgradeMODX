@@ -232,7 +232,7 @@ $systemSettings[21]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'setting_ugm_show_modx3',
-  'description' => 'setting_ugm_show_modx3_desc',
+  'name' => 'Show MODX 3 versions',
+  'description' => 'Show MODX 3 versions in list',
 ), '', true, true);
 return $systemSettings;
