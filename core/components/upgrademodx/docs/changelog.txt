@@ -2,8 +2,7 @@ Changelog for UpgradeMODX
 
 UpgradeMODX 2.3.1-pl
 ---------------------------------
- - Hide MODX 3 versions on MODX 2 sites unless ugm_show_modx 3 System Setting is changed
-
+ - Hide MODX 3 versions on MODX 2 sites unless ugm_show_modx3 System Setting is changed
 
 UpgradeMODX 2.3.0-pl
 ---------------------------------
