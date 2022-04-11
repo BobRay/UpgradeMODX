@@ -1,5 +1,10 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.1-pl
+---------------------------------
+ - Hide MODX 3 versions on MODX 2 sites unless ugm_show_modx 3 System Setting is changed
+
+
 UpgradeMODX 2.3.0-pl
 ---------------------------------
  - Fix severe security vulnerability with guzzlehttp/psr7
