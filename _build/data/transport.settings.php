@@ -108,7 +108,7 @@ $systemSettings[8]->fromArray(array (
 $systemSettings[9] = $modx->newObject('modSystemSetting');
 $systemSettings[9]->fromArray(array (
   'key' => 'ugm_file_version',
-  'value' => '3.0.1-pl',
+  'value' => '2.8.4-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
