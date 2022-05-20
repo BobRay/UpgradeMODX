@@ -70,6 +70,7 @@ if (! $modx->user->isMember($groups)) {
 
 $corePath = $modx->getOption('ugm.core_path', null, $modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
 $assetsUrl = $modx->getOption('ugm.assets_url', null, $modx->getOption('assets_url', null, MODX_ASSETS_URL) . 'components/upgrademodx/');
+$path = $corePath . 'model/upgrademodx/upgrademodx.class.php';
 require_once($corePath . 'model/upgrademodx/upgrademodx.class.php');
 $upgrade = new UpgradeMODX($modx);
 $upgrade->init();
