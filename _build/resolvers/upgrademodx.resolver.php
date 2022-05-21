@@ -26,6 +26,8 @@
 
 /* @var array $options */
 
+$isMODX3 = $modx->getVersionData()['version'] >= 3;
+
 $resourceContent = '<script>
 var ugmConnectorUrl = "[[++assets_url]]components/upgrademodx/connector.php";
 var ugm_config = {"ugm_setup_url":"[[++site_url]]setup\/index.php"};
@@ -149,6 +151,16 @@ if ($object->xpdo) {
             $fileVersion->set('value', '');
             $fileVersion->save();
         }
+
+        /* Set System Setting to show MODX 3 versions on MODX 3 sites */
+        if ($isMODX3) {
+            $showMODX3 = $modx->getObject('modSystemSetting', array('key' => 'ugm_show_modx3'));
+            if ($showMODX3) {
+                $showMODX3->set('value', true);
+                $showMODX3->save();
+            }
+        }
+
 
 
         unset($check, $latest, $savedSettings, $settings, $fileVersion);
