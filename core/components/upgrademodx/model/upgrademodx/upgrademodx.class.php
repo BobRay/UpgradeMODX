@@ -214,6 +214,9 @@ if (!class_exists('UpgradeMODX')) {
             $this->setGithubCredentials();
             $this->client = new \GuzzleHttp\Client();
             $this->mmkDir($this->versionListPath);
+
+            /* For unit tests */
+            $this->corePath = $this->modx->getOption('ugm.core_path', null, $this->modx->getOption('core_path', null, MODX_CORE_PATH) . 'components/upgrademodx/');
         }
 
         /**

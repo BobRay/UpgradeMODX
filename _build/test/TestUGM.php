@@ -42,14 +42,17 @@ class TestUGM extends TestCase {
     public $basePath = 'c:/dummy/ugmtemp/test/';
     public $logFilePath = 'C:/dummy/upgrademodx.log';
     public $version = 'modx-2.6.5-pl.zip';
+    public $corePath = '';
 
     protected function setUp() {
         parent::setUp();
         include 'C:\xampp\htdocs\addons\assets\mycomponents\instantiatemodx\instantiatemodx.php';
 
         $this->modx =& $modx;
+        $this::assertTrue($modx instanceof modX);
         include 'C:\xampp\htdocs\addons\assets\mycomponents\upgrademodx\core\components\upgrademodx\model\upgrademodx\upgrademodx.class.php';
         $this->ugm = new UpgradeMODX($modx);
+        $this::assertTrue($this->ugm instanceof UpgradeMODX);
         $snippet = $this->modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
         $props = $snippet->getProperties();
 
@@ -205,7 +208,7 @@ class TestUGM extends TestCase {
         $finalizedVersionArray=$this->ugm->finalizeVersionArray($rawVersions, true, 40);
         $this::assertNotEmpty($finalizedVersionArray);
         $count = count($finalizedVersionArray);
-        $this::assertGreaterThanOrEqual(22, $count);
+        $this::assertGreaterThanOrEqual(20, $count);
     }
 
 
@@ -314,7 +317,7 @@ class TestUGM extends TestCase {
         $_SESSION['ugm_version'] = $version;
         @unlink($tempDir . $version);
         $this::assertFalse(is_dir($tempDir . $version));
-        $options = array(
+        $options = array( //xxx
             'processors_path' => $this->ugm->corePath . 'processors/',
         );
         $config = array(
