@@ -1,5 +1,10 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.2-pl
+---------------------------------
+ - Fix critical bug with GuzzleHttp version mismatch
+ - Don't show Upgrade available on up-to-date MODX 2 sites unless ugm_show_modx3 System Setting is set to Yes
+
 UpgradeMODX 2.3.1-pl
 ---------------------------------
  - Hide MODX 3 versions on MODX 2 sites unless ugm_show_modx3 System Setting is changed
