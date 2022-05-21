@@ -134,6 +134,13 @@ if (!class_exists('UpgradeMODX')) {
         /** @var $verbose bool */
         protected $verbose = false;
 
+        /** @var $isMODX3 bool */
+        protected $isMODX3 = false;
+
+        /** @var $lastCheck string  */
+        protected $lastCheck = '2015-08-17 00:00:004';
+
+
         /**
          * UpgradeMODX constructor.
          * @param $modx modX
@@ -154,32 +161,51 @@ if (!class_exists('UpgradeMODX')) {
             $language = $this->modx->getOption('ugm_language',
                 null, $this->modx->getOption('manager_language'), true);
             $language = empty($language) ? 'en' : $language;
-            $this->modx->lexicon->load($language . ':upgrademodx:default');
-            $this->forcePclZip = $this->modx->getOption('ugm_force_pcl_zip', null, false, true);
-            $this->plOnly = $this->modx->getOption('ugm_pl_only', null, true, true);
-            $this->showMODX3 = $this->modx->getOption('ugm_show_modx3', null, false, true);
+            $this->modx->lexicon->load($language .
+                ':upgrademodx:default');
+            $this->forcePclZip = $this->modx->getOption(
+                'ugm_force_pcl_zip', null, false, true);
+            $this->plOnly = $this->modx->getOption(
+                'ugm_pl_only', null, true, true);
+            $this->showMODX3 = (bool) $this->modx->getOption('ugm_show_modx3', null, false, true);
             $this->gitHubTimeout = $this->modx->getOption('ugm_github_timeout', null, 6, true);
             $this->modxTimeout = $this->modx->getOption('ugm_modx_timeout', null, 6, true);
             $this->githubUrl = $this->modx->getOption('ugm_versionlist_api_url',
-                null, '//api.github.com/repos/modxcms/revolution/tags', true);;
+                null, '//api.github.com/repos/modxcms/revolution/tags',
+                true);;
             $this->errors = array();
             $this->latestVersion = $this->modx->getOption('ugm_latest_version', null, '', true);
-            $this->verifyPeer = (bool)$this->modx->getOption('ugm_ssl_verify_peer', null, true);
-            $this->certPath = $this->modx->getOption('ugm_cert_path', null, '', true);
-            $this->versionListPath = $this->getVersionListPath($this->modx->getOption('ugm_version_list_path', null),
-                $this->devMode);
-            $this->progressFilePath = MODX_ASSETS_PATH . 'components/upgrademodx/ugmprogress.txt';
+            $this->verifyPeer = (bool)$this->modx->getOption(
+                'ugm_ssl_verify_peer', null, true);
+            $this->certPath = $this->modx->getOption(
+                'ugm_cert_path', null, '', true
+            );
+            $this->versionListPath = $this->getVersionListPath(
+                $this->modx->getOption(
+                    'ugm_version_list_path', null),
+                    $this->devMode
+            );
+            $this->progressFilePath = MODX_ASSETS_PATH .
+                'components/upgrademodx/ugmprogress.txt';
             $this->mmkDir(MODX_ASSETS_PATH . 'components/upgrademodx');
-            $this->progressFileURL = MODX_ASSETS_URL . 'components/upgrademodx/ugmprogress.txt';
-            $this->fileVersion = $this->modx->getOption('ugm_file_version', null, '', true);
-            file_put_contents($this->progressFilePath, 'Starting Upgrade');
-            $this->versionsToShow = $this->modx->getOption('ugm_versions_to_show', null, 5, true);
+            $this->progressFileURL = MODX_ASSETS_URL .
+                'components/upgrademodx/ugmprogress.txt';
+            $this->fileVersion = $this->modx->getOption(
+                'ugm_file_version', null, '', true
+            );
+            file_put_contents($this->progressFilePath,
+                'Starting Upgrade');
+            $this->versionsToShow = $this->modx->getOption(
+                'ugm_versions_to_show', null, 5, true
+            );
 
             $v = (int) $this->modx->getVersionData()['version'];
 
             if ($v >= 3) {
+                $this->isMODX3 = true;
                 $path = $this->modx->getOption('core_path', null);
             } else {
+                $this->isMODX3 = false;
                 $path = MODX_CORE_PATH . 'components/upgrademodx/';
             }
             require_once $path . 'vendor/autoload.php';
@@ -210,8 +236,16 @@ if (!class_exists('UpgradeMODX')) {
          * Set GitHub credential class variables
          */
         public function setGithubCredentials() {
-            $this->github_username = $this->modx->getOption('ugm_github_username', null, null, true);
-            $this->github_token = $this->modx->getOption('ugm_github_token', null, null, true);
+            $this->github_username = $this->modx->getOption(
+                'ugm_github_username', null, null, true);
+            $this->github_token = $this->modx->getOption(
+                'ugm_github_token', null, null, true);
+            $this->modx->log(modX::LOG_LEVEL_ERROR, "Token: " .
+                $this->github_token
+            );
+            $this->modx->log(modX::LOG_LEVEL_ERROR, "Username: " .
+                $this->github_username
+            );
         }
 
         /**
@@ -255,7 +289,6 @@ if (!class_exists('UpgradeMODX')) {
          * @return bool|string -- returns form or false on error
          */
         public function createVersionForm($modx) {
-            // $this->modx->log(modX::LOG_LEVEL_ERROR, 'Getting Versionlist from file');
             $path = $this->versionListPath . 'versionlist';
             if (!file_exists($path)) {
                 $this->setError($this->modx->lexicon('ugm_no_version_list') . ' @ ' . $path);
@@ -267,11 +300,16 @@ if (!class_exists('UpgradeMODX')) {
                 return false;
             }
 
-            $finalVersionList = $this->finalizeVersionArray($rawVersions, $this->plOnly, $this->versionsToShow);
+            $finalVersionList = $this->finalizeVersionArray(
+                $rawVersions,
+                $this->plOnly,
+                $this->versionsToShow
+            );
             if (!is_array($finalVersionList)) {
                 return false;
             }
-            $renderedVersionList = $this->renderVersionList($finalVersionList);
+            $renderedVersionList =
+                $this->renderVersionList($finalVersionList);
 
 
             /** @var $upgrade  UpgradeMODX */
@@ -345,11 +383,16 @@ if (!class_exists('UpgradeMODX')) {
          * @param string $currentVersion
          * @return array|bool -- returns version array or false on error
          */
-        public function finalizeVersionArray($contents, $plOnly = true, $versionsToShow = 5, $currentVersion = '') {
+        public function finalizeVersionArray(
+            $contents,
+            $plOnly = true,
+            $versionsToShow = 5,
+            $currentVersion = ''
+            ) {
             $currentVersion = empty($currentVersion)
                 ? $this->modx->getOption('settings_version', null)
                 : $currentVersion;
-            $contents = utf8_encode($contents);
+            // $contents = utf8_encode($contents);
             $contents = $this->modx->fromJSON($contents);
             if (empty($contents)) {
                 $this->setError($this->modx->lexicon('ugm_json_decode_failed'));
@@ -400,8 +443,7 @@ if (!class_exists('UpgradeMODX')) {
                 $contents[$j] = $element;
             }
 
-            /* Truncate to $versionsToShow but extend to show current version
-               plus one previous version */
+            /* Truncate to $versionsToShow but extend to show current version plus one previous version */
 
             $versionArray = array();
             $i = 1;
@@ -477,16 +519,21 @@ if (!class_exists('UpgradeMODX')) {
          */
         public function updateSettings($lastCheck, $latestVersion, $fileVersion) {
             $settings = array(
-                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S', $lastCheck),
+                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S',
+                    $lastCheck),
                 'ugm_latest_version' => $latestVersion,
                 'ugm_file_version' => $fileVersion,
             );
             $dirty = false;
-            $classPrefix = $this->modx->getVersionData()['version'] >= 3
+            $classPrefix = $this->isMODX3
                     ? 'MODX\Revolution\\'
                     : '';
             foreach ($settings as $key => $value) {
-                $setting = $this->modx->getObject($classPrefix . 'modSystemSetting', array('key' => $key));
+                if ($value === false) {
+                    continue;
+                }
+                $setting = $this->modx->getObject($classPrefix .
+                    'modSystemSetting', array('key' => $key));
                 $success = true;
                 if ($setting && $setting->get('value') != $value) {
                     $dirty = true;
@@ -524,6 +571,7 @@ if (!class_exists('UpgradeMODX')) {
          */
         public function timeToCheck() {
             $lastCheck = $this->modx->getOption('ugm_last_check', null, '2015-08-17 00:00:004', true);
+            $this->lastCheck = $lastCheck;
             $interval = $this->modx->getOption('ugm_interval', null, '+1 day', true);
             if ($this->devMode) {
                 return true;
@@ -594,8 +642,14 @@ EOD;
          * @throws \GuzzleHttp\Exception\ClientException
          * @throws \GuzzleHttp\Exception\GuzzleException
          */
-        public function getRawVersions($url, $githubTimeout = 6, $verifyPeer = true, $githubUsername = null,
-                                       $githubToken = null, $certPath = null, $verbose = false) {
+        public function getRawVersions(
+            $url,
+            $githubTimeout = 6,
+            $verifyPeer = true,
+            $githubUsername = null,
+            $githubToken = null,
+            $certPath = null, $verbose = false)  {
+
             $options = array();
             if ((!empty($githubUsername)) && (!empty($githubToken))) { // use token if set
                 $options['auth'] = array($githubUsername, $githubToken);
@@ -622,10 +676,12 @@ EOD;
                 //  } catch (\Exception $e) {
             } catch (RequestException $e) {
                 $msg = $this->parseException($e, $verbose);
+                echo $msg;
                 $retVal = false;
             } catch (\Exception $e) {
                 /** @var $e \GuzzleHttp\Exception\RequestException */
                 $msg = $this->parseException($e, $verbose);
+                echo $msg;
                 $retVal = false;
             }
             return $retVal;
@@ -711,9 +767,14 @@ EOD;
             } else {
                 $pattern = '/name":\s*"v([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2}-[a-zA-Z0-9]+)"/';
             }
+            /* Adjust pattern to grab only MODX 2 versions */
+            if ($this->showMODX3 == false) {
+                $pattern = str_replace('v([0-9]{1,2}', 'v(2', $pattern);
+            }
             preg_match($pattern, $rawVersions, $matches);
             if (!isset($matches[1]) || empty($matches[1])) {
                 $this->setError('Regex failed');
+                // $this->modx->log(modX::LOG_LEVEL_ERROR, "Raw Versions: " . print_r($rawVersions, true));
             } else {
                 $this->latestVersion = $matches[1];
             }
@@ -731,14 +792,39 @@ EOD;
             $timeToCheck = $this->timeToCheck();
 
             /* Perform check if no latestVersion, or if it's time to check */
-            if ((!$versionListExists) || $timeToCheck || empty($this->latestVersion) || $regenerate) {
-                $rawVersions = $this->getRawVersions($this->githubUrl, $this->gitHubTimeout,
-                    $this->verifyPeer, $this->github_username, $this->github_token,
-                    $this->certPath, $this->verbose);
-                /* Update $this->latestVersion based on $rawVersions string */
+            if ((!$versionListExists) || $timeToCheck ||
+                empty($this->latestVersion) || $regenerate) {
+
+                $rawVersions = $this->getRawVersions(
+                    $this->githubUrl,
+                    $this->gitHubTimeout,
+                    $this->verifyPeer,
+                    $this->github_username,
+                    $this->github_token,
+                    $this->certPath,
+                    $this->verbose
+                );
+                // $this->modx->log(modX::LOG_LEVEL_ERROR, "rawVersions from GitHub");
+
                 $this->setLatestVersion($rawVersions, $this->plOnly);
-                $this->updateVersionListFile($rawVersions, $this->fileVersion, $this->latestVersion);
-                $this->updateSettings(time(), $this->latestVersion, $this->latestVersion);
+                $this->updateVersionListFile(
+                    $rawVersions,
+                    $this->fileVersion,
+                    $this->latestVersion
+                );
+                $this->updateSettings(
+                    time(),
+                    $this->latestVersion,
+                    $this->latestVersion
+                );
+            } else { /* Not time to check and versionlist file exists */
+                $rawVersions = file_get_contents($this->versionListPath . 'versionlist');
+
+               // $this->modx->log(modX::LOG_LEVEL_ERROR, "rawVersions from versionlist");
+
+                $this->setLatestVersion($rawVersions, $this->plOnly);
+                $this->updateSettings(strtotime($this->lastCheck),
+                    $this->latestVersion, $this->latestVersion);
             }
 
             if (!empty($this->errors)) {
