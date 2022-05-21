@@ -240,12 +240,6 @@ if (!class_exists('UpgradeMODX')) {
                 'ugm_github_username', null, null, true);
             $this->github_token = $this->modx->getOption(
                 'ugm_github_token', null, null, true);
-            $this->modx->log(modX::LOG_LEVEL_ERROR, "Token: " .
-                $this->github_token
-            );
-            $this->modx->log(modX::LOG_LEVEL_ERROR, "Username: " .
-                $this->github_username
-            );
         }
 
         /**
