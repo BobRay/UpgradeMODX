@@ -1,5 +1,8 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.3-pl
+ - Yet another GuzzleHttp security upgrade
+
 UpgradeMODX 2.3.2-pl
 ---------------------------------
  - Fix critical bug with GuzzleHttp version mismatch
