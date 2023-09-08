@@ -4,6 +4,7 @@ UpgradeMODX 2.3.4-pl
 ---------------------------------
  - Remove deprecated strftime() calls
  - Yet another GuzzleHttp security upgrade
+ - Updates for Php 8
  - Minor bug fixes
 
 UpgradeMODX 2.3.3-pl

@@ -11,6 +11,8 @@
 
 $packageNameLower = 'upgrademodx'; /* No spaces, no dashes */
 
+$date = new DateTime();
+$d = $date->format('m-d-Y');
 $components = array(
     /* These are used to define the package and set values for placeholders */
     'packageName' => 'UpgradeMODX',  /* No spaces, no dashes */
@@ -26,7 +28,7 @@ $components = array(
     'copyright' => '2015-2023',
 
     /* no need to edit this except to change format */
-    'createdon' => strftime('%m-%d-%Y'),
+    'createdon' => $d,
 
     'gitHubUsername' => 'BobRay',
     'gitHubRepository' => 'UpgradeMODX',
