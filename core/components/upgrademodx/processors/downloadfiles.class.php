@@ -49,7 +49,9 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         /* Write directly because we want to truncate the file */
         $fp = fopen($this->logFilePath, 'w');
         if ($fp) {
-            fwrite($fp, 'UpgradeMODX Log -- ' . strftime('%A %B %C, %G %I:%M %p'));
+            $d = new DateTimeImmutable();
+            $date = $d->format('l F d Y h:i A');
+            fwrite($fp, 'UpgradeMODX Log -- ' . $date);
             fclose($fp);
         } else {
             $this->addError($this->modx->lexicon('ugm_could_not_open') . ' ' . $this->logFilePath);
@@ -70,6 +72,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         $this->log("Version: " . $version);
         $v = explode('-', $version);
         $shortVersion = $v[1];
+        $_SESSION['ugm_version'] = $shortVersion;
         // Example: https://modx.s3.amazonaws.com/releases/2.6.5/modx-2.6.5-pl.zip
         $this->sourceUrl = 'https://modx.s3.amazonaws.com/releases/' . $shortVersion . '/' . $version;
         $this->log("URL: " . $this->sourceUrl);

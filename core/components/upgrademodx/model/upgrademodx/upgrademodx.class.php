@@ -515,9 +515,11 @@ if (!class_exists('UpgradeMODX')) {
          * @param $fileVersion
          */
         public function updateSettings($lastCheck, $latestVersion, $fileVersion) {
+            $date = new DateTime();
+            $date->setTimestamp($lastCheck);
+            $d = $date->format('Y-m-d H:i:s');
             $settings = array(
-                'ugm_last_check' => strftime('%Y-%m-%d %H:%M:%S',
-                    $lastCheck),
+                'ugm_last_check' => $d,
                 'ugm_latest_version' => $latestVersion,
                 'ugm_file_version' => $fileVersion,
             );
