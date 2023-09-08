@@ -2,7 +2,7 @@
 /**
  * systemSettings transport file for UpgradeMODX extra
  *
- * Copyright 2015-2022 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2023 Bob Ray <https://bobsguides.com>
  * Created on 08-01-2018
  *
  * @package upgrademodx
@@ -48,7 +48,7 @@ $systemSettings[2]->fromArray(array (
 $systemSettings[3] = $modx->newObject('modSystemSetting');
 $systemSettings[3]->fromArray(array (
   'key' => 'ugm_latest_version',
-  'value' => '2.8.4-pl',
+  'value' => '2.8.5-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -78,7 +78,7 @@ $systemSettings[5]->fromArray(array (
 $systemSettings[6] = $modx->newObject('modSystemSetting');
 $systemSettings[6]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2022-05-19 00:33:18',
+  'value' => '2023-09-07 22:04:37',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
@@ -108,7 +108,7 @@ $systemSettings[8]->fromArray(array (
 $systemSettings[9] = $modx->newObject('modSystemSetting');
 $systemSettings[9]->fromArray(array (
   'key' => 'ugm_file_version',
-  'value' => '2.8.4-pl',
+  'value' => '2.8.5-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',

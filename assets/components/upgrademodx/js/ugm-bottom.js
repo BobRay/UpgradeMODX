@@ -1,7 +1,7 @@
 /**
  * JS file for UpgradeMODX extra
  *
- * Copyright 2018-2022 Bob Ray <https://bobsguides.com>
+ * Copyright 2018-2023 Bob Ray <https://bobsguides.com>
  * Created on 07-19-2018
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the

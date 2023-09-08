@@ -2,8 +2,8 @@
 /**
 * Resolver to connect widgets to system events for UpgradeMODX extra
 *
-* Copyright 2015-2022 Bob Ray <https://bobsguides.com>
-* Created on 04-02-2022
+* Copyright 2015-2023 Bob Ray <https://bobsguides.com>
+* Created on 09-07-2023
 *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -30,9 +30,7 @@
 /* @var $dashboard modDashboard */
 
 if (!function_exists('checkFields')) {
-    function checkFields($required, $objectFields) {
-
-        global $modx;
+    function checkFields($modx, $required, $objectFields) {
         $fields = explode(',', $required);
         foreach ($fields as $field) {
             if (!isset($objectFields[$field])) {
@@ -71,7 +69,7 @@ if ($object->xpdo) {
                     /* make sure we have all fields */
                     $dashboardId = $modx->getOption('dashboard', $fields, 1, true);
 
-                    if (!checkFields('widget,dashboard', $fields)) {
+                    if (!checkFields($modx, 'widget,dashboard', $fields)) {
                         continue;
                     }
 
