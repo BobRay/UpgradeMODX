@@ -1,6 +1,13 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.4-pl
+---------------------------------
+ - Remove deprecated strftime() calls
+ - Yet another GuzzleHttp security upgrade
+ - Minor bug fixes
+
 UpgradeMODX 2.3.3-pl
+---------------------------------
  - Yet another GuzzleHttp security upgrade
 
 UpgradeMODX 2.3.2-pl
