@@ -49,7 +49,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
         /* Write directly because we want to truncate the file */
         $fp = fopen($this->logFilePath, 'w');
         if ($fp) {
-            $d = new DateTimeImmutable();
+            $d = new DateTime();
             $date = $d->format('l F d Y h:i A');
             fwrite($fp, 'UpgradeMODX Log -- ' . $date);
             fclose($fp);
@@ -83,14 +83,14 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
     }
 
 
-    function remoteFileExists() {
+    function remoteFileExists() : bool {
         /** @var $client GuzzleHttp\Client */
         $client = $this->client;
 
         try {
             $client->head($this->sourceUrl);
             return true;
-        } catch (GuzzleHttp\Exception\ClientException $e) {
+        } catch (GuzzleHttp\Exception\GuzzleException $e) {
             return false;
         }
     }
@@ -99,7 +99,7 @@ class UpgradeMODXDownloadfilesProcessor extends UgmProcessor {
      * @throws GuzzleException
      */
 
-    public function download() {
+    public function download() : void {
 
         /* See if the file is available for download */
         if (!$this->remoteFileExists()) {

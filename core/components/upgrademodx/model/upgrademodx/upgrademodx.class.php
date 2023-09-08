@@ -43,7 +43,7 @@ use GuzzleHttp\Exception\RequestException;
 
 /* Properties
 
- * @property &groups textfield -- group, or commma-separated list of groups, who will see the widget; Default: (empty)..
+ * @property &groups textfield -- group, or comma-separated list of groups, who will see the widget; Default: (empty)..
  * @property &hideWhenNoUpgrade combo-boolean -- Hide widget when no upgrade is available; Default: No.
  * @property &interval textfield -- Interval between checks -- Examples: 1 week, 3 days, 6 hours; Default: 1 week.
  * @property &language textfield -- Two-letter code of language to user; Default: en.
@@ -63,7 +63,7 @@ if (!class_exists('UpgradeMODX')) {
 
         /** @var $versionArray array - array of versions to display if upgrade is available as a string
          *  to inject into upgrade script */
-        public $versionArray = '';
+        public $versionArray = array();
 
         /** @var $renderedVersionList string - Rendered version list to use in createVersionForm */
         public $renderedVersionList = '';
@@ -517,7 +517,7 @@ if (!class_exists('UpgradeMODX')) {
         public function updateSettings($lastCheck, $latestVersion, $fileVersion) {
             $date = new DateTime();
             $date->setTimestamp($lastCheck);
-            $d = $date->format('Y-m-d H:i:s');
+            $d = $date->format('Y-m-d H:i:s A');
             $settings = array(
                 'ugm_last_check' => $d,
                 'ugm_latest_version' => $latestVersion,
