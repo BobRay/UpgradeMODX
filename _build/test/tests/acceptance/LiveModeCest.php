@@ -59,7 +59,7 @@ class LiveModeCest {
             $this->_setSystemSetting('ugm.devMode', '0');
         }
 
-        $this->_setSystemSetting('settings_version', '2.7.0-pl');
+        $this->_setSystemSetting('settings_version', '2.8.1-pl');
 
     }
 
