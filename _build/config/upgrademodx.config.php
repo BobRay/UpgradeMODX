@@ -434,9 +434,10 @@ $components = array(
      * Suffix 'resolver.php' will be added automatically */
     'resolvers' => array(
         'default',
+        'dependencies',
     ),
 
-    /* (optional) Validators can abort the install after checking
+    /* (optional) Validators can abort the installation after checking
      * conditions. Array of validator names (no
      * prefix of suffix) or '' 'default' creates a default resolver
      *  named after the package suffix 'validator.php' will be added */
