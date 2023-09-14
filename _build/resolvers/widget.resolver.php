@@ -42,149 +42,153 @@ if (!function_exists('checkFields')) {
     }
 }
 
+/* @var modTransportPackage $transport */
 
-if ($object->xpdo) {
+if ($transport) {
+    $modx =& $transport->xpdo;
+} else {
     $modx =& $object->xpdo;
+}
 
-    $isMODX3 = $modx->getVersionData()['version'] >= 3;
-    $classPrefix = $isMODX3
-            ? 'MODX\Revolution\\'
-            : '';
 
-    switch ($options[xPDOTransport::PACKAGE_ACTION]) {
-        case xPDOTransport::ACTION_INSTALL:
-        case xPDOTransport::ACTION_UPGRADE:
+$isMODX3 = $modx->getVersionData()['version'] >= 3;
+$classPrefix = $isMODX3
+        ? 'MODX\Revolution\\'
+        : '';
 
-            $intersects = array (
-                0 =>  array (
-                  'widget' => 'Upgrade MODX',
-                  'dashboard' => 1,
-                  'rank' => 0,
-                  'size' => NULL,
-                ),
-            );
+switch ($options[xPDOTransport::PACKAGE_ACTION]) {
+    case xPDOTransport::ACTION_INSTALL:
+    case xPDOTransport::ACTION_UPGRADE:
 
-            if (is_array($intersects) && !empty($intersects)) {
-                foreach ($intersects as $k => $fields) { // each pass is one widget
-                    /* make sure we have all fields */
-                    $dashboardId = $modx->getOption('dashboard', $fields, 1, true);
+        $intersects = array (
+            0 =>  array (
+              'widget' => 'Upgrade MODX',
+              'dashboard' => 1,
+              'rank' => 0,
+              'size' => NULL,
+            ),
+        );
 
-                    if (!checkFields($modx, 'widget,dashboard', $fields)) {
-                        continue;
+        if (is_array($intersects) && !empty($intersects)) {
+            foreach ($intersects as $k => $fields) { // each pass is one widget
+                /* make sure we have all fields */
+                $dashboardId = $modx->getOption('dashboard', $fields, 1, true);
+
+                if (!checkFields($modx, 'widget,dashboard', $fields)) {
+                    continue;
+                }
+
+                /* Get both objects (widget and dashboard) */
+                $widget = $modx->getObject($classPrefix . 'modDashboardWidget', array('name' => $fields['widget']));
+                $dashboardObject = $modx->getObject($classPrefix . 'modDashboard', $dashboardId);
+
+                /* Set remaining placement fields (except 'user' -- only used for MODX 3+ */
+                $rank = $modx->getOption('rank', $fields, 0, true);
+                $size = $modx->getOption('size', $fields, 'half', true);
+
+                /* Make sure we have both objects */
+                if (!$widget || !$dashboardObject) {
+                    if (!$widget) {
+                        $modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not find Widget  ' .
+                            $fields['widget']);
                     }
-
-                    /* Get both objects (widget and dashboard) */
-                    $widget = $modx->getObject($classPrefix . 'modDashboardWidget', array('name' => $fields['widget']));
-                    $dashboardObject = $modx->getObject($classPrefix . 'modDashboard', $dashboardId);
-
-                    /* Set remaining placement fields (except 'user' -- only used for MODX 3+ */
-                    $rank = $modx->getOption('rank', $fields, 0, true);
-                    $size = $modx->getOption('size', $fields, 'half', true);
-
-                    /* Make sure we have both objects */
-                    if (!$widget || !$dashboardObject) {
-                        if (!$widget) {
-                            $modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not find Widget  ' .
-                                $fields['widget']);
-                        }
-                        if (!$dashboardObject) {
-                            $modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not find dashboard with ID ' .
-                                $dashboardId);
-                        }
-                        continue;
+                    if (!$dashboardObject) {
+                        $modx->log(xPDO::LOG_LEVEL_ERROR, 'Could not find dashboard with ID ' .
+                            $dashboardId);
                     }
+                    continue;
+                }
 
-                    $widgetId = $widget->get('id');
+                $widgetId = $widget->get('id');
 
-                    $placementFields = array(
-                        'widget' => $widgetId,
-                        'dashboard' => $dashboardId,
-                        'rank' => $rank,
-                        'size' => $size,
+                $placementFields = array(
+                    'widget' => $widgetId,
+                    'dashboard' => $dashboardId,
+                    'rank' => $rank,
+                    'size' => $size,
+                );
+
+                if ($isMODX3) {
+                    /* Get dashboard's widget placement objects */
+                    $placements = $dashboardObject->getMany('Placements');
+                    $users = array();
+                    $existing = array();
+                    $elements = array(
+                        'user',
+                        'dashboard',
+                        'widget',
                     );
 
-                    if ($isMODX3) {
-                        /* Get dashboard's widget placement objects */
-                        $placements = $dashboardObject->getMany('Placements');
-                        $users = array();
-                        $existing = array();
-                        $elements = array(
-                            'user',
-                            'dashboard',
-                            'widget',
-                        );
-
-                        /* Create $users array of userIds from placements, and $existing array
-                           of signatures in the form userid:dashboardid:widgetid
-                           from placements. */
-                        foreach ($placements as $placement) {
-                            $temp = array();
-                            foreach ($elements as $element) {
-                                $temp[] = $placement->get($element);
-                            }
-
-                            $existing[] = implode(':', $temp);
-                            unset($temp);
-
-                            $users[] = $placement->get('user');
+                    /* Create $users array of userIds from placements, and $existing array
+                       of signatures in the form userid:dashboardid:widgetid
+                       from placements. */
+                    foreach ($placements as $placement) {
+                        $temp = array();
+                        foreach ($elements as $element) {
+                            $temp[] = $placement->get($element);
                         }
 
-                        /* Remove duplicate users */
-                        $users = array_unique($users);
+                        $existing[] = implode(':', $temp);
+                        unset($temp);
 
-                        /* Create and save placement objects */
-                        foreach ($users as $user) {
-                            /* Check signature against existing ones */
-                            $signature = $user . ':' . $dashboardId . ':' . $widgetId;
-                            if (in_array($signature, $existing)) {
-                                continue; /* Placement already exists */
-                            }
+                        $users[] = $placement->get('user');
+                    }
 
-                            /* Create and save placement */
-                            $dbp = $modx->newObject('MODX\Revolution\modDashboardWidgetPlacement');
-                            if ($dbp) {
-                                /* Add current user to array */
-                                $placementFields['user'] = $user;
+                    /* Remove duplicate users */
+                    $users = array_unique($users);
 
-                                /* Set placement fields */
-                                $dbp->fromArray($placementFields, '', true);
-
-                                if (!$dbp->save()) {
-                                    $modx->log(xPDO::LOG_LEVEL_ERROR,
-                                        'Unknown error saving widgetPlacement for ' .
-                                        $fields['widget'] . 'Widget');
-                                }
-                            }
+                    /* Create and save placement objects */
+                    foreach ($users as $user) {
+                        /* Check signature against existing ones */
+                        $signature = $user . ':' . $dashboardId . ':' . $widgetId;
+                        if (in_array($signature, $existing)) {
+                            continue; /* Placement already exists */
                         }
 
-                    } else { /* MODX 2 */
-                        $widgetPlacement = $modx->getObject($classPrefix . 'modDashboardWidgetPlacement',
-                            array(
-                                'widget' => $widgetId,
-                                'dashboard' => $dashboardId,
-                            )
-                        );
-                        /* Create Placement if not there */
-                        if (!$widgetPlacement) {
-                            $widgetPlacement = $modx->newObject($classPrefix . 'modDashboardWidgetPlacement');
-                        }
-                        if ($widgetPlacement) {
-                            $widgetPlacement->fromArray($placementFields, '', true);
-                            if (! $widgetPlacement->save()) {
+                        /* Create and save placement */
+                        $dbp = $modx->newObject('MODX\Revolution\modDashboardWidgetPlacement');
+                        if ($dbp) {
+                            /* Add current user to array */
+                            $placementFields['user'] = $user;
+
+                            /* Set placement fields */
+                            $dbp->fromArray($placementFields, '', true);
+
+                            if (!$dbp->save()) {
                                 $modx->log(xPDO::LOG_LEVEL_ERROR,
                                     'Unknown error saving widgetPlacement for ' .
-                                    $fields['widget'] . ' Widget');
+                                    $fields['widget'] . 'Widget');
                             }
                         }
-                    } /* end of MODX 2 section */
-                } /* End of foreach widget */
-            } /* End of if ($intersects) */
-            break;
+                    }
 
-        case xPDOTransport::ACTION_UNINSTALL:
+                } else { /* MODX 2 */
+                    $widgetPlacement = $modx->getObject($classPrefix . 'modDashboardWidgetPlacement',
+                        array(
+                            'widget' => $widgetId,
+                            'dashboard' => $dashboardId,
+                        )
+                    );
+                    /* Create Placement if not there */
+                    if (!$widgetPlacement) {
+                        $widgetPlacement = $modx->newObject($classPrefix . 'modDashboardWidgetPlacement');
+                    }
+                    if ($widgetPlacement) {
+                        $widgetPlacement->fromArray($placementFields, '', true);
+                        if (! $widgetPlacement->save()) {
+                            $modx->log(xPDO::LOG_LEVEL_ERROR,
+                                'Unknown error saving widgetPlacement for ' .
+                                $fields['widget'] . ' Widget');
+                        }
+                    }
+                } /* end of MODX 2 section */
+            } /* End of foreach widget */
+        } /* End of if ($intersects) */
+        break;
 
-            break;
-    }
+    case xPDOTransport::ACTION_UNINSTALL:
+
+        break;
 }
 
 return true;
