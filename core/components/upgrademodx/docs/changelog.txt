@@ -1,5 +1,12 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.5-pl
+---------------------------------
+ - Revert requirement for PHP 8
+ - Switch to Guzzle7 Extra
+ - Update Resolvers
+
+
 UpgradeMODX 2.3.4-pl
 ---------------------------------
  - Remove deprecated strftime() calls
