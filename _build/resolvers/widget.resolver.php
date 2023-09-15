@@ -49,8 +49,6 @@ if ($transport) {
 } else {
     $modx =& $object->xpdo;
 }
-
-
 $isMODX3 = $modx->getVersionData()['version'] >= 3;
 $classPrefix = $isMODX3
         ? 'MODX\Revolution\\'
@@ -61,13 +59,13 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_UPGRADE:
 
         $intersects = array (
-            0 =>  array (
-              'widget' => 'Upgrade MODX',
-              'dashboard' => 1,
-              'rank' => 0,
-              'size' => NULL,
-            ),
-        );
+                0 =>  array (
+                  'widget' => 'Upgrade MODX',
+                  'dashboard' => 1,
+                  'rank' => 0,
+                  'size' => NULL,
+                ),
+            );
 
         if (is_array($intersects) && !empty($intersects)) {
             foreach ($intersects as $k => $fields) { // each pass is one widget
@@ -190,5 +188,6 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 
         break;
 }
+
 
 return true;
