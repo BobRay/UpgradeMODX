@@ -29,11 +29,20 @@ if ($object->xpdo) {
     $modx =& $object->xpdo;
     switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         case xPDOTransport::ACTION_INSTALL:
-            /* return false if conditions are not met */
-
-            /* [[+code]] */
-            break;
         case xPDOTransport::ACTION_UPGRADE:
+            if (!isset($_SESSION['error_warned'])) {
+                $modx->log(modX::LOG_LEVEL_WARN,
+                    "<b>
+             <br>***********************************
+             <br>You may see some spurious error 
+             <br>messages in the console and error
+             <br>log during the installation.
+             <br>Please ignore them.
+             <br>***********************************</b>");
+                $_SESSION['error_warned'] = true;
+            }
+
+
             /* return false if conditions are not met */
             $widgetSnippet = $modx->getObject('modSnippet', array('name' => 'UpgradeMODXWidget'));
             if ($widgetSnippet) {
