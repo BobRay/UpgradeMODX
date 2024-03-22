@@ -24,6 +24,10 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         /**
          * Define required packages: name => minimum version
          */
+        $v = (int) $modx->getVersionData()['version'];
+        if ($v >= 3) {
+            return true;
+        }
         $packages = [
             'Guzzle7' => '1.0.0-pl',
         ];

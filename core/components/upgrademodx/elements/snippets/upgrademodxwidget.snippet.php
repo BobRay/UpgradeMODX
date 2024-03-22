@@ -54,10 +54,8 @@
 /* Initialize */
 /* This will execute when in MODX */
 
-if (! class_exists('Guzzle7')) {
-    $msg = '<br/><span style="color:red">' . 'Please Install the Guzzle7 extra</span>';
-    return $msg;
-
+if (!class_exists('\GuzzleHttp\Client') && !class_exists('Guzzle7')) {
+    return '<br/><span style="color:red">' . 'Please Install the Guzzle7 extra</span>';
 }
 
 $language = $modx->getOption('ugm_language', null, $modx->getOption('manager_language'), true);
