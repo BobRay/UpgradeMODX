@@ -1,8 +1,8 @@
 <?php
 
-use Page\Ovariables as oPageVariables;
 use Page\Login as LoginPage;
-use \Helper\Acceptance;
+use Page\Ovariables as oPageVariables;
+use tests\_support\AcceptanceTester;
 
 
 class DevModeCest

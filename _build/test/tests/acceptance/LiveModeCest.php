@@ -1,8 +1,8 @@
 <?php
 
-use Page\Ovariables as oPageVariables;
 use Page\Login as LoginPage;
-use \Helper\Acceptance;
+use Page\Ovariables as oPageVariables;
+use tests\_support\AcceptanceTester;
 
 class LiveModeCest {
     /** @var $modx modX */
@@ -88,7 +88,7 @@ class LiveModeCest {
 
     // tests
 
-    /** @param $I \AcceptanceTester
+    /** @param $I \tests\_support\AcceptanceTester
     *   @throws Exception
     */
     public function tryToTestLiveMode(AcceptanceTester $I) {
