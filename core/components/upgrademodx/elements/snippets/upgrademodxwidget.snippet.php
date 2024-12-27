@@ -132,6 +132,7 @@ if ($upgradeAvailable) {
     $placeholders['[[+ugm_notice]]'] = $modx->lexicon('ugm_upgrade_available');
     $placeholders['[[+ugm_notice_color]]'] = 'green';
     $placeholders['[[+ugm_version_form]]'] = $versionForm;
+    $placeholders['[[+ugm_downloading_msg]]'] = $modx->lexicon('ugm_downloading_files');
 } else {
     if ($hideWhenNoUpgrade) {
         return '';

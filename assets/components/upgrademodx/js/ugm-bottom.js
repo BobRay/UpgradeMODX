@@ -59,7 +59,7 @@ if (bttn !== null) {
             var process = function () {
                 if (progress === 0) {
                     // console.log("progress is zero");
-                    updateText(button_text, 'Downloading Files');
+                    updateText(button_text, downloading_msg);
                     progress = 0.1;
                     instance._setProgress(progress);
                     var maxProgress = 0.3;
