@@ -80,7 +80,7 @@ $_lang['ugm_downloading_files'] = 'Téléchargment des fichiers';
 $_lang['ugm_unzipping_files'] = 'Décompression des fichiers';
 $_lang['ugm_copying_files'] = 'Copie des fichiers';
 $_lang['ugm_preparing_setup'] = 'Préparation installation';
-$_lang['ugm_launching_setup'] = 'Lancement installation';
+$_lang['ugm_launching_setup'] = "Lancement de l'installation";
 $_lang['ugm_finished'] = 'Terminé';
 $_lang['ugm_get_major_versions'] = '<b>Important :</b> Il est <i>fortement</i> recommandé d\'installer toutes les version se terminant par .0 entre votre version et la version courante de MODX.';
 $_lang['ugm_current_version_indicator'] = 'version courante';
@@ -145,5 +145,5 @@ $_lang['ugm_setup_prepared'] = 'Setup prepared';
 $_lang['ugm_could_not_write'] = 'Could not write';
 
 /* Used in cleanup.class.php */
-$_lang['ugm_deleting_temp_files'] = 'Cleaning Up';
-$_lang['ugm_temp_files_deleted'] = 'Cleanup Completed (temporary files removed)';
+$_lang['ugm_deleting_temp_files'] = 'Nettoyage';
+$_lang['ugm_temp_files_deleted'] = 'Nettoyage terminé)';
