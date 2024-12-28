@@ -32,8 +32,8 @@ $systemSettings[1]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_hide_when_no_upgrade',
-  'description' => 'setting_ugm_hide_when_no_upgrade_desc',
+  'name' => 'Hide When No Upgrade',
+  'description' => 'Hide widget when no upgrade is available: default: No',
 ), '', true, true);
 $systemSettings[2] = $modx->newObject('modSystemSetting');
 $systemSettings[2]->fromArray(array (
@@ -42,18 +42,18 @@ $systemSettings[2]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_version_list_path',
-  'description' => 'setting_ugm_version_list_path_desc',
+  'name' => 'Versionlist Path',
+  'description' => 'Path to versionlist file (minus the filename -- should end in a slash); Default: {core_path}cache/upgrademodx/',
 ), '', true, true);
 $systemSettings[3] = $modx->newObject('modSystemSetting');
 $systemSettings[3]->fromArray(array (
   'key' => 'ugm_latest_version',
-  'value' => '2.8.5-pl',
+  'value' => '2.8.8-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_latest_version',
-  'description' => 'setting_ugm_latest_version_desc',
+  'name' => 'Latest Version',
+  'description' => 'Latest version (at last check) -- set automatically',
 ), '', true, true);
 $systemSettings[4] = $modx->newObject('modSystemSetting');
 $systemSettings[4]->fromArray(array (
@@ -62,8 +62,8 @@ $systemSettings[4]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'setting_ugm_verbose',
-  'description' => 'setting_ugm_verbose_desc',
+  'name' => 'Verbose Error Messages',
+  'description' => 'Display full GitHub Error Messages',
 ), '', true, true);
 $systemSettings[5] = $modx->newObject('modSystemSetting');
 $systemSettings[5]->fromArray(array (
@@ -72,18 +72,18 @@ $systemSettings[5]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_interval',
-  'description' => 'setting_ugm_interval_desc',
+  'name' => 'Interval',
+  'description' => 'Interval between checks -- Examples: 1 week, 3 days, 6 hours; default: 1 day',
 ), '', true, true);
 $systemSettings[6] = $modx->newObject('modSystemSetting');
 $systemSettings[6]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2023-09-14 22:35:25 PM',
+  'value' => '2024-12-27 23:06:11 PM',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_last_check',
-  'description' => 'setting_ugm_last_check_desc',
+  'name' => 'Last Check',
+  'description' => 'Date and time of last check -- set automatically',
 ), '', true, true);
 $systemSettings[7] = $modx->newObject('modSystemSetting');
 $systemSettings[7]->fromArray(array (
@@ -92,8 +92,8 @@ $systemSettings[7]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_temp_dir',
-  'description' => 'setting_ugm_temp_dir_desc',
+  'name' => 'UpgradeMODX Temp Directory',
+  'description' => 'Path to the directory used for temporary storage for downloading and unzipping files; Must be writable; default:{base_path}ugmtemp/',
 ), '', true, true);
 $systemSettings[8] = $modx->newObject('modSystemSetting');
 $systemSettings[8]->fromArray(array (
@@ -102,18 +102,18 @@ $systemSettings[8]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_versionlist_api_url',
-  'description' => 'setting_ugm_versionlist_api_url_desc',
+  'name' => 'Version List API URL',
+  'description' => 'URL of API to get version list from',
 ), '', true, true);
 $systemSettings[9] = $modx->newObject('modSystemSetting');
 $systemSettings[9]->fromArray(array (
   'key' => 'ugm_file_version',
-  'value' => '2.8.5-pl',
+  'value' => '2.8.8-pl',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',
-  'name' => 'setting_ugm_file_version',
-  'description' => 'setting_ugm_file_version_desc',
+  'name' => 'File Version',
+  'description' => 'Version when versionlist file was last updated. Set automatically -- do not edit!',
 ), '', true, true);
 $systemSettings[10] = $modx->newObject('modSystemSetting');
 $systemSettings[10]->fromArray(array (
@@ -122,8 +122,8 @@ $systemSettings[10]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'setting_ugm_cert_path',
-  'description' => 'setting_ugm_cert_path_desc',
+  'name' => 'Cert Path',
+  'description' => 'Path to SSL cert file in .pem format; rarely necessary',
 ), '', true, true);
 $systemSettings[11] = $modx->newObject('modSystemSetting');
 $systemSettings[11]->fromArray(array (
@@ -132,8 +132,8 @@ $systemSettings[11]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Download',
-  'name' => 'setting_ugm_force_pcl_zip',
-  'description' => 'setting_ugm_force_pcl_zip_desc',
+  'name' => 'Force PclZip',
+  'description' => 'Force the use of PclZip instead of ZipArchive',
 ), '', true, true);
 $systemSettings[12] = $modx->newObject('modSystemSetting');
 $systemSettings[12]->fromArray(array (
@@ -142,8 +142,8 @@ $systemSettings[12]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Download',
-  'name' => 'setting_ugm_modx_timeout',
-  'description' => 'setting_ugm_modx_timeout_desc',
+  'name' => 'MODX Timeout',
+  'description' => 'Timeout in seconds for checking download status from MODX; default: 6',
 ), '', true, true);
 $systemSettings[13] = $modx->newObject('modSystemSetting');
 $systemSettings[13]->fromArray(array (
@@ -152,8 +152,8 @@ $systemSettings[13]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Download',
-  'name' => 'setting_ugm_ssl_verify_peer',
-  'description' => 'setting_ugm_ssl_verify_peer_desc',
+  'name' => 'SSL Verify Peer',
+  'description' => 'For security, have cURL verify the identity of the server',
 ), '', true, true);
 $systemSettings[14] = $modx->newObject('modSystemSetting');
 $systemSettings[14]->fromArray(array (
@@ -162,8 +162,8 @@ $systemSettings[14]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'setting_ugm_language',
-  'description' => 'setting_ugm_language_desc',
+  'name' => 'Language',
+  'description' => 'Two-letter language code for language to use; default: en',
 ), '', true, true);
 $systemSettings[15] = $modx->newObject('modSystemSetting');
 $systemSettings[15]->fromArray(array (
@@ -172,8 +172,8 @@ $systemSettings[15]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'setting_ugm_pl_only',
-  'description' => 'setting_ugm_pl_only_desc',
+  'name' => 'pl Versions Only',
+  'description' => 'Show only pl (stable) versions; default: yes',
 ), '', true, true);
 $systemSettings[16] = $modx->newObject('modSystemSetting');
 $systemSettings[16]->fromArray(array (
@@ -182,8 +182,8 @@ $systemSettings[16]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'setting_ugm_github_username',
-  'description' => 'setting_ugm_github_username_desc',
+  'name' => 'GitHub Username',
+  'description' => 'Your username at GitHub',
 ), '', true, true);
 $systemSettings[17] = $modx->newObject('modSystemSetting');
 $systemSettings[17]->fromArray(array (
@@ -192,8 +192,8 @@ $systemSettings[17]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'setting_ugm_github_token',
-  'description' => 'setting_ugm_github_token_desc',
+  'name' => 'GitHub Token',
+  'description' => 'Github token - available from your GitHub profile',
 ), '', true, true);
 $systemSettings[18] = $modx->newObject('modSystemSetting');
 $systemSettings[18]->fromArray(array (
@@ -202,8 +202,8 @@ $systemSettings[18]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'GitHub',
-  'name' => 'setting_ugm_github_timeout',
-  'description' => 'setting_ugm_github_timeout_desc',
+  'name' => 'GitHub Timeout',
+  'description' => 'Timeout in seconds for checking Github; default: 6',
 ), '', true, true);
 $systemSettings[19] = $modx->newObject('modSystemSetting');
 $systemSettings[19]->fromArray(array (
@@ -212,8 +212,8 @@ $systemSettings[19]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Security',
-  'name' => 'setting_ugm_groups',
-  'description' => 'setting_ugm_groups_desc',
+  'name' => 'groups',
+  'description' => 'group, or comma-separated list of groups, who will see the widget',
 ), '', true, true);
 $systemSettings[20] = $modx->newObject('modSystemSetting');
 $systemSettings[20]->fromArray(array (
@@ -222,8 +222,8 @@ $systemSettings[20]->fromArray(array (
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'setting_ugm_versions_to_show',
-  'description' => 'setting_ugm_versions_to_show_desc',
+  'name' => 'Versions To Show',
+  'description' => 'Number of versions to show in upgrade form; default: 5',
 ), '', true, true);
 $systemSettings[21] = $modx->newObject('modSystemSetting');
 $systemSettings[21]->fromArray(array (
@@ -232,7 +232,7 @@ $systemSettings[21]->fromArray(array (
   'xtype' => 'combo-boolean',
   'namespace' => 'upgrademodx',
   'area' => 'Form',
-  'name' => 'setting_ugm_show_modx3',
-  'description' => 'setting_ugm_show_modx3_desc',
+  'name' => 'Show MODX 3 versions',
+  'description' => 'Show MODX 3 versions in list',
 ), '', true, true);
 return $systemSettings;
