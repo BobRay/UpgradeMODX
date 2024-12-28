@@ -434,7 +434,10 @@ $components = array(
      * Suffix 'resolver.php' will be added automatically */
     'resolvers' => array(
         'default',
-        'dependencies',
+    ),
+
+    /* Dependencies (package name must be lowercase) */
+    'requires' => array('guzzle7' => '>=1.0.0-pl',
     ),
 
     /* (optional) Validators can abort the installation after checking
