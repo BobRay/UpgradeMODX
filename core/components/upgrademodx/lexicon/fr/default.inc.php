@@ -2,7 +2,7 @@
 /**
  * fr topic lexicon file for UpgradeMODX extra
  * Translation by Philippe delberghe (AmaZili) <philippe@amazili.com>
- * Copyright 2015-3 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2025 Bob Ray <https://bobsguides.com>
  * Created on 08-13-2015
  *
  * UpgradeMODX is free software; you can redistribute it and/or modify it under the
