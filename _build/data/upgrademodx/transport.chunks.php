@@ -31,7 +31,7 @@ $chunks[1]->fromArray(array (
   'property_preprocess' => false,
   'name' => 'UpgradeMODXTpl',
   'description' => 'Tpl chunk for alert widget',
-  'properties' =>
+  'properties' => 
   array (
   ),
 ), '', true, true);

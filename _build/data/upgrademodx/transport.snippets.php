@@ -31,7 +31,7 @@ $snippets[1]->fromArray(array (
   'property_preprocess' => false,
   'name' => 'UpgradeMODXWidget',
   'description' => 'Upgrade MODX Dashboard widget',
-  'properties' =>
+  'properties' => 
   array (
   ),
 ), '', true, true);
