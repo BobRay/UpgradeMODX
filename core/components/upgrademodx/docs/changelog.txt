@@ -1,5 +1,15 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.6
+---------------------------------
+ - Update dependency handling
+ - Use Lex strings in transport settings
+ - Updates to French translation
+ - Fix setting $modx in widget resolver
+ - Fix minor bug in progress messages
+ - Updates to Acceptance tests
+ - Add error warning to installation sequence
+
 UpgradeMODX 2.3.5-pl
 ---------------------------------
  - Revert requirement for PHP 8
