@@ -674,12 +674,12 @@ EOD;
 
                 //  } catch (\Exception $e) {
             } catch (RequestException $e) {
+                /** @var $e \GuzzleHttp\Exception\RequestException */
                 $msg = $this->parseException($e, $verbose);
                 echo $msg;
                 $retVal = false;
             } catch (\Exception $e) {
-                /** @var $e \GuzzleHttp\Exception\RequestException */
-                $msg = $this->parseException($e, $verbose);
+                $msg = $e->getMessage();
                 echo $msg;
                 $retVal = false;
             }
