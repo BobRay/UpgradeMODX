@@ -4,7 +4,7 @@ UpgradeMODX Extra for MODX Revolution
 
 **Author:** Bob Ray [Bob's Guides](https://bobsguides.com)
 
-**Contributors:** Dmytro Lukianenko (dmi3y), Susan Sottwell, Bumkaka, Sharapov, Inreti, Zaigham Rana, frischnetz, and AgelxNash.
+**Contributors:** Dmytro Lukianenko (dmi3y), Susan Sottwell, Bumkaka, Sharapov, Inreti, Zaigham Rana, frischnetz, jako, and AgelxNash.
 
 **Documentation:** [UpgradeMODX Docs](https://bobsguides.com/upgrade-modx-package.html)
 
@@ -23,5 +23,3 @@ The package installs a dashboard widget that reports whether an upgrade is avail
  See the properties tab of the UpgradeMODXWidget snippet for the options and their descriptions and be sure to read the documentation at the link above.
  
  It's always a good idea to back up your site before clicking on the Install button. If downloading the files succeeds and setup fails, your site may be broken.
- 
- 

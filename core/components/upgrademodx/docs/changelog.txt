@@ -1,5 +1,9 @@
 Changelog for UpgradeMODX
 
+UpgradeMODX 2.3.7
+---------------------------------
+ - Improve exception handling (thanks to jako)
+
 UpgradeMODX 2.3.6
 ---------------------------------
  - Update dependency handling
