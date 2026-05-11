@@ -18,14 +18,14 @@ $components = array(
     'packageName' => 'UpgradeMODX',  /* No spaces, no dashes */
     'packageNameLower' => $packageNameLower,
     'packageDescription' => 'UpgradeMODX project extra',
-    'version' => '2.3.6',
+    'version' => '2.3.7',
     'release' => 'pl',
     'author' => 'Bob Ray',
     'email' => '<https://bobsguides.com>',
     'authorUrl' => 'https://bobsguides.com',
     'authorSiteName' => "Bob's Guides",
     'packageDocumentationUrl' => 'https://bobsguides.com/upgrademodx-tutorial.html',
-    'copyright' => '2015-2025',
+    'copyright' => '2015-2026',
 
     /* no need to edit this except to change format */
     'createdon' => $d,
