@@ -2,7 +2,7 @@
 /**
  * systemSettings transport file for UpgradeMODX extra
  *
- * Copyright 2015-2025 Bob Ray <https://bobsguides.com>
+ * Copyright 2015-2026 Bob Ray <https://bobsguides.com>
  * Created on 08-01-2018
  *
  * @package upgrademodx
@@ -78,7 +78,7 @@ $systemSettings[5]->fromArray(array (
 $systemSettings[6] = $modx->newObject('modSystemSetting');
 $systemSettings[6]->fromArray(array (
   'key' => 'ugm_last_check',
-  'value' => '2025-01-04 22:42:50 PM',
+  'value' => '2026-01-04 22:42:50 PM',
   'xtype' => 'textfield',
   'namespace' => 'upgrademodx',
   'area' => 'Widget',

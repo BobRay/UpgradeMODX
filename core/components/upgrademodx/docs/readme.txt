@@ -3,7 +3,7 @@ UpgradeMODX
 
 
 Author: Bob Ray <https://bobsguides.com>
-Copyright 2015-2025 Bob Ray
+Copyright 2015-2026 Bob Ray
 
 Official Documentation: https://bobsguides.com/upgrade-modx-package.html
 
