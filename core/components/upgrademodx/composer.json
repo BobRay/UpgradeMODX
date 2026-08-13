@@ -4,9 +4,6 @@
             "php": "7.2.5"
         }
     },
-    "replace": {
-        "guzzlehttp/guzzle": "*"
-    },
     "autoload": {
         "classmap": ["../../../core/components/upgrademodx/model"]
     }
